@@ -196,27 +196,48 @@
     fImgs.forEach((f, j) => f.classList.toggle("is-shown", j <= k));
     $("#featureNum").textContent = pad(k + 1);
   };
-  const STEP = 0.75; // hauteur de défilement par projet, en écrans
-  const sizeFeature = () => (feature.style.height = innerHeight * (1 + featured.length * STEP) + "px");
-  const scrollFeature = () => {
-    const r = feature.getBoundingClientRect();
-    const k = Math.min(Math.max(-r.top / (feature.offsetHeight - innerHeight), 0), 1);
-    fRail.style.transform = `scaleY(${k})`;
-    setFeature(Math.min(featured.length - 1, Math.floor(k * featured.length)));
+  // Défilement automatique : 5 s par projet, pause au survol / hors écran
+  const DURATION = 5000;
+  let fT0 = performance.now(), fElapsed = 0, fPaused = false, fInView = false;
+  const goFeature = (k) => {
+    setFeature((k + featured.length) % featured.length);
+    fElapsed = 0;
+    fT0 = performance.now();
   };
-  sizeFeature();
+  const tickFeature = (t) => {
+    const running = fInView && !fPaused && !reduce;
+    if (running) {
+      fElapsed += t - fT0;
+      if (fElapsed >= DURATION) goFeature(fActive + 1);
+    }
+    fT0 = t;
+    const part = reduce ? 0 : Math.min(fElapsed / DURATION, 1);
+    fRail.style.transform = `scaleY(${(fActive + part) / featured.length})`;
+    requestAnimationFrame(tickFeature);
+  };
   setFeature(0);
-  window.addEventListener("resize", () => { sizeFeature(); scrollFeature(); });
-  window.addEventListener("scroll", scrollFeature, { passive: true });
+  requestAnimationFrame(tickFeature);
+  new IntersectionObserver((en) => (fInView = en[0].isIntersecting), { threshold: 0.4 }).observe(feature);
+  feature.addEventListener("mouseenter", () => (fPaused = true));
+  feature.addEventListener("mouseleave", () => (fPaused = false));
   const openFeatured = (k) => { visible = projects.map((_, j) => j); openModal(featured[k].i); };
   fList.addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (!b) return;
     const k = +b.dataset.k;
-    if (k === fActive) return openFeatured(k);
-    // défile jusqu'au projet choisi
-    const span = feature.offsetHeight - innerHeight;
-    scrollTo({ top: feature.offsetTop + span * ((k + 0.5) / featured.length), behavior: reduce ? "auto" : "smooth" });
+    k === fActive ? openFeatured(k) : goFeature(k);
+  });
+  fList.addEventListener("mouseover", (e) => {
+    const b = e.target.closest("button");
+    if (b && matchMedia("(hover: hover)").matches && +b.dataset.k !== fActive) goFeature(+b.dataset.k);
+  });
+  let fx = null;
+  fFrame.addEventListener("touchstart", (e) => (fx = e.touches[0].clientX), { passive: true });
+  fFrame.addEventListener("touchend", (e) => {
+    if (fx === null) return;
+    const dx = e.changedTouches[0].clientX - fx;
+    fx = null;
+    if (Math.abs(dx) > 40) goFeature(fActive + (dx < 0 ? 1 : -1));
   });
   fFrame.addEventListener("click", () => openFeatured(fActive));
   $("#featureOpen").addEventListener("click", () => openFeatured(fActive));
