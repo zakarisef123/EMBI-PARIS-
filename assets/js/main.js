@@ -25,12 +25,14 @@
     // compteur 0 → 100 %, terminé au plus tard après ~1,6 s
     const t0 = performance.now(), count = $("#loaderCount");
     const tick = (t) => {
-      const k = Math.min((t - t0) / 1800, 1);
+      const k = Math.min((t - t0) / 3300, 1);
       count.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3)));
       k < 1 ? requestAnimationFrame(tick) : finishLoad();
     };
     requestAnimationFrame(tick);
-    setTimeout(finishLoad, 3200);
+    setTimeout(finishLoad, 4800);
+    loader.addEventListener("click", finishLoad);
+    setTimeout(() => { const c = $("#loaderCaption"); if (c) c.innerHTML = "embi. <span>Du plan à la réalité.</span>"; }, 2300);
   }
   $("#year").textContent = new Date().getFullYear();
 
@@ -88,144 +90,6 @@
         size();
         setTimeout(() => prev.classList.remove("is-leaving"), 800);
       }, 2200);
-  }
-
-  /* ───── Mur à poncer : le visiteur « rénove » l'accueil ───── */
-  const canvas = $("#plaster");
-  const hint = $("#hint");
-  const ctx = canvas.getContext && canvas.getContext("2d");
-  let revealed = false;
-  const reveal = () => {
-    if (revealed) return;
-    revealed = true;
-    hero.classList.add("is-revealed");
-    hint.classList.remove("is-on");
-  };
-  if (!ctx || reduce) {
-    document.documentElement.classList.add("no-canvas");
-    reveal();
-  } else {
-    const COLS = 24, ROWS = 14, cells = new Set();
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    let W = 0, H = 0, last = null, touched = false;
-    const rnd = Math.random;
-    const paint = () => {
-      W = hero.offsetWidth; H = hero.offsetHeight;
-      canvas.width = W * dpr; canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.globalCompositeOperation = "source-over";
-      // béton brut
-      const g = ctx.createLinearGradient(0, 0, W, H);
-      g.addColorStop(0, "#3b3733"); g.addColorStop(1, "#1d1b19");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      // taches d'enduit
-      for (let i = 0; i < 16; i++) {
-        const x = rnd() * W, y = rnd() * H, r = 80 + rnd() * 220;
-        const rg = ctx.createRadialGradient(x, y, 0, x, y, r);
-        rg.addColorStop(0, "rgba(210,200,185,0.09)"); rg.addColorStop(1, "rgba(210,200,185,0)");
-        ctx.fillStyle = rg; ctx.fillRect(x - r, y - r, r * 2, r * 2);
-      }
-      // grain
-      for (let i = 0; i < (W * H) / 70; i++) {
-        ctx.fillStyle = rnd() > 0.5 ? `rgba(255,255,255,${rnd() * 0.05})` : `rgba(0,0,0,${rnd() * 0.14})`;
-        ctx.fillRect(rnd() * W, rnd() * H, 1 + rnd() * 2, 1 + rnd() * 2);
-      }
-      // quadrillage de plan
-      ctx.strokeStyle = "rgba(255,90,31,0.10)"; ctx.lineWidth = 1;
-      for (let x = 0; x < W; x += 48) { ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke(); }
-      for (let y = 0; y < H; y += 48) { ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke(); }
-      // tracés à la craie
-      ctx.strokeStyle = "rgba(255,255,255,0.16)"; ctx.lineWidth = 1.5; ctx.setLineDash([10, 7]);
-      ctx.strokeRect(W * 0.06, H * 0.16, W * 0.88, H * 0.7);
-      ctx.beginPath(); ctx.moveTo(W * 0.55, H * 0.16); ctx.lineTo(W * 0.55, H * 0.5); ctx.lineTo(W * 0.94, H * 0.5); ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.font = `700 12px Manrope, system-ui, sans-serif`;
-      ctx.fillStyle = "rgba(255,255,255,0.3)";
-      ctx.fillText("MUR À OUVRIR", W * 0.56 + 10, H * 0.16 + 22);
-      ctx.fillText(`${(W / 100).toFixed(2).replace(".", ",")} m`, W * 0.5, H * 0.16 - 10);
-      // pochoir « AVANT »
-      ctx.font = `800 ${Math.min(W * 0.2, 280)}px "Bricolage Grotesque", system-ui, sans-serif`;
-      ctx.fillStyle = "rgba(255,255,255,0.045)";
-      ctx.textAlign = "right"; ctx.textBaseline = "top";
-      ctx.fillText("AVANT", W * 0.96, H * 0.14);
-      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-      cells.clear();
-    };
-    const brush = (x, y) => {
-      if (revealed) return;
-      const R = W < 700 ? 50 : 78;
-      ctx.globalCompositeOperation = "destination-out";
-      const from = last || { x, y };
-      const steps = Math.max(1, Math.ceil(Math.hypot(x - from.x, y - from.y) / (R / 4)));
-      for (let i = 1; i <= steps; i++) {
-        const px = from.x + ((x - from.x) * i) / steps, py = from.y + ((y - from.y) * i) / steps;
-        const rg = ctx.createRadialGradient(px, py, R * 0.3, px, py, R);
-        rg.addColorStop(0, "rgba(0,0,0,1)"); rg.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = rg;
-        ctx.beginPath(); ctx.arc(px, py, R, 0, Math.PI * 2); ctx.fill();
-        const c0 = Math.floor(((px - R * 0.6) / W) * COLS), c1 = Math.floor(((px + R * 0.6) / W) * COLS);
-        const r0 = Math.floor(((py - R * 0.6) / H) * ROWS), r1 = Math.floor(((py + R * 0.6) / H) * ROWS);
-        for (let c = Math.max(0, c0); c <= Math.min(COLS - 1, c1); c++)
-          for (let r = Math.max(0, r0); r <= Math.min(ROWS - 1, r1); r++) cells.add(c * 100 + r);
-      }
-      last = { x, y };
-      if (cells.size > COLS * ROWS * 0.4) reveal();
-    };
-    // balayage automatique (intro + bouton « Tout rénover »)
-    const sweep = (points, duration, done) => {
-      const t0 = performance.now();
-      last = null;
-      const f = (t) => {
-        const k = Math.min(Math.max((t - t0) / duration, 0), 1);
-        const pos = k * (points.length - 1), i = Math.floor(pos), fr = pos - i;
-        const a = points[i], b = points[Math.min(i + 1, points.length - 1)];
-        brush(W * (a[0] + (b[0] - a[0]) * fr), H * (a[1] + (b[1] - a[1]) * fr));
-        if (k < 1 && !revealed) requestAnimationFrame(f);
-        else { last = null; done && done(); }
-      };
-      requestAnimationFrame(f);
-    };
-    paint();
-    let lastW = W;
-    window.addEventListener("resize", () => {
-      if (!revealed && hero.offsetWidth !== lastW) { lastW = hero.offsetWidth; paint(); }
-    });
-
-    const isTouch = matchMedia("(hover: none)").matches;
-    $("#hintText").textContent = isTouch ? "Glissez le doigt : on rénove" : "Passez la souris : on rénove";
-    const placeHint = (x, y) => { hint.style.left = x + "px"; hint.style.top = y + "px"; };
-
-    hero.addEventListener("pointermove", (e) => {
-      if (e.pointerType !== "mouse" || revealed) return;
-      const r = hero.getBoundingClientRect();
-      touched = true;
-      brush(e.clientX - r.left, e.clientY - r.top);
-      placeHint(e.clientX, e.clientY);
-      hint.classList.add("is-on");
-      $("#hintText").textContent = cells.size > COLS * ROWS * 0.2 ? "Continuez… presque fini !" : "Passez la souris : on rénove";
-    });
-    hero.addEventListener("pointerleave", () => { last = null; hint.classList.remove("is-on"); });
-    hero.addEventListener("touchstart", () => { last = null; touched = true; hint.classList.remove("is-on"); }, { passive: true });
-    hero.addEventListener("touchmove", (e) => {
-      const r = hero.getBoundingClientRect(), t = e.touches[0];
-      brush(t.clientX - r.left, t.clientY - r.top);
-    }, { passive: true });
-    window.addEventListener("scroll", () => { if (scrollY > H * 0.3) reveal(); }, { passive: true });
-    $("#renovateBtn").addEventListener("click", () =>
-      sweep([[0.05, 0.1], [0.95, 0.2], [0.05, 0.35], [0.95, 0.5], [0.05, 0.65], [0.95, 0.8], [0.05, 0.95]], 1100, reveal)
-    );
-    // à l'arrivée : un premier coup de ponceuse pour surprendre et montrer le geste
-    document.addEventListener("embi:loaded", () => {
-      setTimeout(() => {
-        sweep([[0.62, 0.12], [0.78, 0.3], [0.66, 0.5], [0.86, 0.66]], 1300, () => {
-          if (touched || revealed) return;
-          const r = hero.getBoundingClientRect();
-          placeHint(r.left + W * (isTouch ? 0.08 : 0.6), r.top + H * (isTouch ? 0.3 : 0.4));
-          hint.classList.add("is-on");
-          if (isTouch) setTimeout(() => hint.classList.remove("is-on"), 3500);
-        });
-      }, 500);
-    });
   }
 
   /* ───── Galerie ───── */

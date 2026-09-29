@@ -41,32 +41,58 @@
 
   <!-- ───────── PRELOADER / CURSEUR / PROGRESSION ───────── -->
   <div class="loader" id="loader" aria-hidden="true">
-    <svg class="loader__plan" viewBox="0 0 600 400" fill="none">
-      <g class="plan-walls">
-        <path d="M40 40 H560 V360 H40 Z" />
-        <path d="M300 40 V170 M300 230 V360" />
-        <path d="M40 210 H180 M240 210 H300" />
-        <path d="M430 40 V140 M430 200 V260 H560" />
+    <svg class="loader__plan" viewBox="0 0 900 420" fill="none" role="img" aria-label="Plan d'appartement : les cloisons forment le mot embi">
+      <!-- 1. Murs extérieurs (ouvertures : entrée en bas, fenêtres) -->
+      <g class="plan-outer">
+        <path d="M420 380 H40 V40 H120 M200 40 H360 M440 40 H600 M680 40 H860 V220 M860 290 V380 H480" />
       </g>
+      <!-- 2. Cloisons : le mot « embi » est caché dedans (avec les portes) -->
+      <g class="plan-walls">
+        <path d="M240 320 H200 M150 320 H100 V140 H240 V230 H100" />
+        <path d="M320 320 V140 H480 V320 M400 140 V250 M400 300 V320" />
+        <path d="M560 40 V320 H650 M600 320 H560 M560 160 H700 V320 H650" />
+        <path d="M780 160 V250 M780 300 V320" />
+        <path d="M40 140 H100 M240 140 H320 M480 140 H560 M700 160 H860" />
+      </g>
+      <!-- 3. Portes, fenêtres, mobilier, pièces -->
       <g class="plan-details">
-        <path d="M300 170 A60 60 0 0 1 360 230" />
-        <path d="M180 210 A60 60 0 0 0 240 150" />
-        <path d="M430 140 A60 60 0 0 1 490 200" />
-        <path d="M120 40 h80 M390 360 h100 M560 90 v70" />
-        <rect x="70" y="250" width="90" height="70" rx="4" />
-        <rect x="460" y="290" width="70" height="44" rx="22" />
-        <circle cx="150" cy="110" r="28" />
+        <path d="M150 320 V370 A50 50 0 0 1 200 320" />
+        <path d="M400 300 H450 A50 50 0 0 0 400 250" />
+        <path d="M600 320 V370 A50 50 0 0 0 650 320" />
+        <path d="M780 300 H830 A50 50 0 0 0 780 250" />
+        <path d="M480 380 V330 A50 50 0 0 0 430 380" />
+        <path d="M120 35 H200 M120 45 H200 M360 35 H440 M360 45 H440 M600 35 H680 M600 45 H680 M855 220 V290 M865 220 V290" />
+        <rect x="336" y="170" width="52" height="70" rx="4" />
+        <circle cx="630" cy="245" r="22" />
+        <rect x="712" y="178" width="54" height="22" rx="3" />
+      </g>
+      <g class="plan-labels">
+        <text x="170" y="195" text-anchor="middle">SDB</text>
+        <text x="440" y="195" text-anchor="middle">CH. 2</text>
+        <text x="360" y="275" text-anchor="middle">CH. 1</text>
+        <text x="630" y="205" text-anchor="middle">SÉJOUR</text>
+        <text x="660" y="105" text-anchor="middle">CUISINE</text>
+        <text x="300" y="360" text-anchor="middle">ENTRÉE</text>
       </g>
       <g class="plan-dims">
-        <path d="M40 385 H560 M40 378 v14 M560 378 v14" />
-        <path d="M575 40 V360 M568 40 h14 M568 360 h14" />
+        <path d="M40 402 H860 M40 395 v14 M860 395 v14" />
+      </g>
+      <!-- 4. Révélation : les lettres s'allument -->
+      <g class="plan-name">
+        <path d="M240 320 H100 V140 H240 V230 H100" />
+        <path d="M320 320 V140 H480 V320 M400 140 V320" />
+        <path d="M560 40 V320 H700 V160 H560" />
+        <path d="M780 160 V320" />
+      </g>
+      <g class="plan-columns">
+        <circle cx="780" cy="100" r="15" />
+        <circle cx="820" cy="318" r="11" />
       </g>
     </svg>
     <div class="loader__inner">
-      <span class="loader__logo">embi<i>.</i></span>
+      <p class="loader__caption" id="loaderCaption">Un appartement… <span>vous voyez le nom&nbsp;?</span></p>
       <span class="loader__count" id="loaderCount">0</span>
     </div>
-    <p class="loader__caption">Du plan… <span>à la réalité.</span></p>
   </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
@@ -94,14 +120,11 @@
 
   <main id="main">
     <!-- ───────── HERO ───────── -->
-    <section class="hero" id="top">
+    <section class="hero is-revealed" id="top">
       <div class="hero__photo" aria-hidden="true">
         <img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="" fetchpriority="high" />
       </div>
-      <canvas class="hero__plaster" id="plaster" aria-hidden="true"></canvas>
-      <div class="hero__hint" id="hint" aria-hidden="true"><span class="hero__hint-dot"></span><span id="hintText">Passez la souris : on rénove</span></div>
-      <p class="hero__tag" id="heroTag"><span>✓ Rénové</span> Fish Club — Paris</p>
-      <button class="hero__renovate" id="renovateBtn" type="button">Tout rénover <span aria-hidden="true">✦</span></button>
+      <p class="hero__tag" id="heroTag"><span>Réalisation</span> Fish Club — Paris</p>
 
       <div class="hero__content">
         <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
