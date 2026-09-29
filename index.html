@@ -41,32 +41,47 @@
 
   <!-- ───────── PRELOADER / CURSEUR / PROGRESSION ───────── -->
   <div class="loader" id="loader" aria-hidden="true">
-    <svg class="loader__plan" viewBox="0 0 600 400" fill="none">
+    <svg class="loader__plan" viewBox="0 0 880 370" fill="none" role="img" aria-label="embi">
+      <!-- Murs : les lettres e · m · b · i dessinent le plan -->
       <g class="plan-walls">
-        <path d="M40 40 H560 V360 H40 Z" />
-        <path d="M300 40 V170 M300 230 V360" />
-        <path d="M40 210 H180 M240 210 H300" />
-        <path d="M430 40 V140 M430 200 V260 H560" />
+        <!-- e : cloison centrale avec porte, mur courbe ouvert en bas à droite -->
+        <path d="M50 220 H105 M155 220 H210 A80 80 0 1 0 191 271" />
+        <!-- m : trois murs, deux voûtes ; fenêtre et porte dans les montants -->
+        <path d="M260 300 V278 M260 218 V192 A52 52 0 0 1 364 192 V230 M364 280 V300" />
+        <path d="M364 192 A52 52 0 0 1 468 192 V300" />
+        <!-- b : grand mur avec fenêtre, porte vers la pièce ronde -->
+        <path d="M520 300 V220 M520 170 V112 M520 62 V40" />
+        <path d="M520 140 H570 A80 80 0 0 1 570 300 H520" />
+        <!-- i : mur avec porte -->
+        <path d="M720 140 V190 M720 240 V300" />
       </g>
       <g class="plan-details">
-        <path d="M300 170 A60 60 0 0 1 360 230" />
-        <path d="M180 210 A60 60 0 0 0 240 150" />
-        <path d="M430 140 A60 60 0 0 1 490 200" />
-        <path d="M120 40 h80 M390 360 h100 M560 90 v70" />
-        <rect x="70" y="250" width="90" height="70" rx="4" />
-        <rect x="460" y="290" width="70" height="44" rx="22" />
-        <circle cx="150" cy="110" r="28" />
+        <!-- portes : vantail + arc de débattement -->
+        <path d="M155 220 V170 A50 50 0 0 0 105 220" />
+        <path d="M364 280 H414 A50 50 0 0 0 364 230" />
+        <path d="M520 220 H570 A50 50 0 0 0 520 170" />
+        <path d="M720 240 H770 A50 50 0 0 0 720 190" />
+        <!-- fenêtres -->
+        <path d="M255 218 V278 M265 218 V278" />
+        <path d="M515 62 V112 M525 62 V112" />
+        <!-- mobilier -->
+        <circle cx="600" cy="232" r="20" />
+        <rect x="395" y="196" width="46" height="26" rx="4" />
+      </g>
+      <!-- point du i et point final : poteaux ronds -->
+      <g class="plan-columns">
+        <circle cx="720" cy="80" r="17" />
+        <circle cx="805" cy="288" r="13" />
       </g>
       <g class="plan-dims">
-        <path d="M40 385 H560 M40 378 v14 M560 378 v14" />
-        <path d="M575 40 V360 M568 40 h14 M568 360 h14" />
+        <path d="M50 340 H818 M50 332 v16 M818 332 v16" />
+        <path d="M852 40 V300 M844 40 h16 M844 300 h16" />
       </g>
     </svg>
     <div class="loader__inner">
-      <span class="loader__logo">embi<i>.</i></span>
+      <p class="loader__caption">Du plan… <span>à la réalité.</span></p>
       <span class="loader__count" id="loaderCount">0</span>
     </div>
-    <p class="loader__caption">Du plan… <span>à la réalité.</span></p>
   </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
@@ -94,14 +109,11 @@
 
   <main id="main">
     <!-- ───────── HERO ───────── -->
-    <section class="hero" id="top">
+    <section class="hero is-revealed" id="top">
       <div class="hero__photo" aria-hidden="true">
         <img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="" fetchpriority="high" />
       </div>
-      <canvas class="hero__plaster" id="plaster" aria-hidden="true"></canvas>
-      <div class="hero__hint" id="hint" aria-hidden="true"><span class="hero__hint-dot"></span><span id="hintText">Passez la souris : on rénove</span></div>
-      <p class="hero__tag" id="heroTag"><span>✓ Rénové</span> Fish Club — Paris</p>
-      <button class="hero__renovate" id="renovateBtn" type="button">Tout rénover <span aria-hidden="true">✦</span></button>
+      <p class="hero__tag" id="heroTag"><span>Réalisation</span> Fish Club — Paris</p>
 
       <div class="hero__content">
         <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
