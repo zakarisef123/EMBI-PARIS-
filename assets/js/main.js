@@ -413,6 +413,83 @@
   );
   $$("[data-count]").forEach((el) => countIO.observe(el));
 
+  /* ───── Savoir-faire : la maison et son plan qui se dessine ───── */
+  const BUILD = {
+    fondations: { n: "01", label: "Fondations", title: "Gros œuvre & grands chantiers",
+      text: "Construction de maison ou rénovation totale de locaux professionnels : notre expérience du terrain nous permet de prendre en charge les projets d'envergure.",
+      tags: ["Structure métallique", "Structure bois", "Ouvertures de baies", "Normes coupe-feu"] },
+    interieur: { n: "02", label: "Intérieur", title: "Rénovations intérieures",
+      text: "Aménagement et rénovation d'intérieur, pour votre habitation (maison, appartement…) comme pour votre local professionnel (hôtel, restaurant, bureau, boutique…).",
+      tags: ["Plomberie", "Électricité", "Revêtements muraux", "Isolation", "Décoration"] },
+    exterieur: { n: "03", label: "Façades", title: "Façades & extérieurs",
+      text: "Ravalement, menuiserie extérieure, portes et fenêtres, changement de revêtement, mais aussi balcons, galeries, patios, terrasses et vérandas.",
+      tags: ["Ravalement", "Menuiserie", "Portes & fenêtres", "Balcons", "Vérandas"] },
+    toit: { n: "04", label: "Toit", title: "Toitures & terrasses",
+      text: "Toitures, étanchéité et carrelage de terrasse : EMBI intervient de la fondation jusqu'au toit.",
+      tags: ["Toitures", "Étanchéité terrasse", "Carrelage de terrasse"] },
+  };
+  // plans techniques (repère 400 × 240) : w = murs, o = détails, d = cotes et terrain, t = légendes
+  const hatch = Array.from({ length: 15 }, (_, i) => `M${24 + i * 25} 88 l-10 12`).join(" ");
+  const PLANS = {
+    fondations: [["d", "M10 80 H390"], ["d", hatch], ["w", "M130 16 V150"], ["w", "M270 16 V150"], ["w", "M130 98 H270"],
+      ["w", "M100 150 H160 V192 H100 Z"], ["w", "M240 150 H300 V192 H240 Z"],
+      ["o", "M108 180 H152 M108 168 H152 M248 180 H292 M248 168 H292"], ["o", "M137 150 V104 M263 150 V104"],
+      ["d", "M100 214 H300 M100 208 v12 M300 208 v12"],
+      ["t", "SEMELLE", 104, 206], ["t", "DALLE", 186, 92], ["t", "TERRAIN NATUREL", 298, 74]],
+    interieur: [["w", "M40 30 H360 V210 H40 Z"], ["w", "M200 30 V110 M200 160 V210"], ["w", "M40 120 H130 M170 120 H200"], ["w", "M290 210 V150 H360"],
+      ["o", "M170 120 V80 A40 40 0 0 0 130 120"], ["o", "M200 160 H250 A50 50 0 0 0 200 110"],
+      ["o", "M60 140 h60 v50 h-60 Z M60 152 h60"], ["o", "M232 48 h96 v26 h-96 Z"], ["o", "M300 122 a14 14 0 1 0 28 0 a14 14 0 1 0 -28 0"],
+      ["o", "M250 26 H330 M250 34 H330"], ["d", "M40 226 H360 M40 220 v12 M360 220 v12"],
+      ["t", "CHAMBRE", 58, 108], ["t", "SÉJOUR", 256, 108], ["t", "SDB", 316, 196]],
+    exterieur: [["d", "M20 214 H380"], ["w", "M90 214 V50 H300 V214"], ["w", "M90 132 H300"],
+      ["w", "M118 70 h40 v40 h-40 Z M232 70 h40 v40 h-40 Z M118 152 h40 v44 h-40 Z M226 214 V152 h46 v62"],
+      ["o", "M100 132 V114 H290 V132 M130 114 V132 M160 114 V132 M190 114 V132 M220 114 V132 M250 114 V132"],
+      ["o", "M320 214 V40 M352 214 V40 M320 80 H352 M320 130 H352 M320 180 H352 M320 80 L352 130 M320 130 L352 180"],
+      ["d", "M90 228 H300 M90 222 v12 M300 222 v12"], ["t", "ÉCHAFAUDAGE", 312, 32], ["t", "FAÇADE SUD", 160, 42]],
+    toit: [["w", "M50 170 L200 50 L350 170 Z"], ["w", "M200 50 V170"], ["o", "M200 170 L125 110 M200 170 L275 110"],
+      ["d", "M36 178 L200 40 L364 178"], ["w", "M270 92 V44 H300 V116"], ["o", "M30 180 h28 M342 180 h28"],
+      ["d", "M50 204 H350 M50 198 v12 M350 198 v12"], ["t", "CHARPENTE", 166, 190], ["t", "COUVERTURE", 56, 96]],
+  };
+  const build = $("#build"), bp = $("#bp");
+  let buildZone = null;
+  const chooseZone = (z) => {
+    if (z === buildZone) return;
+    buildZone = z;
+    const d = BUILD[z];
+    $$(".bz", build).forEach((g) => g.classList.toggle("is-on", g.dataset.z === z));
+    $$(".build__chip", build).forEach((c) => c.classList.toggle("is-on", c.dataset.z === z));
+    $("#bpStamp").textContent = `Plan n° ${d.n} · ${d.label}`;
+    $("#bpSvg").innerHTML = PLANS[z]
+      .map((e, i) => (e[0] === "t" ? `<text x="${e[2]}" y="${e[3]}">${e[1]}</text>` : `<path class="${e[0]}" d="${e[1]}" pathLength="1" style="--i:${i}" />`))
+      .join("");
+    $("#bpN").textContent = `${d.n} · ${d.label}`;
+    $("#bpTitle").textContent = d.title;
+    $("#bpDesc").textContent = d.text;
+    $("#bpTags").innerHTML = d.tags.map((t) => `<li>${esc(t)}</li>`).join("");
+    // relance l'animation : balayage orange puis tracé du plan
+    bp.classList.remove("is-scan", "is-anim");
+    void bp.offsetWidth;
+    bp.classList.add("is-scan", "is-anim");
+  };
+  $$(".bz, .build__chip", build).forEach((el) => {
+    el.addEventListener("click", () => chooseZone(el.dataset.z));
+    if (el.classList.contains("bz"))
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); chooseZone(el.dataset.z); }
+      });
+  });
+  chooseZone("interieur");
+  // la maison se dessine quand la section apparaît
+  new IntersectionObserver((en, obs) => {
+    if (!en[0].isIntersecting) return;
+    build.classList.add("is-drawn");
+    setTimeout(() => build.classList.add("is-settled"), 1800);
+    bp.classList.remove("is-scan", "is-anim");
+    void bp.offsetWidth;
+    bp.classList.add("is-scan", "is-anim");
+    obs.disconnect();
+  }, { threshold: 0.3 }).observe(build);
+
   /* ───── Votre projet en 3 questions ───── */
   const QUIZ = [
     { key: "lieu", q: "Quel lieu voulez-vous transformer\u00a0?", options: [

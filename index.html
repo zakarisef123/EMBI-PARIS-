@@ -234,25 +234,52 @@
           <p class="section__aside reveal">Professionnel ou particulier, vous trouverez la prestation qu'il vous faut. Petits ou grands projets, nous sommes à votre écoute.</p>
         </div>
 
-        <div class="pillars">
-          <article class="pillar reveal">
-            <span class="pillar__num">01</span>
-            <h3>Rénovations intérieures</h3>
-            <p>Aménagement et rénovation d'intérieur, pour votre habitation (maison, appartement…) comme pour votre local professionnel (hôtel, restaurant, bureau, boutique…).</p>
-            <ul class="tags"><li>Plomberie</li><li>Électricité</li><li>Revêtements muraux</li><li>Isolation</li><li>Décoration</li></ul>
-          </article>
-          <article class="pillar reveal">
-            <span class="pillar__num">02</span>
-            <h3>Extérieur</h3>
-            <p>Ravalement, étanchéité et carrelage de terrasse, menuiserie extérieure, portes et fenêtres, toitures, mais aussi balcons, galeries, patios, terrasses et vérandas.</p>
-            <ul class="tags"><li>Ravalement</li><li>Étanchéité</li><li>Toitures</li><li>Menuiserie</li><li>Vérandas</li></ul>
-          </article>
-          <article class="pillar reveal">
-            <span class="pillar__num">03</span>
-            <h3>Gros œuvre &amp; grands chantiers</h3>
-            <p>Construction de maison ou rénovation totale de locaux professionnels : notre expérience du terrain nous permet de prendre en charge les projets d'envergure.</p>
-            <ul class="tags"><li>Structure métallique</li><li>Structure bois</li><li>Ouvertures de baies</li><li>Façades</li><li>Normes coupe-feu</li></ul>
-          </article>
+        <div class="build" id="build">
+          <div class="build__house">
+            <div class="build__chips" role="group" aria-label="Choisir une partie de la maison">
+              <button type="button" class="build__chip" data-z="fondations">Fondations</button>
+              <button type="button" class="build__chip" data-z="interieur">Intérieur</button>
+              <button type="button" class="build__chip" data-z="exterieur">Façades</button>
+              <button type="button" class="build__chip" data-z="toit">Toit</button>
+            </div>
+            <svg class="build__svg" viewBox="0 0 520 430" role="group" aria-label="Maison : choisissez une partie">
+              <g class="bz" data-z="toit" tabindex="0" role="button" aria-label="Toit">
+                <path d="M60 150 L260 40 L460 150 Z" pathLength="1" />
+                <path d="M360 95 V62 H392 V112" pathLength="1" />
+                <text x="260" y="122">TOIT</text>
+              </g>
+              <g class="bz" data-z="exterieur" tabindex="0" role="button" aria-label="Façades">
+                <rect x="80" y="150" width="360" height="90" pathLength="1" />
+                <rect x="120" y="172" width="46" height="42" pathLength="1" />
+                <rect x="354" y="172" width="46" height="42" pathLength="1" />
+                <text x="260" y="200">FAÇADES</text>
+              </g>
+              <g class="bz" data-z="interieur" tabindex="0" role="button" aria-label="Intérieur">
+                <rect x="80" y="240" width="360" height="90" pathLength="1" />
+                <path d="M126 330 V282 H166 V330" pathLength="1" />
+                <rect x="330" y="262" width="60" height="32" pathLength="1" />
+                <text x="260" y="290">INTÉRIEUR</text>
+              </g>
+              <g class="bz" data-z="fondations" tabindex="0" role="button" aria-label="Fondations">
+                <rect x="40" y="330" width="440" height="62" pathLength="1" />
+                <path d="M70 392 l-14 18 M130 392 l-14 18 M190 392 l-14 18 M250 392 l-14 18 M310 392 l-14 18 M370 392 l-14 18 M430 392 l-14 18" pathLength="1" />
+                <text x="260" y="367">FONDATIONS</text>
+              </g>
+              <path class="build__ground" d="M10 330 H510" pathLength="1" />
+            </svg>
+            <p class="build__hint"><span class="pulse"></span>Cliquez sur une partie de la maison</p>
+          </div>
+
+          <div class="bp" id="bp" aria-live="polite">
+            <div class="bp__head"><span class="bp__stamp" id="bpStamp">Plan n° 02</span><span class="bp__scale">Éch. 1:50 · EMBI</span></div>
+            <svg class="bp__svg" id="bpSvg" viewBox="0 0 400 240" aria-hidden="true"></svg>
+            <div class="bp__text" id="bpText">
+              <span class="bp__n" id="bpN"></span>
+              <h3 class="bp__title" id="bpTitle"></h3>
+              <p id="bpDesc"></p>
+              <ul class="tags tags--dark" id="bpTags"></ul>
+            </div>
+          </div>
         </div>
 
         <div class="promise">
