@@ -92,53 +92,8 @@
       }, 2200);
   }
 
-  /* ───── Galerie ───── */
-  const grid = $("#grid");
-  $("#countAll").textContent = projects.length;
-  grid.innerHTML = projects
-    .map(
-      (p, i) => `
-    <button class="card" data-cat="${p.category}" data-index="${i}" aria-label="Voir le projet ${esc(p.title)}">
-      <div class="card__media">
-        <img src="${esc(p.images[0])}" alt="${esc(p.title)} — ${esc(cats[p.category] || "")} rénové par EMBI" loading="lazy" />
-        <div class="card__overlay">
-          <span class="card__badge">${esc(cats[p.category] || "")}</span>
-          <span class="card__open" aria-hidden="true">↗</span>
-        </div>
-      </div>
-      <div class="card__info">
-        <h3 class="card__title">${esc(p.title)}</h3>
-        <span class="card__idx">${pad(i + 1)}</span>
-      </div>
-    </button>`
-    )
-    .join("");
-
+  // projets affichés (liste filtrée) : sert à la navigation ← → de la fiche projet
   let visible = projects.map((_, i) => i);
-  $$(".filter").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      $$(".filter").forEach((b) => {
-        b.classList.toggle("is-active", b === btn);
-        b.setAttribute("aria-pressed", b === btn);
-      });
-      const f = btn.dataset.filter;
-      visible = [];
-      $$(".card", grid).forEach((c) => {
-        const show = f === "all" || c.dataset.cat === f;
-        c.hidden = !show;
-        if (show) {
-          visible.push(+c.dataset.index);
-          c.style.animation = "none";
-          void c.offsetWidth;
-          c.style.animation = "";
-        }
-      });
-    })
-  );
-  grid.addEventListener("click", (e) => {
-    const card = e.target.closest(".card");
-    if (card) openModal(+card.dataset.index, card);
-  });
 
   /* ───── Références : index en accordéon ───── */
   const refsList = $("#refsList");
@@ -159,6 +114,24 @@
     })
     .join("");
   const accItems = $$(".acc__item", refsList);
+  $$("[data-n]").forEach((el) => {
+    const f = el.dataset.n;
+    el.textContent = f === "all" ? projects.length : projects.filter((p) => p.category === f).length;
+  });
+  let accFilter = "all";
+  const accVisible = () => projects.map((p, i) => i).filter((i) => accFilter === "all" || projects[i].category === accFilter);
+  $$(".filter").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      $$(".filter").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+        b.setAttribute("aria-pressed", b === btn);
+      });
+      accFilter = btn.dataset.filter;
+      const keep = accVisible();
+      accItems.forEach((li, i) => (li.hidden = !keep.includes(i)));
+      openAcc(accItems[keep[0]]);
+    })
+  );
   const openAcc = (li) => {
     accItems.forEach((x) => {
       const on = x === li;
@@ -179,11 +152,11 @@
   refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
   refsList.addEventListener("click", (e) => {
     const open = e.target.closest(".acc__open");
-    if (open) { visible = projects.map((_, j) => j); return openModal(+open.dataset.i, open); }
+    if (open) { visible = accVisible(); return openModal(+open.dataset.i, open); }
     const head = e.target.closest(".acc__head");
     if (!head) return;
     const li = head.parentElement;
-    if (li.classList.contains("is-open") && canHover) { visible = projects.map((_, j) => j); return openModal(+head.dataset.i, head); }
+    if (li.classList.contains("is-open") && canHover) { visible = accVisible(); return openModal(+head.dataset.i, head); }
     openAcc(li.classList.contains("is-open") ? null : li);
   });
 
@@ -312,6 +285,7 @@
       const link = e.target.closest("a, button, input, textarea, label");
       cur.classList.toggle("is-view", !!view);
       cur.classList.toggle("is-link", !view && !!link);
+      cur.classList.toggle("is-light", !!e.target.closest(".quiz, .urgent") && !e.target.closest(".quiz__card"));
       label.textContent = view ? "Voir" : "";
     });
     $$("[data-magnetic]").forEach((el) => {
@@ -438,6 +412,73 @@
     })
   );
   $$("[data-count]").forEach((el) => countIO.observe(el));
+
+  /* ───── Votre projet en 3 questions ───── */
+  const QUIZ = [
+    { key: "lieu", q: "Quel lieu voulez-vous transformer\u00a0?", options: [
+      { v: "Appartement", cat: "particulier", chip: "Un logement (particulier)" },
+      { v: "Maison", cat: "particulier", chip: "Un logement (particulier)" },
+      { v: "Hôtel", cat: "hotel", chip: "Un hôtel" },
+      { v: "Boutique", cat: "boutique", chip: "Une boutique" },
+      { v: "Restaurant", cat: "restaurant", chip: "Un restaurant" },
+      { v: "Bureaux", cat: null, chip: "Des bureaux" },
+    ] },
+    { key: "surface", q: "Quelle surface environ\u00a0?", options: [
+      { v: "Moins de 30 m²" }, { v: "30 à 80 m²" }, { v: "80 à 150 m²" }, { v: "Plus de 150 m²" },
+    ] },
+    { key: "delai", q: "Pour quand\u00a0?", options: [
+      { v: "Dès que possible" }, { v: "D'ici 3 mois" }, { v: "D'ici 6 mois ou plus" }, { v: "Je me renseigne" },
+    ] },
+  ];
+  const quizBody = $("#quizBody"), quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack");
+  const answers = [];
+  const renderQuiz = () => {
+    const n = answers.length;
+    quizBack.hidden = n === 0;
+    quizBar.style.transform = `scaleX(${n / QUIZ.length})`;
+    quizBody.classList.remove("is-in");
+    if (n < QUIZ.length) {
+      const step = QUIZ[n];
+      quizStep.textContent = `Question ${n + 1} / ${QUIZ.length}`;
+      quizBody.innerHTML = `<h3 class="quiz__q">${step.q}</h3><div class="quiz__opts">${step.options
+        .map((o, k) => `<button type="button" class="quiz__opt" data-k="${k}"><span>${o.v}</span><i aria-hidden="true">→</i></button>`)
+        .join("")}</div>`;
+    } else {
+      const lieu = answers[0];
+      const refs = lieu.cat ? projects.filter((p) => p.category === lieu.cat).slice(0, 3).map((p) => p.title) : [];
+      quizStep.textContent = "C'est prêt !";
+      quizBody.innerHTML = `<h3 class="quiz__q">Votre projet</h3>
+        <ul class="quiz__recap">${answers.map((a) => `<li>${a.v}</li>`).join("")}</ul>
+        ${refs.length ? `<p class="quiz__refs">Nous avons déjà réalisé des projets comme le vôtre : <strong>${refs.map(esc).join(", ")}</strong>.</p>` : ""}
+        <div class="quiz__end">
+          <button type="button" class="btn btn--dark" id="quizGo" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
+          <button type="button" class="quiz__restart" id="quizRestart">Recommencer</button>
+        </div>`;
+    }
+    requestAnimationFrame(() => quizBody.classList.add("is-in"));
+  };
+  quizBody.addEventListener("click", (e) => {
+    const opt = e.target.closest(".quiz__opt");
+    if (opt) {
+      opt.classList.add("is-picked");
+      answers.push(QUIZ[answers.length].options[+opt.dataset.k]);
+      setTimeout(renderQuiz, reduce ? 0 : 220);
+      return;
+    }
+    if (e.target.closest("#quizRestart")) { answers.length = 0; return renderQuiz(); }
+    if (e.target.closest("#quizGo")) {
+      // pré-remplit le formulaire de contact et y emmène le visiteur
+      const lieu = answers[0];
+      const chip = lieu.chip && $(`#form input[name="type"][value="${lieu.chip}"]`);
+      if (chip) chip.checked = true;
+      $('#form textarea[name="message"]').value =
+        `Projet : ${lieu.v}\nSurface : ${answers[1].v}\nDélai : ${answers[2].v}\n\n`;
+      $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+      setTimeout(() => $('#form input[name="nom"]').focus({ preventScroll: true }), reduce ? 0 : 900);
+    }
+  });
+  quizBack.addEventListener("click", () => { answers.pop(); renderQuiz(); });
+  renderQuiz();
 
   /* ───── Formulaire → e-mail pré-rempli vers sec@embi.fr ───── */
   const form = $("#form");

@@ -7,7 +7,7 @@ Ouvrir `index.html` dans un navigateur. Pour le mettre en ligne, vous pouvez uti
 
 ## Modifier les réalisations
 Tout se passe dans `assets/js/projects.js` : un bloc par chantier (titre, catégorie, photos, description facultative).
-La galerie, les filtres, la liste « Références », le bandeau défilant et la visionneuse se mettent à jour tout seuls.
+La liste des réalisations (avec ses filtres), les chantiers signature (`featured: true`), le bandeau défilant, la fiche projet et les suggestions du questionnaire « Votre projet en 3 questions » se mettent à jour tout seuls.
 
 ## Photos
 Les photos viennent pour l'instant de l'ancien site (embi.fr), en ~480 px de large.
