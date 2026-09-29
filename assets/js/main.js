@@ -690,3 +690,57 @@
     note.textContent = "Votre messagerie s'ouvre avec la demande pré-remplie. Merci !";
   });
 })();
+
+/* ───── Fonctionnement : la pièce se transforme à chaque étape ───── */
+(() => {
+  if (!document.getElementById("mt-scene")) return;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NAMES = ["Étude", "Chiffrage", "Mise en place", "Réalisation", "Livraison"];
+  const DURATION = 6000;
+  const scene = $("#mt-scene"), steps = $$("#methode .mt-step"), bars = $$("#methode .mt-step__bar i");
+  let k = -1, t0 = performance.now(), elapsed = 0, paused = false, inView = true, hovering = false;
+
+  const show = (n) => {
+    k = n;
+    elapsed = 0;
+    t0 = performance.now();
+    steps.forEach((s, i) => s.classList.toggle("is-on", i === n));
+    bars.forEach((b) => (b.style.transform = "scaleX(0)"));
+    $("#mt-chip").textContent = `${String(n + 1).padStart(2, "0")} · ${NAMES[n]}`;
+    scene.classList.toggle("is-dark", n <= 1);
+    $$(".ly", scene).forEach((g) => {
+      const on = g.dataset.s.split(",").map(Number).includes(n);
+      if (on && !g.classList.contains("is-on")) {
+        g.classList.remove("is-on");
+        void g.getBoundingClientRect();
+      }
+      g.classList.toggle("is-on", on);
+    });
+    $("#mt-devis").classList.toggle("is-on", n === 1);
+  };
+
+  const tick = (t) => {
+    const running = !paused && !hovering && inView && !reduce;
+    if (running) {
+      elapsed += t - t0;
+      if (elapsed >= DURATION) show((k + 1) % 5);
+    }
+    t0 = t;
+    if (bars[k]) bars[k].style.transform = `scaleX(${Math.min(elapsed / DURATION, 1)})`;
+    requestAnimationFrame(tick);
+  };
+
+  $$("#methode .mt-step button").forEach((b) => b.addEventListener("click", () => show(+b.dataset.k)));
+  $("#mt-pause").addEventListener("click", (e) => {
+    paused = !paused;
+    e.currentTarget.textContent = paused ? "Lecture" : "Pause";
+  });
+  scene.addEventListener("mouseenter", () => (hovering = true));
+  scene.addEventListener("mouseleave", () => (hovering = false));
+  new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.3 }).observe(scene);
+  if (reduce) $("#mt-ctrlTxt").textContent = "Cliquez sur une étape pour la voir";
+  show(0);
+  requestAnimationFrame(tick);
+})();
