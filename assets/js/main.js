@@ -176,44 +176,50 @@
     if (b) { preview.classList.remove("is-on"); visible = projects.map((_, i) => i); openModal(+b.dataset.index, b); }
   });
 
-  /* ───── Sélection horizontale (défilement épinglé) ───── */
-  const showcase = $("#selection");
-  const track = $("#showcaseTrack");
+  /* ───── Chantiers signature : écran partagé épinglé ───── */
+  const feature = $("#selection");
   const featured = projects.map((p, i) => ({ p, i })).filter(({ p }) => p.featured);
-  track.innerHTML =
-    featured
-      .map(
-        ({ p, i }, k) => `
-    <button class="shot" data-index="${i}" data-cursor="Voir" aria-label="Voir le projet ${esc(p.title)}">
-      <div class="shot__media"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /><span class="shot__num">${pad(k + 1)}</span></div>
-      <div class="shot__info"><h3 class="shot__title">${esc(p.title)}</h3><span class="shot__cat">${esc(cats[p.category] || "")}</span></div>
-    </button>`
-      )
-      .join("") +
-    `<div class="shot shot--end"><a href="#realisations">Tous nos<br/>chantiers ↓</a></div>`;
-  track.addEventListener("click", (e) => {
-    const b = e.target.closest(".shot[data-index]");
-    if (b) { visible = projects.map((_, k) => k); openModal(+b.dataset.index, b); }
+  const fList = $("#featureList"), fFrame = $("#featureFrame");
+  fList.innerHTML = featured
+    .map(({ p }, k) => `<li><button type="button" data-k="${k}"><span class="n">${pad(k + 1)}</span><span class="t">${esc(p.title)}</span></button></li>`)
+    .join("");
+  fFrame.innerHTML = featured
+    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
+    .join("");
+  $("#featureTotal").textContent = pad(featured.length);
+  const fItems = $$("li", fList), fImgs = $$(".feature__img", fFrame), fRail = $("#featureRail");
+  let fActive = -1;
+  const setFeature = (k) => {
+    if (k === fActive) return;
+    fActive = k;
+    fItems.forEach((li, j) => li.classList.toggle("is-active", j === k));
+    fImgs.forEach((f, j) => f.classList.toggle("is-shown", j <= k));
+    $("#featureNum").textContent = pad(k + 1);
+  };
+  const STEP = 0.75; // hauteur de défilement par projet, en écrans
+  const sizeFeature = () => (feature.style.height = innerHeight * (1 + featured.length * STEP) + "px");
+  const scrollFeature = () => {
+    const r = feature.getBoundingClientRect();
+    const k = Math.min(Math.max(-r.top / (feature.offsetHeight - innerHeight), 0), 1);
+    fRail.style.transform = `scaleY(${k})`;
+    setFeature(Math.min(featured.length - 1, Math.floor(k * featured.length)));
+  };
+  sizeFeature();
+  setFeature(0);
+  window.addEventListener("resize", () => { sizeFeature(); scrollFeature(); });
+  window.addEventListener("scroll", scrollFeature, { passive: true });
+  const openFeatured = (k) => { visible = projects.map((_, j) => j); openModal(featured[k].i); };
+  fList.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const k = +b.dataset.k;
+    if (k === fActive) return openFeatured(k);
+    // défile jusqu'au projet choisi
+    const span = feature.offsetHeight - innerHeight;
+    scrollTo({ top: feature.offsetTop + span * ((k + 0.5) / featured.length), behavior: reduce ? "auto" : "smooth" });
   });
-  const bar = $("#showcaseBar");
-  const wide = matchMedia("(min-width: 861px)");
-  let dist = 0;
-  const sizeShowcase = () => {
-    if (!wide.matches) { showcase.style.height = ""; track.style.transform = ""; return; }
-    dist = Math.max(0, track.scrollWidth - innerWidth);
-    showcase.style.height = innerHeight + dist + "px";
-  };
-  const scrollShowcase = () => {
-    if (!wide.matches) return;
-    const top = showcase.getBoundingClientRect().top;
-    const k = Math.min(Math.max(-top / (dist || 1), 0), 1);
-    track.style.transform = `translate3d(${-k * dist}px,0,0)`;
-    bar.style.transform = `scaleX(${k})`;
-  };
-  window.addEventListener("resize", () => { sizeShowcase(); scrollShowcase(); });
-  window.addEventListener("load", () => { sizeShowcase(); scrollShowcase(); });
-  window.addEventListener("scroll", scrollShowcase, { passive: true });
-  sizeShowcase();
+  fFrame.addEventListener("click", () => openFeatured(fActive));
+  $("#featureOpen").addEventListener("click", () => openFeatured(fActive));
 
   /* ───── Texte qui s'allume mot à mot ───── */
   $$("[data-words]").forEach((el) => {
@@ -270,7 +276,7 @@
     };
     move();
     document.addEventListener("mouseover", (e) => {
-      const view = e.target.closest(".card, .shot[data-index], .refs__list button");
+      const view = e.target.closest(".card, .feature__frame, .refs__list button");
       const link = e.target.closest("a, button, input, textarea, label");
       cur.classList.toggle("is-view", !!view);
       cur.classList.toggle("is-link", !view && !!link);

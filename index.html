@@ -181,14 +181,21 @@
     </section>
 
     <!-- ───────── SÉLECTION (défilement horizontal) ───────── -->
-    <section class="showcase" id="selection">
-      <div class="showcase__sticky">
-        <div class="showcase__head container">
+    <section class="feature" id="selection">
+      <div class="feature__sticky">
+        <div class="feature__left">
           <p class="eyebrow">Sélection</p>
-          <h2 class="h2">Nos chantiers <em>signature.</em></h2>
+          <h2 class="feature__heading">Nos chantiers <em>signature.</em></h2>
+          <div class="feature__listwrap">
+            <span class="feature__rail"><span id="featureRail"></span></span>
+            <ol class="feature__list" id="featureList"><!-- généré depuis projects.js --></ol>
+          </div>
+          <div class="feature__meta">
+            <span class="feature__count"><b id="featureNum">01</b> / <span id="featureTotal">05</span></span>
+            <button class="btn btn--accent" id="featureOpen" type="button" data-magnetic>Voir le projet <span aria-hidden="true">→</span></button>
+          </div>
         </div>
-        <div class="showcase__track" id="showcaseTrack"><!-- généré depuis projects.js --></div>
-        <div class="showcase__bar"><span id="showcaseBar"></span></div>
+        <div class="feature__frame" id="featureFrame" data-cursor="Voir"><!-- photos --></div>
       </div>
     </section>
 
