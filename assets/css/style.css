@@ -273,7 +273,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .hero__title .line > span { display: inline-block; transform: translateY(110%) rotate(4deg); transform-origin: left bottom; transition: transform 1.3s var(--ease); }
 .is-loaded .hero__title .line > span { transform: none; }
 .is-loaded .hero__title .line:nth-child(2) > span { transition-delay: 0.12s; }
-.rotator { display: inline-grid; vertical-align: bottom; overflow: hidden; color: var(--accent); font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: -0.02em; transition: width 0.7s var(--ease); padding: 0 0.08em 0.16em 0; margin-bottom: -0.16em; }
+.rotator { display: inline-grid; vertical-align: baseline; overflow: hidden; color: var(--accent); font-family: var(--serif); font-style: italic; font-weight: 300; letter-spacing: -0.02em; transition: width 0.7s var(--ease); padding: 0 0.08em 0.16em 0; margin-bottom: -0.16em; }
 .rotator > span { grid-area: 1 / 1; white-space: nowrap; opacity: 0; transform: translateY(130%); transition: transform 0.8s var(--ease), opacity 0.5s; }
 .rotator > span.is-active { opacity: 1; transform: none; }
 .rotator > span.is-leaving { opacity: 0; transform: translateY(-130%); }
