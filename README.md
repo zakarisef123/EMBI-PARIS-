@@ -1,4 +1,4 @@
-# EMBI — nouveau site
+# EMBI : nouveau site
 
 Site vitrine une page, en HTML/CSS/JS pur, sans dépendance ni outil de build.
 
