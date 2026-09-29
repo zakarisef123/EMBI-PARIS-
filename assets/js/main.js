@@ -450,6 +450,90 @@
       ["d", "M36 178 L200 40 L364 178"], ["w", "M270 92 V44 H300 V116"], ["o", "M30 180 h28 M342 180 h28"],
       ["d", "M50 204 H350 M50 198 v12 M350 198 v12"], ["t", "CHARPENTE", 166, 190], ["t", "COUVERTURE", 56, 96]],
   };
+  // Maquette en axonométrie : 4 couches (fondations, rez-de-chaussée, étage, toit) générées ici
+  (() => {
+    const svg = $("#axoSvg");
+    const NS = "http://www.w3.org/2000/svg";
+    const C = Math.cos(Math.PI / 6), S = Math.sin(Math.PI / 6), K = 0.84, CX = 222, CY = 236;
+    const W = 220, D = 160;
+    svg.innerHTML = '<defs><pattern id="axoHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#e3dacb"/><line x1="0" y1="0" x2="0" y2="7" stroke="#161513" stroke-width="1" opacity=".35"/></pattern></defs>';
+    const P = (x, y, z) => [CX + (x - y) * C * K, CY + (x + y) * S * K - z * K];
+    const el = (tag, attrs, parent) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      parent.appendChild(e);
+      return e;
+    };
+    const pts = (list) => list.map((p) => P(...p).map((n) => n.toFixed(1)).join(",")).join(" ");
+    const face = (g, list, cls = "face") => el("polygon", { points: pts(list), class: cls, pathLength: 1 }, g);
+    const line = (g, list, cls = "edge") => el("polyline", { points: pts(list), class: cls, pathLength: 1 }, g);
+    // boîte opaque : dessus + deux faces visibles (côtés x+w et y+d)
+    const box = (g, x, y, z, w, d, h, cls = "face") => {
+      face(g, [[x + w, y, z], [x + w, y + d, z], [x + w, y + d, z + h], [x + w, y, z + h]], cls);
+      face(g, [[x, y + d, z], [x + w, y + d, z], [x + w, y + d, z + h], [x, y + d, z + h]], cls);
+      face(g, [[x, y, z + h], [x + w, y, z + h], [x + w, y + d, z + h], [x, y + d, z + h]], cls);
+    };
+    const layer = (z, label, lz) => {
+      const g = el("g", { class: "bz", "data-z": z, tabindex: 0, role: "button", "aria-label": label }, svg);
+      g.dataset.lz = lz;
+      return el("g", { class: "bz__body" }, g);
+    };
+
+    // 1 · Fondations : dalle + semelles
+    let g = layer("fondations", "Fondations", -14);
+    box(g, 14, 14, -46, W - 28, 22, 20, "face face--dark");
+    box(g, 14, D - 36, -46, W - 28, 22, 20, "face face--dark");
+    box(g, 0, 0, -26, W, D, 26, "face face--hatch");
+
+    // 2 · Intérieur (rez-de-chaussée ouvert) : murs du fond, cloisons, meubles, escalier
+    g = layer("interieur", "Intérieur", 40);
+    face(g, [[0, 0, 0], [W, 0, 0], [W, D, 0], [0, D, 0]], "face face--floor");
+    face(g, [[0, 0, 0], [0, D, 0], [0, D, 80], [0, 0, 80]]);
+    face(g, [[0, 0, 0], [W, 0, 0], [W, 0, 80], [0, 0, 80]]);
+    face(g, [[0, 30, 22], [0, 70, 22], [0, 70, 62], [0, 30, 62]], "face face--glass");
+    face(g, [[120, 0, 22], [170, 0, 22], [170, 0, 62], [120, 0, 62]], "face face--glass");
+    face(g, [[100, 0, 0], [100, 80, 0], [100, 80, 80], [100, 0, 80]], "face face--wall");
+    box(g, 16, 96, 0, 56, 40, 14);            // lit
+    box(g, 16, 96, 14, 56, 10, 10);           // tête de lit
+    box(g, 126, 14, 0, 64, 22, 16);           // canapé
+    box(g, 138, 64, 0, 36, 36, 20);           // table
+    for (let i = 0; i < 7; i++) box(g, 176, 110 - 0, i * 11, 36, 34 - i * 4.5, 11); // escalier
+    line(g, [[W, 0, 0], [W, 0, 12], [W, D, 12], [0, D, 12], [0, D, 0]], "edge edge--cut");
+
+    // 3 · Façades (étage) : murs extérieurs avec fenêtres et balcon
+    g = layer("exterieur", "Façades", 115);
+    const Z0 = 80, Z1 = 150;
+    face(g, [[0, 0, Z1], [W, 0, Z1], [W, D, Z1], [0, D, Z1]], "face face--floor");
+    face(g, [[W, 0, Z0], [W, D, Z0], [W, D, Z1], [W, 0, Z1]]);
+    face(g, [[0, D, Z0], [W, D, Z0], [W, D, Z1], [0, D, Z1]]);
+    [[24, 60], [96, 132]].forEach(([a, b]) => face(g, [[W, a, Z0 + 18], [W, b, Z0 + 18], [W, b, Z0 + 56], [W, a, Z0 + 56]], "face face--glass"));
+    [[24, 64], [100, 140], [170, 206]].forEach(([a, b]) => face(g, [[a, D, Z0 + 18], [b, D, Z0 + 18], [b, D, Z0 + 56], [a, D, Z0 + 56]], "face face--glass"));
+    line(g, [[90, D + 16, Z0], [150, D + 16, Z0], [150, D + 16, Z0 + 16], [90, D + 16, Z0 + 16], [90, D + 16, Z0]], "edge edge--accent");
+    line(g, [[90, D, Z0], [90, D + 16, Z0], [150, D + 16, Z0], [150, D, Z0]], "edge edge--accent");
+
+    // 4 · Toit : deux pans + pignon + cheminée
+    g = layer("toit", "Toit", 200);
+    const R = 150, H = 66;
+    face(g, [[-8, D / 2, R + H], [W + 8, D / 2, R + H], [W + 8, D + 10, R - 6], [-8, D + 10, R - 6]], "face face--roof");
+    face(g, [[W, -2, R], [W, D + 2, R], [W, D / 2, R + H]], "face");
+    box(g, 150, 30, R + 20, 18, 18, 64, "face face--brick");
+    for (let i = 1; i < 6; i++) {
+      const t = i / 6;
+      line(g, [[-8, D / 2 + (D / 2 + 10) * t, R + H - (H + 6) * t], [W + 8, D / 2 + (D / 2 + 10) * t, R + H - (H + 6) * t]], "edge edge--thin");
+    }
+
+    // Légendes reliées à chaque couche
+    const labels = el("g", { class: "axo__labels" }, svg);
+    $$(".bz", svg).forEach((z) => {
+      const [x, y] = P(W, 0, +z.dataset.lz);
+      const t = el("g", { class: "axo__label", "data-z": z.dataset.z }, labels);
+      el("polyline", { points: `${x + 6},${y} ${x + 40},${y} 424,${y}`, class: "axo__lead" }, t);
+      el("circle", { cx: x + 4, cy: y, r: 3, class: "axo__dot" }, t);
+      const tx = el("text", { x: 430, y: y + 4 }, t);
+      tx.textContent = z.getAttribute("aria-label").toUpperCase();
+    });
+  })();
+
   const build = $("#build"), bp = $("#bp");
   let buildZone = null;
   const chooseZone = (z) => {
@@ -458,6 +542,13 @@
     const d = BUILD[z];
     $$(".bz", build).forEach((g) => g.classList.toggle("is-on", g.dataset.z === z));
     $$(".build__chip", build).forEach((c) => c.classList.toggle("is-on", c.dataset.z === z));
+    $$(".axo__label", build).forEach((l) => l.classList.toggle("is-on", l.dataset.z === z));
+    // vue éclatée : la couche choisie et celles au-dessus se soulèvent
+    const order = ["fondations", "interieur", "exterieur", "toit"], sel = order.indexOf(z);
+    order.forEach((name, j) => {
+      const y = `${-16 * j - (j >= sel ? 30 : 0)}px`;
+      $$(`.bz[data-z="${name}"] .bz__body, .axo__label[data-z="${name}"]`, build).forEach((e) => e.style.setProperty("--y", y));
+    });
     $("#bpStamp").textContent = `Plan n° ${d.n} · ${d.label}`;
     $("#bpSvg").innerHTML = PLANS[z]
       .map((e, i) => (e[0] === "t" ? `<text x="${e[2]}" y="${e[3]}">${e[1]}</text>` : `<path class="${e[0]}" d="${e[1]}" pathLength="1" style="--i:${i}" />`))
@@ -483,7 +574,6 @@
   new IntersectionObserver((en, obs) => {
     if (!en[0].isIntersecting) return;
     build.classList.add("is-drawn");
-    setTimeout(() => build.classList.add("is-settled"), 1800);
     bp.classList.remove("is-scan", "is-anim");
     void bp.offsetWidth;
     bp.classList.add("is-scan", "is-anim");
