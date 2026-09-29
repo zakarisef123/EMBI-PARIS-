@@ -140,40 +140,51 @@
     if (card) openModal(+card.dataset.index, card);
   });
 
-  /* ───── Liste des références + aperçu au survol ───── */
+  /* ───── Références : index en accordéon ───── */
   const refsList = $("#refsList");
   refsList.innerHTML = projects
-    .map(
-      (p, i) => `<li><button data-index="${i}">
-        <span class="n">${pad(i + 1)}</span><span class="t">${esc(p.title)}</span><span class="c">${esc(cats[p.category] || "")}</span>
-      </button></li>`
-    )
+    .map((p, i) => {
+      const cat = cats[p.category] || "";
+      const lead = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové" }[p.category] || "Lieu rénové";
+      const txt = p.text || `${lead} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
+      return `<li class="acc__item">
+        <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-${i}" data-i="${i}">
+          <span class="acc__n">${pad(i + 1)}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(cat)}</span><span class="acc__ar" aria-hidden="true">→</span>
+        </button>
+        <div class="acc__panel" id="acc-${i}" role="region"><div class="acc__inner">
+          <div class="acc__img"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /></div>
+          <div class="acc__body"><p>${esc(txt)}</p><button class="btn btn--accent acc__open" type="button" data-i="${i}">Voir le projet <span aria-hidden="true">→</span></button></div>
+        </div></div>
+      </li>`;
+    })
     .join("");
-  const preview = $("#refsPreview");
-  const previewImg = $("img", preview);
-  let px = 0, py = 0, tx = 0, ty = 0, raf = null;
-  const follow = () => {
-    px += (tx - px) * 0.18;
-    py += (ty - py) * 0.18;
-    preview.style.left = px + "px";
-    preview.style.top = py + "px";
-    raf = Math.abs(tx - px) + Math.abs(ty - py) > 0.5 ? requestAnimationFrame(follow) : null;
+  const accItems = $$(".acc__item", refsList);
+  const openAcc = (li) => {
+    accItems.forEach((x) => {
+      const on = x === li;
+      x.classList.toggle("is-open", on);
+      $(".acc__head", x).setAttribute("aria-expanded", on);
+    });
   };
-  refsList.addEventListener("mousemove", (e) => {
-    tx = e.clientX; ty = e.clientY;
-    if (!preview.classList.contains("is-on")) { px = tx; py = ty; }
-    if (!raf) raf = requestAnimationFrame(follow);
-  });
+  openAcc(accItems[0]);
+  let accTimer = null;
+  const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
   refsList.addEventListener("mouseover", (e) => {
-    const b = e.target.closest("button");
-    if (!b) return;
-    previewImg.src = projects[+b.dataset.index].images[0];
-    preview.classList.add("is-on");
+    if (!canHover) return;
+    const li = e.target.closest(".acc__item");
+    if (!li || li.classList.contains("is-open")) return;
+    clearTimeout(accTimer);
+    accTimer = setTimeout(() => openAcc(li), 140); // petit délai : évite l'effet « accordéon nerveux »
   });
-  refsList.addEventListener("mouseleave", () => preview.classList.remove("is-on"));
+  refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
   refsList.addEventListener("click", (e) => {
-    const b = e.target.closest("button");
-    if (b) { preview.classList.remove("is-on"); visible = projects.map((_, i) => i); openModal(+b.dataset.index, b); }
+    const open = e.target.closest(".acc__open");
+    if (open) { visible = projects.map((_, j) => j); return openModal(+open.dataset.i, open); }
+    const head = e.target.closest(".acc__head");
+    if (!head) return;
+    const li = head.parentElement;
+    if (li.classList.contains("is-open") && canHover) { visible = projects.map((_, j) => j); return openModal(+head.dataset.i, head); }
+    openAcc(li.classList.contains("is-open") ? null : li);
   });
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */
@@ -297,7 +308,7 @@
     };
     move();
     document.addEventListener("mouseover", (e) => {
-      const view = e.target.closest(".card, .feature__frame, .refs__list button");
+      const view = e.target.closest(".card, .feature__frame, .acc__img");
       const link = e.target.closest("a, button, input, textarea, label");
       cur.classList.toggle("is-view", !!view);
       cur.classList.toggle("is-link", !view && !!link);
