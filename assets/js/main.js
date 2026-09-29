@@ -580,6 +580,30 @@
     obs.disconnect();
   }, { threshold: 0.3 }).observe(build);
 
+  /* ───── Engagements : le contrat se coche puis le tampon frappe ───── */
+  const contract = $("#contract");
+  if (contract) {
+    const cks = $$(".contract__ck", contract);
+    new IntersectionObserver((en, obs) => {
+      if (!en[0].isIntersecting) return;
+      obs.disconnect();
+      contract.classList.add("is-signed");
+      if (reduce) return;
+      // coche les cases une à une (le style de départ les masque tant que .is-signed n'est pas posé)
+      cks.forEach((c) => (c.style.transitionDelay = "0s"));
+      cks.forEach((c, i) => {
+        c.style.setProperty("--d", i);
+        c.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 200, delay: 200 + i * 170, fill: "backwards" });
+        const tick = c;
+        tick.classList.add("is-wait");
+        setTimeout(() => tick.classList.remove("is-wait"), 200 + i * 170);
+      });
+      const stampAt = 200 + cks.length * 170 + 250;
+      contract.style.setProperty("--stamp-delay", stampAt + "ms");
+      setTimeout(() => { contract.classList.add("is-thump"); }, stampAt + 360);
+    }, { threshold: 0.45 }).observe(contract);
+  }
+
   /* ───── Votre projet en 3 questions ───── */
   const QUIZ = [
     { key: "lieu", q: "Quel lieu voulez-vous transformer\u00a0?", options: [

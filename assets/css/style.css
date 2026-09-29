@@ -517,13 +517,44 @@ img.is-broken { opacity: 0; }
   .bp.is-anim .bp__svg text { opacity: 1; }
 }
 
-.promise { margin-top: clamp(64px, 9vw, 120px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
-.promise__title { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.5vw, 38px); letter-spacing: -0.025em; line-height: 1.05; margin: 0; }
-.promise__title em { color: var(--accent); }
-.promise__list { list-style: none; margin: 0; padding: 0; counter-reset: p; }
-.promise__list li { counter-increment: p; display: flex; gap: 20px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: clamp(17px, 1.4vw, 20px); }
-.promise__list li::before { content: counter(p, decimal-leading-zero); font-size: 12px; color: var(--accent); font-weight: 600; min-width: 22px; }
-@media (max-width: 860px) { .promise { grid-template-columns: 1fr; } }
+.promise { margin-top: clamp(64px, 9vw, 120px); display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
+.promise__intro { display: grid; gap: 22px; justify-items: start; }
+.promise__title { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 3vw, 44px); letter-spacing: -0.025em; line-height: 1; margin: 0; }
+.promise__title em { color: var(--accent); font-weight: 400; }
+.promise__lead { margin: 0; color: var(--ink-2); max-width: 44ch; }
+/* le contrat */
+.contract {
+  position: relative; background: #fbf8f3; border: 1px solid var(--line); border-radius: 6px;
+  padding: clamp(22px, 3vw, 36px) clamp(22px, 3vw, 40px); box-shadow: 0 40px 70px -40px rgba(22, 21, 19, 0.45);
+  transform: rotate(-1.2deg);
+}
+.contract::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(22, 21, 19, 0.06); border-radius: 3px; pointer-events: none; }
+.contract__head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font: 600 10.5px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(22, 21, 19, 0.5); border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 6px; }
+.contract__list { list-style: none; margin: 0; padding: 0; }
+.contract__list li { display: flex; gap: 14px; align-items: center; padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: clamp(15px, 1.2vw, 17px); }
+.contract__ck { width: 22px; height: 22px; border-radius: 5px; border: 1.6px solid var(--ink); display: grid; place-items: center; flex: none; }
+.contract__ck::after { content: ""; width: 10px; height: 5px; border-left: 2.2px solid var(--accent); border-bottom: 2.2px solid var(--accent); transform: rotate(-45deg) translate(1px, -1px) scale(1); transform-origin: center; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.contract__sign { margin-top: 20px; display: grid; gap: 2px; }
+.contract__sign small { font: 600 10px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(22, 21, 19, 0.5); }
+.contract__sign span { font: italic 400 34px var(--serif); line-height: 1; }
+.contract__stamp {
+  position: absolute; right: clamp(18px, 3vw, 34px); bottom: clamp(20px, 3vw, 34px); width: 124px; aspect-ratio: 1; border-radius: 50%;
+  border: 3px solid var(--accent); color: var(--accent); display: grid; place-content: center; text-align: center; gap: 4px;
+  transform: rotate(-14deg); opacity: 0.92; mix-blend-mode: multiply;
+}
+.contract__stamp::before { content: ""; position: absolute; inset: 6px; border: 1.5px solid var(--accent); border-radius: 50%; }
+.contract__stamp span { font: 800 15px/1.05 var(--display); text-transform: uppercase; }
+.contract__stamp small { font: 700 9px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; }
+/* animation : les cases se cochent une à une, puis le tampon frappe */
+.js .contract:not(.is-signed) .contract__ck::after { transform: rotate(-45deg) translate(1px, -1px) scale(0); }
+.js .contract:not(.is-signed) .contract__stamp { opacity: 0; transform: rotate(-14deg) scale(1.8); }
+.contract__ck.is-wait::after { transform: rotate(-45deg) translate(1px, -1px) scale(0); transition: none; }
+.contract.is-signed .contract__stamp { animation: stamp 0.45s cubic-bezier(0.5, 0, 0.75, 0) both; animation-delay: var(--stamp-delay, 1.6s); }
+@keyframes stamp { from { opacity: 0; transform: rotate(-14deg) scale(1.8); } 80% { opacity: 1; transform: rotate(-14deg) scale(0.94); } to { opacity: 0.92; transform: rotate(-14deg) scale(1); } }
+.contract.is-thump { animation: thump 0.3s ease-out; }
+@keyframes thump { 50% { transform: rotate(-1.2deg) translateY(3px); } }
+@media (max-width: 860px) { .promise { grid-template-columns: 1fr; } .contract { transform: none; } .contract__stamp { width: 90px; bottom: 14px; right: 14px; } .contract__stamp span { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .js .contract:not(.is-signed) .contract__ck::after { transform: rotate(-45deg) translate(1px, -1px); } .js .contract:not(.is-signed) .contract__stamp { opacity: 0.92; transform: rotate(-14deg); } }
 
 /* ───────── Showroom ───────── */
 .showroom__grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px, 7vw, 110px); align-items: center; }
