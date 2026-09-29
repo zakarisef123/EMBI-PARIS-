@@ -25,12 +25,14 @@
     // compteur 0 → 100 %, terminé au plus tard après ~1,6 s
     const t0 = performance.now(), count = $("#loaderCount");
     const tick = (t) => {
-      const k = Math.min((t - t0) / 2300, 1);
+      const k = Math.min((t - t0) / 3300, 1);
       count.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3)));
       k < 1 ? requestAnimationFrame(tick) : finishLoad();
     };
     requestAnimationFrame(tick);
-    setTimeout(finishLoad, 3800);
+    setTimeout(finishLoad, 4800);
+    loader.addEventListener("click", finishLoad);
+    setTimeout(() => { const c = $("#loaderCaption"); if (c) c.innerHTML = "embi. <span>Du plan à la réalité.</span>"; }, 2300);
   }
   $("#year").textContent = new Date().getFullYear();
 

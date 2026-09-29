@@ -41,45 +41,56 @@
 
   <!-- ───────── PRELOADER / CURSEUR / PROGRESSION ───────── -->
   <div class="loader" id="loader" aria-hidden="true">
-    <svg class="loader__plan" viewBox="0 0 880 370" fill="none" role="img" aria-label="embi">
-      <!-- Murs : les lettres e · m · b · i dessinent le plan -->
+    <svg class="loader__plan" viewBox="0 0 900 420" fill="none" role="img" aria-label="Plan d'appartement : les cloisons forment le mot embi">
+      <!-- 1. Murs extérieurs (ouvertures : entrée en bas, fenêtres) -->
+      <g class="plan-outer">
+        <path d="M420 380 H40 V40 H120 M200 40 H360 M440 40 H600 M680 40 H860 V220 M860 290 V380 H480" />
+      </g>
+      <!-- 2. Cloisons : le mot « embi » est caché dedans (avec les portes) -->
       <g class="plan-walls">
-        <!-- e : cloison centrale avec porte, mur courbe ouvert en bas à droite -->
-        <path d="M50 220 H105 M155 220 H210 A80 80 0 1 0 191 271" />
-        <!-- m : trois murs, deux voûtes ; fenêtre et porte dans les montants -->
-        <path d="M260 300 V278 M260 218 V192 A52 52 0 0 1 364 192 V230 M364 280 V300" />
-        <path d="M364 192 A52 52 0 0 1 468 192 V300" />
-        <!-- b : grand mur avec fenêtre, porte vers la pièce ronde -->
-        <path d="M520 300 V220 M520 170 V112 M520 62 V40" />
-        <path d="M520 140 H570 A80 80 0 0 1 570 300 H520" />
-        <!-- i : mur avec porte -->
-        <path d="M720 140 V190 M720 240 V300" />
+        <path d="M240 320 H200 M150 320 H100 V140 H240 V230 H100" />
+        <path d="M320 320 V140 H480 V320 M400 140 V250 M400 300 V320" />
+        <path d="M560 40 V320 H650 M600 320 H560 M560 160 H700 V320 H650" />
+        <path d="M780 160 V250 M780 300 V320" />
+        <path d="M40 140 H100 M240 140 H320 M480 140 H560 M700 160 H860" />
       </g>
+      <!-- 3. Portes, fenêtres, mobilier, pièces -->
       <g class="plan-details">
-        <!-- portes : vantail + arc de débattement -->
-        <path d="M155 220 V170 A50 50 0 0 0 105 220" />
-        <path d="M364 280 H414 A50 50 0 0 0 364 230" />
-        <path d="M520 220 H570 A50 50 0 0 0 520 170" />
-        <path d="M720 240 H770 A50 50 0 0 0 720 190" />
-        <!-- fenêtres -->
-        <path d="M255 218 V278 M265 218 V278" />
-        <path d="M515 62 V112 M525 62 V112" />
-        <!-- mobilier -->
-        <circle cx="600" cy="232" r="20" />
-        <rect x="395" y="196" width="46" height="26" rx="4" />
+        <path d="M150 320 V370 A50 50 0 0 1 200 320" />
+        <path d="M400 300 H450 A50 50 0 0 0 400 250" />
+        <path d="M600 320 V370 A50 50 0 0 0 650 320" />
+        <path d="M780 300 H830 A50 50 0 0 0 780 250" />
+        <path d="M480 380 V330 A50 50 0 0 0 430 380" />
+        <path d="M120 35 H200 M120 45 H200 M360 35 H440 M360 45 H440 M600 35 H680 M600 45 H680 M855 220 V290 M865 220 V290" />
+        <rect x="336" y="170" width="52" height="70" rx="4" />
+        <circle cx="630" cy="245" r="22" />
+        <rect x="712" y="178" width="54" height="22" rx="3" />
       </g>
-      <!-- point du i et point final : poteaux ronds -->
-      <g class="plan-columns">
-        <circle cx="720" cy="80" r="17" />
-        <circle cx="805" cy="288" r="13" />
+      <g class="plan-labels">
+        <text x="170" y="195" text-anchor="middle">SDB</text>
+        <text x="440" y="195" text-anchor="middle">CH. 2</text>
+        <text x="360" y="275" text-anchor="middle">CH. 1</text>
+        <text x="630" y="205" text-anchor="middle">SÉJOUR</text>
+        <text x="660" y="105" text-anchor="middle">CUISINE</text>
+        <text x="300" y="360" text-anchor="middle">ENTRÉE</text>
       </g>
       <g class="plan-dims">
-        <path d="M50 340 H818 M50 332 v16 M818 332 v16" />
-        <path d="M852 40 V300 M844 40 h16 M844 300 h16" />
+        <path d="M40 402 H860 M40 395 v14 M860 395 v14" />
+      </g>
+      <!-- 4. Révélation : les lettres s'allument -->
+      <g class="plan-name">
+        <path d="M240 320 H100 V140 H240 V230 H100" />
+        <path d="M320 320 V140 H480 V320 M400 140 V320" />
+        <path d="M560 40 V320 H700 V160 H560" />
+        <path d="M780 160 V320" />
+      </g>
+      <g class="plan-columns">
+        <circle cx="780" cy="100" r="15" />
+        <circle cx="820" cy="318" r="11" />
       </g>
     </svg>
     <div class="loader__inner">
-      <p class="loader__caption">Du plan… <span>à la réalité.</span></p>
+      <p class="loader__caption" id="loaderCaption">Un appartement… <span>vous voyez le nom&nbsp;?</span></p>
       <span class="loader__count" id="loaderCount">0</span>
     </div>
   </div>
