@@ -67,7 +67,7 @@
   const chunk = names.map((n, i) => `<span class="${i % 2 ? "is-outline" : ""}">${esc(n)}</span><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
   const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
-  const chunk2 = words2.map((n) => `<span>${n}</span><i>—</i>`).join("");
+  const chunk2 = words2.map((n) => `<span>${n}</span><i>·</i>`).join("");
   $("#marquee2").innerHTML = chunk2 + chunk2;
 
   /* ───── Mot tournant du titre ───── */
@@ -107,7 +107,7 @@
           <span class="acc__n">${pad(i + 1)}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(cat)}</span><span class="acc__ar" aria-hidden="true">→</span>
         </button>
         <div class="acc__panel" id="acc-${i}" role="region"><div class="acc__inner">
-          <div class="acc__img"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /></div>
+          <div class="acc__img"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /></div>
           <div class="acc__body"><p>${esc(txt)}</p><button class="btn btn--accent acc__open" type="button" data-i="${i}">Voir le projet <span aria-hidden="true">→</span></button></div>
         </div></div>
       </li>`;
@@ -168,7 +168,7 @@
     .map(({ p }, k) => `<li><button type="button" data-k="${k}"><span class="n">${pad(k + 1)}</span><span class="t">${esc(p.title)}</span></button></li>`)
     .join("");
   fFrame.innerHTML = featured
-    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
+    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
     .join("");
   $("#featureTotal").textContent = pad(featured.length);
   const fItems = $$("li", fList), fImgs = $$(".feature__img", fFrame), fRail = $("#featureRail");
@@ -332,7 +332,7 @@
     $("#modalTitle").textContent = p.title;
     $("#modalText").textContent =
       p.text || `Projet ${(cats[p.category] || "").toLowerCase()} réalisé clé en main par EMBI, de l'étude à la livraison.`;
-    $("#modalImg").alt = `${p.title} — rénovation EMBI`;
+    $("#modalImg").alt = `${p.title}, rénovation EMBI`;
     const thumbs = $("#modalThumbs");
     thumbs.innerHTML =
       p.images.length > 1
@@ -493,8 +493,8 @@
     const note = $("#formNote");
     if (!ok) { note.textContent = "Merci de renseigner votre nom et un e-mail valide."; return; }
     const d = new FormData(form);
-    const subject = `Demande de devis — ${d.get("type")}`;
-    const body = `Nom : ${d.get("nom")}\nTéléphone : ${d.get("tel") || "—"}\nE-mail : ${d.get("email")}\nProjet : ${d.get("type")}\n\n${d.get("message") || ""}`;
+    const subject = `Demande de devis : ${d.get("type")}`;
+    const body = `Nom : ${d.get("nom")}\nTéléphone : ${d.get("tel") || "non renseigné"}\nE-mail : ${d.get("email")}\nProjet : ${d.get("type")}\n\n${d.get("message") || ""}`;
     window.location.href = `mailto:sec@embi.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     note.textContent = "Votre messagerie s'ouvre avec la demande pré-remplie. Merci !";
   });

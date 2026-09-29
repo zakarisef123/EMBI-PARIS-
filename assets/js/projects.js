@@ -1,6 +1,6 @@
 /*
  * ─────────────────────────────────────────────────────────────
- *  RÉALISATIONS EMBI — la galerie du site est générée depuis ce fichier
+ *  RÉALISATIONS EMBI : la liste du site est générée depuis ce fichier
  * ─────────────────────────────────────────────────────────────
  *  Pour ajouter un chantier : copiez un bloc { ... } et adaptez-le.
  *
@@ -33,7 +33,7 @@ window.EMBI_PROJECTS = [
   { id: "le-grand-pigalle", title: "Le Grand Pigalle",     category: "hotel",       images: [OLD + "2017/09/Grandpigalle_01.jpg"] },
   { id: "particulier-3",    title: "Appartement privé",    category: "particulier", images: [OLD + "2017/11/renovation-appartement-particulier-4.jpg"] },
   { id: "hotel-paradis",    title: "Hôtel Paradis",        category: "hotel",       featured: true, images: [OLD + "2017/09/HotelParadis_01.jpg"] },
-  { id: "harrods",          title: "Tartine et Chocolat — Harrods", category: "boutique", images: [OLD + "2017/11/boutique-harrods-tartine-et-chocolat-04.jpg"] },
+  { id: "harrods",          title: "Tartine et Chocolat · Harrods", category: "boutique", images: [OLD + "2017/11/boutique-harrods-tartine-et-chocolat-04.jpg"] },
   { id: "loustic",          title: "Loustic",              category: "restaurant",  images: [OLD + "2017/09/Loustic_01.jpg"] },
   { id: "bienvenue",        title: "Hôtel Bienvenue",      category: "hotel",       images: [OLD + "2017/11/HOTEL-BIENVENUE-09.jpg"] },
   { id: "petite-mendigote", title: "Petite Mendigote",     category: "boutique",    images: [OLD + "2017/11/PETITE-MENDIGOTE-01.jpg"] },
