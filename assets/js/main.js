@@ -8,16 +8,38 @@
     str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
   /* ───── Chargement ───── */
-  window.addEventListener("load", () => document.body.classList.add("is-loaded"));
-  setTimeout(() => document.body.classList.add("is-loaded"), 1500);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const loader = $("#loader");
+  let loaded = false;
+  const finishLoad = () => {
+    if (loaded) return;
+    loaded = true;
+    loader.classList.add("is-done");
+    setTimeout(() => document.body.classList.add("is-loaded"), reduce ? 0 : 250);
+  };
+  if (reduce) finishLoad();
+  else {
+    // compteur 0 → 100 %, terminé au plus tard après ~1,6 s
+    const t0 = performance.now(), count = $("#loaderCount");
+    const tick = (t) => {
+      const k = Math.min((t - t0) / 1300, 1);
+      count.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3)));
+      k < 1 ? requestAnimationFrame(tick) : finishLoad();
+    };
+    requestAnimationFrame(tick);
+    setTimeout(finishLoad, 2500);
+  }
   $("#year").textContent = new Date().getFullYear();
 
   /* ───── Header ───── */
   const header = $("#header");
+  const hero = $(".hero");
+  header.classList.add("on-dark");
   let lastY = 0;
   const onScroll = () => {
     const y = window.scrollY;
     header.classList.toggle("is-scrolled", y > 20);
+    header.classList.toggle("on-dark", y < hero.offsetHeight - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
   };
@@ -39,6 +61,51 @@
   const names = projects.filter((p) => p.category !== "particulier").map((p) => p.title);
   const chunk = names.map((n) => `<span>${esc(n)}</span><i aria-hidden="true">✦</i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
+  const words2 = ["Rénovation", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Décoration", "Façades", "Clé en main"];
+  const chunk2 = words2.map((n) => `<span>${n}</span><i>●</i>`).join("");
+  $("#marquee2").innerHTML = chunk2 + chunk2;
+
+  /* ───── Mot tournant du titre ───── */
+  const rot = $("#rotator");
+  if (rot) {
+    const items = $$("span", rot);
+    let r = 0;
+    const size = () => (rot.style.width = items[r].offsetWidth + "px");
+    document.fonts && document.fonts.ready.then(size);
+    size();
+    window.addEventListener("resize", size);
+    if (!reduce)
+      setInterval(() => {
+        const prev = items[r];
+        r = (r + 1) % items.length;
+        prev.classList.remove("is-active");
+        prev.classList.add("is-leaving");
+        items[r].classList.remove("is-leaving");
+        items[r].classList.add("is-active");
+        size();
+        setTimeout(() => prev.classList.remove("is-leaving"), 800);
+      }, 2200);
+  }
+
+  /* ───── Parallaxe des photos du hero (souris) ───── */
+  const floats = $$(".float");
+  if (!reduce && matchMedia("(pointer: fine)").matches) {
+    let mx = 0, my = 0, cx = 0, cy = 0;
+    hero.addEventListener("mousemove", (e) => {
+      mx = e.clientX / innerWidth - 0.5;
+      my = e.clientY / innerHeight - 0.5;
+    });
+    const loop = () => {
+      cx += (mx - cx) * 0.06;
+      cy += (my - cy) * 0.06;
+      floats.forEach((f) => {
+        const d = +f.dataset.depth * 400;
+        f.firstElementChild.style.transform = `translate3d(${-cx * d}px, ${-cy * d}px, 0) scale(1.12)`;
+      });
+      requestAnimationFrame(loop);
+    };
+    loop();
+  }
 
   /* ───── Galerie ───── */
   const grid = $("#grid");
@@ -123,6 +190,116 @@
     const b = e.target.closest("button");
     if (b) { preview.classList.remove("is-on"); visible = projects.map((_, i) => i); openModal(+b.dataset.index, b); }
   });
+
+  /* ───── Sélection horizontale (défilement épinglé) ───── */
+  const showcase = $("#selection");
+  const track = $("#showcaseTrack");
+  const featured = projects.map((p, i) => ({ p, i })).filter(({ p }) => p.featured);
+  track.innerHTML =
+    featured
+      .map(
+        ({ p, i }, k) => `
+    <button class="shot" data-index="${i}" data-cursor="Voir" aria-label="Voir le projet ${esc(p.title)}">
+      <div class="shot__media"><img src="${esc(p.images[0])}" alt="${esc(p.title)} — rénové par EMBI" loading="lazy" /><span class="shot__num">${pad(k + 1)}</span></div>
+      <div class="shot__info"><h3 class="shot__title">${esc(p.title)}</h3><span class="shot__cat">${esc(cats[p.category] || "")}</span></div>
+    </button>`
+      )
+      .join("") +
+    `<div class="shot shot--end"><a href="#realisations">Tous nos<br/>chantiers ↓</a></div>`;
+  track.addEventListener("click", (e) => {
+    const b = e.target.closest(".shot[data-index]");
+    if (b) { visible = projects.map((_, k) => k); openModal(+b.dataset.index, b); }
+  });
+  const bar = $("#showcaseBar");
+  const wide = matchMedia("(min-width: 861px)");
+  let dist = 0;
+  const sizeShowcase = () => {
+    if (!wide.matches) { showcase.style.height = ""; track.style.transform = ""; return; }
+    dist = Math.max(0, track.scrollWidth - innerWidth);
+    showcase.style.height = innerHeight + dist + "px";
+  };
+  const scrollShowcase = () => {
+    if (!wide.matches) return;
+    const top = showcase.getBoundingClientRect().top;
+    const k = Math.min(Math.max(-top / (dist || 1), 0), 1);
+    track.style.transform = `translate3d(${-k * dist}px,0,0)`;
+    bar.style.transform = `scaleX(${k})`;
+  };
+  window.addEventListener("resize", () => { sizeShowcase(); scrollShowcase(); });
+  window.addEventListener("load", () => { sizeShowcase(); scrollShowcase(); });
+  window.addEventListener("scroll", scrollShowcase, { passive: true });
+  sizeShowcase();
+
+  /* ───── Texte qui s'allume mot à mot ───── */
+  $$("[data-words]").forEach((el) => {
+    const wrap = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part.trim()) return frag.append(part);
+            const sp = document.createElement("span");
+            sp.className = "w";
+            sp.textContent = part;
+            frag.append(sp);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) wrap(n);
+      });
+    };
+    wrap(el);
+    const ws = $$(".w", el);
+    const light = () => {
+      const r = el.getBoundingClientRect();
+      const k = Math.min(Math.max((innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35), 0), 1);
+      const n = Math.round(k * ws.length);
+      ws.forEach((w, i) => w.classList.toggle("is-on", i < n));
+    };
+    window.addEventListener("scroll", light, { passive: true });
+    light();
+  });
+
+  /* ───── Barre de progression ───── */
+  const progress = $("#progress");
+  window.addEventListener(
+    "scroll",
+    () => {
+      const h = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+    },
+    { passive: true }
+  );
+
+  /* ───── Curseur personnalisé + boutons magnétiques ───── */
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
+    const cur = $("#cursor"), label = $("#cursorLabel");
+    let x = -100, y = -100, cxp = -100, cyp = -100;
+    document.addEventListener("mousemove", (e) => { x = e.clientX; y = e.clientY; });
+    document.addEventListener("mouseleave", () => cur.classList.add("is-hidden"));
+    document.addEventListener("mouseenter", () => cur.classList.remove("is-hidden"));
+    const move = () => {
+      cxp += (x - cxp) * 0.22;
+      cyp += (y - cyp) * 0.22;
+      cur.style.transform = `translate3d(${cxp}px, ${cyp}px, 0)`;
+      requestAnimationFrame(move);
+    };
+    move();
+    document.addEventListener("mouseover", (e) => {
+      const view = e.target.closest(".card, .shot[data-index], .refs__list button");
+      const link = e.target.closest("a, button, input, textarea, label");
+      cur.classList.toggle("is-view", !!view);
+      cur.classList.toggle("is-link", !view && !!link);
+      label.textContent = view ? "Voir" : "";
+    });
+    $$("[data-magnetic]").forEach((el) => {
+      el.addEventListener("mousemove", (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+        el.style.transform = `translate(${dx * 0.25}px, ${dy * 0.35}px)`;
+      });
+      el.addEventListener("mouseleave", () => (el.style.transform = ""));
+    });
+  }
 
   /* ───── Lightbox ───── */
   const modal = $("#modal");

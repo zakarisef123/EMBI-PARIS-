@@ -6,14 +6,15 @@
   <title>EMBI — Rénovation clé en main à Paris · Hôtels, boutiques, restaurants, particuliers</title>
   <meta name="description" content="EMBI rénove hôtels, boutiques, restaurants et appartements à Paris depuis plus de 10 ans. Réseau de 40 professionnels, interlocuteur unique, projet clé en main. Showroom carrelages & parquets Paris 17e." />
   <meta property="og:title" content="EMBI — Rénovation clé en main à Paris" />
-  <meta property="og:description" content="Loro Piana, Byredo, Colette, Hôtel Panache… Découvrez nos réalisations." />
+  <meta property="og:description" content="Loro Piana, Byredo, Colette, Hôtel Panache… Découvrez nos chantiers." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" />
-  <meta name="theme-color" content="#F3EFE8" />
+  <meta name="theme-color" content="#0F0E0D" />
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23161513'/><text x='50%25' y='58%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-size='38' fill='%23F3EFE8'>e</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <script type="application/ld+json">
   {
@@ -38,6 +39,16 @@
 <body>
   <a class="skip" href="#main">Aller au contenu</a>
 
+  <!-- ───────── PRELOADER / CURSEUR / PROGRESSION ───────── -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <span class="loader__logo">embi<i>.</i></span>
+      <span class="loader__count" id="loaderCount">0</span>
+    </div>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
+
   <!-- ───────── HEADER ───────── -->
   <header class="header" id="header">
     <div class="header__inner">
@@ -49,7 +60,7 @@
         <a href="#savoir-faire">Savoir-faire</a>
         <a href="#methode">Méthode</a>
         <a href="#showroom">Showroom</a>
-        <a href="#contact" class="nav__cta">Devis gratuit</a>
+        <a href="#contact" class="nav__cta" data-magnetic>Devis gratuit</a>
         <a href="tel:+33631600135" class="nav__urgent-mobile">Urgence · 06 31 60 01 35</a>
       </nav>
       <a href="tel:+33631600135" class="header__urgent"><span class="pulse"></span>Urgence 06 31 60 01 35</a>
@@ -62,46 +73,45 @@
   <main id="main">
     <!-- ───────── HERO ───────── -->
     <section class="hero" id="top">
-      <div class="hero__text">
-        <p class="eyebrow reveal">Rénovation clé en main — Paris</p>
+      <div class="hero__floats" id="floats" aria-hidden="true">
+        <figure class="float f1" data-depth="0.06"><img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="" fetchpriority="high" /></figure>
+        <figure class="float f2" data-depth="0.12"><img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="" /></figure>
+        <figure class="float f3" data-depth="0.09"><img src="https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-012.jpg" alt="" /></figure>
+        <figure class="float f4" data-depth="0.15"><img src="https://www.embi.fr/wp-content/uploads/2017/11/BYREDO-01.jpg" alt="" /></figure>
+        <figure class="float f5" data-depth="0.05"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg" alt="" /></figure>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
         <h1 class="hero__title">
-          <span class="line"><span>Nous réalisons</span></span>
-          <span class="line"><span><em>toutes</em> vos</span></span>
-          <span class="line"><span><em>envies.</em></span></span>
+          <span class="line"><span>On transforme</span></span>
+          <span class="line"><span>vos <span class="rotator" id="rotator"><span class="is-active">hôtels.</span><span>boutiques.</span><span>restaurants.</span><span>appartements.</span></span></span></span>
         </h1>
-        <p class="hero__lead reveal">
-          Hôtels, boutiques, restaurants, appartements&nbsp;: depuis plus de 10 ans, EMBI et son réseau
-          de 40 professionnels transforment vos lieux, de l'étude de faisabilité à la remise des clés.
-        </p>
-        <div class="hero__actions reveal">
-          <a href="#realisations" class="btn btn--dark">Voir nos réalisations <span aria-hidden="true">→</span></a>
-          <a href="#contact" class="btn btn--ghost">Demander un devis gratuit</a>
+        <div class="hero__bottom">
+          <p class="hero__lead">
+            Loro Piana, Byredo, Colette, Hôtel Panache… EMBI et son réseau de 40 professionnels
+            rénovent vos lieux de A à Z, avec un seul interlocuteur.
+          </p>
+          <div class="hero__actions">
+            <a href="#selection" class="btn btn--accent" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
+            <a href="#contact" class="btn btn--outline-light" data-magnetic>Devis gratuit</a>
+          </div>
         </div>
       </div>
 
-      <div class="hero__visual">
-        <figure class="hero__img hero__img--main">
-          <img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="Restaurant Fish Club à Paris, rénové par EMBI" fetchpriority="high" />
-          <figcaption>Fish Club — Paris</figcaption>
-        </figure>
-        <figure class="hero__img hero__img--small">
-          <img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="Boutique Loro Piana, rénovée par EMBI" />
-        </figure>
-        <div class="hero__badge" aria-hidden="true">
-          <svg viewBox="0 0 200 200">
-            <defs><path id="circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
-            <text><textPath href="#circle">rénovation · rapide · à votre écoute ·</textPath></text>
-          </svg>
-          <span>10+</span>
-        </div>
-      </div>
-
-      <a href="#intro" class="hero__scroll" aria-label="Défiler vers le bas"><span></span></a>
+      <a href="#intro" class="hero__badge" aria-label="Défiler vers le bas" data-magnetic>
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="circle" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0" /></defs>
+          <text><textPath href="#circle">rénovation · rapide · à votre écoute ·</textPath></text>
+        </svg>
+        <span aria-hidden="true">↓</span>
+      </a>
     </section>
 
-    <!-- ───────── MARQUEE RÉFÉRENCES ───────── -->
-    <div class="marquee" aria-label="Ils nous ont fait confiance">
-      <div class="marquee__track" id="marquee"><!-- généré depuis projects.js --></div>
+    <!-- ───────── MARQUEES CROISÉS ───────── -->
+    <div class="bands" aria-label="Ils nous ont fait confiance">
+      <div class="band band--accent"><div class="band__track" id="marquee"></div></div>
+      <div class="band band--dark" aria-hidden="true"><div class="band__track band__track--rev" id="marquee2"></div></div>
     </div>
 
     <!-- ───────── INTRO / CHIFFRES ───────── -->
@@ -109,7 +119,7 @@
       <div class="container intro__grid">
         <div>
           <p class="eyebrow reveal">À propos</p>
-          <p class="intro__statement reveal">
+          <p class="intro__statement" data-words>
             Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide
             <em>de l'élaboration à la livraison</em> — avec un interlocuteur dédié pendant toute la durée
             du chantier.
@@ -124,13 +134,25 @@
       </div>
     </section>
 
+    <!-- ───────── SÉLECTION (défilement horizontal) ───────── -->
+    <section class="showcase" id="selection">
+      <div class="showcase__sticky">
+        <div class="showcase__head container">
+          <p class="eyebrow">Sélection</p>
+          <h2 class="h2">Nos chantiers <em>signature.</em></h2>
+        </div>
+        <div class="showcase__track" id="showcaseTrack"><!-- généré depuis projects.js --></div>
+        <div class="showcase__bar"><span id="showcaseBar"></span></div>
+      </div>
+    </section>
+
     <!-- ───────── RÉALISATIONS ───────── -->
     <section class="work section" id="realisations">
       <div class="container">
         <div class="section__head">
           <div>
             <p class="eyebrow reveal">Réalisations</p>
-            <h2 class="h2 reveal">Nos chantiers<br /><em>parlent pour nous.</em></h2>
+            <h2 class="h2 reveal">Tous nos<br /><em>chantiers.</em></h2>
           </div>
           <div class="filters reveal" role="group" aria-label="Filtrer les réalisations">
             <button class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup id="countAll"></sup></button>
@@ -270,7 +292,7 @@
             <a href="https://www.embi.fr/wp-content/uploads/2017/09/RECER_catalogue.pdf" target="_blank" rel="noopener">Recer <span>↗</span></a>
           </div>
           <div class="reveal">
-            <a class="btn btn--dark" href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Itinéraire <span aria-hidden="true">↗</span></a>
+            <a class="btn btn--dark" data-magnetic href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Itinéraire <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
@@ -318,7 +340,7 @@
             <label><input type="radio" name="type" value="Le showroom carrelage / parquet" /><span>Carrelage / parquet</span></label>
           </fieldset>
           <label class="field"><span>Votre message</span><textarea name="message" rows="4" placeholder="Surface, adresse, délais souhaités…"></textarea></label>
-          <button class="btn btn--light" type="submit">Envoyer ma demande <span aria-hidden="true">→</span></button>
+          <button class="btn btn--accent" type="submit" data-magnetic>Envoyer ma demande <span aria-hidden="true">→</span></button>
           <p class="form__note" id="formNote" role="status"></p>
         </form>
       </div>
@@ -327,6 +349,7 @@
 
   <footer class="footer">
     <div class="container footer__inner">
+      <a href="#contact" class="footer__cta">Un projet&nbsp;? <em>Parlons-en</em> <span aria-hidden="true">→</span></a>
       <span class="logo logo--big" aria-label="EMBI">embi<span class="logo__dot"></span></span>
       <div class="footer__cols">
         <p>Rénovation — Rapide — À votre écoute<br />Paris &amp; Île-de-France</p>
