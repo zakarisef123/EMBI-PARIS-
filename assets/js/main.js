@@ -64,10 +64,10 @@
 
   /* ───── Marquee des références ───── */
   const names = projects.filter((p) => p.category !== "particulier").map((p) => p.title);
-  const chunk = names.map((n) => `<span>${esc(n)}</span><i aria-hidden="true">✦</i>`).join("");
+  const chunk = names.map((n, i) => `<span class="${i % 2 ? "is-outline" : ""}">${esc(n)}</span><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
-  const words2 = ["Chantier EMBI", "Rénovation", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
-  const chunk2 = words2.map((n) => `<span>${n}</span><i>✦</i>`).join("");
+  const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
+  const chunk2 = words2.map((n) => `<span>${n}</span><i>—</i>`).join("");
   $("#marquee2").innerHTML = chunk2 + chunk2;
 
   /* ───── Mot tournant du titre ───── */
