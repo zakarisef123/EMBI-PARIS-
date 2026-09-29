@@ -323,7 +323,7 @@
         const r = c.getBoundingClientRect();
         const d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
         const k = Math.max(0, 1 - d / 420);
-        c.style.fontVariationSettings = `"wght" ${Math.round(800 - k * 600)}`;
+        c.style.fontVariationSettings = `"wght" ${Math.round(800 - k * 300)}`;
         c.classList.toggle("is-hot", k > 0.55);
       });
     });
