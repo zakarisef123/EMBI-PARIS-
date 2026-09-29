@@ -14,7 +14,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23161513'/><text x='50%25' y='58%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-size='38' fill='%23F3EFE8'>e</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
   <script type="application/ld+json">
   {
@@ -41,10 +41,32 @@
 
   <!-- ───────── PRELOADER / CURSEUR / PROGRESSION ───────── -->
   <div class="loader" id="loader" aria-hidden="true">
+    <svg class="loader__plan" viewBox="0 0 600 400" fill="none">
+      <g class="plan-walls">
+        <path d="M40 40 H560 V360 H40 Z" />
+        <path d="M300 40 V170 M300 230 V360" />
+        <path d="M40 210 H180 M240 210 H300" />
+        <path d="M430 40 V140 M430 200 V260 H560" />
+      </g>
+      <g class="plan-details">
+        <path d="M300 170 A60 60 0 0 1 360 230" />
+        <path d="M180 210 A60 60 0 0 0 240 150" />
+        <path d="M430 140 A60 60 0 0 1 490 200" />
+        <path d="M120 40 h80 M390 360 h100 M560 90 v70" />
+        <rect x="70" y="250" width="90" height="70" rx="4" />
+        <rect x="460" y="290" width="70" height="44" rx="22" />
+        <circle cx="150" cy="110" r="28" />
+      </g>
+      <g class="plan-dims">
+        <path d="M40 385 H560 M40 378 v14 M560 378 v14" />
+        <path d="M575 40 V360 M568 40 h14 M568 360 h14" />
+      </g>
+    </svg>
     <div class="loader__inner">
       <span class="loader__logo">embi<i>.</i></span>
       <span class="loader__count" id="loaderCount">0</span>
     </div>
+    <p class="loader__caption">Du plan… <span>à la réalité.</span></p>
   </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
@@ -73,13 +95,13 @@
   <main id="main">
     <!-- ───────── HERO ───────── -->
     <section class="hero" id="top">
-      <div class="hero__floats" id="floats" aria-hidden="true">
-        <figure class="float f1" data-depth="0.06"><img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="" fetchpriority="high" /></figure>
-        <figure class="float f2" data-depth="0.12"><img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="" /></figure>
-        <figure class="float f3" data-depth="0.09"><img src="https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-012.jpg" alt="" /></figure>
-        <figure class="float f4" data-depth="0.15"><img src="https://www.embi.fr/wp-content/uploads/2017/11/BYREDO-01.jpg" alt="" /></figure>
-        <figure class="float f5" data-depth="0.05"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg" alt="" /></figure>
+      <div class="hero__photo" aria-hidden="true">
+        <img src="https://www.embi.fr/wp-content/uploads/2018/08/FishClub-paris.jpg" alt="" fetchpriority="high" />
       </div>
+      <canvas class="hero__plaster" id="plaster" aria-hidden="true"></canvas>
+      <div class="hero__hint" id="hint" aria-hidden="true"><span class="hero__hint-dot"></span><span id="hintText">Passez la souris : on rénove</span></div>
+      <p class="hero__tag" id="heroTag"><span>✓ Rénové</span> Fish Club — Paris</p>
+      <button class="hero__renovate" id="renovateBtn" type="button">Tout rénover <span aria-hidden="true">✦</span></button>
 
       <div class="hero__content">
         <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
@@ -111,7 +133,7 @@
     <!-- ───────── MARQUEES CROISÉS ───────── -->
     <div class="bands" aria-label="Ils nous ont fait confiance">
       <div class="band band--accent"><div class="band__track" id="marquee"></div></div>
-      <div class="band band--dark" aria-hidden="true"><div class="band__track band__track--rev" id="marquee2"></div></div>
+      <div class="band band--tape" aria-hidden="true"><div class="band__track band__track--rev" id="marquee2"></div></div>
     </div>
 
     <!-- ───────── INTRO / CHIFFRES ───────── -->
@@ -350,7 +372,7 @@
   <footer class="footer">
     <div class="container footer__inner">
       <a href="#contact" class="footer__cta">Un projet&nbsp;? <em>Parlons-en</em> <span aria-hidden="true">→</span></a>
-      <span class="logo logo--big" aria-label="EMBI">embi<span class="logo__dot"></span></span>
+      <span class="logo logo--big" id="bigLogo" aria-label="EMBI"><span class="ch">e</span><span class="ch">m</span><span class="ch">b</span><span class="ch">i</span><span class="logo__dot"></span></span>
       <div class="footer__cols">
         <p>Rénovation — Rapide — À votre écoute<br />Paris &amp; Île-de-France</p>
         <p>5, rue Villebois-Mareuil<br />75017 Paris</p>
