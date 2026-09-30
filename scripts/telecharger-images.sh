@@ -5,7 +5,8 @@
 # Ensuite, dans assets/js/projects.js, remplacez :
 #   const OLD = "https://www.embi.fr/wp-content/uploads/";
 # par :
-#   const OLD = "images/realisations/";
+#   const OLD = IMG;
+# puis relancez : node scripts/build.js
 set -uo pipefail
 cd "$(dirname "$0")/.."
 BASE="https://www.embi.fr/wp-content/uploads/"

@@ -2,7 +2,10 @@
  * ─────────────────────────────────────────────────────────────
  *  RÉALISATIONS EMBI : tout le site est généré depuis ce fichier
  *  (liste des réalisations, menu du haut, chantiers signature,
- *   et la page de chaque chantier : projet.html?p=<id>)
+ *   et la page de chaque chantier : realisations/<id>.html)
+ *
+ *  Après chaque modification, lancez :  node scripts/build.js
+ *  (régénère les pages des chantiers et le plan du site sitemap.xml)
  * ─────────────────────────────────────────────────────────────
  *  Pour ajouter un chantier : copiez un bloc { ... } et adaptez-le.
  *
@@ -27,12 +30,14 @@
  *    lieu: "Paris 9e", annee: "2018", surface: "…", duree: "…",
  *    travaux: ["Rénovation complète", "Salles de bain", "Décoration"],
  *    text: "…", histoire: ["…", "…"],
- *    images: [OLD + "2018/01/Hotel-Panache-012.jpg", "images/realisations/panache-2.jpg"] },
+ *    images: [OLD + "2018/01/Hotel-Panache-012.jpg", IMG + "panache-2.jpg"] },
  *
  *  Les photos pointent pour l'instant vers l'ancien site embi.fr.
  *  Lancez  scripts/telecharger-images.sh  pour les rapatrier dans le dépôt
- *  AVANT de fermer l'ancien site, puis remplacez OLD par "images/realisations/".
+ *  AVANT de fermer l'ancien site, puis remplacez la ligne « const OLD = … »
+ *  par  const OLD = IMG;  et relancez  node scripts/build.js
  */
+const IMG = (window.EMBI_ROOT || "") + "images/realisations/";
 const OLD = "https://www.embi.fr/wp-content/uploads/";
 
 window.EMBI_CATEGORIES = {
@@ -134,5 +139,5 @@ window.EMBI_PROJECTS = [
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
 ];
 
-// adresse de la page d'un chantier
-window.EMBI_PROJECT_URL = (id) => `projet.html?p=${encodeURIComponent(id)}`;
+// adresse de la page d'un chantier : realisations/<id>.html (pages générées par scripts/build.js)
+window.EMBI_PROJECT_URL = (id) => `${window.EMBI_ROOT || ""}realisations/${encodeURIComponent(id)}.html`;

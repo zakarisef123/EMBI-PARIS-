@@ -3,136 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Réalisation | EMBI, rénovation clé en main à Paris</title>
-  <meta name="description" content="Découvrez un chantier réalisé par EMBI, rénovation clé en main à Paris : photos, travaux réalisés et détails du projet." />
-  <meta name="theme-color" content="#0F0E0D" />
-  <script>document.documentElement.classList.add("js")</script>
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png" />
-  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500..800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Réalisation | EMBI</title>
+  <meta name="robots" content="noindex" />
+  <!-- Ancienne adresse des pages chantier (projet.html?p=<id>) : redirection vers realisations/<id>.html -->
+  <script>
+    (function () {
+      var id = new URLSearchParams(location.search).get("p");
+      location.replace(id && /^[a-z0-9-]+$/.test(id) ? "realisations/" + id + ".html" : "realisations.html");
+    })();
+  </script>
+  <link rel="canonical" href="https://www.embi.fr/realisations.html" />
 </head>
-<body class="page-projet">
-  <a class="skip" href="#main">Aller au contenu</a>
-  <div class="progress" id="progress" aria-hidden="true"></div>
-
-  <!-- ───────── HEADER (identique à l'accueil) ───────── -->
-  <header class="header on-dark" id="header">
-    <div class="header__inner">
-      <a href="index.html" class="logo" aria-label="EMBI, retour à l'accueil">
-        <svg class="logo__svg" viewBox="0 0 1813 348" role="img" aria-hidden="true" focusable="false"><g transform="scale(.8) translate(-816 -491)"><g fill="currentColor" transform="translate(-15 35)"><polygon points="831,491 1189,491 831,849 831,791 1085,537 873,537 873,668 831,710"/><polygon points="1193,583 1193,645 1000,838 1152,838 1152,814 1193,773 1193,882 894,882"/></g><g fill="#e4502a"><polygon points="831,491 1189,491 831,849 831,791 1085,537 873,537 873,668 831,710"/><polygon points="1193,583 1193,645 1000,838 1152,838 1152,814 1193,773 1193,882 894,882"/></g></g><g transform="translate(462 0) translate(-344 -1030)"><g fill="currentColor" transform="translate(-40 16)"><path d="M384 1030H703V1077H429V1170H657V1210H429V1305H703V1352H384Z"/><path d="M787 1030H830L969 1231L1108 1030H1151V1352H1107V1109L969 1308L831 1109V1352H787Z"/><path fill-rule="evenodd" d="M1244 1030H1490C1545 1030 1568 1062 1568 1108C1568 1150 1550 1175 1530 1190C1555 1205 1569 1235 1569 1268C1569 1320 1538 1352 1490 1352H1244ZM1288 1077H1472A46.5 46.5 0 0 1 1472 1170H1288Z M1288 1211H1471A47 47 0 0 1 1471 1305H1288Z"/><path d="M1651 1030H1695V1352H1651Z"/></g><g fill="#f14013"><path d="M384 1030H703V1077H429V1170H657V1210H429V1305H703V1352H384Z"/><path d="M787 1030H830L969 1231L1108 1030H1151V1352H1107V1109L969 1308L831 1109V1352H787Z"/><path fill-rule="evenodd" d="M1244 1030H1490C1540 1030 1562 1062 1562 1108C1562 1150 1545 1175 1525 1190C1550 1205 1563 1235 1563 1268C1563 1318 1535 1352 1490 1352H1244ZM1288 1077H1472A46.5 46.5 0 0 1 1472 1170H1288Z M1288 1211H1471A47 47 0 0 1 1471 1305H1288Z"/><path d="M1651 1030H1695V1352H1651Z"/></g></g></svg>
-      </a>
-      <nav class="nav" id="nav" aria-label="Navigation principale">
-        <a href="index.html#realisations" data-mega>Réalisations</a>
-        <a href="conception.html">Sur mesure</a>
-        <a href="index.html#savoir-faire">Savoir-faire</a>
-        <a href="index.html#methode">Méthode</a>
-        <a href="showroom.html">Showroom</a>
-        <a href="index.html#contact" class="nav__cta">Devis gratuit</a>
-        <a href="tel:+33631600135" class="nav__urgent-mobile">Urgence · 06 31 60 01 35</a>
-      </nav>
-      <a href="tel:+33631600135" class="header__urgent"><span class="pulse"></span>Urgence 06 31 60 01 35</a>
-      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <main id="main">
-    <!-- ───────── EN-TÊTE DU CHANTIER ───────── -->
-    <section class="pj-hero" id="pjHero">
-      <div class="pj-hero__media"><img id="pjCover" alt="" /></div>
-      <div class="pj-hero__content container">
-        <nav class="pj-crumbs" aria-label="Fil d'Ariane">
-          <a href="index.html">Accueil</a><span aria-hidden="true">/</span><a href="index.html#realisations">Réalisations</a><span aria-hidden="true">/</span><span id="pjCrumb"></span>
-        </nav>
-        <p class="pj-hero__cat" id="pjCat"></p>
-        <h1 class="pj-hero__title" id="pjTitle">Réalisation</h1>
-        <p class="pj-hero__lead" id="pjLead"></p>
-      </div>
-    </section>
-
-    <!-- ───────── LE PROJET ───────── -->
-    <section class="section pj-body">
-      <div class="container pj-body__grid">
-        <aside class="pj-facts" id="pjFacts" aria-label="Le projet en bref"></aside>
-        <div class="pj-story">
-          <p class="eyebrow">Le chantier</p>
-          <div id="pjStory"></div>
-          <ul class="pj-works" id="pjWorks"></ul>
-          <a href="index.html#contact" class="btn btn--accent pj-cta" id="pjCta">Un projet similaire&nbsp;? Devis gratuit <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────── GALERIE ───────── -->
-    <section class="section pj-gallery-sec" id="galerie">
-      <div class="container">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Galerie</p>
-            <h2 class="h2">Le chantier <em>en images.</em></h2>
-          </div>
-          <p class="section__aside" id="pjCount"></p>
-        </div>
-        <div class="pj-gallery" id="pjGallery"></div>
-        <div class="cta-band">
-          <p class="cta-band__title" id="pjBandTitle">Un projet <em>dans le même esprit&nbsp;?</em></p>
-          <div class="cta-band__actions">
-            <a href="index.html#contact" class="btn btn--dark" id="pjBandCta">Demander un devis gratuit <span aria-hidden="true">→</span></a>
-            <a href="tel:+33145726524" class="btn btn--ghost">01 45 72 65 24</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────── PROJET SUIVANT / AUTRES ───────── -->
-    <section class="section section--dark pj-more">
-      <div class="container">
-        <div class="pj-nav" id="pjNav"></div>
-        <div class="section__head pj-more__head">
-          <div>
-            <p class="eyebrow">Dans la même catégorie</p>
-            <h2 class="h2" id="pjMoreTitle">Autres <em>réalisations.</em></h2>
-          </div>
-          <a href="index.html#realisations" class="btn btn--outline-light">Toutes les réalisations <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="pj-cards" id="pjMore"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer__inner">
-      <a href="index.html#contact" class="footer__cta">Un projet&nbsp;? <em>Parlons-en</em> <span aria-hidden="true">→</span></a>
-      <span class="logo logo--big" aria-label="EMBI">embi<span class="logo__dot"></span></span>
-      <div class="footer__cols">
-        <p>Rénovation · Rapide · À votre écoute<br />Paris &amp; Île-de-France</p>
-        <p>5, rue Villebois-Mareuil<br />75017 Paris</p>
-        <p><a href="tel:+33145726524">01 45 72 65 24</a><br /><a href="mailto:sec@embi.fr">sec@embi.fr</a></p>
-      </div>
-      <div class="footer__legal">
-        <span>© <span id="year"></span> EMBI. Tous droits réservés</span>
-        <a href="https://www.embi.fr/wp-content/uploads/2017/09/EMBI-CGV.pdf" target="_blank" rel="noopener">Conditions générales de vente</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ───────── VISIONNEUSE PHOTOS ───────── -->
-  <div class="lb" id="lb" hidden>
-    <button class="lb__close" id="lbClose" type="button" aria-label="Fermer">✕</button>
-    <button class="lb__nav lb__nav--prev" id="lbPrev" type="button" aria-label="Photo précédente">←</button>
-    <img id="lbImg" alt="" />
-    <button class="lb__nav lb__nav--next" id="lbNext" type="button" aria-label="Photo suivante">→</button>
-    <p class="lb__count" id="lbCount"></p>
-  </div>
-
-  <script src="assets/js/projects.js"></script>
-  <script src="assets/js/menu.js"></script>
-  <script src="assets/js/projet.js"></script>
-  <script src="assets/js/cta.js"></script>
+<body>
+  <p>Redirection vers <a href="realisations.html">nos réalisations</a>…</p>
 </body>
 </html>
