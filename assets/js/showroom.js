@@ -28,6 +28,7 @@ const SHOWROOM_CATALOGUES = [
   const measure = () => { heroH = hero.offsetHeight; docH = document.documentElement.scrollHeight - innerHeight; };
   const onScroll = () => {
     ticking = false;
+    if (document.body.classList.contains("menu-open")) return; // en-tête figé pendant que le menu est ouvert
     const y = scrollY;
     header.classList.toggle("is-scrolled", y > 20);
     header.classList.toggle("on-dark", y < heroH - 60);
@@ -46,8 +47,7 @@ const SHOWROOM_CATALOGUES = [
     nav.classList.toggle("is-open", open);
     burger.setAttribute("aria-expanded", open);
     burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
-    document.body.style.overflow = open ? "hidden" : "";
-    document.body.classList.toggle("menu-open", open);
+    window.EMBI_MENU_LOCK(open);
   };
   burger.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
   addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("is-open")) { setMenu(false); burger.focus(); } });

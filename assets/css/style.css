@@ -1620,3 +1620,24 @@ main > section, main > div { overflow-x: clip; }
 }
 @media (max-height: 640px) and (max-width: 860px) { .feature__frame { height: 20svh; } .feature__heading { display: none; } }
 @media (max-width: 360px) { .feature__frame { height: 20svh; } .feature__list button { font-size: 16px; } .feature__count { display: none; } }
+
+/* Menu mobile ouvert : apparence garantie sur tous les navigateurs (sans dépendre de :has) */
+@media (max-width: 860px) {
+  .menu-open .header { color: var(--ink); background: transparent; box-shadow: none; }
+  .menu-open .header .logo { color: var(--ink); }
+  .menu-open .header .burger span { background: var(--ink); }
+  .header__urgent { position: relative; z-index: 2; }
+  .menu-open .header .header__urgent { color: #c0392b; border-color: rgba(192, 57, 43, 0.4); }
+  .nav { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+}
+
+/* Défilement vers un élément (liens d'ancre, focus clavier) : jamais caché sous l'en-tête ou la barre du bas */
+html { scroll-padding-top: 96px; scroll-padding-bottom: 24px; }
+@media (max-width: 760px) { html { scroll-padding-bottom: 90px; } }
+
+/* iPhone : pas de zoom automatique quand on touche un champ (texte d'au moins 16 px) */
+.field input, .field textarea, .form input, .form textarea { font-size: max(16px, 1em); }
+/* Bandeau cookies : tient dans la partie réellement visible de l'écran (barre d'adresse mobile) */
+.ck__inner { max-height: calc(100dvh - 32px); }
+/* Pas de flash gris au toucher sur les éléments cliquables */
+a, button, label, [role="button"] { -webkit-tap-highlight-color: transparent; }
