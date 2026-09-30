@@ -216,15 +216,16 @@
 
     /* ───────── 5 · Références ───────── */
     .refs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5mm; margin-bottom: 6mm; }
-    .refs .ph { height: 48mm; }
-    .refs__cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin-top: auto; margin-bottom: 0; }
+    .refs .ph { height: 58mm; }
+    .refs__title { margin: 2mm 0 3mm; }
+    .refs__cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; }
     .refs__cats h3 { font-size: 7.5pt; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 2mm; }
     .refs__cats li { font-size: 8.5pt; line-height: 1.55; }
     .note { margin-top: 5mm; font-size: 8pt; color: var(--muted); }
 
     /* ───────── Chantiers en détail ───────── */
     .story__head { margin: 8mm 0 6mm; }
-    .stories { flex: 1; min-height: 0; display: grid; grid-template-rows: repeat(3, 1fr); gap: 5mm; margin-bottom: 5mm; }
+    .stories { flex: 1; min-height: 0; display: grid; grid-auto-rows: 1fr; gap: 5mm; margin-bottom: 5mm; }
     .story { display: grid; grid-template-columns: 1.15fr 1fr; gap: 6mm; min-height: 0; }
     .story .ph { height: 100%; }
     .story__text { display: flex; flex-direction: column; justify-content: center; }
@@ -288,7 +289,9 @@
     .showroom dd { margin: 1mm 0 0; font-size: 10pt; font-weight: 600; }
 
     /* ───────── 8 · Dos / contact ───────── */
-    .back__title { margin: auto 0 8mm; font-family: var(--display); font-weight: 800; font-size: 46pt; line-height: .95; letter-spacing: -.03em; }
+    .back__top { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 62mm; gap: 8mm; align-items: end; margin: 8mm 0 10mm; }
+    .back__photo { height: 100%; }
+    .back__title { margin: 0 0 8mm; font-family: var(--display); font-weight: 800; font-size: 40pt; line-height: .95; letter-spacing: -.03em; }
     .back__title em { font-weight: 400; color: var(--accent); }
     .back__grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line-dark); }
     .back__grid div { padding: 5mm 0; border-bottom: 1px solid var(--line-dark); }
@@ -327,7 +330,7 @@
 
   <!-- ═════════ 1 · COUVERTURE ═════════ -->
   <section class="page page--dark cover">
-    <div class="cover__photo"><img src="images/plaquette/salon-banquette.jpg" alt="" /></div>
+    <div class="cover__photo"><img src="images/plaquette/couverture-salon.jpg" alt="" /></div>
     <div class="cover__inner">
       <div class="cover__top">
         <svg class="logo" viewBox="0 0 1813 348" role="img" aria-label="EMBI"><use href="#embi-logo" /></svg>
@@ -401,7 +404,7 @@
 
     <div class="univers">
       <figure class="ph"><img src="images/plaquette/chambre-verte.jpg" alt="" /><figcaption><b>Hôtels</b><span>Rénovation, mise aux normes</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="" /><figcaption><b>Boutiques</b><span>Création, corners</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/colette-2.jpg" alt="" /><figcaption><b>Boutiques</b><span>Création, corners</span></figcaption></figure>
       <figure class="ph"><img src="images/plaquette/restaurant.jpg" alt="" /><figcaption><b>Restaurants</b><span>Normes de la restauration</span></figcaption></figure>
       <figure class="ph"><img src="images/plaquette/appartement-sejour.jpg" alt="" /><figcaption><b>Particuliers</b><span>Maisons, appartements</span></figcaption></figure>
     </div>
@@ -495,11 +498,11 @@
     </div>
 
     <div class="sig">
-      <figure class="ph"><img src="images/plaquette/panache-chambre-2.jpg" alt="Hôtel Panache" /><figcaption><b>Hôtel Panache · <em>Dans l'air du temps</em></b><span>Embellissement et rénovation de l'ensemble du bâtiment, remise aux normes hôtelières.</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="Loro Piana" /><figcaption><b>Loro Piana</b><span>Création complète de la boutique.</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/BYREDO-01.jpg" alt="Byredo" /><figcaption><b>Byredo</b><span>Corner au Bon Marché, Paris 7e.</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/panache-restaurant.jpg" alt="Hôtel Panache" /><figcaption><b>Hôtel Panache · <em>Dans l'air du temps</em></b><span>Embellissement et rénovation de l'ensemble du bâtiment, remise aux normes hôtelières.</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/grand-pigalle-chambre.jpg" alt="Le Grand Pigalle" /><figcaption><b>Le Grand Pigalle · <em>Un charme exceptionnel</em></b><span>Rénovation de l'ensemble du bâtiment.</span></figcaption></figure>
       <figure class="ph"><img src="images/plaquette/paradis-chambre.jpg" alt="Hôtel Paradis" /><figcaption><b>Hôtel Paradis · <em>Moderne &amp; romantique</em></b><span>Rénovation et mise aux normes, déco. Dorothée Meilichzon.</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg" alt="Café Pinson" /><figcaption><b>Café Pinson</b><span>Rénovation complète et décoration, déco. Dorothée Meilichzon.</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/pinson-comptoir.jpg" alt="Café Pinson" /><figcaption><b>Café Pinson · <em>Naturellement authentique</em></b><span>Rénovation complète et décoration.</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/fishclub-salle.jpg" alt="The Fish Club" /><figcaption><b>The Fish Club · <em>Chic &amp; renouveau</em></b><span>Une ancienne boucherie des Halles devenue restaurant.</span></figcaption></figure>
     </div>
 
     <div class="run run--foot"><span>embi.fr</span><span>05</span></div>
@@ -507,28 +510,26 @@
 
   <!-- ═════════ 6 · RÉFÉRENCES ═════════ -->
   <section class="page">
-    <div class="run"><span><b>06</b> · Réalisations</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>06</b> · Particuliers</span><span>EMBI · Rénovation clé en main</span></div>
 
     <div class="head">
       <div>
-        <p class="eyebrow">Références</p>
-        <h2 class="h2">Ils nous ont<br /><em>confié leurs lieux.</em></h2>
+        <p class="eyebrow">Particuliers</p>
+        <h2 class="h2">Les appartements<br /><em>de particuliers.</em></h2>
       </div>
-      <p class="lead">Maisons de luxe, hôtels, restaurants et particuliers : nous travaillons aussi aux côtés de décorateurs et d'architectes, comme Dorothée Meilichzon.</p>
+      <p class="lead">Rénovation et mise aux normes d'appartements, du séjour à la cuisine sur mesure, parfois aux côtés d'architectes comme Diego Delgado Elias.</p>
     </div>
 
     <div class="refs">
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-5.jpg" alt="Colette" /><figcaption><b>Colette</b><span>Rénovation complète de la boutique</span></figcaption></figure>
-      <figure class="ph"><img src="images/plaquette/grand-pigalle-chambre.jpg" alt="Le Grand Pigalle" /><figcaption><b>Le Grand Pigalle</b><span>Un charme exceptionnel : mise aux normes et étanchéité de la terrasse</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-04.jpg" alt="Tartine et Chocolat, Harrods" /><figcaption><b>Tartine et Chocolat</b><span>Boutique chez Harrods</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/FishClub_03.jpg" alt="Fish Club" /><figcaption><b>Fish Club</b><span>Déco. Dorothée Meilichzon</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Loustic_01.jpg" alt="Loustic" /><figcaption><b>Loustic</b><span>Un magasin transformé en restaurant</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/HOTEL-BIENVENUE-09.jpg" alt="Hôtel Bienvenue" /><figcaption><b>Hôtel Bienvenue</b><span>Rénovation de l'ensemble du bâtiment</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/Hotel-ambassadeur-9.jpg" alt="Hôtel Ambassadeur" /><figcaption><b>Hôtel Ambassadeur</b><span>Embellissement et rénovation</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Triomphe_01.jpg" alt="Triomphe" /><figcaption><b>Triomphe</b><span>Déco. Richard Lafond</span></figcaption></figure>
-      <figure class="ph"><img src="images/plaquette/appartement-salon.jpg" alt="Rénovation d'appartement" /><figcaption><b>Appartement</b><span>Avec l'architecte Diego Delgado Elias</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-salon.jpg" alt="Séjour et salle à manger" /><figcaption><span>Séjour et salle à manger</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-cuisine.jpg" alt="Cuisine sur mesure" /><figcaption><span>Cuisine sur mesure</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-salle-a-manger.jpg" alt="Pièce de vie" /><figcaption><span>Pièce de vie</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-salle-de-bain.jpg" alt="Salle de bain" /><figcaption><span>Salle de bain</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-repas.jpg" alt="Coin repas" /><figcaption><span>Coin repas</span></figcaption></figure>
+      <figure class="ph"><img src="images/plaquette/appartement-jardin.jpg" alt="Terrasse et jardin" /><figcaption><span>Terrasse et jardin</span></figcaption></figure>
     </div>
 
+    <p class="eyebrow refs__title">Ils nous ont confié leurs lieux</p>
     <div class="refs__cats">
       <div><h3>Hôtels</h3><ul><li>Hôtel Panache</li><li>Hôtel Paradis</li><li>Le Grand Pigalle</li><li>Hôtel Bienvenue</li><li>Hôtel Ambassadeur</li></ul></div>
       <div><h3>Boutiques</h3><ul><li>Loro Piana</li><li>Byredo · Bon Marché</li><li>Colette</li><li>Tartine et Chocolat · Harrods</li><li>Petite Mendigote</li></ul></div>
@@ -549,7 +550,7 @@
     </div>
     <div class="stories">
       <article class="story">
-        <figure class="ph"><img src="images/plaquette/grand-pigalle-chambre.jpg" alt="Le Grand Pigalle" /></figure>
+        <figure class="ph"><img src="images/plaquette/grand-pigalle-salon.jpg" alt="Le Grand Pigalle" /></figure>
         <div class="story__text">
           <span class="trade__n">Hôtel</span>
           <h3>Le Grand Pigalle</h3>
@@ -559,7 +560,7 @@
         </div>
       </article>
       <article class="story">
-        <figure class="ph"><img src="images/plaquette/paradis-chambre-2.jpg" alt="Hôtel Paradis" /></figure>
+        <figure class="ph"><img src="images/plaquette/paradis-facade.jpg" alt="Hôtel Paradis" /></figure>
         <div class="story__text">
           <span class="trade__n">Hôtel · Rue des Petites-Écuries</span>
           <h3>Hôtel Paradis</h3>
@@ -569,7 +570,7 @@
         </div>
       </article>
       <article class="story">
-        <figure class="ph"><img src="images/plaquette/panache-bar.jpg" alt="Hôtel Panache" /></figure>
+        <figure class="ph"><img src="images/plaquette/panache-chambre.jpg" alt="Hôtel Panache" /></figure>
         <div class="story__text">
           <span class="trade__n">Hôtel</span>
           <h3>Hôtel Panache</h3>
@@ -591,7 +592,7 @@
     </div>
     <div class="stories">
       <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg'" alt="Café Pinson" /></figure>
+        <figure class="ph"><img src="images/plaquette/pinson-salon.jpg" alt="Café Pinson" /></figure>
         <div class="story__text">
           <span class="trade__n">Restaurant</span>
           <h3>Café Pinson</h3>
@@ -601,22 +602,12 @@
         </div>
       </article>
       <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/FishClub_01.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/FishClub_03.jpg'" alt="The Fish Club" /></figure>
+        <figure class="ph"><img src="images/plaquette/fishclub-bar.jpg" alt="The Fish Club" /></figure>
         <div class="story__text">
           <span class="trade__n">Restaurant · Les Halles</span>
           <h3>The Fish Club</h3>
           <p class="story__tag"><em>Chic &amp; renouveau</em></p>
           <p>Le Fish Club fait partie de l'Experimental Group, qui vous accueille dans ses autres établissements parisiens.</p><p>Une ancienne boucherie des Halles transformée en restaurant.</p>
-          
-        </div>
-      </article>
-      <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Loustic_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/Loustic_01.jpg'" alt="Loustic" /></figure>
-        <div class="story__text">
-          <span class="trade__n">Restaurant</span>
-          <h3>Loustic</h3>
-          <p class="story__tag"><em>Chic et design</em></p>
-          <p>Loustic était à l'origine un magasin. EMBI a entièrement transformé le lieu et pris en charge tout le chantier, de la plomberie à la décoration.</p><p>Décoration signée Dorothée Meilichzon.</p>
           
         </div>
       </article>
@@ -633,7 +624,7 @@
     </div>
     <div class="stories">
       <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/PETITE-MENDIGOTE-02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/11/PETITE-MENDIGOTE-01.jpg'" alt="Petite Mendigote" /></figure>
+        <figure class="ph"><img src="images/plaquette/mendigote-boutique.jpg" alt="Petite Mendigote" /></figure>
         <div class="story__text">
           <span class="trade__n">Boutique de prêt-à-porter</span>
           <h3>Petite Mendigote</h3>
@@ -643,22 +634,12 @@
         </div>
       </article>
       <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-1.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-5.jpg'" alt="Colette" /></figure>
+        <figure class="ph"><img src="images/plaquette/colette.jpg" alt="Colette" /></figure>
         <div class="story__text">
           <span class="trade__n">Concept store · Paris</span>
           <h3>Colette</h3>
           <p class="story__tag"><em>Une boutique… une histoire… inoubliablement hype</em></p>
           <p>Colette Paris était une boutique au concept store de luxe, point de rencontre entre la mode, le parfum et le design, la musique et l'édition, la photo, la beauté et les hautes technologies.</p><p>EMBI en a réalisé la rénovation complète.</p>
-          
-        </div>
-      </article>
-      <article class="story">
-        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-01.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-04.jpg'" alt="Tartine et Chocolat" /></figure>
-        <div class="story__text">
-          <span class="trade__n">Boutique · Harrods, Londres</span>
-          <h3>Tartine et Chocolat</h3>
-          <p class="story__tag"><em>Chez Harrods</em></p>
-          <p>Travaux d'embellissement et de rénovation de la boutique Tartine et Chocolat chez Harrods.</p>
           
         </div>
       </article>
@@ -764,8 +745,13 @@
   <section class="page page--dark">
     <div class="run"><span><b>12</b> · Contact</span><span>EMBI · Rénovation clé en main</span></div>
 
-    <h2 class="back__title">Parlons<br /><em>de votre projet.</em></h2>
-    <p class="lead" style="max-width:130mm;margin-bottom:10mm">Un devis, un conseil, une demande : n'hésitez pas à nous contacter, le devis est gratuit.</p>
+    <div class="back__top">
+      <div>
+        <h2 class="back__title">Parlons<br /><em>de votre projet.</em></h2>
+        <p class="lead">Un devis, un conseil, une demande : n'hésitez pas à nous contacter, le devis est gratuit.</p>
+      </div>
+      <figure class="ph back__photo"><img src="images/plaquette/portrait.jpg" alt="Devant le showroom EMBI" /></figure>
+    </div>
 
     <div class="back__grid">
       <div><span>Téléphone</span><a href="tel:+33145726524">01 45 72 65 24</a></div>
