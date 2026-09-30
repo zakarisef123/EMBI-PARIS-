@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500..800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ═════════════════════════════════════════════════════════
-       EMBI · Plaquette de présentation (A4, 8 pages)
+       EMBI · Plaquette de présentation (A4, 12 pages)
        Pour obtenir le PDF : Fichier › Imprimer › « Enregistrer au format PDF »
        (format A4, marges : aucune, cocher « Graphiques d'arrière-plan »).
        ═════════════════════════════════════════════════════════ */
@@ -194,7 +194,22 @@
     .tags { display: flex; flex-wrap: wrap; gap: 1.5mm; margin-top: 4mm; }
     .tags li { font-size: 7.5pt; font-weight: 600; padding: 1mm 2.8mm; border-radius: 99px; border: 1px solid var(--line); }
 
-    /* ───────── 4 · Chantiers signature ───────── */
+    /* ───────── 4 · Nos services ───────── */
+    .scope { display: flex; flex-wrap: wrap; gap: 2mm; }
+    .scope li { font-family: var(--display); font-weight: 700; font-size: 11pt; padding: 2mm 4.5mm; border-radius: 99px; background: var(--ink); color: var(--bg); }
+    .works { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-top: 6mm; }
+    .works article { padding: 6mm; border: 1px solid var(--line); border-radius: 3mm; background: #f8f5ef; }
+    .works p { margin-top: 2.5mm; font-size: 9.5pt; color: var(--ink-2); }
+    .svc { margin-top: 6mm; }
+    .svc ul { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .svc li { padding: 3.2mm 0; border-bottom: 1px solid var(--line); font-family: var(--display); font-weight: 600; font-size: 11pt; }
+    .svc li b { color: var(--accent); font-size: 8pt; margin-right: 3mm; }
+    .svc__hot { color: var(--accent); }
+    .concept { margin: 6mm 0 0; padding: 6mm 7mm; border-radius: 3mm; background: var(--dark); color: var(--on-dark); font-family: var(--display); font-weight: 600; font-size: 16pt; line-height: 1.25; }
+    .concept span { display: block; margin-bottom: 3mm; font-family: var(--sans); font-size: 7.5pt; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .concept em { color: var(--accent); font-weight: 400; }
+
+    /* ───────── 5 · Chantiers signature ───────── */
     .sig { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.35fr 1fr 1fr; gap: 3.5mm; flex: 1; min-height: 0; }
     .sig .ph:first-child { grid-column: 1 / -1; }
     .sig figcaption b { font-size: 13pt; }
@@ -207,7 +222,21 @@
     .refs__cats li { font-size: 8.5pt; line-height: 1.55; }
     .note { margin-top: 5mm; font-size: 8pt; color: var(--muted); }
 
-    /* ───────── 6 · Méthode + engagements ───────── */
+    /* ───────── Chantiers en détail ───────── */
+    .story__head { margin: 8mm 0 6mm; }
+    .stories { flex: 1; min-height: 0; display: grid; grid-template-rows: repeat(3, 1fr); gap: 5mm; margin-bottom: 5mm; }
+    .story { display: grid; grid-template-columns: 1.15fr 1fr; gap: 6mm; min-height: 0; }
+    .story .ph { height: 100%; }
+    .story__text { display: flex; flex-direction: column; justify-content: center; }
+    .story h3 { margin-top: 1mm; font-family: var(--display); font-weight: 700; font-size: 16pt; line-height: 1.1; }
+    .story__tag { margin: 1mm 0 2.5mm; font-size: 12.5pt; color: var(--accent); }
+    .story__text p:not(.story__tag) { font-size: 8.8pt; line-height: 1.5; color: var(--ink-2); }
+    .story__text p + p:not(.story__tag) { margin-top: 1.5mm; }
+    .story__text .story__link { margin-top: 2.5mm; font-size: 7.5pt; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+    .story:nth-child(even) { grid-template-columns: 1fr 1.15fr; }
+    .story:nth-child(even) .ph { order: 2; }
+
+    /* ───────── Méthode + engagements ───────── */
     .steps { counter-reset: s; border-top: 1px solid var(--line-dark); }
     .steps li { display: grid; grid-template-columns: 18mm 52mm 1fr; gap: 4mm; padding: 3.6mm 0; border-bottom: 1px solid var(--line-dark); align-items: baseline; }
     .steps .n { font-family: var(--display); font-weight: 800; font-size: 20pt; color: var(--accent); line-height: 1; }
@@ -280,7 +309,7 @@
 <body>
 
   <div class="toolbar">
-    <p>Plaquette EMBI · 8 pages A4. Pour le PDF : Imprimer › « Enregistrer au format PDF », marges « Aucune », arrière-plans activés.</p>
+    <p>Plaquette EMBI · 12 pages A4. Pour le PDF : Imprimer › « Enregistrer au format PDF », marges « Aucune », arrière-plans activés.</p>
     <div class="toolbar__actions">
       <a href="index.html">← Retour au site</a>
       <button type="button" onclick="window.print()">Imprimer / PDF</button>
@@ -329,20 +358,20 @@
 
     <div class="about__cols">
       <div>
-        <h3>Un seul interlocuteur</h3>
-        <p>De l'étude de faisabilité à la remise des clés, un interlocuteur EMBI dédié coordonne l'ensemble des corps de métier. Vous n'avez qu'un numéro à retenir.</p>
+        <h3>Proximité, disponibilité, facilité</h3>
+        <p>Avec EMBI, un interlocuteur dédié coordonne l'ensemble des corps de métier, de l'étude de votre projet à sa livraison.</p>
       </div>
       <div>
-        <h3>Petits ou grands projets</h3>
-        <p>Professionnel ou particulier, vous trouverez la prestation qu'il vous faut : de la rénovation d'un appartement à la remise aux normes d'un hôtel entier.</p>
+        <h3>Une solution adaptée à vos besoins</h3>
+        <p>Nous définissons avec vous un projet sur mesure et personnalisé, livré clé en main.</p>
       </div>
       <div>
-        <h3>Conception intégrée</h3>
-        <p>Un architecte et un architecte d'intérieur font partie de l'équipe : EMBI dessine votre projet, puis le réalise.</p>
+        <h3>Un suivi de chantier rigoureux</h3>
+        <p>EMBI vous accompagne pas à pas grâce à un suivi de chantier rigoureux et à un conseil permanent.</p>
       </div>
       <div>
-        <h3>Un showroom à Paris 17e</h3>
-        <p>Carrelages et parquets à voir et à toucher, avec des experts pour vous guider dans votre choix.</p>
+        <h3>Un budget optimisé</h3>
+        <p>Un prix de revient performant et des matériaux sélectionnés en fonction de votre projet et du cahier des charges établi.</p>
       </div>
     </div>
 
@@ -407,9 +436,55 @@
     <div class="run run--foot"><span>embi.fr</span><span>03</span></div>
   </section>
 
-  <!-- ═════════ 4 · CHANTIERS SIGNATURE ═════════ -->
+  <!-- ═════════ 4 · NOS SERVICES ═════════ -->
+  <section class="page">
+    <div class="run"><span><b>04</b> · Nos services</span><span>EMBI · Rénovation clé en main</span></div>
+
+    <div class="head">
+      <div>
+        <p class="eyebrow">Vous avez un projet d'envergure&nbsp;?</p>
+        <h2 class="h2">Gros œuvre,<br /><em>second œuvre.</em></h2>
+      </div>
+      <p class="lead">EMBI, entreprise experte et dynamique dans le bâtiment, a l'ambition de faire perdurer le savoir-faire en alliant la modernité et la réactivité.</p>
+    </div>
+
+    <ul class="scope">
+      <li>Rénovation</li><li>Transformation</li><li>Aménagement</li><li>Réhabilitation</li><li>Extension de bien immobilier</li>
+    </ul>
+    <p class="note" style="margin-top:2.5mm">Des travaux en intérieur comme en extérieur, pour les commerces, les professions libérales et les particuliers.</p>
+
+    <div class="works">
+      <article>
+        <span class="trade__n">LE GROS ŒUVRE</span>
+        <p>Terrassement, maçonnerie, charpente métallique et bois, isolation thermique et phonique, rénovation intérieure comme extérieure. Rénovation de bars, hôtels, magasins et stands, ouvertures de baies, rénovation de façades.</p>
+        <ul class="tags"><li>Normes coupe-feu</li><li>Normes incendie</li><li>Normes PMR</li></ul>
+      </article>
+      <article>
+        <span class="trade__n">LE SECOND ŒUVRE</span>
+        <p>Création et modification de tout type de pièce supplémentaire, cloisons, faux plafonds, menuiserie, revêtements des sols et muraux, électricité, plomberie, sanitaire, chauffage, peinture, serrurerie et décoration.</p>
+      </article>
+    </div>
+
+    <div class="svc">
+      <p class="eyebrow">Nos services</p>
+      <ul>
+        <li><b>01</b>Peinture</li><li><b>02</b>Plomberie</li><li><b>03</b>Électricité</li>
+        <li><b>04</b>Pose de revêtements muraux</li><li><b>05</b>Parquet</li><li><b>06</b>Isolation</li>
+        <li><b>07</b>Menuiserie</li><li><b>08</b>Corniche en staff</li><li class="svc__hot"><b>09</b>Dépannage 7j/7</li>
+      </ul>
+    </div>
+
+    <blockquote class="concept">
+      <span>Notre concept</span>
+      La fidélisation de nos clients, le conseil, l'accompagnement <em>et la réalisation de tous vos projets.</em>
+    </blockquote>
+
+    <div class="run run--foot"><span>embi.fr</span><span>04</span></div>
+  </section>
+
+  <!-- ═════════ 5 · CHANTIERS SIGNATURE ═════════ -->
   <section class="page page--dark">
-    <div class="run"><span><b>04</b> · Réalisations</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>05</b> · Réalisations</span><span>EMBI · Rénovation clé en main</span></div>
 
     <div class="head">
       <div>
@@ -420,19 +495,19 @@
     </div>
 
     <div class="sig">
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-012.jpg" alt="Hôtel Panache" /><figcaption><b>Hôtel Panache</b><span>Embellissement et rénovation de l'ensemble du bâtiment, remise aux normes hôtelières.</span></figcaption></figure>
+      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-012.jpg" alt="Hôtel Panache" /><figcaption><b>Hôtel Panache · <em>Dans l'air du temps</em></b><span>Embellissement et rénovation de l'ensemble du bâtiment, remise aux normes hôtelières.</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/LORO-PIANA-03.jpg" alt="Loro Piana" /><figcaption><b>Loro Piana</b><span>Création complète de la boutique.</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/BYREDO-01.jpg" alt="Byredo" /><figcaption><b>Byredo</b><span>Corner au Bon Marché, Paris 7e.</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/HotelParadis_01.jpg" alt="Hôtel Paradis" /><figcaption><b>Hôtel Paradis</b><span>Rénovation et mise aux normes, déco. Dorothée Meilichzon.</span></figcaption></figure>
+      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/HotelParadis_01.jpg" alt="Hôtel Paradis" /><figcaption><b>Hôtel Paradis · <em>Moderne &amp; romantique</em></b><span>Rénovation et mise aux normes, déco. Dorothée Meilichzon.</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg" alt="Café Pinson" /><figcaption><b>Café Pinson</b><span>Rénovation complète et décoration, déco. Dorothée Meilichzon.</span></figcaption></figure>
     </div>
 
-    <div class="run run--foot"><span>embi.fr</span><span>04</span></div>
+    <div class="run run--foot"><span>embi.fr</span><span>05</span></div>
   </section>
 
-  <!-- ═════════ 5 · RÉFÉRENCES ═════════ -->
+  <!-- ═════════ 6 · RÉFÉRENCES ═════════ -->
   <section class="page">
-    <div class="run"><span><b>05</b> · Réalisations</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>06</b> · Réalisations</span><span>EMBI · Rénovation clé en main</span></div>
 
     <div class="head">
       <div>
@@ -444,7 +519,7 @@
 
     <div class="refs">
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-5.jpg" alt="Colette" /><figcaption><b>Colette</b><span>Rénovation complète de la boutique</span></figcaption></figure>
-      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Grandpigalle_01.jpg" alt="Le Grand Pigalle" /><figcaption><b>Le Grand Pigalle</b><span>Rénovation de l'ensemble du bâtiment</span></figcaption></figure>
+      <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Grandpigalle_01.jpg" alt="Le Grand Pigalle" /><figcaption><b>Le Grand Pigalle</b><span>Un charme exceptionnel : mise aux normes et étanchéité de la terrasse</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-04.jpg" alt="Tartine et Chocolat, Harrods" /><figcaption><b>Tartine et Chocolat</b><span>Boutique chez Harrods</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/FishClub_03.jpg" alt="Fish Club" /><figcaption><b>Fish Club</b><span>Déco. Dorothée Meilichzon</span></figcaption></figure>
       <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Loustic_01.jpg" alt="Loustic" /><figcaption><b>Loustic</b><span>Un magasin transformé en restaurant</span></figcaption></figure>
@@ -462,12 +537,138 @@
     </div>
     <p class="note">Tous nos chantiers en photos sur embi.fr, rubrique Réalisations.</p>
 
-    <div class="run run--foot"><span>embi.fr</span><span>05</span></div>
+    <div class="run run--foot"><span>embi.fr</span><span>06</span></div>
   </section>
 
-  <!-- ═════════ 6 · MÉTHODE + ENGAGEMENTS ═════════ -->
+  <!-- ═════════ 7 · HÔTELS ═════════ -->
+  <section class="page">
+    <div class="run"><span><b>07</b> · Hôtels</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="story__head">
+      <p class="eyebrow">Chantiers en détail</p>
+      <h2 class="h2">Nos <em>hôtels.</em></h2>
+    </div>
+    <div class="stories">
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Grandpigalle_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/Grandpigalle_01.jpg'" alt="Le Grand Pigalle" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Hôtel</span>
+          <h3>Le Grand Pigalle</h3>
+          <p class="story__tag"><em>Un charme exceptionnel</em></p>
+          <p>Remise aux normes de l'hôtel : sanitaires, circulations (PMR), incendie, électricité, carrelage et travaux pour garantir l'étanchéité de la terrasse.</p><p>Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.</p>
+          <p class="story__link">grandpigalle.com</p>
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/HotelParadis_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/HotelParadis_01.jpg'" alt="Hôtel Paradis" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Hôtel · Rue des Petites-Écuries</span>
+          <h3>Hôtel Paradis</h3>
+          <p class="story__tag"><em>Moderne &amp; romantique</em></p>
+          <p>Remise aux normes de l'hôtel : sanitaires, circulations (PMR), incendie, électricité.</p><p>Travaux d'embellissement et de rénovation, sur une décoration imaginée par Dorothée Meilichzon.</p>
+          <p class="story__link">hotelparadisparis.com</p>
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-005.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2018/01/Hotel-Panache-012.jpg'" alt="Hôtel Panache" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Hôtel</span>
+          <h3>Hôtel Panache</h3>
+          <p class="story__tag"><em>Dans l'air du temps</em></p>
+          <p>Remise aux normes de l'hôtel : sanitaires, circulations (PMR), incendie, électricité.</p><p>Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.</p>
+          <p class="story__link">hotelpanache.com</p>
+        </div>
+      </article>
+    </div>
+    <div class="run run--foot"><span>embi.fr</span><span>07</span></div>
+  </section>
+
+  <!-- ═════════ 8 · RESTAURANTS ═════════ -->
+  <section class="page">
+    <div class="run"><span><b>08</b> · Restaurants</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="story__head">
+      <p class="eyebrow">Chantiers en détail</p>
+      <h2 class="h2">Nos <em>restaurants.</em></h2>
+    </div>
+    <div class="stories">
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Pinson_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/Pinson_01.jpg'" alt="Café Pinson" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Restaurant</span>
+          <h3>Café Pinson</h3>
+          <p class="story__tag"><em>Naturellement authentique</em></p>
+          <p>Cet établissement, ancienne boulangerie parisienne, a été totalement repensé et réaménagé.</p><p>EMBI a réalisé la rénovation et la décoration complètes du lieu, dans le respect de toutes les normes liées au secteur de la restauration.</p>
+          <p class="story__link">cafepinson.fr</p>
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/FishClub_01.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/FishClub_03.jpg'" alt="The Fish Club" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Restaurant · Les Halles</span>
+          <h3>The Fish Club</h3>
+          <p class="story__tag"><em>Chic &amp; renouveau</em></p>
+          <p>Le Fish Club fait partie de l'Experimental Group, qui vous accueille dans ses autres établissements parisiens.</p><p>Une ancienne boucherie des Halles transformée en restaurant.</p>
+          
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/09/Loustic_02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/09/Loustic_01.jpg'" alt="Loustic" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Restaurant</span>
+          <h3>Loustic</h3>
+          <p class="story__tag"><em>Chic et design</em></p>
+          <p>Loustic était à l'origine un magasin. EMBI a entièrement transformé le lieu et pris en charge tout le chantier, de la plomberie à la décoration.</p><p>Décoration signée Dorothée Meilichzon.</p>
+          
+        </div>
+      </article>
+    </div>
+    <div class="run run--foot"><span>embi.fr</span><span>08</span></div>
+  </section>
+
+  <!-- ═════════ 9 · BOUTIQUES ═════════ -->
+  <section class="page">
+    <div class="run"><span><b>09</b> · Boutiques</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="story__head">
+      <p class="eyebrow">Chantiers en détail</p>
+      <h2 class="h2">Nos <em>boutiques.</em></h2>
+    </div>
+    <div class="stories">
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/PETITE-MENDIGOTE-02.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/11/PETITE-MENDIGOTE-01.jpg'" alt="Petite Mendigote" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Boutique de prêt-à-porter</span>
+          <h3>Petite Mendigote</h3>
+          <p class="story__tag"><em>Du sur mesure pour le prêt-à-porter</em></p>
+          <p>Cette boutique de prêt-à-porter a été repensée et réaménagée tout en gardant son charme et son authenticité.</p>
+          <p class="story__link">petitemendigote.fr</p>
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-1.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2018/01/COLETTE-5.jpg'" alt="Colette" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Concept store · Paris</span>
+          <h3>Colette</h3>
+          <p class="story__tag"><em>Une boutique… une histoire… inoubliablement hype</em></p>
+          <p>Colette Paris était une boutique au concept store de luxe, point de rencontre entre la mode, le parfum et le design, la musique et l'édition, la photo, la beauté et les hautes technologies.</p><p>EMBI en a réalisé la rénovation complète.</p>
+          
+        </div>
+      </article>
+      <article class="story">
+        <figure class="ph"><img src="https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-01.jpg" onerror="this.onerror=null;this.src='https://www.embi.fr/wp-content/uploads/2017/11/boutique-harrods-tartine-et-chocolat-04.jpg'" alt="Tartine et Chocolat" /></figure>
+        <div class="story__text">
+          <span class="trade__n">Boutique · Harrods, Londres</span>
+          <h3>Tartine et Chocolat</h3>
+          <p class="story__tag"><em>Chez Harrods</em></p>
+          <p>Travaux d'embellissement et de rénovation de la boutique Tartine et Chocolat chez Harrods.</p>
+          
+        </div>
+      </article>
+    </div>
+    <div class="run run--foot"><span>embi.fr</span><span>09</span></div>
+  </section>
+
+  <!-- ═════════ 10 · MÉTHODE + ENGAGEMENTS ═════════ -->
   <section class="page page--dark">
-    <div class="run"><span><b>06</b> · Méthode</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>10</b> · Méthode</span><span>EMBI · Rénovation clé en main</span></div>
 
     <div class="head">
       <div>
@@ -502,12 +703,12 @@
       <div class="stamp"><div>Clé<br />en main<small>Garanti</small></div></div>
     </div>
 
-    <div class="run run--foot"><span>embi.fr</span><span>06</span></div>
+    <div class="run run--foot"><span>embi.fr</span><span>10</span></div>
   </section>
 
-  <!-- ═════════ 7 · SUR MESURE + SHOWROOM ═════════ -->
+  <!-- ═════════ 11 · SUR MESURE + SHOWROOM ═════════ -->
   <section class="page">
-    <div class="run"><span><b>07</b> · Conception &amp; showroom</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>11</b> · Conception &amp; showroom</span><span>EMBI · Rénovation clé en main</span></div>
 
     <div class="split" style="margin-top:10mm">
       <div>
@@ -556,12 +757,12 @@
       </dl>
     </div>
 
-    <div class="run run--foot"><span>embi.fr</span><span>07</span></div>
+    <div class="run run--foot"><span>embi.fr</span><span>11</span></div>
   </section>
 
-  <!-- ═════════ 8 · DOS / CONTACT ═════════ -->
+  <!-- ═════════ 12 · DOS / CONTACT ═════════ -->
   <section class="page page--dark">
-    <div class="run"><span><b>08</b> · Contact</span><span>EMBI · Rénovation clé en main</span></div>
+    <div class="run"><span><b>12</b> · Contact</span><span>EMBI · Rénovation clé en main</span></div>
 
     <h2 class="back__title">Parlons<br /><em>de votre projet.</em></h2>
     <p class="lead" style="max-width:130mm;margin-bottom:10mm">Un devis, un conseil, une demande : n'hésitez pas à nous contacter, le devis est gratuit.</p>
@@ -569,7 +770,7 @@
     <div class="back__grid">
       <div><span>Téléphone</span><a href="tel:+33145726524">01 45 72 65 24</a></div>
       <div><span>E-mail</span><a href="mailto:sec@embi.fr">sec@embi.fr</a></div>
-      <div><span>Showroom</span><p>5, rue Villebois-Mareuil<br />75017 Paris</p></div>
+      <div><span>Showroom · lun.–ven. 10h–18h</span><p>5, rue Villebois-Mareuil<br />75017 Paris</p></div>
       <div><span>Site</span><a href="https://www.embi.fr">embi.fr</a></div>
     </div>
 
@@ -580,7 +781,7 @@
 
     <div class="back__foot">
       <svg class="logo" viewBox="0 0 1813 348" role="img" aria-label="EMBI"><use href="#embi-logo" /></svg>
-      <p style="text-align:right">Rénovation · Rapide · À votre écoute<br />Paris &amp; Île-de-France</p>
+      <p style="text-align:right"><em style="color:var(--accent);font-size:12pt">Le plaisir de rénover.</em><br />Paris &amp; Île-de-France</p>
     </div>
   </section>
 
