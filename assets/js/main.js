@@ -699,6 +699,14 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const NAMES = ["Étude", "Chiffrage", "Mise en place", "Réalisation", "Livraison"];
   const DURATION = 6000;
+  // croquis d'architecte de la livraison : utilisé seulement si l'image est présente
+  let sketchOk = false;
+  const skImg = document.querySelector("#mt-sketch img");
+  if (skImg) {
+    const ok = () => { sketchOk = true; skImg.parentElement.hidden = false; if (k === 4) show(4); };
+    skImg.complete && skImg.naturalWidth ? setTimeout(ok, 0) : skImg.addEventListener("load", ok);
+    skImg.loading = "eager";
+  }
   const scene = $("#mt-scene"), steps = $$("#methode .mt-step"), bars = $$("#methode .mt-step__bar i");
   let k = -1, t0 = performance.now(), elapsed = 0, paused = false, inView = true, hovering = false;
 
@@ -719,6 +727,12 @@
       g.classList.toggle("is-on", on);
     });
     $("#mt-devis").classList.toggle("is-on", n === 1);
+    const sk = $("#mt-sketch");
+    if (sk && sketchOk) {
+      sk.classList.remove("is-on");
+      void sk.offsetWidth;
+      sk.classList.toggle("is-on", n === 4);
+    }
   };
 
   const tick = (t) => {
