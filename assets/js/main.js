@@ -48,15 +48,24 @@
   const header = $("#header");
   const hero = $(".hero, .cs-hero, .pj-hero");
   if (hero) header.classList.add("on-dark");
-  let lastY = 0;
+  let lastY = 0, heroH = hero ? hero.offsetHeight : 0, docH = 0, ticking = false;
+  const progress = $("#progress");
+  const measure = () => { heroH = hero ? hero.offsetHeight : 0; docH = document.documentElement.scrollHeight - innerHeight; };
+  // un seul calcul par image affichée (évite les recalculs de mise en page à chaque événement de défilement)
   const onScroll = () => {
+    ticking = false;
     const y = window.scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", !!hero && y < hero.offsetHeight - 60);
+    header.classList.toggle("on-dark", !!hero && y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
+    if (progress) progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;
   };
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener("resize", () => { measure(); onScroll(); }, { passive: true });
+  window.addEventListener("load", measure);
+  new ResizeObserver(measure).observe(document.body);
+  measure();
 
   /* ───── Menu mobile ───── */
   const burger = $("#burger");
@@ -204,11 +213,15 @@
     fT0 = t;
     const part = reduce ? 0 : Math.min(fElapsed / DURATION, 1);
     fRail.style.transform = `scaleY(${(fActive + part) / featured.length})`;
-    requestAnimationFrame(tickFeature);
+    if (fInView && !document.hidden) requestAnimationFrame(tickFeature);
+    else fLoop = false;
   };
+  let fLoop = false;
+  const startFeature = () => { if (!fLoop) { fLoop = true; fT0 = performance.now(); requestAnimationFrame(tickFeature); } };
   setFeature(0);
-  requestAnimationFrame(tickFeature);
-  new IntersectionObserver((en) => (fInView = en[0].isIntersecting), { threshold: 0.4 }).observe(feature);
+  // l'animation ne tourne que lorsque la section est à l'écran
+  new IntersectionObserver((en) => { fInView = en[0].isIntersecting; if (fInView) startFeature(); }, { threshold: 0.4 }).observe(feature);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && fInView) startFeature(); });
   feature.addEventListener("mouseenter", () => (fPaused = true));
   feature.addEventListener("mouseleave", () => (fPaused = false));
   const openFeatured = (k) => go(featured[k].i);
@@ -218,10 +231,15 @@
     const k = +b.dataset.k;
     k === fActive ? openFeatured(k) : goFeature(k);
   });
+  // survol : on ne change de chantier qu'après un court arrêt, pour qu'en descendant vers « Voir le projet »
+  // la souris ne sélectionne pas au passage les chantiers suivants
+  let fHover = null;
   fList.addEventListener("mouseover", (e) => {
     const b = e.target.closest("button");
-    if (b && matchMedia("(hover: hover)").matches && +b.dataset.k !== fActive) goFeature(+b.dataset.k);
+    clearTimeout(fHover);
+    if (b && matchMedia("(hover: hover)").matches && +b.dataset.k !== fActive) fHover = setTimeout(() => goFeature(+b.dataset.k), 220);
   });
+  fList.addEventListener("mouseleave", () => clearTimeout(fHover));
   let fx = null;
   fFrame.addEventListener("touchstart", (e) => (fx = e.touches[0].clientX), { passive: true });
   fFrame.addEventListener("touchend", (e) => {
@@ -259,35 +277,32 @@
       const n = Math.round(k * ws.length);
       ws.forEach((w, i) => w.classList.toggle("is-on", i < n));
     };
-    window.addEventListener("scroll", light, { passive: true });
+    let wTick = false, wOn = false;
+    new IntersectionObserver((en) => { wOn = en[0].isIntersecting; if (wOn) light(); }).observe(el);
+    window.addEventListener("scroll", () => { if (wOn && !wTick) { wTick = true; requestAnimationFrame(() => { wTick = false; light(); }); } }, { passive: true });
     light();
   });
 
-  /* ───── Barre de progression ───── */
-  const progress = $("#progress");
-  window.addEventListener(
-    "scroll",
-    () => {
-      const h = document.documentElement.scrollHeight - innerHeight;
-      progress.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
-    },
-    { passive: true }
-  );
 
   /* ───── Curseur personnalisé + boutons magnétiques ───── */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
     const cur = $("#cursor"), label = $("#cursorLabel");
-    let x = -100, y = -100, cxp = -100, cyp = -100;
-    document.addEventListener("mousemove", (e) => { x = e.clientX; y = e.clientY; });
-    document.addEventListener("mouseleave", () => cur.classList.add("is-hidden"));
-    document.addEventListener("mouseenter", () => cur.classList.remove("is-hidden"));
+    let x = -100, y = -100, cxp = -100, cyp = -100, moving = false;
     const move = () => {
       cxp += (x - cxp) * 0.22;
       cyp += (y - cyp) * 0.22;
       cur.style.transform = `translate3d(${cxp}px, ${cyp}px, 0)`;
-      requestAnimationFrame(move);
+      // la boucle s'arrête quand le curseur a rejoint la souris
+      if (Math.abs(x - cxp) + Math.abs(y - cyp) > 0.5) requestAnimationFrame(move);
+      else moving = false;
     };
-    move();
+    document.addEventListener("mousemove", (e) => {
+      x = e.clientX; y = e.clientY;
+      if (!cur.classList.contains("is-on")) { cxp = x; cyp = y; cur.classList.add("is-on"); }
+      if (!moving) { moving = true; requestAnimationFrame(move); }
+    }, { passive: true });
+    document.addEventListener("mouseleave", () => cur.classList.add("is-hidden"));
+    document.addEventListener("mouseenter", () => cur.classList.remove("is-hidden"));
     document.addEventListener("mouseover", (e) => {
       const view = e.target.closest(".card, .feature__frame, .acc__img");
       const link = e.target.closest("a, button, input, textarea, label");
@@ -692,8 +707,11 @@
     }
     t0 = t;
     if (bars[k]) bars[k].style.transform = `scaleX(${Math.min(elapsed / DURATION, 1)})`;
-    requestAnimationFrame(tick);
+    if (inView && !document.hidden) requestAnimationFrame(tick);
+    else looping = false;
   };
+  let looping = false;
+  const start = () => { if (!looping) { looping = true; t0 = performance.now(); requestAnimationFrame(tick); } };
 
   $$("#methode .mt-step button").forEach((b) => b.addEventListener("click", () => show(+b.dataset.k)));
   $("#mt-pause").addEventListener("click", (e) => {
@@ -702,8 +720,9 @@
   });
   scene.addEventListener("mouseenter", () => (hovering = true));
   scene.addEventListener("mouseleave", () => (hovering = false));
-  new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.3 }).observe(scene);
+  new IntersectionObserver((en) => { inView = en[0].isIntersecting; if (inView) start(); }, { threshold: 0.3 }).observe(scene);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && inView) start(); });
   if (reduce) $("#mt-ctrlTxt").textContent = "Cliquez sur une étape pour la voir";
   show(0);
-  requestAnimationFrame(tick);
+  start();
 })();

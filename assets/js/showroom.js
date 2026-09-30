@@ -24,17 +24,23 @@ const SHOWROOM_CATALOGUES = [
   $("#year").textContent = new Date().getFullYear();
   document.body.classList.add("is-loaded");
   const header = $("#header"), hero = $("#srHero"), progress = $("#progress"), nav = $("#nav"), burger = $("#burger");
-  let lastY = 0;
+  let lastY = 0, heroH = 0, docH = 0, ticking = false;
+  const measure = () => { heroH = hero.offsetHeight; docH = document.documentElement.scrollHeight - innerHeight; };
   const onScroll = () => {
+    ticking = false;
     const y = scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", y < hero.offsetHeight - 60);
+    header.classList.toggle("on-dark", y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
-    const h = document.documentElement.scrollHeight - innerHeight;
-    progress.style.transform = `scaleX(${h > 0 ? y / h : 0})`;
+    progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;
   };
-  addEventListener("scroll", onScroll, { passive: true });
+  // un seul calcul par image affichée ; hauteurs mesurées au chargement et au redimensionnement
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener("resize", () => { measure(); onScroll(); }, { passive: true });
+  addEventListener("load", measure);
+  new ResizeObserver(measure).observe(document.body);
+  measure();
   onScroll();
   const setMenu = (open) => {
     nav.classList.toggle("is-open", open);
@@ -185,7 +191,9 @@ const SHOWROOM_CATALOGUES = [
       let busy = false;
       wall.addEventListener("mouseenter", () => (busy = true));
       wall.addEventListener("mouseleave", () => (busy = false));
-      setInterval(() => { if (!busy && !document.hidden) flip(tiles[Math.floor(rnd() * N)]); }, 1700);
+      let wallOn = true;
+      new IntersectionObserver((en) => (wallOn = en[0].isIntersecting)).observe(wall);
+      setInterval(() => { if (wallOn && !busy && !document.hidden) flip(tiles[Math.floor(rnd() * N)]); }, 1700);
     }
   }
 

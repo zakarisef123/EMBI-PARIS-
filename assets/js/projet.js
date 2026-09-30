@@ -9,17 +9,23 @@
 
   /* ───── En-tête : fond transparent sur la photo, puis clair au défilement ───── */
   const header = $("#header"), hero = $("#pjHero"), progress = $("#progress");
-  let lastY = 0;
+  let lastY = 0, heroH = 0, docH = 0, ticking = false;
+  const measure = () => { heroH = hero.offsetHeight; docH = document.documentElement.scrollHeight - innerHeight; };
   const onScroll = () => {
+    ticking = false;
     const y = scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", y < hero.offsetHeight - 60);
+    header.classList.toggle("on-dark", y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !$("#nav").classList.contains("is-open"));
     lastY = y;
-    const h = document.documentElement.scrollHeight - innerHeight;
-    progress.style.transform = `scaleX(${h > 0 ? y / h : 0})`;
+    progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;
   };
-  addEventListener("scroll", onScroll, { passive: true });
+  // un seul calcul par image affichée ; hauteurs mesurées au chargement et au redimensionnement
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener("resize", () => { measure(); onScroll(); }, { passive: true });
+  addEventListener("load", measure);
+  new ResizeObserver(measure).observe(document.body);
+  measure();
   const burger = $("#burger"), nav = $("#nav");
   const setMenu = (open) => {
     nav.classList.toggle("is-open", open);
@@ -45,7 +51,12 @@
     shots().forEach((b, j) => { b.dataset.k = j; b.setAttribute("aria-label", `Agrandir la photo ${j + 1}`); });
   };
   $$(".pj-shot img", gallery).forEach((im, k) => {
-    const drop = () => { if (k > 0 || shots().length > 1) { im.parentElement.remove(); recount(); } };
+    const drop = () => {
+      const btn = im.closest(".pj-shot");
+      if (!btn || !btn.isConnected) return;
+      if (shots().length > 1) { btn.remove(); recount(); }
+      else $("#galerie").hidden = true; // aucune photo disponible : la galerie est masquée
+    };
     im.complete && im.naturalWidth === 0 ? drop() : im.addEventListener("error", drop);
   });
 
