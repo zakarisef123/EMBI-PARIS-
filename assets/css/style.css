@@ -1056,3 +1056,80 @@ img.is-broken { opacity: 0; }
   .pj-nav__link--next { text-align: left; }
   .pj-cards { grid-template-columns: 1fr; }
 }
+
+/* ═════════ Conception sur mesure ═════════ */
+.cs-hero { background: var(--dark); color: #fff; padding: 140px 0 clamp(56px, 8vw, 100px); position: relative; overflow: hidden; }
+.cs-hero::before { content: ""; position: absolute; width: 50vw; height: 50vw; right: -12vw; top: -18vw; background: radial-gradient(circle, rgba(255, 90, 31, 0.22), transparent 60%); filter: blur(20px); }
+.cs-hero__grid { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.cs-kicker { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 24px; font: 600 13px var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.8); padding: 8px 16px 8px 14px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 999px; }
+.cs-kicker .pulse, .cs-kicker .pulse::after { background: var(--accent); border-color: var(--accent); }
+.cs-kicker .pulse::after { background: none; }
+.cs-hero__title { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 4.4vw, 70px); line-height: 0.95; letter-spacing: -0.03em; margin: 0 0 26px; }
+.cs-hero__title em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+.cs-hero__lead { margin: 0 0 32px; max-width: 48ch; font-size: clamp(16px, 1.3vw, 19px); color: rgba(255, 255, 255, 0.78); }
+.cs-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.cs-hero__sketch { margin: 0; position: relative; border-radius: 18px; overflow: hidden; background: #fbf8f3; transform: rotate(1.5deg); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); }
+.cs-hero__sketch img { width: 100%; height: auto; display: block; clip-path: inset(0 100% 0 0); animation: csReveal 1.8s var(--ease) 0.3s forwards; }
+@keyframes csReveal { to { clip-path: inset(0 0 0 0); } }
+.cs-hero__sketch figcaption { position: absolute; left: 14px; bottom: 12px; font: 400 14px "Architects Daughter", "Comic Sans MS", cursive; color: var(--ink); background: rgba(251, 248, 243, 0.85); padding: 4px 10px; border-radius: 6px; }
+
+.cs-duo__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cs-card { border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px); padding: clamp(26px, 3.4vw, 44px); background: var(--bg); }
+.cs-card--dark { background: var(--dark); color: #fff; border-color: transparent; }
+.cs-card__icon { width: 64px; height: 64px; margin-bottom: 28px; }
+.cs-card__icon path { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.cs-card__icon .o { stroke: var(--accent); }
+.cs-card__role { margin: 0 0 8px; font: 600 12px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.cs-card h3 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 22px; }
+.cs-card ul { list-style: none; margin: 0; padding: 0; }
+.cs-card li { padding: 12px 0 12px 26px; border-top: 1px solid var(--line); position: relative; }
+.cs-card--dark li { border-color: rgba(255, 255, 255, 0.14); color: rgba(255, 255, 255, 0.85); }
+.cs-card li::before { content: ""; position: absolute; left: 0; top: 20px; width: 12px; height: 2px; background: var(--accent); }
+
+.cs-made__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.cs-made__list li { display: flex; align-items: baseline; gap: 16px; padding: clamp(20px, 2.4vw, 32px) 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); font-family: var(--display); font-weight: 800; font-size: clamp(18px, 1.8vw, 26px); letter-spacing: -0.02em; }
+.cs-made__list span { font: 700 12px var(--sans); color: var(--accent); }
+
+.cs-steps__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.cs-steps__list li { border-top: 2px solid var(--ink); padding-top: 22px; }
+.cs-steps__n { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 16px var(--sans); }
+.cs-steps__list h3 { font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin: 26px 0 10px; }
+.cs-steps__list p { margin: 0; color: var(--ink-2); }
+
+.cs-why { background: var(--bg-2); }
+.cs-why__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 88px); align-items: start; }
+.cs-why__list { list-style: none; margin: 0; padding: 0; }
+.cs-why__list li { padding: 22px 0; border-top: 1px solid var(--line); font-size: clamp(16px, 1.3vw, 19px); color: var(--ink-2); }
+.cs-why__list strong { display: block; color: var(--ink); font-family: var(--display); font-weight: 800; font-size: clamp(19px, 1.7vw, 24px); letter-spacing: -0.02em; margin-bottom: 6px; }
+
+.cs-cta { background: var(--accent); color: #fff; padding: clamp(56px, 8vw, 100px) 0; }
+.cs-cta__inner { display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; }
+.cs-cta__title { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(30px, 4.4vw, 64px); line-height: 1; letter-spacing: -0.03em; }
+.cs-cta__title em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--dark); }
+.cs-cta__actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.cs-cta .btn--dark:hover { background: #fff; color: var(--ink); }
+.cs-cta__tel { font: 700 20px var(--sans); border-bottom: 1px solid rgba(255, 255, 255, 0.6); }
+
+/* bandeau d'accueil vers la page */
+.cs-teaser { background: var(--bg); padding: clamp(64px, 9vw, 120px) 0; }
+.cs-teaser__inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
+.cs-teaser__img { margin: 0; border-radius: 18px; overflow: hidden; transform: rotate(-1.2deg); box-shadow: 0 40px 70px -40px rgba(22, 21, 19, 0.5); background: #fbf8f3; }
+.cs-teaser__img img { width: 100%; height: auto; display: block; }
+.cs-teaser__text { display: grid; gap: 22px; justify-items: start; }
+.cs-teaser__text .h2 { font-size: clamp(26px, 2.8vw, 42px); }
+.cs-teaser__text p:not(.eyebrow) { margin: 0; color: var(--ink-2); max-width: 46ch; }
+.nav a[aria-current="page"] { color: var(--accent); }
+
+@media (max-width: 960px) {
+  .cs-hero__grid, .cs-duo__grid, .cs-why__grid, .cs-teaser__inner { grid-template-columns: 1fr; }
+  .cs-made__list { grid-template-columns: 1fr 1fr; }
+  .cs-steps__list { grid-template-columns: 1fr 1fr; }
+}
+.cs-duo .section__head > div, .cs-made .section__head > div, .cs-steps .section__head > div, .cs-why__grid > *, .cs-teaser__text { min-width: 0; max-width: 100%; }
+.cs-made .h2, .cs-steps .h2 { font-size: clamp(30px, 5vw, 76px); overflow-wrap: anywhere; }
+.cs-duo .h2, .cs-why .h2 { font-size: clamp(30px, 5vw, 76px); overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .cs-made__list, .cs-steps__list { grid-template-columns: 1fr; }
+  .cs-hero__sketch, .cs-teaser__img { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .cs-hero__sketch img { clip-path: none; animation: none; } }
