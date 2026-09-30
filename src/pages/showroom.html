@@ -1,0 +1,151 @@
+<!--
+{
+  "path": "/showroom/",
+  "key": "showroom",
+  "title": "Showroom carrelages & parquets | EMBI Paris 17e",
+  "description": "Le showroom EMBI, 5 rue Villebois-Mareuil à Paris 17e : tous nos carrelages et parquets à voir et à toucher, du lundi au vendredi de 10h à 18h, avec des experts pour vous guider.",
+  "bodyClass": "page-showroom",
+  "bodyAttrs": " data-cta-type=\"showroom\"",
+  "scripts": [
+    "showroom"
+  ],
+  "lightbox": true,
+  "crumbs": [
+    {
+      "name": "Showroom",
+      "path": "/showroom/"
+    }
+  ]
+}
+-->
+    <!-- ───────── HERO : mur de carreaux qui se retournent ───────── -->
+    <section class="cs-hero sr-hero" id="srHero">
+      <div class="container cs-hero__grid">
+        <div class="cs-hero__text">
+          <p class="cs-kicker"><span class="pulse"></span>Showroom · Paris 17e</p>
+          <h1 class="cs-hero__title">Un sol, ça se choisit <em>avec les yeux</em> et <em>du bout des doigts.</em></h1>
+          <p class="cs-hero__lead">Carrelages et parquets : notre showroom réunit l'ensemble des modèles de notre catalogue. Venez voir les vraies couleurs, toucher les matières, et faites-vous guider par nos experts.</p>
+          <div class="cs-hero__actions">
+            <a href="#visite" class="btn btn--accent">Préparer ma visite <span aria-hidden="true">→</span></a>
+            <a href="#catalogues" class="btn btn--outline-light">Voir les catalogues</a>
+          </div>
+        </div>
+        <div class="sr-wall">
+          <div class="sr-tiles" id="srTiles" role="group" aria-label="Mur de carreaux interactif"></div>
+          <p class="sr-wall__label"><span class="sr-wall__dot"></span><span id="srTileName">Survolez un carreau</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── BANDEAU INFOS ───────── -->
+    <section class="sr-strip" aria-label="Le showroom en bref">
+      <div class="container sr-strip__grid">
+        <p><strong>Lun. → ven.</strong><span>de 10h à 18h</span></p>
+        <p><strong>Paris 17e</strong><span>5, rue Villebois-Mareuil</span></p>
+        <p><strong>5 marques</strong><span>Azulev, Cifre, Novaceram, Recer, Boxer</span></p>
+        <p><strong>Conseil</strong><span>des experts pour vous guider</span></p>
+      </div>
+    </section>
+
+    <!-- ───────── POURQUOI VENIR : parquet qui se pose ───────── -->
+    <section class="section sr-why">
+      <div class="container sr-why__grid">
+        <div class="sr-floor" data-floor>
+          <svg id="srFloor" viewBox="0 0 600 440" role="img" aria-label="Un parquet en point de Hongrie se pose lame après lame"></svg>
+          <p class="sr-floor__count"><span id="srFloorN">0</span> lames posées</p>
+          <button class="cs-replay sr-replay" type="button" id="srFloorReplay">Rejouer</button>
+        </div>
+        <div class="sr-why__text">
+          <p class="eyebrow reveal">Pourquoi se déplacer</p>
+          <h2 class="h2 reveal">Un écran ne dira jamais <em>ce que dit la matière.</em></h2>
+          <ul class="cs-why__list">
+            <li class="reveal"><strong>La vraie couleur.</strong> Une photo ne rend ni la nuance d'un émail ni le veinage d'un bois. Sur place, vous voyez le modèle tel qu'il sera chez vous.</li>
+            <li class="reveal"><strong>Le toucher.</strong> Mat, satiné, brillant, brossé : l'aspect d'un sol se juge aussi à la main.</li>
+            <li class="reveal"><strong>Un conseil d'expert.</strong> Nos experts vous aident à choisir selon la pièce, l'usage et le style recherché.</li>
+            <li class="reveal"><strong>Du choix à la pose.</strong> Votre sélection rejoint directement le chiffrage de vos travaux : un seul interlocuteur, du showroom au chantier.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CATALOGUES ───────── -->
+    <section class="section section--dark sr-cat" id="catalogues">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Catalogues</p>
+            <h2 class="h2">Feuilletez <em>avant de venir.</em></h2>
+          </div>
+          <p class="section__aside">Nos catalogues de carrelages sont en ligne. Repérez vos coups de cœur, puis venez les voir en vrai.</p>
+        </div>
+        <div class="sr-cat__grid" id="srCatalogues"></div>
+      </div>
+    </section>
+
+    <!-- ───────── PHOTOS DU SHOWROOM (affichée dès que des photos sont ajoutées dans assets/js/showroom.js) ───────── -->
+    <section class="section sr-photos" id="srPhotosSec" hidden>
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">En images</p>
+            <h2 class="h2">Le showroom <em>en vrai.</em></h2>
+          </div>
+        </div>
+        <div class="pj-gallery" id="srPhotos"></div>
+      </div>
+    </section>
+
+    <!-- ───────── PRÉPARER SA VISITE ───────── -->
+    <section class="section cs-steps sr-visit" id="visite">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Votre visite</p>
+            <h2 class="h2">Trois étapes, <em>un sol choisi.</em></h2>
+          </div>
+          <p class="section__aside">Pour gagner du temps sur place, voici comment préparer votre venue.</p>
+        </div>
+        <ol class="cs-steps__list sr-visit__list">
+          <li class="reveal"><span class="cs-steps__n">1</span><h3>Repérez</h3><p>Parcourez nos catalogues en ligne et notez les modèles qui vous plaisent.</p></li>
+          <li class="reveal"><span class="cs-steps__n">2</span><h3>Venez avec vos mesures</h3><p>Surface, photos de la pièce, idée du style : plus nous en savons, mieux nous vous conseillons.</p></li>
+          <li class="reveal"><span class="cs-steps__n">3</span><h3>Choisissez, on s'occupe du reste</h3><p>Votre choix est intégré au devis de vos travaux, puis posé par nos équipes.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ───────── INFOS PRATIQUES ───────── -->
+    <section class="section sr-info" id="acces">
+      <div class="container showroom__grid">
+        <div class="showroom__map reveal" data-consent-box>
+          <iframe title="Plan d'accès au showroom EMBI, 5 rue Villebois-Mareuil, Paris 17e" data-consent-src="https://www.google.com/maps?q=5+rue+Villebois-Mareuil,+75017+Paris&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="consent-ph"><strong>Plan d'accès</strong><p>La carte Google Maps peut déposer des cookies.</p><button type="button" class="btn btn--dark" data-consent-accept>Afficher la carte</button><a href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a></div>
+        </div>
+        <div class="showroom__text">
+          <p class="eyebrow reveal">Infos pratiques</p>
+          <h2 class="h2 reveal">Passez <em>nous voir.</em></h2>
+          <p class="reveal">Le showroom vous accueille du lundi au vendredi, de 10h à 18h. Une question sur un modèle&nbsp;? Appelez-nous ou écrivez-nous.</p>
+          <dl class="showroom__info reveal">
+            <div><dt>Adresse</dt><dd>5, rue Villebois-Mareuil<br />75017 Paris</dd></div>
+            <div><dt>Horaires</dt><dd>Du lundi au vendredi<br />10h à 18h</dd></div>
+            <div><dt>Téléphone</dt><dd><a href="tel:+33145726524">01 45 72 65 24</a></dd></div>
+            <div><dt>E-mail</dt><dd><a href="mailto:sec@embi.fr?subject=Renseignement%20carrelage%20%2F%20parquet">sec@embi.fr</a></dd></div>
+          </dl>
+          <div class="reveal showroom__actions">
+            <a class="btn btn--dark" href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Itinéraire <span aria-hidden="true">↗</span></a>
+            <a class="btn btn--ghost" href="/contact/?type=showroom">Poser une question</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CTA ───────── -->
+    <section class="cs-cta">
+      <div class="container cs-cta__inner">
+        <h2 class="cs-cta__title">Un sol à changer&nbsp;?<br /><em>Commençons par le choisir.</em></h2>
+        <div class="cs-cta__actions">
+          <a href="/contact/?type=showroom" class="btn btn--dark">Demander un devis <span aria-hidden="true">→</span></a>
+          <a href="tel:+33145726524" class="cs-cta__tel">01 45 72 65 24</a>
+        </div>
+      </div>
+    </section>
+  

@@ -5,7 +5,7 @@
   const onContact = !!document.getElementById("form");
   const devisHref = () => {
     const type = document.body.dataset.ctaType || "";
-    return onContact ? "#contact" : `${window.EMBI_ROOT || ""}contact.html${type ? `?type=${type}` : ""}`;
+    return onContact ? "#contact" : `/contact/${type ? `?type=${type}` : ""}`;
   };
   const bar = document.createElement("div");
   bar.className = "fab";

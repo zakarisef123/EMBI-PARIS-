@@ -1,0 +1,63 @@
+{{hero}}
+
+    <!-- ───────── LE SECTEUR ───────── -->
+    <section class="section sector">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">Notre savoir-faire</p>
+          <h2 class="h2 reveal">Un seul interlocuteur, <em>de A à Z.</em></h2>
+          {{paragraphs}}
+        </div>
+        <aside class="sector__works reveal" aria-label="Travaux réalisés">
+          <h3 class="pj-works__h">Les travaux que nous réalisons</h3>
+          <ul class="pj-works">{{works}}</ul>
+          <a href="/savoir-faire/" class="sector__more">Tous nos corps de métier <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ───────── LES CHANTIERS DU SECTEUR ───────── -->
+    <section class="section section--dark pj-more" id="chantiers">
+      <div class="container">
+        <div class="section__head pj-more__head">
+          <div>
+            <p class="eyebrow">Réalisations · {{count}}</p>
+            <h2 class="h2">Nos chantiers <em>de {{plural}}.</em></h2>
+          </div>
+          <a href="/realisations/" class="btn btn--outline-light">Toutes les réalisations <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="pj-cards">
+          {{cards}}
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CONCEPTION SUR MESURE ───────── -->
+    <section class="cs-teaser">
+      <div class="container cs-teaser__inner">
+        <figure class="cs-teaser__img reveal"><img src="/images/methode/livraison.jpg" alt="Croquis d'architecte d'intérieur d'un salon rénové" loading="lazy" /></figure>
+        <div class="cs-teaser__text">
+          <p class="eyebrow reveal">Conception sur mesure</p>
+          <h2 class="h2 reveal">Un architecte <em>et</em> un architecte d'intérieur <em>dans l'équipe.</em></h2>
+          <p class="reveal">Plans, aménagement, mobilier sur mesure : EMBI dessine votre projet puis le réalise. Un seul interlocuteur, de l'esquisse au chantier.</p>
+          <a href="/conception-sur-mesure/" class="btn btn--accent reveal">Découvrir la conception sur mesure <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── LA MÉTHODE ───────── -->
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow reveal">Méthode</p>
+            <h2 class="h2 reveal">De l'étude <em>à la livraison.</em></h2>
+          </div>
+          <a href="/methode/" class="btn btn--ghost reveal">Notre méthode en détail <span aria-hidden="true">→</span></a>
+        </div>
+        {{steps}}
+        <p class="sector__others">Nos autres secteurs&nbsp;: {{others}}</p>
+      </div>
+    </section>
+
+{{cta}}

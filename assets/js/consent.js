@@ -109,7 +109,6 @@
     requestAnimationFrame(() => banner.classList.add("is-open"));
     document.documentElement.classList.add("has-cookie-banner");
   };
-  const root = () => (window.EMBI_ROOT || "");
   function build() {
     banner = document.createElement("div");
     banner.className = "ck";
@@ -119,7 +118,7 @@
     banner.innerHTML = `
       <div class="ck__inner">
         <p class="ck__title">Cookies&nbsp;: <em>à vous de choisir.</em></p>
-        <p class="ck__text">Nous utilisons les cookies nécessaires au fonctionnement du site et, seulement avec votre accord, ceux liés à&nbsp;: ${CATS.map((c) => c.label.toLowerCase()).join(", ")}. Vous pouvez changer d'avis à tout moment via le lien « Gérer les cookies » en bas de page. <a href="${root()}confidentialite.html">Politique de confidentialité</a></p>
+        <p class="ck__text">Nous utilisons les cookies nécessaires au fonctionnement du site et, seulement avec votre accord, ceux liés à&nbsp;: ${CATS.map((c) => c.label.toLowerCase()).join(", ")}. Vous pouvez changer d'avis à tout moment via le lien « Gérer les cookies » en bas de page. <a href="/politique-de-confidentialite/">Politique de confidentialité</a></p>
         <div class="ck__details" id="ckDetails">
           <label class="ck__cat is-locked"><span><strong>Nécessaires</strong><small>Fonctionnement du site et mémorisation de votre choix. Toujours actifs.</small></span><input type="checkbox" checked disabled /><i aria-hidden="true"></i></label>
           ${CATS.map((c) => `<label class="ck__cat"><span><strong>${c.label}</strong><small>${c.desc}</small></span><input type="checkbox" data-cat="${c.id}" /><i aria-hidden="true"></i></label>`).join("")}

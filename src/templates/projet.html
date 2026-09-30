@@ -1,0 +1,66 @@
+    <!-- ───────── EN-TÊTE DU CHANTIER ───────── -->
+    <section class="pj-hero" id="pjHero">
+      <div class="pj-hero__media">{{cover}}</div>
+      <div class="pj-hero__content container">
+        <nav class="pj-crumbs" aria-label="Fil d'Ariane">
+          <a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/realisations/">Réalisations</a><span aria-hidden="true">/</span><span>{{title}}</span>
+        </nav>
+        <p class="pj-hero__cat" id="pjCat">{{catLine}}</p>
+        <h1 class="pj-hero__title" id="pjTitle">{{title}}</h1>
+        <p class="pj-hero__lead" id="pjLead">{{lead}}</p>
+      </div>
+    </section>
+
+    <!-- ───────── LE PROJET : CONTEXTE, TRAVAUX, RÉSULTAT ───────── -->
+    <section class="section pj-body">
+      <div class="container pj-body__grid">
+        <aside class="pj-facts" id="pjFacts" aria-label="Le projet en bref">{{facts}}</aside>
+        <div class="pj-story">
+          <p class="eyebrow">Le chantier</p>
+          <h2 class="pj-story__h">{{storyTitle}}</h2>
+          <div id="pjStory">{{story}}</div>
+          {{works}}
+          {{result}}
+          <div class="pj-story__actions">
+            <a href="/contact/?type={{category}}" class="btn btn--accent pj-cta">Un projet similaire&nbsp;? Devis gratuit <span aria-hidden="true">→</span></a>
+            <a href="{{sectorPath}}" class="btn btn--ghost">Nos chantiers de {{sectorPlural}}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── GALERIE ───────── -->
+    <section class="section pj-gallery-sec" id="galerie">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Galerie</p>
+            <h2 class="h2">Le chantier <em>en images.</em></h2>
+          </div>
+          <p class="section__aside" id="pjCount">{{count}}</p>
+        </div>
+        <div class="pj-gallery{{singleClass}}" id="pjGallery">{{gallery}}</div>
+        <div class="cta-band">
+          <p class="cta-band__title">Un projet comme <em>{{title}}&nbsp;?</em></p>
+          <div class="cta-band__actions">
+            <a href="/contact/?type={{category}}" class="btn btn--dark">Demander un devis gratuit <span aria-hidden="true">→</span></a>
+            <a href="tel:+33145726524" class="btn btn--ghost">01 45 72 65 24</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── PROJET SUIVANT / AUTRES ───────── -->
+    <section class="section section--dark pj-more">
+      <div class="container">
+        <div class="pj-nav" id="pjNav">{{prevNext}}</div>
+        <div class="section__head pj-more__head">
+          <div>
+            <p class="eyebrow">Dans la même catégorie</p>
+            <h2 class="h2" id="pjMoreTitle">{{moreTitle}}</h2>
+          </div>
+          <a href="/realisations/" class="btn btn--outline-light">Toutes les réalisations <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="pj-cards" id="pjMore">{{more}}</div>
+      </div>
+    </section>

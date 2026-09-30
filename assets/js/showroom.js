@@ -8,13 +8,14 @@
  */
 const SHOWROOM_PHOTOS = [];
 
-// Catalogues de l'ancien site embi.fr (OLD est défini dans projects.js)
+// Catalogues : PDF et couvertures fournis par projects.js (généré ; bascule dans site.config.js)
+const DOCS = window.EMBI_DOCS || {}, SIMG = window.EMBI_SITE_IMG || {};
 const SHOWROOM_CATALOGUES = [
-  { name: "Azulev", kind: "Carrelage", cover: OLD + "2017/09/azulev_pres-1.jpg", href: OLD + "2017/09/Azulev_catalogue_2015-2016.pdf" },
-  { name: "Cifre", kind: "Carrelage", cover: OLD + "2017/09/ciifre_pres-1.jpg", href: OLD + "2017/09/CIFRE_catalogue.pdf" },
-  { name: "Novaceram", kind: "Carrelage", cover: OLD + "2017/09/Novaceram_pres.jpg", href: OLD + "2017/09/Novaceram_catalogue_2015.pdf" },
-  { name: "Recer", kind: "Carrelage", cover: OLD + "2017/09/recer.jpg", href: OLD + "2017/09/RECER_catalogue.pdf" },
-  { name: "Boxer", kind: "Site de la marque", cover: OLD + "2017/09/Boxer_pres.jpg", href: "http://www.boxer.it", wide: true },
+  { name: "Azulev", kind: "Carrelage", cover: SIMG["catalogue-azulev"], href: DOCS.azulev },
+  { name: "Cifre", kind: "Carrelage", cover: SIMG["catalogue-cifre"], href: DOCS.cifre },
+  { name: "Novaceram", kind: "Carrelage", cover: SIMG["catalogue-novaceram"], href: DOCS.novaceram },
+  { name: "Recer", kind: "Carrelage", cover: SIMG["catalogue-recer"], href: DOCS.recer },
+  { name: "Boxer", kind: "Site de la marque", cover: SIMG["catalogue-boxer"], href: "http://www.boxer.it", wide: true },
 ];
 
 /* ───── En-tête, menu mobile, progression, apparitions ───── */

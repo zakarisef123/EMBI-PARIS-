@@ -7,28 +7,29 @@
   const esc = (str = "") =>
     str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
-  /* ───── Chargement ───── */
+  /* ───── Chargement : animation d'intro (une fois par visite, voir le script en tête de page) ───── */
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const loader = $("#loader");
+  const intro = !!loader && document.documentElement.classList.contains("intro") && !reduce;
   let loaded = false;
   const finishLoad = () => {
     if (loaded) return;
     loaded = true;
-    loader.classList.add("is-done");
+    if (loader) loader.classList.add("is-done");
+    document.documentElement.classList.remove("intro-lock");
     setTimeout(() => {
       document.body.classList.add("is-loaded");
       document.dispatchEvent(new Event("embi:loaded"));
-    }, reduce ? 0 : 250);
+      if (loader && intro) setTimeout(() => loader.remove(), 1100);
+    }, intro ? 250 : 0);
   };
-  if (!loader) {
-    loaded = true;
-    document.body.classList.add("is-loaded");
-    setTimeout(() => document.dispatchEvent(new Event("embi:loaded")), 0);
-  } else if (reduce) finishLoad();
+  if (!intro) finishLoad();
   else {
-    // compteur 0 → 100 %, terminé au plus tard après ~1,6 s
+    // compteur 0 → 100 %, le contenu de la page est déjà affiché dessous
     const t0 = performance.now(), count = $("#loaderCount");
+    count.textContent = "0";
     const tick = (t) => {
+      if (loaded) return;
       const k = Math.min((t - t0) / 3300, 1);
       count.textContent = Math.round(100 * (1 - Math.pow(1 - k, 3)));
       k < 1 ? requestAnimationFrame(tick) : finishLoad();
@@ -36,7 +37,10 @@
     requestAnimationFrame(tick);
     setTimeout(finishLoad, 4800);
     loader.addEventListener("click", finishLoad);
-    setTimeout(() => { const c = $("#loaderCaption"); if (c) c.innerHTML = "embi. <span>Du plan à la réalité.</span>"; }, 2300);
+    addEventListener("keydown", (e) => { if (e.key === "Escape") finishLoad(); });
+    const skip = $("#loaderSkip");
+    if (skip) { skip.addEventListener("click", (e) => { e.stopPropagation(); count.textContent = "100"; finishLoad(); }); skip.focus({ preventScroll: true }); }
+    setTimeout(() => { const c = $("#loaderCaption"); if (c && !loaded) c.innerHTML = "embi. <span>Du plan à la réalité.</span>"; }, 2300);
   }
   $("#year").textContent = new Date().getFullYear();
 
@@ -102,82 +106,32 @@
   const pageOf = (i) => window.EMBI_PROJECT_URL(projects[i].id);
   const go = (i) => (location.href = pageOf(i));
 
-  /* ───── Références : index en accordéon ───── */
-  const refsList = $("#refsList");
-  if (refsList) {
-  // la liste est déjà écrite dans la page par scripts/build.js ; sinon elle est générée ici
-  if (!refsList.querySelector(".acc__item")) refsList.innerHTML = projects
-    .map((p, i) => {
-      const cat = cats[p.category] || "";
-      const lead = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové" }[p.category] || "Lieu rénové";
-      const txt = p.text || `${lead} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
-      return `<li class="acc__item">
-        <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-${i}" data-i="${i}">
-          <span class="acc__n">${pad(i + 1)}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(cat)}</span><span class="acc__ar" aria-hidden="true">→</span>
-        </button>
-        <div class="acc__panel" id="acc-${i}" role="region"><div class="acc__inner">
-          <a class="acc__img" href="${pageOf(i)}" tabindex="-1"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /></a>
-          <div class="acc__body"><p>${esc(txt)}</p><a class="btn btn--accent acc__open" href="${pageOf(i)}">Voir le projet <span aria-hidden="true">→</span></a></div>
-        </div></div>
-      </li>`;
-    })
-    .join("");
-  const accItems = $$(".acc__item", refsList);
-  $$("[data-n]").forEach((el) => {
-    const f = el.dataset.n;
-    el.textContent = f === "all" ? projects.length : projects.filter((p) => p.category === f).length;
-  });
-  let accFilter = "all";
-  const accVisible = () => projects.map((p, i) => i).filter((i) => accFilter === "all" || projects[i].category === accFilter);
-  $$(".filter").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      $$(".filter").forEach((b) => {
-        b.classList.toggle("is-active", b === btn);
-        b.setAttribute("aria-pressed", b === btn);
-      });
-      accFilter = btn.dataset.filter;
-      const keep = accVisible();
-      accItems.forEach((li, i) => (li.hidden = !keep.includes(i)));
-      openAcc(accItems[keep[0]]);
-    })
-  );
-  const openAcc = (li) => {
-    accItems.forEach((x) => {
-      const on = x === li;
-      x.classList.toggle("is-open", on);
-      $(".acc__head", x).setAttribute("aria-expanded", on);
-    });
-  };
-  openAcc(accItems[0]);
-  let accTimer = null;
-  const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
-  refsList.addEventListener("mouseover", (e) => {
-    if (!canHover) return;
-    const li = e.target.closest(".acc__item");
-    if (!li || li.classList.contains("is-open")) return;
-    clearTimeout(accTimer);
-    accTimer = setTimeout(() => openAcc(li), 140); // petit délai : évite l'effet « accordéon nerveux »
-  });
-  refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
-  refsList.addEventListener("click", (e) => {
-    const head = e.target.closest(".acc__head");
-    if (!head) return;
-    const li = head.parentElement;
-    if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
-    openAcc(li.classList.contains("is-open") ? null : li);
-  });
+  /* ───── Réalisations : filtres de la grille ───── */
+  const grid = $("#grid");
+  if (grid) {
+    const cards = $$(".pj-card", grid);
+    $$(".filter").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        $$(".filter").forEach((b) => {
+          b.classList.toggle("is-active", b === btn);
+          b.setAttribute("aria-pressed", b === btn);
+        });
+        const f = btn.dataset.filter;
+        cards.forEach((c) => (c.hidden = f !== "all" && c.dataset.cat !== f));
+      })
+    );
   }
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */
   const feature = $("#selection");
   if (feature) {
-  const featured = projects.map((p, i) => ({ p, i })).filter(({ p }) => p.featured);
+  const featured = projects.map((p, i) => ({ p, i })).filter(({ p }) => p.featured).sort((a, b) => a.p.featured - b.p.featured);
   const fList = $("#featureList"), fFrame = $("#featureFrame");
   fList.innerHTML = featured
     .map(({ p }, k) => `<li><button type="button" data-k="${k}"><span class="n">${pad(k + 1)}</span><span class="t">${esc(p.title)}</span></button></li>`)
     .join("");
   fFrame.innerHTML = featured
-    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
+    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc((cats[p.category] || "lieu").toLowerCase())} rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
     .join("");
   $("#featureTotal").textContent = pad(featured.length);
   const fItems = $$("li", fList), fImgs = $$(".feature__img", fFrame), fRail = $("#featureRail");
@@ -548,77 +502,82 @@
     }, { threshold: 0.45 }).observe(contract);
   }
 
-  /* ───── Votre projet en 3 questions ───── */
-  const QUIZ = [
-    { key: "lieu", q: "Quel lieu voulez-vous transformer\u00a0?", options: [
-      { v: "Appartement", cat: "particulier", chip: "Un logement (particulier)" },
-      { v: "Maison", cat: "particulier", chip: "Un logement (particulier)" },
-      { v: "Hôtel", cat: "hotel", chip: "Un hôtel" },
-      { v: "Boutique", cat: "boutique", chip: "Une boutique" },
-      { v: "Restaurant", cat: "restaurant", chip: "Un restaurant" },
-      { v: "Bureaux", cat: null, chip: "Des bureaux" },
-    ] },
-    { key: "surface", q: "Quelle surface environ\u00a0?", options: [
-      { v: "Moins de 30 m²" }, { v: "30 à 80 m²" }, { v: "80 à 150 m²" }, { v: "Plus de 150 m²" },
-    ] },
-    { key: "delai", q: "Pour quand\u00a0?", options: [
-      { v: "Dès que possible" }, { v: "D'ici 3 mois" }, { v: "D'ici 6 mois ou plus" }, { v: "Je me renseigne" },
-    ] },
-  ];
-  const quizBody = $("#quizBody");
-  if (quizBody) {
-  const quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack");
-  const answers = [];
-  const renderQuiz = () => {
-    const n = answers.length;
-    quizBack.hidden = n === 0;
-    quizBar.style.transform = `scaleX(${n / QUIZ.length})`;
-    quizBody.classList.remove("is-in");
-    if (n < QUIZ.length) {
-      const step = QUIZ[n];
-      quizStep.textContent = `Question ${n + 1} / ${QUIZ.length}`;
-      quizBody.innerHTML = `<h3 class="quiz__q">${step.q}</h3><div class="quiz__opts">${step.options
-        .map((o, k) => `<button type="button" class="quiz__opt" data-k="${k}"><span>${o.v}</span><i aria-hidden="true">→</i></button>`)
-        .join("")}</div>`;
-    } else {
-      const lieu = answers[0];
-      const refs = lieu.cat ? projects.filter((p) => p.category === lieu.cat).slice(0, 3) : [];
-      quizStep.textContent = "C'est prêt !";
-      quizBody.innerHTML = `<h3 class="quiz__q">Votre projet</h3>
-        <ul class="quiz__recap">${answers.map((a) => `<li>${a.v}</li>`).join("")}</ul>
-        ${refs.length ? `<p class="quiz__refs">Nous avons déjà réalisé des projets comme le vôtre : ${refs.map((r) => `<a href="${window.EMBI_PROJECT_URL(r.id)}"><strong>${esc(r.title)}</strong></a>`).join(", ")}.</p>` : ""}
-        <div class="quiz__end">
-          <button type="button" class="btn btn--dark" id="quizGo" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
-          <button type="button" class="quiz__restart" id="quizRestart">Recommencer</button>
-        </div>`;
-    }
-    requestAnimationFrame(() => quizBody.classList.add("is-in"));
+  /* ───── Formulaires FormSubmit : envoi sans quitter la page, secours par téléphone / e-mail ───── */
+  const validate = (form, note) => {
+    let ok = true;
+    $$("[required]", form).forEach((input) => {
+      if (input.closest("[hidden]") || input.closest(".quiz__set:not(.quiz__final)")) return;
+      const valid = input.type === "checkbox" ? input.checked : input.value.trim() && input.checkValidity();
+      const box = input.closest(".field, .consent");
+      if (box) box.classList.toggle("is-invalid", !valid);
+      if (!valid) ok = false;
+    });
+    if (!ok) note.textContent = "Merci de renseigner votre nom, un e-mail valide et d'accepter la politique de confidentialité.";
+    return ok;
   };
-  quizBody.addEventListener("click", (e) => {
-    const opt = e.target.closest(".quiz__opt");
-    if (opt) {
-      opt.classList.add("is-picked");
-      answers.push(QUIZ[answers.length].options[+opt.dataset.k]);
-      setTimeout(renderQuiz, reduce ? 0 : 220);
-      return;
-    }
-    if (e.target.closest("#quizRestart")) { answers.length = 0; return renderQuiz(); }
-    if (e.target.closest("#quizGo")) {
-      // pré-remplit le formulaire de contact et y emmène le visiteur
-      const lieu = answers[0];
-      const chip = lieu.chip && $(`#form input[name="type"][value="${lieu.chip}"]`);
-      if (chip) chip.checked = true;
-      $('#form textarea[name="message"]').value =
-        `Projet : ${lieu.v}\nSurface : ${answers[1].v}\nDélai : ${answers[2].v}\n\n`;
-      $("#contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-      setTimeout(() => $('#form input[name="nom"]').focus({ preventScroll: true }), reduce ? 0 : 900);
-    }
-  });
-  quizBack.addEventListener("click", () => { answers.pop(); renderQuiz(); });
-  renderQuiz();
+  const mailtoFallback = (form) => {
+    const d = new FormData(form);
+    const lines = [...d.entries()].filter(([k]) => !k.startsWith("_") && k !== "consentement").map(([k, v]) => `${k} : ${v}`);
+    return `mailto:sec@embi.fr?subject=${encodeURIComponent("Demande de devis")}&body=${encodeURIComponent(lines.join("\n"))}`;
+  };
+  const netlifySubmit = (form, note) =>
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!validate(form, note)) return;
+      const btn = $('button[type="submit"]', form);
+      btn.disabled = true;
+      note.textContent = "Envoi en cours…";
+      try {
+        // point d'accès AJAX de FormSubmit (même adresse que le formulaire, préfixée par /ajax)
+        const url = form.getAttribute("action").replace("formsubmit.co/", "formsubmit.co/ajax/");
+        const r = await fetch(url, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
+        const res = await r.json().catch(() => ({}));
+        if (!r.ok || String(res.success) !== "true") throw new Error(res.message || r.status);
+        location.href = "/merci/";
+      } catch (err) {
+        btn.disabled = false;
+        note.innerHTML = `L'envoi n'a pas abouti. Appelez-nous au <a href="tel:+33145726524">01 45 72 65 24</a> ou <a href="${mailtoFallback(form)}">envoyez votre demande par e-mail</a>.`;
+      }
+    });
+
+  /* ───── Votre projet en 3 questions (formulaire « questionnaire ») ───── */
+  const quiz = $("#quiz");
+  if (quiz) {
+    quiz.noValidate = true;
+    const sets = $$(".quiz__set", quiz), quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack"), restart = $("#quizRestart");
+    const QN = sets.length - 1;
+    let step = 0;
+    const show = (n) => {
+      step = n;
+      sets.forEach((f, k) => f.classList.toggle("is-current", k === n));
+      quizBack.hidden = n === 0;
+      restart.hidden = n < QN;
+      quizBar.style.transform = `scaleX(${Math.min(n, QN) / QN})`;
+      quizStep.textContent = n < QN ? `Question ${n + 1} / ${QN}` : "C'est presque prêt !";
+      if (n === QN) {
+        const picked = sets.slice(0, QN).map((f) => $("input:checked", f));
+        $("#quizRecap").innerHTML = picked.map((i) => `<li>${esc(i.value)}</li>`).join("");
+        const cat = picked[0] && picked[0].dataset.cat;
+        const refs = cat ? projects.filter((p) => p.category === cat).slice(0, 3) : [];
+        const box = $("#quizRefs");
+        box.hidden = !refs.length;
+        box.innerHTML = refs.length ? `Nous avons déjà réalisé des projets comme le vôtre : ${refs.map((r) => `<a href="${window.EMBI_PROJECT_URL(r.id)}"><strong>${esc(r.title)}</strong></a>`).join(", ")}.` : "";
+      }
+      quiz.classList.add("is-stepping");
+    };
+    quiz.addEventListener("change", (e) => {
+      const opt = e.target.closest(".quiz__opt input");
+      if (!opt) return;
+      opt.closest(".quiz__opt").classList.add("is-picked");
+      setTimeout(() => show(Math.min(step + 1, QN)), reduce ? 0 : 220);
+    });
+    quizBack.addEventListener("click", () => show(Math.max(step - 1, 0)));
+    restart.addEventListener("click", () => { $$("input[type=radio]", quiz).forEach((i) => (i.checked = false)); $$(".is-picked", quiz).forEach((l) => l.classList.remove("is-picked")); show(0); });
+    show(0);
+    netlifySubmit(quiz, $("#quizNote"));
   }
 
-  /* ───── Arrivée depuis une autre page (Sur mesure, Showroom, chantier) : choix pré-coché ───── */
+  /* ───── Arrivée depuis une autre page (secteur, Sur mesure, Showroom, chantier) : choix pré-coché ───── */
   const preType = {
     conception: "#typeConception", showroom: "#typeShowroom",
     hotel: 'input[value="Un hôtel"]', boutique: 'input[value="Une boutique"]',
@@ -629,24 +588,12 @@
     if (c) c.checked = true;
   }
 
-  /* ───── Formulaire → e-mail pré-rempli vers sec@embi.fr ───── */
+  /* ───── Formulaire de devis ───── */
   const form = $("#form");
-  if (form) form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let ok = true;
-    $$("[required]", form).forEach((input) => {
-      const valid = input.value.trim() && input.checkValidity();
-      input.closest(".field").classList.toggle("is-invalid", !valid);
-      if (!valid) ok = false;
-    });
-    const note = $("#formNote");
-    if (!ok) { note.textContent = "Merci de renseigner votre nom et un e-mail valide."; return; }
-    const d = new FormData(form);
-    const subject = `Demande de devis : ${d.get("type")}`;
-    const body = `Nom : ${d.get("nom")}\nTéléphone : ${d.get("tel") || "non renseigné"}\nE-mail : ${d.get("email")}\nProjet : ${d.get("type")}\n\n${d.get("message") || ""}`;
-    window.location.href = `mailto:sec@embi.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    note.textContent = "Votre messagerie s'ouvre avec la demande pré-remplie. Merci !";
-  });
+  if (form) {
+    form.noValidate = true;
+    netlifySubmit(form, $("#formNote"));
+  }
 })();
 
 /* ───── Fonctionnement : la pièce se transforme à chaque étape ───── */

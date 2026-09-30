@@ -1,4 +1,4 @@
-/* Page d'un chantier : realisations/<id>.html (contenu écrit par scripts/build.js).
+/* Page d'un chantier : /realisations/<id>/ (contenu écrit par scripts/build.js).
    Ici : en-tête, menu mobile, galerie (photos manquantes retirées) et visionneuse. */
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
@@ -36,7 +36,7 @@
   if (!gallery) return;
   const title = $("#pjTitle").textContent;
   const shots = () => $$(".pj-shot", gallery);
-  const srcs = () => shots().map((b) => $("img", b).getAttribute("src"));
+  const srcs = () => shots().map((b) => b.dataset.full || $("img", b).currentSrc || $("img", b).getAttribute("src"));
   // photos de l'ancien site qui n'existent pas : retirées de la galerie
   const recount = () => {
     const n = shots().length;

@@ -1,0 +1,157 @@
+<!--
+{
+  "path": "/",
+  "key": "accueil",
+  "title": "EMBI | Rénovation clé en main à Paris : hôtels, boutiques, restaurants, particuliers",
+  "description": "EMBI rénove hôtels, boutiques, restaurants et appartements à Paris depuis plus de 10 ans. Réseau de 40 professionnels, interlocuteur unique, projet clé en main. Showroom carrelages & parquets Paris 17e.",
+  "loader": true
+}
+-->
+    <!-- ───────── HERO ───────── -->
+    <section class="hero is-revealed" id="top">
+      <div class="hero__photo">
+        {{img:hero|Salle du restaurant Fish Club à Paris, rénové par EMBI|fetchpriority="high" data-hero}}
+      </div>
+      <p class="hero__tag" id="heroTag"><span>Réalisation</span> Fish Club · Paris</p>
+
+      <div class="hero__content">
+        <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
+        <h1 class="hero__title">
+          <span class="line"><span>On transforme</span></span>
+          <span class="line"><span>vos <span class="rotator" id="rotator"><span class="is-active">hôtels.</span><span>boutiques.</span><span>restaurants.</span><span>appartements.</span></span></span></span>
+        </h1>
+        <div class="hero__bottom">
+          <p class="hero__lead">
+            Loro Piana, Byredo, Colette, Hôtel Panache… EMBI et son réseau de 40 professionnels
+            rénovent vos lieux de A à Z, avec un seul interlocuteur.
+          </p>
+          <div class="hero__actions">
+            <a href="#selection" class="btn btn--accent" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
+            <a href="/contact/#projet" class="btn btn--outline-light" data-magnetic>Votre projet en 3 questions</a>
+            <p class="hero__call">Devis gratuit, un seul interlocuteur · <a href="tel:+33145726524">01 45 72 65 24</a></p>
+          </div>
+        </div>
+      </div>
+
+      <a href="#intro" class="hero__badge" aria-label="Défiler vers le bas" data-magnetic>
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="circle" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0" /></defs>
+          <text><textPath href="#circle">rénovation · rapide · à votre écoute ·</textPath></text>
+        </svg>
+        <span aria-hidden="true">↓</span>
+      </a>
+    </section>
+
+    <!-- ───────── MARQUEES CROISÉS ───────── -->
+    <div class="bands" aria-label="Ils nous ont fait confiance">
+      <p class="bands__label"><span>Ils nous ont fait confiance</span></p>
+      <div class="band band--names"><div class="band__track" id="marquee"></div></div>
+      <div class="band band--trades" aria-hidden="true"><div class="band__track band__track--rev" id="marquee2"></div></div>
+    </div>
+
+    <!-- ───────── INTRO / CHIFFRES ───────── -->
+    <section class="intro section" id="intro">
+      <div class="container intro__grid">
+        <div>
+          <p class="eyebrow reveal">À propos</p>
+          <p class="intro__statement" data-words>
+            Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide
+            <em>de l'élaboration à la livraison</em>, avec un interlocuteur dédié pendant toute la durée
+            du chantier.
+          </p>
+        </div>
+        <ul class="stats">
+          <li class="reveal"><strong data-count="10">10</strong><span>ans de savoir-faire en rénovation</span></li>
+          <li class="reveal"><strong data-count="40">40</strong><span>professionnels, tous corps de métier</span></li>
+          <li class="reveal"><strong>1</strong><span>interlocuteur unique, de A à Z</span></li>
+          <li class="reveal"><strong>4</strong><span>univers : hôtels, boutiques, restaurants, particuliers</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ───────── LES 4 SECTEURS ───────── -->
+    <section class="section explore" id="secteurs">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow reveal">Nos secteurs</p>
+            <h2 class="h2 reveal">Hôtels, boutiques, restaurants,<br /><em>appartements.</em></h2>
+          </div>
+          <p class="section__aside reveal">Des maisons de luxe aux hôtels parisiens, en passant par les restaurants et les appartements de particuliers : la même exigence, à chaque chantier.</p>
+        </div>
+        {{block:sector-cards}}
+      </div>
+    </section>
+
+    <!-- ───────── SÉLECTION (défilement horizontal) ───────── -->
+    <section class="feature" id="selection">
+      <div class="feature__sticky">
+        <div class="feature__left">
+          <p class="eyebrow">Sélection</p>
+          <h2 class="feature__heading">Nos chantiers <em>signature.</em></h2>
+          <div class="feature__listwrap">
+            <span class="feature__rail"><span id="featureRail"></span></span>
+            <ol class="feature__list" id="featureList"><!-- généré depuis projects.js --></ol>
+          </div>
+          <div class="feature__meta">
+            <span class="feature__count"><b id="featureNum">01</b> / <span id="featureTotal">05</span></span>
+            <button class="btn btn--accent" id="featureOpen" type="button" data-magnetic>Voir le projet <span aria-hidden="true">→</span></button>
+            <a class="feature__all" href="/realisations/">Toutes les réalisations</a>
+          </div>
+        </div>
+        <div class="feature__frame" id="featureFrame" data-cursor="Voir"><!-- photos --></div>
+      </div>
+    </section>
+
+
+    <!-- ───────── LA MÉTHODE EN BREF ───────── -->
+    <section class="section method-brief">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow reveal">Fonctionnement</p>
+            <h2 class="h2 reveal">De l'étude<br /><em>à la réalisation.</em></h2>
+          </div>
+          <a href="/methode/" class="btn btn--ghost reveal">Les 5 étapes en détail <span aria-hidden="true">→</span></a>
+        </div>
+        {{block:method-brief}}
+      </div>
+    </section>
+
+    <!-- ───────── CONCEPTION SUR MESURE (renvoi vers la page) ───────── -->
+    <section class="cs-teaser" id="sur-mesure">
+      <div class="container cs-teaser__inner">
+        <figure class="cs-teaser__img reveal"><img src="/images/methode/livraison.jpg" alt="Croquis d'architecte d'intérieur d'un salon rénové" loading="lazy" /></figure>
+        <div class="cs-teaser__text">
+          <p class="eyebrow reveal">Conception sur mesure</p>
+          <h2 class="h2 reveal">Un architecte <em>et</em> un architecte d'intérieur <em>dans l'équipe.</em></h2>
+          <p class="reveal">Plans, aménagement, mobilier sur mesure : EMBI dessine votre projet puis le réalise. Un seul interlocuteur, de l'esquisse au chantier.</p>
+          <a href="/conception-sur-mesure/" class="btn btn--accent reveal">Découvrir la conception sur mesure <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── URGENCE ───────── -->
+    <section class="urgent" id="urgence">
+      <div class="container urgent__inner">
+        <div>
+          <p class="urgent__kicker"><span class="pulse"></span>Urgence</p>
+          <h2 class="urgent__title">Un imprévu&nbsp;? Une demande urgente&nbsp;?</h2>
+          <p>Plomberie, serrurerie, électricité… Un numéro dédié, en dehors des heures d'ouverture du bureau.</p>
+        </div>
+        <div class="urgent__actions"><a class="urgent__phone" href="tel:+33631600135">06 31 60 01 35 <span aria-hidden="true">→</span></a><a class="urgent__more" href="/urgence/">Plus d'infos sur la ligne d'urgence</a></div>
+      </div>
+    </section>
+
+
+    <!-- ───────── APPEL À L'ACTION ───────── -->
+    <section class="cs-cta">
+      <div class="container cs-cta__inner">
+        <h2 class="cs-cta__title">Un lieu à transformer&nbsp;?<br /><em>Parlons de votre projet.</em></h2>
+        <div class="cs-cta__actions">
+          <a href="/contact/" class="btn btn--dark">Demander un devis gratuit <span aria-hidden="true">→</span></a>
+          <a href="/contact/#projet" class="cs-cta__tel">Mon projet en 3 questions</a>
+        </div>
+      </div>
+    </section>
+  

@@ -1,0 +1,60 @@
+<!--
+{
+  "path": "/realisations/",
+  "key": "realisations",
+  "title": "Nos réalisations à Paris : hôtels, boutiques, restaurants, appartements | EMBI",
+  "description": "Loro Piana, Byredo, Colette, Hôtel Panache, Fish Club… Tous les chantiers de rénovation clé en main réalisés par EMBI à Paris : hôtels, boutiques, restaurants et appartements.",
+  "crumbs": [
+    {
+      "name": "Réalisations",
+      "path": "/realisations/"
+    }
+  ]
+}
+-->
+    <section class="cs-hero page-hero" id="pageHero">
+      <div class="container page-hero__inner">
+        <nav class="pj-crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><span>Réalisations</span></nav>
+        <h1 class="cs-hero__title">Nos réalisations <em>à Paris.</em></h1>
+        <p class="cs-hero__lead">Hôtels, boutiques de luxe, restaurants et appartements : chaque chantier est mené clé en main par EMBI et son réseau de 40 professionnels, avec un seul interlocuteur de l'étude à la livraison.</p>
+      </div>
+    </section>
+
+    <!-- ───────── À LA UNE ───────── -->
+    <section class="section section--dark pj-more realisations-top">
+      <div class="container">
+        <div class="section__head pj-more__head">
+          <div>
+            <p class="eyebrow">À la une</p>
+            <h2 class="h2">Nos chantiers <em>signature.</em></h2>
+          </div>
+          <p class="section__aside">Des maisons de luxe aux hôtels parisiens, en passant par les restaurants et les appartements de particuliers : la même exigence, à chaque chantier.</p>
+        </div>
+        {{block:featured-cards}}
+      </div>
+    </section>
+
+    <!-- ───────── TOUS LES CHANTIERS ───────── -->
+    <section class="section realisations-all">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Toutes les réalisations</p>
+            <h2 class="h2">Ils nous ont<br /><em>confié leurs lieux.</em></h2>
+          </div>
+          {{block:grid-filters}}
+        </div>
+        {{block:all-cards}}
+        <p class="sector__others">Par secteur&nbsp;: {{block:sector-links}}</p>
+      </div>
+    </section>
+
+    <section class="cs-cta">
+      <div class="container cs-cta__inner">
+        <h2 class="cs-cta__title">Votre lieu,<br /><em>notre prochaine réalisation&nbsp;?</em></h2>
+        <div class="cs-cta__actions">
+          <a href="/contact/" class="btn btn--dark">Demander un devis gratuit <span aria-hidden="true">→</span></a>
+          <a href="tel:+33145726524" class="cs-cta__tel">01 45 72 65 24</a>
+        </div>
+      </div>
+    </section>
