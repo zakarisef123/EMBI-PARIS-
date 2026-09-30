@@ -602,6 +602,12 @@
   quizBack.addEventListener("click", () => { answers.pop(); renderQuiz(); });
   renderQuiz();
 
+  /* ───── Arrivée depuis la page « Conception sur mesure » : choix pré-coché ───── */
+  if (new URLSearchParams(location.search).get("type") === "conception") {
+    const c = document.getElementById("typeConception");
+    if (c) c.checked = true;
+  }
+
   /* ───── Formulaire → e-mail pré-rempli vers sec@embi.fr ───── */
   const form = $("#form");
   form.addEventListener("submit", (e) => {

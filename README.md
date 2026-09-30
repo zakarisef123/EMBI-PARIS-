@@ -39,3 +39,7 @@ ajoutez dans son bloc les champs `lieu`, `annee`, `surface`, `duree`, `travaux`,
 et d'autres photos dans `images` (le mode d'emploi détaillé est en haut du fichier).
 On y accède depuis le menu « Réalisations » en haut de chaque page, la liste des réalisations,
 les chantiers signature, le bandeau des références et le questionnaire « Votre projet en 3 questions ».
+
+## Page « Conception sur mesure »
+`conception.html` présente le service architecte + architecte d'intérieur. On y accède par « Sur mesure » dans le menu du haut et par le bandeau de l'accueil.
+Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mesure » déjà coché.
