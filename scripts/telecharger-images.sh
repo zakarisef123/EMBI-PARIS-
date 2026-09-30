@@ -1,27 +1,21 @@
 #!/usr/bin/env bash
-# Rapatrie les photos des réalisations depuis l'ancien site embi.fr
+# Rapatrie toutes les photos des réalisations depuis l'ancien site embi.fr
 # vers images/realisations/ (à lancer AVANT de fermer l'ancien site).
+# Les photos listées dans assets/js/projects.js qui n'existent pas sont ignorées.
 # Ensuite, dans assets/js/projects.js, remplacez :
 #   const OLD = "https://www.embi.fr/wp-content/uploads/";
 # par :
 #   const OLD = "images/realisations/";
-set -euo pipefail
+set -uo pipefail
 cd "$(dirname "$0")/.."
-BASE="https://www.embi.fr/wp-content/uploads"
-FILES=(
-  2018/01/Hotel-Panache-012.jpg 2018/01/COLETTE-5.jpg
-  2017/11/Hotel-ambassadeur-9.jpg 2017/11/PETITE-MENDIGOTE-01.jpg
-  2017/11/BYREDO-01.jpg 2017/11/HOTEL-BIENVENUE-09.jpg
-  2017/11/LORO-PIANA-03.jpg 2017/11/boutique-harrods-tartine-et-chocolat-04.jpg
-  2017/11/renovation-appartement-particulier-4.jpg 2017/09/FishClub_03.jpg
-  2017/09/Loustic_01.jpg 2017/09/HotelParadis_01.jpg 2017/09/midi2.jpg
-  2017/09/Pinson_01.jpg 2017/09/appartement-particulier-renovation-03.jpg
-  2017/09/Triomphe_01.jpg 2017/09/Grandpigalle_01.jpg
-  2018/08/FishClub-paris.jpg
-)
-for f in "${FILES[@]}"; do
-  mkdir -p "images/realisations/$(dirname "$f")"
-  echo "↓ $f"
-  curl -fsSL "$BASE/$f" -o "images/realisations/$f"
-done
-echo "✓ Images téléchargées dans images/realisations/"
+BASE="https://www.embi.fr/wp-content/uploads/"
+urls=$(node -e 'global.window={};require("./assets/js/projects.js");const s=new Set();for(const p of window.EMBI_PROJECTS)for(const u of p.images)s.add(u);console.log([...s].join("\n"))')
+urls="$urls"$'\n'"${BASE}2018/08/FishClub-paris.jpg"
+ok=0; ko=0
+while IFS= read -r u; do
+  [ -z "$u" ] && continue
+  f="images/realisations/${u#"$BASE"}"
+  mkdir -p "$(dirname "$f")"
+  if curl -fsSL "$u" -o "$f"; then ok=$((ok+1)); echo "✓ ${u#"$BASE"}"; else rm -f "$f"; ko=$((ko+1)); fi
+done <<< "$urls"
+echo "Terminé : $ok photos téléchargées ($ko adresses sans photo, ignorées)."
