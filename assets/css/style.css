@@ -1641,3 +1641,19 @@ html { scroll-padding-top: 96px; scroll-padding-bottom: 24px; }
 .ck__inner { max-height: calc(100dvh - 32px); }
 /* Pas de flash gris au toucher sur les éléments cliquables */
 a, button, label, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+/* Barre « Appeler / Devis » : seuls les deux boutons captent les appuis (l'espace entre eux laisse passer) */
+.fab.is-on { pointer-events: none; }
+.fab.is-on a { pointer-events: auto; }
+/* Menu mobile : hauteur de la partie réellement visible (barres de Safari), marge pour la zone du bas de l'iPhone */
+@media (max-width: 860px) {
+  .nav { bottom: auto; height: 100vh; height: 100dvh; padding-bottom: calc(40px + env(safe-area-inset-bottom)); }
+}
+/* Mobile : barre compacte en bas à droite (ne recouvre plus la largeur de l'écran) */
+@media (max-width: 760px) {
+  .fab { left: auto; right: 12px; gap: 8px; }
+  .fab a { flex: none; height: 48px; padding: 0 18px; }
+  .fab__tel { width: 48px; padding: 0; }
+  .fab__tel span { display: none; }
+  .fab__devis { flex: none; }
+}
