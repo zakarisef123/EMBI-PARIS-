@@ -29,8 +29,20 @@
   watch.forEach((el) => io.observe(el));
 
   const nav = document.getElementById("nav");
-  function update() {
-    const show = scrollY > innerHeight * 0.6 && !blocked && !(nav && nav.classList.contains("is-open"));
+  // Mobile : la barre recouvre le bas de l'écran. Elle se cache quand on descend (lecture, appui sur le contenu)
+  // et revient quand on remonte, pour ne jamais « voler » un appui destiné à la page.
+  const mobile = matchMedia("(max-width: 760px)");
+  let lastY = scrollY, goingDown = false, idle = false, idleTimer = null;
+  function update(e) {
+    const y = scrollY;
+    if (Math.abs(y - lastY) > 6) { goingDown = y > lastY; lastY = y; }
+    // mobile : la barre s'efface aussi 2 s après l'arrêt du défilement, pour libérer le bas de l'écran
+    if (e && e.type === "scroll" && mobile.matches) {
+      idle = false;
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => { idle = true; update(); }, 2000);
+    }
+    const show = y > innerHeight * 0.6 && !blocked && !(nav && nav.classList.contains("is-open")) && !(mobile.matches && (goingDown || idle));
     if (show) devis.setAttribute("href", devisHref());
     bar.classList.toggle("is-on", show);
   }

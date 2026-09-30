@@ -172,8 +172,19 @@
       const head = e.target.closest(".acc__head");
       if (!head) return;
       const li = head.parentElement;
-      if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
-      openAcc(li.classList.contains("is-open") ? null : li);
+      // nom d'un chantier déjà ouvert : on va sur sa page (souris comme doigt)
+      if (li.classList.contains("is-open")) return go(+head.dataset.i);
+      // on garde le nom touché à la même place à l'écran pendant que la liste se réorganise,
+      // puis on s'assure que la photo et « Voir le projet » sont visibles
+      const top0 = head.getBoundingClientRect().top;
+      openAcc(li);
+      if (!canHover) {
+        const keep = () => { const d = head.getBoundingClientRect().top - top0; if (Math.abs(d) > 1) window.scrollBy(0, d); };
+        requestAnimationFrame(keep);
+        const t0 = performance.now();
+        const follow = () => { keep(); if (performance.now() - t0 < 750) requestAnimationFrame(follow); else { const r = li.getBoundingClientRect(); if (r.bottom > innerHeight - 16) window.scrollBy({ top: Math.min(r.bottom - innerHeight + 24, r.top - 90), behavior: reduce ? "auto" : "smooth" }); } };
+        requestAnimationFrame(follow);
+      }
     });
   }
 
