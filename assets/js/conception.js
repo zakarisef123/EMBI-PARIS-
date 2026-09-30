@@ -45,22 +45,6 @@
   ];
   const skG = document.getElementById("skLines");
   lines.forEach((d, i) => el("path", { d, pathLength: 1, class: i > 15 ? "thin" : "", style: `--i:${i}` }, skG));
-  const pencil = document.querySelector("#s1 .pencil");
-  let pencilRaf = null;
-  const runPencil = () => {
-    cancelAnimationFrame(pencilRaf);
-    pencil.classList.remove("done");
-    const stage = document.getElementById("s1"), paths = [...skG.children], t0 = performance.now(), per = 110, dur = 900;
-    const tick = (t) => {
-      const el = Math.max(t - t0, 0), k = Math.min(Math.floor(el / per), paths.length - 1);
-      const local = Math.min(Math.max((el - k * per) / dur, 0), 1);
-      const p = paths[k], L = p.getTotalLength(), pt = p.getPointAtLength(L * (1 - Math.pow(1 - local, 3)));
-      const sx = stage.clientWidth / 600, sy = stage.clientHeight / 400;
-      pencil.style.left = pt.x * sx + "px"; pencil.style.top = pt.y * sy + "px";
-      if (el < paths.length * per + dur) pencilRaf = requestAnimationFrame(tick); else pencil.classList.add("done");
-    };
-    if (!reduce) pencilRaf = requestAnimationFrame(tick); else pencil.classList.add("done");
-  };
 
   /* 2 · plan → volume : murs définis en plan, extrudés en axonométrie */
   const walls = [[60,50,540,50],[540,50,540,350],[540,350,60,350],[60,350,60,50],[300,50,300,170],[300,230,300,350],[60,200,180,200],[230,200,300,200],[420,350,420,260],[420,260,540,260]];
@@ -147,7 +131,7 @@
   };
 
   /* lancement à l'arrivée à l'écran + Rejouer */
-  const RUN = { sketch: runPencil, volume: runVolume, calque: runCalque, board: () => {} };
+  const RUN = { sketch: () => {}, volume: runVolume, calque: runCalque, board: () => {} };
   const play = (box) => {
     const stage = box.querySelector(".stage");
     stage.classList.remove("go");

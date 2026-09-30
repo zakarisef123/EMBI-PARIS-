@@ -1159,9 +1159,6 @@ img.is-broken { opacity: 0; }
 .csa .sk .thin { stroke-width: 0.9; opacity: 0.6; }
 .csa .go .sk path, .csa .go .sk polygon, .csa .go .sk line { animation: csaDraw 0.9s var(--ease) forwards; animation-delay: calc(var(--i) * 0.11s); }
 @keyframes csaDraw { to { stroke-dashoffset: 0; } }
-.csa .pencil { position: absolute; width: 34px; height: 34px; left: 0; top: 0; pointer-events: none; transform: translate(-2px, -32px) rotate(0deg); opacity: 0; transition: opacity 0.3s; }
-.csa .go .pencil { opacity: 1; }
-.csa .pencil.done { opacity: 0; }
 .csa .wash { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%); mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%); }
 .csa .go .wash { animation: csaWash 2.4s var(--ease) 2.4s forwards; }
 .csa .go .sk { animation: csaFadeLines 1.6s ease 3.2s forwards; }
