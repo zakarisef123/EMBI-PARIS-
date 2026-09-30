@@ -602,10 +602,14 @@
   quizBack.addEventListener("click", () => { answers.pop(); renderQuiz(); });
   renderQuiz();
 
-  /* ───── Arrivée depuis « Sur mesure » ou « Showroom » : choix pré-coché ───── */
-  const preType = { conception: "typeConception", showroom: "typeShowroom" }[new URLSearchParams(location.search).get("type")];
+  /* ───── Arrivée depuis une autre page (Sur mesure, Showroom, chantier) : choix pré-coché ───── */
+  const preType = {
+    conception: "#typeConception", showroom: "#typeShowroom",
+    hotel: 'input[value="Un hôtel"]', boutique: 'input[value="Une boutique"]',
+    restaurant: 'input[value="Un restaurant"]', particulier: 'input[value="Un logement (particulier)"]',
+  }[new URLSearchParams(location.search).get("type")];
   if (preType) {
-    const c = document.getElementById(preType);
+    const c = document.querySelector(`#form ${preType}`);
     if (c) c.checked = true;
   }
 

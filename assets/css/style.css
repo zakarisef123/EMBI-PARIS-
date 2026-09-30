@@ -1301,3 +1301,32 @@ img.is-broken { opacity: 0; }
 .header .logo { align-items: center; }
 .logo__svg { display: block; height: 34px; width: auto; overflow: visible; }
 @media (max-width: 560px) { .logo__svg { height: 28px; } }
+
+/* ═════════ Appels à l'action ═════════ */
+.hero__call { flex-basis: 100%; margin: 6px 0 0; font-size: 14px; color: rgba(255, 255, 255, 0.7); }
+.hero__call a { color: #fff; font-weight: 700; border-bottom: 1px solid var(--accent); }
+
+.cta-band { display: flex; align-items: center; justify-content: space-between; gap: 24px 40px; flex-wrap: wrap; margin-top: clamp(40px, 6vw, 72px); padding: clamp(26px, 3.4vw, 44px); border-radius: calc(var(--radius) + 4px); background: var(--bg-2); border: 1px solid var(--line); }
+.cta-band--dark { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.12); }
+.cta-band__title { margin: 0; min-width: 0; font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.05; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.cta-band__title em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+.cta-band__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Barre flottante « Appeler / Devis gratuit » */
+.fab { position: fixed; right: 24px; bottom: 24px; z-index: 90; display: flex; gap: 10px; opacity: 0; transform: translateY(20px); pointer-events: none; transition: opacity 0.35s var(--ease), transform 0.45s var(--ease); }
+.fab.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.fab a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 52px; padding: 0 22px; border-radius: 999px; font: 600 15px var(--sans); box-shadow: 0 16px 40px -12px rgba(15, 14, 13, 0.45); transition: background 0.25s, color 0.25s, transform 0.25s; }
+.fab a:hover { transform: translateY(-2px); }
+.fab__tel { background: var(--ink); color: var(--bg); }
+.fab__tel svg { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
+.fab__tel span { display: none; }
+.fab__devis { background: var(--accent); color: #fff; }
+.fab__devis:hover { background: var(--ink); }
+@media (min-width: 761px) { .fab__tel { width: 52px; padding: 0; } }
+@media (max-width: 760px) {
+  .fab { left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .fab a { flex: 1; height: 50px; padding: 0 14px; }
+  .fab__tel span { display: inline; }
+  .fab__devis { flex: 1.4; }
+}
+@media (prefers-reduced-motion: reduce) { .fab { transition: none; } }

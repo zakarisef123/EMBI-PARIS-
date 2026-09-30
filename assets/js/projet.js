@@ -68,6 +68,11 @@
   $("#pjCat").innerHTML = `<span>${esc(cat)}</span>${p.lieu ? ` · ${esc(p.lieu)}` : ""}${p.annee ? ` · ${esc(p.annee)}` : ""}`;
   $("#pjLead").textContent = p.text || `${lead[p.category] || "Lieu rénové"} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
 
+  // Appels à l'action : le formulaire de l'accueil arrive pré-coché sur le bon type de lieu
+  document.body.dataset.ctaType = p.category;
+  $("#pjCta").href = $("#pjBandCta").href = `index.html?type=${p.category}#contact`;
+  $("#pjBandTitle").innerHTML = `Un projet comme <em>${esc(p.title)}&nbsp;?</em>`;
+
   // Le projet en bref (seulement ce qui est renseigné)
   const facts = [
     ["Catégorie", cat],
