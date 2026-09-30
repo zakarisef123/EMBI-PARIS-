@@ -12,14 +12,15 @@
     body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
     main { max-width: 1120px; margin: 0 auto; padding: 48px 16px 64px; }
     h1 { margin: 0 0 8px; font-size: clamp(28px, 5vw, 40px); }
-    main > p { margin: 0 0 32px; color: var(--muted); }
+    main > p { margin: 0 0 8px; color: var(--muted); }
     ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); gap: 24px; }
     a { color: inherit; text-decoration: none; }
     li a { display: block; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s; }
     li a:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.1); }
     img { display: block; width: 100%; aspect-ratio: 297 / 210; object-fit: cover; border-bottom: 1px solid var(--line); }
     li div { padding: 16px 18px 18px; }
-    h2 { margin: 0 0 4px; font-size: 19px; }
+    main > h2 { margin: 40px 0 16px; font-size: 22px; }
+    h3 { margin: 0 0 4px; font-size: 19px; }
     li p { margin: 0; color: var(--muted); font-size: 14px; }
     .back { display: inline-block; margin-bottom: 24px; color: var(--muted); font-size: 14px; }
   </style>
@@ -28,12 +29,26 @@
   <main>
     <a class="back" href="index.html">← Retour au site</a>
     <h1>Plaquettes EMBI</h1>
-    <p>4 styles, mêmes textes et mêmes photos. 16 pages A4 paysage, à imprimer ou à enregistrer en PDF.</p>
+    <p>11 styles, mêmes textes et mêmes photos. 16 pages A4 paysage, à imprimer ou à enregistrer en PDF.</p>
+    <h2>Dans l'esprit du site</h2>
     <ul>
-      <li><a href="plaquette.html"><img src="images/plaquette/apercus/ancienne.jpg" alt="Couverture du style Ancienne pimpée" /><div><h2>Ancienne pimpée</h2><p>L'ancienne plaquette modernisée : bleu marine et orange, découpes en diagonale, écusson.</p></div></a></li>
-      <li><a href="plaquette-editorial.html"><img src="images/plaquette/apercus/editorial.jpg" alt="Couverture du style Éditorial" /><div><h2>Éditorial</h2><p>Magazine de luxe : crème, typographie à empattements, terracotta, beaucoup d'air.</p></div></a></li>
-      <li><a href="plaquette-architecte.html"><img src="images/plaquette/apercus/architecte.jpg" alt="Couverture du style Architecte" /><div><h2>Architecte</h2><p>Plan bleu quadrillé, cotes, cartouche d'architecte sur chaque planche.</p></div></a></li>
-      <li><a href="plaquette-bold.html"><img src="images/plaquette/apercus/bold.jpg" alt="Couverture du style Bold" /><div><h2>Bold</h2><p>Noir, blanc et orange : grosse typographie, stickers, très contrasté.</p></div></a></li>
+      <li><a href="plaquette-site-nuit.html"><img src="images/plaquette/apercus/site-nuit.jpg" alt="Couverture du style Site · Nuit" loading="lazy" /><div><h3>Site · Nuit</h3><p>Le noir du site, Syne et Instrument Serif, orange chantier, photos arrondies et badge « rénovation · rapide · à votre écoute ».</p></div></a></li>
+      <li><a href="plaquette-site-creme.html"><img src="images/plaquette/apercus/site-creme.jpg" alt="Couverture du style Site · Crème" loading="lazy" /><div><h3>Site · Crème</h3><p>Le crème du site, « On transforme vos hôtels. boutiques… », tampon « Clé en main » et étiquettes en pastilles.</p></div></a></li>
+      <li><a href="plaquette-site-croquis.html"><img src="images/plaquette/apercus/site-croquis.jpg" alt="Couverture du style Site · Croquis" loading="lazy" /><div><h3>Site · Croquis</h3><p>Carnet d'architecte : papier quadrillé, écriture à la main, photos scotchées et plan « embi » du site.</p></div></a></li>
+    </ul>
+    <h2>Styles déjà proposés</h2>
+    <ul>
+      <li><a href="plaquette.html"><img src="images/plaquette/apercus/ancienne.jpg" alt="Couverture du style Ancienne pimpée" loading="lazy" /><div><h3>Ancienne pimpée</h3><p>L'ancienne plaquette modernisée : bleu marine et orange, découpes en diagonale, écusson.</p></div></a></li>
+      <li><a href="plaquette-editorial.html"><img src="images/plaquette/apercus/editorial.jpg" alt="Couverture du style Éditorial" loading="lazy" /><div><h3>Éditorial</h3><p>Magazine de luxe : crème, typographie à empattements, terracotta, beaucoup d'air.</p></div></a></li>
+      <li><a href="plaquette-architecte.html"><img src="images/plaquette/apercus/architecte.jpg" alt="Couverture du style Architecte" loading="lazy" /><div><h3>Architecte</h3><p>Plan bleu quadrillé, cotes et cartouche d'architecte sur chaque planche.</p></div></a></li>
+      <li><a href="plaquette-bold.html"><img src="images/plaquette/apercus/bold.jpg" alt="Couverture du style Bold" loading="lazy" /><div><h3>Bold</h3><p>Noir, blanc et orange : grosse typographie, stickers, très contrasté.</p></div></a></li>
+    </ul>
+    <h2>Autres styles</h2>
+    <ul>
+      <li><a href="plaquette-suisse.html"><img src="images/plaquette/apercus/suisse.jpg" alt="Couverture du style Suisse" loading="lazy" /><div><h3>Suisse</h3><p>Minimal et rigoureux : blanc, noir et rouge, grille stricte, grands numéros.</p></div></a></li>
+      <li><a href="plaquette-art-deco.html"><img src="images/plaquette/apercus/art-deco.jpg" alt="Couverture du style Art déco" loading="lazy" /><div><h3>Art déco</h3><p>Vert profond et or, photos en arches, cadres dorés et soleil rayonnant.</p></div></a></li>
+      <li><a href="plaquette-retro.html"><img src="images/plaquette/apercus/retro.jpg" alt="Couverture du style Rétro 70s" loading="lazy" /><div><h3>Rétro 70s</h3><p>Moutarde, rouille et brun, arc-en-ciel, photos en arrondis et pastilles rondes.</p></div></a></li>
+      <li><a href="plaquette-brutal.html"><img src="images/plaquette/apercus/brutal.jpg" alt="Couverture du style Néo-brutaliste" loading="lazy" /><div><h3>Néo-brutaliste</h3><p>Jaune, bleu électrique et rose, bordures noires et ombres franches.</p></div></a></li>
     </ul>
   </main>
 </body>

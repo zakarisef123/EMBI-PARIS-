@@ -51,11 +51,11 @@ Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mes
 - Les boutons « Demander un devis » pré-cochent « Carrelage / parquet » dans le formulaire de l'accueil.
 
 ## Plaquettes de présentation
-`plaquettes.html` présente 4 styles de plaquette (16 pages A4 paysage, mêmes textes et photos) :
+`plaquettes.html` présente 11 styles de plaquette (16 pages A4 paysage, mêmes textes et photos) :
+- dans l'esprit du site : `plaquette-site-nuit.html`, `plaquette-site-creme.html`, `plaquette-site-croquis.html` ;
 - `plaquette.html` : l'ancienne plaquette modernisée (bleu marine, orange, découpes en diagonale, écusson) ;
-- `plaquette-editorial.html` : magazine de luxe (crème, serif, terracotta) ;
-- `plaquette-architecte.html` : plan d'architecte (bleu quadrillé, cotes, cartouche) ;
-- `plaquette-bold.html` : graphique contrasté (noir, blanc, orange).
+- `plaquette-editorial.html`, `plaquette-architecte.html`, `plaquette-bold.html` ;
+- `plaquette-suisse.html`, `plaquette-art-deco.html`, `plaquette-retro.html`, `plaquette-brutal.html`.
 
 Pour obtenir le PDF : ouvrir la plaquette dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », mise en page « Paysage », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
 Les photos viennent du PDF de l'ancienne plaquette et sont rangées dans `images/plaquette/`.
