@@ -1170,8 +1170,8 @@ img.is-broken { opacity: 0; }
 .csa .go .hand-note { opacity: 1; transition-delay: 4.8s; }
 
 /* 2 · Plan → volume */
-.csa .vol .wall { fill: #efe7da; stroke: #1c1b19; stroke-width: 1.4; stroke-linejoin: round; }
-.csa .vol .wall.side { fill: #ddd0bf; }
+.csa .vol .wall { fill: #efe7da; stroke: #efe7da; stroke-width: 1; stroke-linejoin: round; }
+.csa .vol .wall.side { fill: #ddd0bf; stroke: #ddd0bf; }
 .csa .vol .floor { fill: #d8b48a; stroke: none; }
 .csa .vol .door { fill: none; stroke: var(--orange); stroke-width: 1.4; }
 .csa .vol .dim { stroke: rgba(22,21,19,.4); stroke-width: 1; fill: none; }
@@ -1220,3 +1220,4 @@ img.is-broken { opacity: 0; }
 
 
 @media (max-width: 600px) { .csa .csa-long { display: none; } }
+.csa .vol .wall-edge { fill: none; stroke: #1c1b19; stroke-width: 1.4; stroke-linecap: round; }
