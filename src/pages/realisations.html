@@ -21,7 +21,7 @@
     </section>
 
     <!-- ───────── À LA UNE ───────── -->
-    <section class="section section--dark pj-more realisations-top">
+    <section class="section pj-more realisations-top">
       <div class="container">
         <div class="section__head pj-more__head">
           <div>
@@ -34,18 +34,12 @@
       </div>
     </section>
 
-    <!-- ───────── TOUS LES CHANTIERS ───────── -->
-    <section class="section realisations-all">
+    <!-- ───────── TOUS LES CHANTIERS (liste typographique) ───────── -->
+    {{block:refs}}
+
+    <section class="section section--tight">
       <div class="container">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Toutes les réalisations</p>
-            <h2 class="h2">Ils nous ont<br /><em>confié leurs lieux.</em></h2>
-          </div>
-          {{block:grid-filters}}
-        </div>
-        {{block:all-cards}}
-        <p class="sector__others">Par secteur&nbsp;: {{block:sector-links}}</p>
+        <p class="sector__others">Nos chantiers par secteur&nbsp;: {{block:sector-links}}</p>
       </div>
     </section>
 

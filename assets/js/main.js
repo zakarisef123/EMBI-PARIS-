@@ -48,15 +48,24 @@
   const header = $("#header");
   const hero = $(".hero, .cs-hero, .pj-hero");
   if (hero) header.classList.add("on-dark");
-  let lastY = 0;
+  let lastY = 0, heroH = hero ? hero.offsetHeight : 0, docH = 0, ticking = false;
+  const progress = $("#progress");
+  const measure = () => { heroH = hero ? hero.offsetHeight : 0; docH = document.documentElement.scrollHeight - innerHeight; };
+  // un seul calcul par image affichée (évite les recalculs de mise en page à chaque événement de défilement)
   const onScroll = () => {
+    ticking = false;
     const y = window.scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", !!hero && y < hero.offsetHeight - 60);
+    header.classList.toggle("on-dark", !!hero && y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
+    if (progress) progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;
   };
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener("resize", () => { measure(); onScroll(); }, { passive: true });
+  window.addEventListener("load", measure);
+  new ResizeObserver(measure).observe(document.body);
+  measure();
 
   /* ───── Menu mobile ───── */
   const burger = $("#burger");
@@ -66,8 +75,10 @@
     burger.setAttribute("aria-expanded", open);
     burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.classList.toggle("menu-open", open);
   };
   burger.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("is-open")) { setMenu(false); burger.focus(); } });
   $$("a", nav).forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   /* ───── Marquee des références ───── */
@@ -110,9 +121,9 @@
   const grid = $("#grid");
   if (grid) {
     const cards = $$(".pj-card", grid);
-    $$(".filter").forEach((btn) =>
+    $$(".realisations-all .filter").forEach((btn) =>
       btn.addEventListener("click", () => {
-        $$(".filter").forEach((b) => {
+        $$(".realisations-all .filter").forEach((b) => {
           b.classList.toggle("is-active", b === btn);
           b.setAttribute("aria-pressed", b === btn);
         });
@@ -120,6 +131,50 @@
         cards.forEach((c) => (c.hidden = f !== "all" && c.dataset.cat !== f));
       })
     );
+  }
+
+  /* ───── Réalisations : liste en accordéon (écrite dans la page par scripts/build.js) ───── */
+  const refsList = $("#refsList");
+  if (refsList) {
+    const accItems = $$(".acc__item", refsList);
+    const openAcc = (li) => {
+      accItems.forEach((x) => {
+        const on = x === li;
+        x.classList.toggle("is-open", on);
+        $(".acc__head", x).setAttribute("aria-expanded", on);
+      });
+    };
+    const refsFilters = $$(".refs .filter");
+    refsFilters.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        refsFilters.forEach((b) => {
+          b.classList.toggle("is-active", b === btn);
+          b.setAttribute("aria-pressed", b === btn);
+        });
+        const f = btn.dataset.filter;
+        const keep = accItems.filter((li) => f === "all" || li.dataset.cat === f);
+        accItems.forEach((li) => (li.hidden = !keep.includes(li)));
+        openAcc(keep[0]);
+      })
+    );
+    openAcc(accItems[0]);
+    let accTimer = null;
+    const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+    refsList.addEventListener("mouseover", (e) => {
+      if (!canHover) return;
+      const li = e.target.closest(".acc__item");
+      if (!li || li.classList.contains("is-open")) return;
+      clearTimeout(accTimer);
+      accTimer = setTimeout(() => openAcc(li), 140); // petit délai : évite l'effet « accordéon nerveux »
+    });
+    refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
+    refsList.addEventListener("click", (e) => {
+      const head = e.target.closest(".acc__head");
+      if (!head) return;
+      const li = head.parentElement;
+      if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
+      openAcc(li.classList.contains("is-open") ? null : li);
+    });
   }
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */
@@ -131,7 +186,7 @@
     .map(({ p }, k) => `<li><button type="button" data-k="${k}"><span class="n">${pad(k + 1)}</span><span class="t">${esc(p.title)}</span></button></li>`)
     .join("");
   fFrame.innerHTML = featured
-    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc((cats[p.category] || "lieu").toLowerCase())} rénové par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
+    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc(({ hotel: "hôtel rénové", boutique: "boutique rénovée", restaurant: "restaurant rénové", particulier: "appartement rénové" })[p.category] || "lieu rénové")} par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
     .join("");
   $("#featureTotal").textContent = pad(featured.length);
   const fItems = $$("li", fList), fImgs = $$(".feature__img", fFrame), fRail = $("#featureRail");
@@ -160,11 +215,15 @@
     fT0 = t;
     const part = reduce ? 0 : Math.min(fElapsed / DURATION, 1);
     fRail.style.transform = `scaleY(${(fActive + part) / featured.length})`;
-    requestAnimationFrame(tickFeature);
+    if (fInView && !document.hidden) requestAnimationFrame(tickFeature);
+    else fLoop = false;
   };
+  let fLoop = false;
+  const startFeature = () => { if (!fLoop) { fLoop = true; fT0 = performance.now(); requestAnimationFrame(tickFeature); } };
   setFeature(0);
-  requestAnimationFrame(tickFeature);
-  new IntersectionObserver((en) => (fInView = en[0].isIntersecting), { threshold: 0.4 }).observe(feature);
+  // l'animation ne tourne que lorsque la section est à l'écran
+  new IntersectionObserver((en) => { fInView = en[0].isIntersecting; if (fInView) startFeature(); }, { threshold: 0.4 }).observe(feature);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && fInView) startFeature(); });
   feature.addEventListener("mouseenter", () => (fPaused = true));
   feature.addEventListener("mouseleave", () => (fPaused = false));
   const openFeatured = (k) => go(featured[k].i);
@@ -174,10 +233,15 @@
     const k = +b.dataset.k;
     k === fActive ? openFeatured(k) : goFeature(k);
   });
+  // survol : on ne change de chantier qu'après un court arrêt, pour qu'en descendant vers « Voir le projet »
+  // la souris ne sélectionne pas au passage les chantiers suivants
+  let fHover = null;
   fList.addEventListener("mouseover", (e) => {
     const b = e.target.closest("button");
-    if (b && matchMedia("(hover: hover)").matches && +b.dataset.k !== fActive) goFeature(+b.dataset.k);
+    clearTimeout(fHover);
+    if (b && matchMedia("(hover: hover)").matches && +b.dataset.k !== fActive) fHover = setTimeout(() => goFeature(+b.dataset.k), 220);
   });
+  fList.addEventListener("mouseleave", () => clearTimeout(fHover));
   let fx = null;
   fFrame.addEventListener("touchstart", (e) => (fx = e.touches[0].clientX), { passive: true });
   fFrame.addEventListener("touchend", (e) => {
@@ -215,35 +279,32 @@
       const n = Math.round(k * ws.length);
       ws.forEach((w, i) => w.classList.toggle("is-on", i < n));
     };
-    window.addEventListener("scroll", light, { passive: true });
+    let wTick = false, wOn = false;
+    new IntersectionObserver((en) => { wOn = en[0].isIntersecting; if (wOn) light(); }).observe(el);
+    window.addEventListener("scroll", () => { if (wOn && !wTick) { wTick = true; requestAnimationFrame(() => { wTick = false; light(); }); } }, { passive: true });
     light();
   });
 
-  /* ───── Barre de progression ───── */
-  const progress = $("#progress");
-  window.addEventListener(
-    "scroll",
-    () => {
-      const h = document.documentElement.scrollHeight - innerHeight;
-      progress.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
-    },
-    { passive: true }
-  );
 
   /* ───── Curseur personnalisé + boutons magnétiques ───── */
   if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
     const cur = $("#cursor"), label = $("#cursorLabel");
-    let x = -100, y = -100, cxp = -100, cyp = -100;
-    document.addEventListener("mousemove", (e) => { x = e.clientX; y = e.clientY; });
-    document.addEventListener("mouseleave", () => cur.classList.add("is-hidden"));
-    document.addEventListener("mouseenter", () => cur.classList.remove("is-hidden"));
+    let x = -100, y = -100, cxp = -100, cyp = -100, moving = false;
     const move = () => {
       cxp += (x - cxp) * 0.22;
       cyp += (y - cyp) * 0.22;
       cur.style.transform = `translate3d(${cxp}px, ${cyp}px, 0)`;
-      requestAnimationFrame(move);
+      // la boucle s'arrête quand le curseur a rejoint la souris
+      if (Math.abs(x - cxp) + Math.abs(y - cyp) > 0.5) requestAnimationFrame(move);
+      else moving = false;
     };
-    move();
+    document.addEventListener("mousemove", (e) => {
+      x = e.clientX; y = e.clientY;
+      if (!cur.classList.contains("is-on")) { cxp = x; cyp = y; cur.classList.add("is-on"); }
+      if (!moving) { moving = true; requestAnimationFrame(move); }
+    }, { passive: true });
+    document.addEventListener("mouseleave", () => cur.classList.add("is-hidden"));
+    document.addEventListener("mouseenter", () => cur.classList.remove("is-hidden"));
     document.addEventListener("mouseover", (e) => {
       const view = e.target.closest(".card, .feature__frame, .acc__img");
       const link = e.target.closest("a, button, input, textarea, label");
@@ -648,8 +709,11 @@
     }
     t0 = t;
     if (bars[k]) bars[k].style.transform = `scaleX(${Math.min(elapsed / DURATION, 1)})`;
-    requestAnimationFrame(tick);
+    if (inView && !document.hidden) requestAnimationFrame(tick);
+    else looping = false;
   };
+  let looping = false;
+  const start = () => { if (!looping) { looping = true; t0 = performance.now(); requestAnimationFrame(tick); } };
 
   $$("#methode .mt-step button").forEach((b) => b.addEventListener("click", () => show(+b.dataset.k)));
   $("#mt-pause").addEventListener("click", (e) => {
@@ -658,8 +722,9 @@
   });
   scene.addEventListener("mouseenter", () => (hovering = true));
   scene.addEventListener("mouseleave", () => (hovering = false));
-  new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.3 }).observe(scene);
+  new IntersectionObserver((en) => { inView = en[0].isIntersecting; if (inView) start(); }, { threshold: 0.3 }).observe(scene);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && inView) start(); });
   if (reduce) $("#mt-ctrlTxt").textContent = "Cliquez sur une étape pour la voir";
   show(0);
-  requestAnimationFrame(tick);
+  start();
 })();
