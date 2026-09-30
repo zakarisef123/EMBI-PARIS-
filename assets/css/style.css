@@ -1296,3 +1296,8 @@ img.is-broken { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .sr-tile, .sr-book, .sr-plank, .sr-grain { transition: none; }
 }
+
+/* ───────── Logo EMBI (SVG, l'ombre suit la couleur du texte de l'en-tête) ───────── */
+.header .logo { align-items: center; }
+.logo__svg { display: block; height: 34px; width: auto; overflow: visible; }
+@media (max-width: 560px) { .logo__svg { height: 28px; } }
