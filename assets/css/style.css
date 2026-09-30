@@ -1069,7 +1069,6 @@ img.is-broken { opacity: 0; }
 .cs-hero__lead { margin: 0 0 32px; max-width: 48ch; font-size: clamp(16px, 1.3vw, 19px); color: rgba(255, 255, 255, 0.78); }
 .cs-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .cs-hero__sketch { margin: 0; position: relative; border-radius: 18px; overflow: hidden; background: #fbf8f3; transform: rotate(1.5deg); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); }
-.cs-hero__sketch img { width: 100%; height: auto; display: block; clip-path: inset(0 100% 0 0); animation: csReveal 1.8s var(--ease) 0.3s forwards; }
 @keyframes csReveal { to { clip-path: inset(0 0 0 0); } }
 .cs-hero__sketch figcaption { position: absolute; left: 14px; bottom: 12px; font: 400 14px "Architects Daughter", "Comic Sans MS", cursive; color: var(--ink); background: rgba(251, 248, 243, 0.85); padding: 4px 10px; border-radius: 6px; }
 
@@ -1132,4 +1131,92 @@ img.is-broken { opacity: 0; }
   .cs-made__list, .cs-steps__list { grid-template-columns: 1fr; }
   .cs-hero__sketch, .cs-teaser__img { transform: none; }
 }
-@media (prefers-reduced-motion: reduce) { .cs-hero__sketch img { clip-path: none; animation: none; } }
+
+/* ═════════ Conception : animations (croquis, volume, calque, matières) ═════════ */
+.csa { --paper: var(--bg); --sheet: #fbf8f3; --night: var(--dark); --orange: var(--accent); --hand: "Architects Daughter", "Comic Sans MS", cursive; }
+.cs-hero__sketch.csa { transform: rotate(1.5deg); }
+.cs-hero__sketch .stage { border: 0; border-radius: 0; }
+.cs-anim { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(24px, 4vw, 56px); align-items: center; margin-top: clamp(48px, 7vw, 88px); }
+.cs-anim--rev { grid-template-columns: 1.2fr 0.8fr; }
+.cs-anim--rev .cs-anim__text { order: 2; }
+.cs-anim__text { display: grid; gap: 14px; justify-items: start; min-width: 0; }
+.cs-anim__text h3 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -0.02em; line-height: 1.02; margin: 0; }
+.cs-anim__text h3 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+.cs-anim__text p { margin: 0; color: var(--ink-2); max-width: 44ch; }
+.cs-anim__kicker { font: 600 12px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.cs-replay { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 8px 14px; font: 600 13px var(--sans); cursor: pointer; color: var(--ink); }
+.cs-replay:hover { border-color: var(--ink); }
+.cs-steps .cs-anim { margin-top: clamp(40px, 6vw, 72px); }
+@media (max-width: 860px) { .cs-anim, .cs-anim--rev { grid-template-columns: 1fr; } .cs-anim--rev .cs-anim__text { order: 0; } }
+@media (prefers-reduced-motion: reduce) { .csa *, .csa *::before, .csa *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; } }
+.csa .stage { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 3 / 2; max-width: 100%; background: var(--sheet); border: 1px solid var(--line); }
+.csa .stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.csa .stage--dark { background-color: var(--night); background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 22px 22px; border-color: transparent; }
+
+/* 1 · Croquis qui se dessine */
+.csa .sk path, .csa .sk polygon, .csa .sk line { fill: none; stroke: #1c1b19; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.csa .sk .thin { stroke-width: 0.9; opacity: 0.6; }
+.csa .go .sk path, .csa .go .sk polygon, .csa .go .sk line { animation: csaDraw 0.9s var(--ease) forwards; animation-delay: calc(var(--i) * 0.11s); }
+@keyframes csaDraw { to { stroke-dashoffset: 0; } }
+.csa .pencil { position: absolute; width: 34px; height: 34px; left: 0; top: 0; pointer-events: none; transform: translate(-2px, -32px) rotate(0deg); opacity: 0; transition: opacity 0.3s; }
+.csa .go .pencil { opacity: 1; }
+.csa .pencil.done { opacity: 0; }
+.csa .wash { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%); mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 0%); }
+.csa .go .wash { animation: csaWash 2.4s var(--ease) 2.4s forwards; }
+.csa .go .sk { animation: csaFadeLines 1.6s ease 3.2s forwards; }
+@keyframes csaFadeLines { to { opacity: 0; } }
+@keyframes csaWash { 0% { opacity: 1; -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 1%); mask-image: radial-gradient(circle at 50% 55%, #000 0%, transparent 1%); } 100% { opacity: 1; -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 70%, transparent 100%); mask-image: radial-gradient(circle at 50% 55%, #000 70%, transparent 100%); } }
+.csa .hand-note { position: absolute; font: 400 clamp(11px, 1.3vw, 15px) var(--hand); color: #1c1b19; opacity: 0; transition: opacity 0.5s; background: rgba(251,248,243,.8); padding: 0 4px; border-radius: 3px; }
+.csa .go .hand-note { opacity: 1; transition-delay: 4.8s; }
+
+/* 2 · Plan → volume */
+.csa .vol .wall { fill: #efe7da; stroke: #1c1b19; stroke-width: 1.4; stroke-linejoin: round; }
+.csa .vol .wall.side { fill: #ddd0bf; }
+.csa .vol .floor { fill: #d8b48a; stroke: none; }
+.csa .vol .door { fill: none; stroke: var(--orange); stroke-width: 1.4; }
+.csa .vol .dim { stroke: rgba(22,21,19,.4); stroke-width: 1; fill: none; }
+.csa .vol text { font: 400 12px var(--hand); fill: #1c1b19; }
+.csa .vol .t-plan { transition: opacity 0.5s; }
+.csa .stage-label { position: absolute; left: 14px; top: 12px; z-index: 2; font: 700 11px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: #fff; background: var(--ink); padding: 6px 12px; border-radius: 999px; display: flex; gap: 8px; align-items: center; }
+.csa .stage-label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+
+/* 3 · Calque */
+.csa .calque { touch-action: pan-y; }
+.csa .calque .layer { position: absolute; inset: 0; }
+.csa .calque .over { clip-path: inset(0 0 0 var(--x, 50%)); background: rgba(251, 248, 243, 0.94); }
+.csa .calque .over::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-35deg, transparent 0 14px, rgba(0,0,0,.018) 14px 15px); }
+.csa .bp * { fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+.csa .bp .dim { stroke: rgba(255,255,255,.4); stroke-width: 1; }
+.csa .bp .o { stroke: var(--orange); stroke-width: 1.5; }
+.csa .bp text { stroke: none; fill: rgba(255,255,255,.7); font: 600 9px var(--sans); letter-spacing: .14em; }
+.csa .id * { stroke: #1c1b19; stroke-width: 1.6; stroke-linejoin: round; }
+.csa .id text { stroke: none; fill: #1c1b19; font: 400 12px var(--hand); }
+.csa .handle { position: absolute; top: 0; bottom: 0; left: var(--x, 50%); width: 2px; background: var(--orange); transform: translateX(-1px); pointer-events: none; }
+.csa .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; font-size: 18px; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.csa .calque input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.csa .tag-l, .csa .tag-r { position: absolute; top: 12px; z-index: 2; font: 700 11px var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; pointer-events: none; }
+.csa .tag-l { left: 12px; background: rgba(255,255,255,.12); color: #fff; }
+.csa .tag-r { right: 12px; background: var(--ink); color: #fff; }
+
+/* 4 · Planche de tendances */
+.csa .board { background: #f6f1ea; }
+.csa .sw { position: absolute; border-radius: 6px; box-shadow: 0 14px 30px -12px rgba(0,0,0,.35); opacity: 0; transform: translateY(-60px) rotate(var(--r)) scale(1.1); }
+.csa .go .sw { animation: csaDrop 0.7s cubic-bezier(.34,1.3,.64,1) forwards; animation-delay: calc(0.25s + var(--i) * 0.28s); }
+@keyframes csaDrop { to { opacity: 1; transform: rotate(var(--r)); } }
+.csa .sw::after { content: ""; position: absolute; width: 46px; height: 16px; background: rgba(255, 244, 214, 0.75); top: -8px; left: 50%; transform: translateX(-50%) rotate(-4deg); }
+.csa .sw figcaption { position: absolute; left: 0; right: 0; bottom: -26px; text-align: center; font: 400 clamp(11px, 1.2vw, 14px) var(--hand); color: #1c1b19; }
+.csa .oak { background: repeating-linear-gradient(95deg, #c79a66 0 6px, #b98a57 6px 9px, #d3a874 9px 15px, #a97b4b 15px 17px); }
+.csa .marble { background: radial-gradient(ellipse at 30% 30%, #fff 0 30%, transparent 60%), linear-gradient(125deg, #f2eee8 0 40%, #d9d2c8 41%, #f2eee8 43% 70%, #cfc6ba 71%, #f2eee8 73%); }
+.csa .brass { background: linear-gradient(135deg, #8a6a2a, #e9c878 35%, #b58b3a 55%, #f3d892 70%, #8a6a2a); }
+.csa .velvet { background: radial-gradient(circle at 35% 30%, #ff8a5a, #e0501a 45%, #b83a0d); }
+.csa .linen { background: repeating-linear-gradient(0deg, #e9e2d6 0 2px, #ddd4c5 2px 3px), #e9e2d6; background-blend-mode: multiply; }
+.csa .paint { background: #d9c7b3; }
+.csa .stamp { position: absolute; right: 7%; bottom: 10%; width: 22%; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--orange); color: var(--orange); display: grid; place-content: center; text-align: center; font: 800 clamp(11px, 1.5vw, 17px)/1.05 var(--display); text-transform: uppercase; transform: rotate(-14deg) scale(1.8); opacity: 0; }
+.csa .stamp::before { content: ""; position: absolute; inset: 5px; border: 1.5px solid var(--orange); border-radius: 50%; }
+.csa .stamp small { font: 700 clamp(7px, .8vw, 9px) var(--sans); letter-spacing: .2em; margin-top: 4px; }
+.csa .go .stamp { animation: csaStamp 0.45s cubic-bezier(.5,0,.75,0) 2.4s forwards; }
+@keyframes csaStamp { 80% { opacity: 1; transform: rotate(-14deg) scale(.94); } 100% { opacity: 1; transform: rotate(-14deg) scale(1); } }
+.csa .board-title { position: absolute; left: 5%; top: 6%; font: 400 clamp(16px, 2.2vw, 26px) var(--hand); color: #1c1b19; }
+
+
+@media (max-width: 600px) { .csa .csa-long { display: none; } }
