@@ -51,6 +51,7 @@ Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mes
 - Les boutons « Demander un devis » pré-cochent « Carrelage / parquet » dans le formulaire de l'accueil.
 
 ## Plaquette de présentation
-`plaquette.html` est une plaquette commerciale de 12 pages A4 (couverture, à propos et avantages, savoir-faire, services, chantiers signature, références, hôtels, restaurants et boutiques en détail, méthode et engagements, conception sur mesure et showroom, contact).
-Pour obtenir le PDF : ouvrir la page dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
-Les photos viennent de l'ancienne plaquette (PDF) et sont rangées dans `images/plaquette/` : la plaquette ne dépend plus de embi.fr.
+`plaquette.html` reprend l'ancienne plaquette EMBI en la modernisant : 16 pages A4 paysage, bleu marine et orange, police Montserrat, photos séparées par des découpes en diagonale et écusson « E.M.B.I. – Le plaisir de rénover ».
+Pages : couverture, projet d'envergure, avantages, sommaire, savoir-faire, engagements et services, fonctionnement, puis les réalisations (appartements de particuliers, Le Grand Pigalle, Paradis, Panache, Café Pinson, The Fish Club, Petite Mendigote, Colette) et le dos (showroom et contact).
+Pour obtenir le PDF : ouvrir la page dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », mise en page « Paysage », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
+Les photos viennent du PDF de l'ancienne plaquette et sont rangées dans `images/plaquette/`.
