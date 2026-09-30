@@ -1,14 +1,32 @@
 /*
  * ─────────────────────────────────────────────────────────────
- *  RÉALISATIONS EMBI : la liste du site est générée depuis ce fichier
+ *  RÉALISATIONS EMBI : tout le site est généré depuis ce fichier
+ *  (liste des réalisations, menu du haut, chantiers signature,
+ *   et la page de chaque chantier : projet.html?p=<id>)
  * ─────────────────────────────────────────────────────────────
  *  Pour ajouter un chantier : copiez un bloc { ... } et adaptez-le.
  *
+ *  id       : identifiant unique, sans espace ni accent (sert d'adresse de la page)
+ *  title    : nom du chantier
  *  category : "hotel" | "boutique" | "restaurant" | "particulier"
- *  images   : une ou plusieurs photos (la 1re sert de couverture).
- *             Elles peuvent être locales, ex. "images/realisations/panache-1.jpg"
- *  text     : (facultatif) courte description affichée dans la fiche projet
- *  featured : true → mis en avant (grande carte)
+ *  images   : une ou plusieurs photos (la 1re sert de couverture) ; toutes
+ *             s'affichent dans la galerie de la page du chantier.
+ *             Photos locales possibles : "images/realisations/panache-2.jpg"
+ *  featured : true → mis en avant dans « Chantiers signature »
+ *
+ *  Facultatif (affiché sur la page du chantier dès que c'est rempli) :
+ *  lieu     : "Paris 9e"            annee    : "2018"
+ *  surface  : "450 m²"              duree    : "12 semaines"
+ *  travaux  : ["Gros œuvre", "Électricité", "Peinture", ...]
+ *  text     : "Une phrase d'accroche."
+ *  histoire : ["1er paragraphe…", "2e paragraphe…"]   ← le récit du chantier
+ *
+ *  Exemple complet :
+ *  { id: "panache", title: "Hôtel Panache", category: "hotel", featured: true,
+ *    lieu: "Paris 9e", annee: "2018", surface: "…", duree: "…",
+ *    travaux: ["Rénovation complète", "Salles de bain", "Décoration"],
+ *    text: "…", histoire: ["…", "…"],
+ *    images: [OLD + "2018/01/Hotel-Panache-012.jpg", "images/realisations/panache-2.jpg"] },
  *
  *  Les photos pointent pour l'instant vers l'ancien site embi.fr.
  *  Lancez  scripts/telecharger-images.sh  pour les rapatrier dans le dépôt
@@ -42,3 +60,6 @@ window.EMBI_PROJECTS = [
   { id: "particulier-2",    title: "Rénovation d'appartement", category: "particulier", images: [OLD + "2017/09/appartement-particulier-renovation-03.jpg"] },
   { id: "triomphe",         title: "Triomphe",             category: "restaurant",  images: [OLD + "2017/09/Triomphe_01.jpg"] },
 ];
+
+// adresse de la page d'un chantier
+window.EMBI_PROJECT_URL = (id) => `projet.html?p=${encodeURIComponent(id)}`;

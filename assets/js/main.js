@@ -63,8 +63,8 @@
   $$("a", nav).forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   /* ───── Marquee des références ───── */
-  const names = projects.filter((p) => p.category !== "particulier").map((p) => p.title);
-  const chunk = names.map((n, i) => `<span class="${i % 2 ? "is-outline" : ""}">${esc(n)}</span><i aria-hidden="true"></i>`).join("");
+  const named = projects.filter((p) => p.category !== "particulier");
+  const chunk = named.map((p, i) => `<a href="${window.EMBI_PROJECT_URL(p.id)}"><span class="${i % 2 ? "is-outline" : ""}">${esc(p.title)}</span></a><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
   const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
   const chunk2 = words2.map((n) => `<span>${n}</span><i>·</i>`).join("");
@@ -92,8 +92,9 @@
       }, 2200);
   }
 
-  // projets affichés (liste filtrée) : sert à la navigation ← → de la fiche projet
-  let visible = projects.map((_, i) => i);
+  // chaque chantier a sa page : projet.html?p=<id>
+  const pageOf = (i) => window.EMBI_PROJECT_URL(projects[i].id);
+  const go = (i) => (location.href = pageOf(i));
 
   /* ───── Références : index en accordéon ───── */
   const refsList = $("#refsList");
@@ -107,8 +108,8 @@
           <span class="acc__n">${pad(i + 1)}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(cat)}</span><span class="acc__ar" aria-hidden="true">→</span>
         </button>
         <div class="acc__panel" id="acc-${i}" role="region"><div class="acc__inner">
-          <div class="acc__img"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /></div>
-          <div class="acc__body"><p>${esc(txt)}</p><button class="btn btn--accent acc__open" type="button" data-i="${i}">Voir le projet <span aria-hidden="true">→</span></button></div>
+          <a class="acc__img" href="${pageOf(i)}" tabindex="-1"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, rénové par EMBI" loading="lazy" /></a>
+          <div class="acc__body"><p>${esc(txt)}</p><a class="btn btn--accent acc__open" href="${pageOf(i)}">Voir le projet <span aria-hidden="true">→</span></a></div>
         </div></div>
       </li>`;
     })
@@ -151,12 +152,10 @@
   });
   refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
   refsList.addEventListener("click", (e) => {
-    const open = e.target.closest(".acc__open");
-    if (open) { visible = accVisible(); return openModal(+open.dataset.i, open); }
     const head = e.target.closest(".acc__head");
     if (!head) return;
     const li = head.parentElement;
-    if (li.classList.contains("is-open") && canHover) { visible = accVisible(); return openModal(+head.dataset.i, head); }
+    if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
     openAcc(li.classList.contains("is-open") ? null : li);
   });
 
@@ -204,7 +203,7 @@
   new IntersectionObserver((en) => (fInView = en[0].isIntersecting), { threshold: 0.4 }).observe(feature);
   feature.addEventListener("mouseenter", () => (fPaused = true));
   feature.addEventListener("mouseleave", () => (fPaused = false));
-  const openFeatured = (k) => { visible = projects.map((_, j) => j); openModal(featured[k].i); };
+  const openFeatured = (k) => go(featured[k].i);
   fList.addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (!b) return;
@@ -314,74 +313,6 @@
     });
     footer.addEventListener("mouseleave", () => chars.forEach((c) => { c.style.fontVariationSettings = ""; c.classList.remove("is-hot"); }));
   }
-
-  /* ───── Lightbox ───── */
-  const modal = $("#modal");
-  let current = 0, lastFocus = null;
-  const showImage = (src) => {
-    const img = $("#modalImg");
-    img.style.opacity = 0;
-    img.onload = () => (img.style.opacity = 1);
-    img.src = src;
-    $$("#modalThumbs button").forEach((b) => b.classList.toggle("is-active", b.dataset.src === src));
-  };
-  const fill = (i) => {
-    current = i;
-    const p = projects[i];
-    $("#modalCat").textContent = cats[p.category] || "";
-    $("#modalTitle").textContent = p.title;
-    $("#modalText").textContent =
-      p.text || `Projet ${(cats[p.category] || "").toLowerCase()} réalisé clé en main par EMBI, de l'étude à la livraison.`;
-    $("#modalImg").alt = `${p.title}, rénovation EMBI`;
-    const thumbs = $("#modalThumbs");
-    thumbs.innerHTML =
-      p.images.length > 1
-        ? p.images.map((src, k) => `<button data-src="${esc(src)}" aria-label="Photo ${k + 1}"><img src="${esc(src)}" alt="" /></button>`).join("")
-        : "";
-    showImage(p.images[0]);
-    const pos = visible.indexOf(i);
-    $("#modalCount").textContent = `${pad(pos + 1)} / ${pad(visible.length)}`;
-  };
-  const step = (d) => {
-    const pos = visible.indexOf(current);
-    fill(visible[(pos + d + visible.length) % visible.length]);
-  };
-  function openModal(i, from) {
-    lastFocus = from || document.activeElement;
-    if (!visible.includes(i)) visible = projects.map((_, k) => k);
-    fill(i);
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    setTimeout(() => $(".modal__close", modal).focus(), 50);
-  }
-  const closeModal = () => {
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus({ preventScroll: true });
-  };
-  $$("[data-close]", modal).forEach((el) => el.addEventListener("click", closeModal));
-  $("#modalPrev").addEventListener("click", () => step(-1));
-  $("#modalNext").addEventListener("click", () => step(1));
-  $("#modalThumbs").addEventListener("click", (e) => {
-    const b = e.target.closest("button");
-    if (b) showImage(b.dataset.src);
-  });
-  document.addEventListener("keydown", (e) => {
-    if (!modal.classList.contains("is-open")) return;
-    if (e.key === "Escape") closeModal();
-    if (e.key === "ArrowLeft") step(-1);
-    if (e.key === "ArrowRight") step(1);
-  });
-  let touchX = null;
-  modal.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
-  modal.addEventListener("touchend", (e) => {
-    if (touchX === null) return;
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
-    touchX = null;
-  });
 
   /* ───── Apparition au scroll ───── */
   const io = new IntersectionObserver(
@@ -636,11 +567,11 @@
         .join("")}</div>`;
     } else {
       const lieu = answers[0];
-      const refs = lieu.cat ? projects.filter((p) => p.category === lieu.cat).slice(0, 3).map((p) => p.title) : [];
+      const refs = lieu.cat ? projects.filter((p) => p.category === lieu.cat).slice(0, 3) : [];
       quizStep.textContent = "C'est prêt !";
       quizBody.innerHTML = `<h3 class="quiz__q">Votre projet</h3>
         <ul class="quiz__recap">${answers.map((a) => `<li>${a.v}</li>`).join("")}</ul>
-        ${refs.length ? `<p class="quiz__refs">Nous avons déjà réalisé des projets comme le vôtre : <strong>${refs.map(esc).join(", ")}</strong>.</p>` : ""}
+        ${refs.length ? `<p class="quiz__refs">Nous avons déjà réalisé des projets comme le vôtre : ${refs.map((r) => `<a href="${window.EMBI_PROJECT_URL(r.id)}"><strong>${esc(r.title)}</strong></a>`).join(", ")}.</p>` : ""}
         <div class="quiz__end">
           <button type="button" class="btn btn--dark" id="quizGo" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
           <button type="button" class="quiz__restart" id="quizRestart">Recommencer</button>
