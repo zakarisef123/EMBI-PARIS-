@@ -110,9 +110,9 @@
   const grid = $("#grid");
   if (grid) {
     const cards = $$(".pj-card", grid);
-    $$(".filter").forEach((btn) =>
+    $$(".realisations-all .filter").forEach((btn) =>
       btn.addEventListener("click", () => {
-        $$(".filter").forEach((b) => {
+        $$(".realisations-all .filter").forEach((b) => {
           b.classList.toggle("is-active", b === btn);
           b.setAttribute("aria-pressed", b === btn);
         });
@@ -120,6 +120,50 @@
         cards.forEach((c) => (c.hidden = f !== "all" && c.dataset.cat !== f));
       })
     );
+  }
+
+  /* ───── Réalisations : liste en accordéon (écrite dans la page par scripts/build.js) ───── */
+  const refsList = $("#refsList");
+  if (refsList) {
+    const accItems = $$(".acc__item", refsList);
+    const openAcc = (li) => {
+      accItems.forEach((x) => {
+        const on = x === li;
+        x.classList.toggle("is-open", on);
+        $(".acc__head", x).setAttribute("aria-expanded", on);
+      });
+    };
+    const refsFilters = $$(".refs .filter");
+    refsFilters.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        refsFilters.forEach((b) => {
+          b.classList.toggle("is-active", b === btn);
+          b.setAttribute("aria-pressed", b === btn);
+        });
+        const f = btn.dataset.filter;
+        const keep = accItems.filter((li) => f === "all" || li.dataset.cat === f);
+        accItems.forEach((li) => (li.hidden = !keep.includes(li)));
+        openAcc(keep[0]);
+      })
+    );
+    openAcc(accItems[0]);
+    let accTimer = null;
+    const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+    refsList.addEventListener("mouseover", (e) => {
+      if (!canHover) return;
+      const li = e.target.closest(".acc__item");
+      if (!li || li.classList.contains("is-open")) return;
+      clearTimeout(accTimer);
+      accTimer = setTimeout(() => openAcc(li), 140); // petit délai : évite l'effet « accordéon nerveux »
+    });
+    refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
+    refsList.addEventListener("click", (e) => {
+      const head = e.target.closest(".acc__head");
+      if (!head) return;
+      const li = head.parentElement;
+      if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
+      openAcc(li.classList.contains("is-open") ? null : li);
+    });
   }
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */

@@ -1529,3 +1529,7 @@ button[disabled] { opacity: 0.6; cursor: wait; }
 .consent-ph > * { position: relative; }
 .consent-ph::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(243, 239, 232, 0.96) 18%, rgba(243, 239, 232, 0.35) 60%, rgba(243, 239, 232, 0.1)); }
 .consent-ph { align-content: end; padding-bottom: 28px; }
+.realisations-top .pj-card { color: var(--ink); }
+.realisations-top .pj-card__media { background: var(--bg-2); }
+.section--tight { padding: clamp(28px, 4vw, 48px) 0; }
+.section--tight .sector__others { margin: 0; }

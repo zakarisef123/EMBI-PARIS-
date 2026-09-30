@@ -245,6 +245,45 @@ const BLOCKS = {
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${SECTORS.map((s) => `<button type="button" class="filter" data-filter="${s.category}" aria-pressed="false">${s.nav} <sup>${PROJECTS.filter((p) => p.category === s.category).length}</sup></button>`).join("\n            ")}
           </div>`,
+  // liste des réalisations en accordéon (présentation typographique, photo à l'ouverture)
+  refs: () => `<section class="refs section section--dark" id="realisations">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow reveal">Réalisations</p>
+            <h2 class="h2 reveal">Ils nous ont<br /><em>confié leurs lieux.</em></h2>
+          </div>
+          <div class="refs__side reveal">
+            <p class="section__aside">Des maisons de luxe aux hôtels parisiens, en passant par les restaurants et les appartements de particuliers : la même exigence, à chaque chantier.</p>
+            <div class="filters filters--dark" role="group" aria-label="Filtrer les réalisations">
+              <button class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
+              ${SECTORS.map((s) => `<button class="filter" data-filter="${s.category}" aria-pressed="false">${s.nav} <sup>${PROJECTS.filter((p) => p.category === s.category).length}</sup></button>`).join("\n              ")}
+            </div>
+          </div>
+        </div>
+        <ul class="acc" id="refsList">
+          ${PROJECTS.map((p, i) => {
+            const txt = p.text || `${LEAD[p.category] || "Lieu rénové"} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
+            return `<li class="acc__item" data-cat="${p.category}">
+            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-${i}" data-i="${i}">
+              <span class="acc__n">${String(i + 1).padStart(2, "0")}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(CATEGORIES[p.category] || "")}</span><span class="acc__ar" aria-hidden="true">→</span>
+            </button>
+            <div class="acc__panel" id="acc-${i}" role="region" aria-label="${esc(p.title)}"><div class="acc__inner">
+              <a class="acc__img" href="${projectUrl(p)}" tabindex="-1">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</a>
+              <div class="acc__body"><p>${esc(txt)}</p><a class="btn btn--accent acc__open" href="${projectUrl(p)}">Voir le projet ${esc(p.title)} <span aria-hidden="true">→</span></a></div>
+            </div></div>
+          </li>`;
+          }).join("\n          ")}
+        </ul>
+        <div class="cta-band cta-band--dark reveal">
+          <p class="cta-band__title">Votre lieu, <em>notre prochaine réalisation&nbsp;?</em></p>
+          <div class="cta-band__actions">
+            <a href="/contact/" class="btn btn--accent" data-magnetic>Demander un devis gratuit <span aria-hidden="true">→</span></a>
+            <a href="/contact/#projet" class="btn btn--outline-light">Estimer mon projet en 3 questions</a>
+          </div>
+        </div>
+      </div>
+    </section>`,
   "sector-links": () => SECTORS.map((s) => `<a href="${s.path}">${s.nav}</a>`).join(" · "),
 };
 const FORM_ID = cfg.formsubmit || "sec@embi.fr";
