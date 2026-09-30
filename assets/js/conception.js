@@ -45,22 +45,6 @@
   ];
   const skG = document.getElementById("skLines");
   lines.forEach((d, i) => el("path", { d, pathLength: 1, class: i > 15 ? "thin" : "", style: `--i:${i}` }, skG));
-  const pencil = document.querySelector("#s1 .pencil");
-  let pencilRaf = null;
-  const runPencil = () => {
-    cancelAnimationFrame(pencilRaf);
-    pencil.classList.remove("done");
-    const stage = document.getElementById("s1"), paths = [...skG.children], t0 = performance.now(), per = 110, dur = 900;
-    const tick = (t) => {
-      const el = Math.max(t - t0, 0), k = Math.min(Math.floor(el / per), paths.length - 1);
-      const local = Math.min(Math.max((el - k * per) / dur, 0), 1);
-      const p = paths[k], L = p.getTotalLength(), pt = p.getPointAtLength(L * (1 - Math.pow(1 - local, 3)));
-      const sx = stage.clientWidth / 600, sy = stage.clientHeight / 400;
-      pencil.style.left = pt.x * sx + "px"; pencil.style.top = pt.y * sy + "px";
-      if (el < paths.length * per + dur) pencilRaf = requestAnimationFrame(tick); else pencil.classList.add("done");
-    };
-    if (!reduce) pencilRaf = requestAnimationFrame(tick); else pencil.classList.add("done");
-  };
 
   /* 2 · plan → volume : murs définis en plan, extrudés en axonométrie */
   const walls = [[60,50,540,50],[540,50,540,350],[540,350,60,350],[60,350,60,50],[300,50,300,170],[300,230,300,350],[60,200,180,200],[230,200,300,200],[420,350,420,260],[420,260,540,260]];
@@ -71,7 +55,26 @@
     return [x + (ix - x) * t, y + (iy - y) * t];
   };
   const floor = el("polygon", { class: "floor" }, svg2);
-  const wallEls = walls.map(() => el("polygon", { class: "wall" }, svg2));
+  // Chaque mur est découpé en petits tronçons dessinés du fond vers l'avant
+  // (algorithme du peintre) : un mur de devant recouvre toujours ceux de derrière.
+  // Les deux murs de façade avant sont coupés bas, comme sur une maquette, pour voir l'intérieur.
+  const STEP = 20;
+  const isFront = ([x1, y1, x2, y2]) => (y1 === 350 && y2 === 350) || (x1 === 540 && x2 === 540);
+  const segs = [];
+  walls.forEach((w) => {
+    const [x1, y1, x2, y2] = w, len = Math.hypot(x2 - x1, y2 - y1), n = Math.max(1, Math.round(len / STEP));
+    for (let i = 0; i < n; i++) {
+      const a = [x1 + ((x2 - x1) * i) / n, y1 + ((y2 - y1) * i) / n];
+      const b = [x1 + ((x2 - x1) * (i + 1)) / n, y1 + ((y2 - y1) * (i + 1)) / n];
+      segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
+    }
+  });
+  segs.sort((p, q) => p.depth - q.depth);
+  const wallG = el("g", {}, svg2);
+  segs.forEach((sg) => {
+    sg.face = el("polygon", { class: "wall" + (sg.side ? " side" : "") }, wallG);
+    sg.edge = el("path", { class: "wall-edge" }, wallG);
+  });
   const planG = el("g", { class: "t-plan" }, svg2);
   el("path", { class: "door", d: "M300 170 A60 60 0 0 1 360 230 M180 200 A50 50 0 0 0 230 150" }, planG);
   el("path", { class: "dim", d: "M60 372 H540 M60 366 v12 M540 366 v12" }, planG);
@@ -80,11 +83,15 @@
     const e = t * t * (3 - 2 * t);
     floor.setAttribute("points", [[60,50],[540,50],[540,350],[60,350]].map(([x,y]) => proj(x,y,0,e).join(",")).join(" "));
     floor.style.opacity = e;
-    walls.forEach(([x1,y1,x2,y2], k) => {
-      const z = H * e;
-      const pts = [proj(x1,y1,0,e), proj(x2,y2,0,e), proj(x2,y2,z,e), proj(x1,y1,z,e)];
-      wallEls[k].setAttribute("points", pts.map((p) => p.join(",")).join(" "));
-      wallEls[k].classList.toggle("side", x1 === x2);
+    segs.forEach((sg) => {
+      const z = H * e * sg.h;
+      const A0 = proj(sg.a[0], sg.a[1], 0, e), B0 = proj(sg.b[0], sg.b[1], 0, e);
+      const A1 = proj(sg.a[0], sg.a[1], z, e), B1 = proj(sg.b[0], sg.b[1], z, e);
+      sg.face.setAttribute("points", [A0, B0, B1, A1].map((p) => p.join(",")).join(" "));
+      let d = `M${A0} L${B0} M${A1} L${B1}`;
+      if (sg.first) d += ` M${A0} L${A1}`;
+      if (sg.last) d += ` M${B0} L${B1}`;
+      sg.edge.setAttribute("d", d);
     });
     planG.style.opacity = 1 - e * 1.6;
   };
@@ -124,7 +131,7 @@
   };
 
   /* lancement à l'arrivée à l'écran + Rejouer */
-  const RUN = { sketch: runPencil, volume: runVolume, calque: runCalque, board: () => {} };
+  const RUN = { sketch: () => {}, volume: runVolume, calque: runCalque, board: () => {} };
   const play = (box) => {
     const stage = box.querySelector(".stage");
     stage.classList.remove("go");

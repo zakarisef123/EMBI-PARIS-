@@ -11,6 +11,7 @@ cd "$(dirname "$0")/.."
 BASE="https://www.embi.fr/wp-content/uploads/"
 urls=$(node -e 'global.window={};require("./assets/js/projects.js");const s=new Set();for(const p of window.EMBI_PROJECTS)for(const u of p.images)s.add(u);console.log([...s].join("\n"))')
 urls="$urls"$'\n'"${BASE}2018/08/FishClub-paris.jpg"
+for c in azulev_pres-1.jpg ciifre_pres-1.jpg Novaceram_pres.jpg recer.jpg Boxer_pres.jpg; do urls="$urls"$'\n'"${BASE}2017/09/$c"; done  # couvertures des catalogues (page showroom)
 ok=0; ko=0
 while IFS= read -r u; do
   [ -z "$u" ] && continue

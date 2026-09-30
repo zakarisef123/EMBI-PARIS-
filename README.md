@@ -43,3 +43,9 @@ les chantiers signature, le bandeau des références et le questionnaire « Votr
 ## Page « Conception sur mesure »
 `conception.html` présente le service architecte + architecte d'intérieur. On y accède par « Sur mesure » dans le menu du haut et par le bandeau de l'accueil.
 Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mesure » déjà coché.
+
+## Page « Showroom »
+`showroom.html` présente le showroom carrelages & parquets (5, rue Villebois-Mareuil, Paris 17e). On y accède par « Showroom » dans le menu du haut et par le bouton « Découvrir le showroom » de l'accueil.
+- **Photos du showroom** : ajoutez-les en haut de `assets/js/showroom.js`, dans `SHOWROOM_PHOTOS` (ex. `"images/showroom/showroom-1.jpg"`). La section « Le showroom en vrai » s'affiche automatiquement dès qu'une photo est présente.
+- **Catalogues** : liste `SHOWROOM_CATALOGUES` dans le même fichier (couverture + lien PDF).
+- Les boutons « Demander un devis » pré-cochent « Carrelage / parquet » dans le formulaire de l'accueil.
