@@ -2,6 +2,36 @@
  * Menu « Réalisations » (en haut de toutes les pages) : liste des chantiers
  * par catégorie, avec aperçu photo au survol. Généré depuis projects.js.
  */
+/* Verrou du défilement quand le menu mobile est ouvert.
+   Sur iPhone, overflow: hidden ne bloque pas la page : on la fige (position fixed) puis on la remet
+   exactement où elle était. La classe « menu-open » fige aussi l'apparence de l'en-tête. */
+window.EMBI_MENU_LOCK = (() => {
+  let y = 0, locked = false;
+  return (open) => {
+    if (open === locked) return;
+    locked = open;
+    const b = document.body;
+    b.classList.toggle("menu-open", open);
+    document.documentElement.classList.toggle("menu-open", open);
+    if (open) {
+      y = window.scrollY;
+      b.style.position = "fixed";
+      b.style.top = `-${y}px`;
+      b.style.left = "0";
+      b.style.right = "0";
+      b.style.overflow = "hidden";
+    } else {
+      b.style.position = b.style.top = b.style.left = b.style.right = b.style.overflow = "";
+      window.scrollTo({ top: y, behavior: "instant" });
+    }
+  };
+})();
+// passage en affichage ordinateur (rotation de tablette…) avec le menu mobile ouvert : on le referme proprement
+addEventListener("resize", () => {
+  const burger = document.getElementById("burger");
+  if (innerWidth > 860 && document.body.classList.contains("menu-open") && burger) burger.click();
+});
+
 (() => {
   const projects = window.EMBI_PROJECTS || [];
   const cats = window.EMBI_CATEGORIES || {};
@@ -51,7 +81,12 @@
     wrap.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
   };
-  toggle.addEventListener("click", () => set(!wrap.classList.contains("is-open")));
+  toggle.addEventListener("click", (e) => {
+    // souris : le survol ouvre déjà le menu, un clic sur « Réalisations » mène donc à la page des réalisations
+    // (sinon le clic refermait le menu que le survol venait d'ouvrir). Clavier et écran tactile : ouvre / ferme.
+    if (hover.matches && e.detail > 0) { location.href = trigger.getAttribute("href"); return; }
+    set(!wrap.classList.contains("is-open"));
+  });
   wrap.addEventListener("mouseenter", () => { if (hover.matches) { clearTimeout(t); set(true); } });
   wrap.addEventListener("mouseleave", () => { if (hover.matches) t = setTimeout(() => set(false), 180); });
   mega.addEventListener("mouseover", (e) => {

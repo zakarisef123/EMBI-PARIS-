@@ -54,6 +54,7 @@
   // un seul calcul par image affichée (évite les recalculs de mise en page à chaque événement de défilement)
   const onScroll = () => {
     ticking = false;
+    if (document.body.classList.contains("menu-open")) return; // en-tête figé pendant que le menu est ouvert
     const y = window.scrollY;
     header.classList.toggle("is-scrolled", y > 20);
     header.classList.toggle("on-dark", !!hero && y < heroH - 60);
@@ -74,8 +75,7 @@
     nav.classList.toggle("is-open", open);
     burger.setAttribute("aria-expanded", open);
     burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
-    document.body.style.overflow = open ? "hidden" : "";
-    document.body.classList.toggle("menu-open", open);
+    window.EMBI_MENU_LOCK(open);
   };
   burger.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
   addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("is-open")) { setMenu(false); burger.focus(); } });
@@ -616,9 +616,10 @@
       quizBar.style.transform = `scaleX(${Math.min(n, QN) / QN})`;
       quizStep.textContent = n < QN ? `Question ${n + 1} / ${QN}` : "C'est presque prêt !";
       if (n === QN) {
-        const picked = sets.slice(0, QN).map((f) => $("input:checked", f));
+        const picked = sets.slice(0, QN).map((f) => $("input:checked", f)).filter(Boolean);
         $("#quizRecap").innerHTML = picked.map((i) => `<li>${esc(i.value)}</li>`).join("");
-        const cat = picked[0] && picked[0].dataset.cat;
+        const lieu = $('input[name="lieu"]:checked', quiz);
+        const cat = lieu && lieu.dataset.cat;
         const refs = cat ? projects.filter((p) => p.category === cat).slice(0, 3) : [];
         const box = $("#quizRefs");
         box.hidden = !refs.length;
@@ -626,14 +627,21 @@
       }
       quiz.classList.add("is-stepping");
     };
+    // une réponse choisie → question suivante sans réponse (robuste aux doubles appuis et aux changements d'avis rapides)
+    let qTimer = null;
     quiz.addEventListener("change", (e) => {
       const opt = e.target.closest(".quiz__opt input");
       if (!opt) return;
-      opt.closest(".quiz__opt").classList.add("is-picked");
-      setTimeout(() => show(Math.min(step + 1, QN)), reduce ? 0 : 220);
+      const set = opt.closest(".quiz__set");
+      $$(".quiz__opt", set).forEach((l) => l.classList.toggle("is-picked", l.contains(opt)));
+      clearTimeout(qTimer);
+      qTimer = setTimeout(() => {
+        const next = sets.findIndex((f, j) => j < QN && !$("input:checked", f));
+        show(next === -1 ? QN : next);
+      }, reduce ? 0 : 220);
     });
-    quizBack.addEventListener("click", () => show(Math.max(step - 1, 0)));
-    restart.addEventListener("click", () => { $$("input[type=radio]", quiz).forEach((i) => (i.checked = false)); $$(".is-picked", quiz).forEach((l) => l.classList.remove("is-picked")); show(0); });
+    quizBack.addEventListener("click", () => { clearTimeout(qTimer); show(Math.max(step - 1, 0)); });
+    restart.addEventListener("click", () => { clearTimeout(qTimer); $$("input[type=radio]", quiz).forEach((i) => (i.checked = false)); $$(".is-picked", quiz).forEach((l) => l.classList.remove("is-picked")); show(0); });
     show(0);
     netlifySubmit(quiz, $("#quizNote"));
   }
