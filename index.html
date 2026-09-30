@@ -104,7 +104,7 @@
         <span class="logo__mark">embi</span><span class="logo__dot"></span>
       </a>
       <nav class="nav" id="nav" aria-label="Navigation principale">
-        <a href="#realisations">Réalisations</a>
+        <a href="#realisations" data-mega>Réalisations</a>
         <a href="#savoir-faire">Savoir-faire</a>
         <a href="#methode">Méthode</a>
         <a href="#showroom">Showroom</a>
@@ -536,28 +536,8 @@
     </div>
   </footer>
 
-  <!-- ───────── LIGHTBOX PROJET ───────── -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="modal__backdrop" data-close></div>
-    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modal__close" data-close aria-label="Fermer">✕</button>
-      <div class="modal__media">
-        <img id="modalImg" alt="" />
-        <button class="modal__nav modal__nav--prev" id="modalPrev" aria-label="Projet précédent">←</button>
-        <button class="modal__nav modal__nav--next" id="modalNext" aria-label="Projet suivant">→</button>
-      </div>
-      <div class="modal__body">
-        <p class="eyebrow" id="modalCat"></p>
-        <h3 class="modal__title" id="modalTitle"></h3>
-        <p id="modalText"></p>
-        <div class="modal__thumbs" id="modalThumbs"></div>
-        <p class="modal__count" id="modalCount"></p>
-        <a href="#contact" class="btn btn--dark" data-close>Un projet similaire&nbsp;? <span aria-hidden="true">→</span></a>
-      </div>
-    </div>
-  </div>
-
   <script src="assets/js/projects.js"></script>
+  <script src="assets/js/menu.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

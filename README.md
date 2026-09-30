@@ -31,3 +31,11 @@ Pour recevoir les demandes sans passer par la messagerie, branchez un service co
 ## Croquis de l'étape « Livraison » (section Fonctionnement)
 Déposez l'image du croquis d'architecte dans `images/methode/livraison.jpg` (format 3:2, idéalement 1800 × 1200 px).
 Tant que l'image n'est pas présente, le site affiche automatiquement un dessin de remplacement.
+
+## Pages des chantiers
+Chaque chantier a sa page : `projet.html?p=<id>` (ex. `projet.html?p=loro-piana`).
+Elle est générée automatiquement depuis `assets/js/projects.js` : pour enrichir un chantier,
+ajoutez dans son bloc les champs `lieu`, `annee`, `surface`, `duree`, `travaux`, `text`, `histoire`
+et d'autres photos dans `images` (le mode d'emploi détaillé est en haut du fichier).
+On y accède depuis le menu « Réalisations » en haut de chaque page, la liste des réalisations,
+les chantiers signature, le bandeau des références et le questionnaire « Votre projet en 3 questions ».
