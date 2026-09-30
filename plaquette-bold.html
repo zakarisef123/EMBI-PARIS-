@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMBI | Plaquette · Bold</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    * { box-sizing: border-box; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { margin: 0; background: #cfcfcf; }
+    h1, h2, h3, p, ul, ol, figure, blockquote { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    img { display: block; }
+    .toolbar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 12px 16px; background: #111; color: #fff; font: 13px system-ui, sans-serif; }
+    .toolbar p { opacity: .8; }
+    .toolbar__actions { display: flex; gap: 8px; }
+    .toolbar a, .toolbar button { font: 600 13px system-ui, sans-serif; border-radius: 999px; padding: 9px 16px; cursor: pointer; border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; text-decoration: none; }
+    .toolbar button { background: #fff; color: #111; }
+    .page { position: relative; width: 297mm; height: 210mm; margin: 24px auto; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.2); }
+    @media screen and (max-width: 1180px) { .page { zoom: .5; margin: 12px auto; } }
+    @media screen and (max-width: 640px) { .page { zoom: .3; } }
+    @media print { body { background: none; } .toolbar { display: none; } .page { margin: 0; box-shadow: none; zoom: 1; break-after: page; } .page:last-child { break-after: auto; } }
+    .ph { position: relative; overflow: hidden; }
+    .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .split { display: grid; }
+    .split__txt, .duo__col { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .split__media { position: relative; min-height: 0; }
+    .m1 .ph { position: absolute; inset: 0; }
+    .m3 { display: grid; }
+    .m3 .a { grid-area: a; } .m3 .b { grid-area: b; } .m3 .c { grid-area: c; }
+    .split--rev .split__txt { order: 2; }
+    .toc li { display: flex; align-items: baseline; gap: 2mm; }
+    .toc li i { flex: 1; border-bottom: .25mm dotted currentColor; opacity: .4; transform: translateY(-.8mm); }
+    .svc { display: grid; grid-template-columns: 1fr 1fr; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; }
+    .steps li { display: flex; }
+    .chips { display: flex; flex-wrap: wrap; }
+    .back { display: grid; }
+    .back__media { position: relative; }
+    .back__media .ph { position: absolute; inset: 0; }
+
+    :root { --k: #0d0d0d; --w: #ffffff; --g: #f1efec; --o: #ff5a1f; --ink2: #4b4b4b; --disp: "Anton", Impact, sans-serif; --sans: "Inter", system-ui, sans-serif; }
+    .page { background: var(--w); color: var(--ink2); font: 400 8.8pt/1.55 var(--sans); }
+    b { font-weight: 700; color: var(--k); }
+    .sec { display: flex; gap: 2mm; align-items: center; font: 800 7pt var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--k); }
+    .sec b { padding: .5mm 1.8mm; background: var(--o); color: var(--k); }
+    .ttl { margin: 4mm 0 6mm; font-family: var(--disp); font-weight: 400; text-transform: uppercase; line-height: .92; color: var(--k); }
+    .ttl .l { display: block; font-size: 26pt; color: transparent; -webkit-text-stroke: .35mm var(--k); }
+    .ttl .b { display: block; font-size: 44pt; }
+    .body { display: flex; flex-direction: column; gap: 2.8mm; }
+    .lead { font-weight: 700; font-size: 11pt; color: var(--k); }
+    .small-h { margin-top: 1mm; font: 800 7pt var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--o); }
+    .list li { padding: 1mm 0 1mm 5mm; position: relative; font-weight: 500; color: var(--k); }
+    .list li::before { content: ""; position: absolute; left: 0; top: 2.7mm; width: 2.2mm; height: 2.2mm; background: var(--o); }
+    /* split : photo plein cadre */
+    .split { grid-template-columns: 116mm 1fr; }
+    .split--rev { grid-template-columns: 1fr 116mm; }
+    .split__txt { padding: 16mm 14mm 16mm 16mm; }
+    .split--dark .split__txt { background: var(--k); color: rgba(255,255,255,.72); }
+    .split--dark { background: var(--k); }
+    .split--dark b, .split--dark .ttl, .split--dark .sec, .split--dark .list li { color: var(--w); }
+    .split--dark .ttl .l { -webkit-text-stroke-color: var(--o); }
+    .quote { position: absolute; left: 10mm; right: 10mm; bottom: 10mm; padding: 5mm 6mm; background: var(--o); color: var(--k); font: 700 11pt/1.35 var(--sans); transform: rotate(-1.5deg); }
+    .quote span { display: block; font: 400 16pt/1 var(--disp); text-transform: uppercase; margin-bottom: 1.5mm; }
+    .stats { margin-top: auto; gap: 0; border-top: .6mm solid var(--k); }
+    .stats li { padding: 3mm 3mm 3mm 0; border-bottom: .3mm solid rgba(0,0,0,.15); }
+    .stats strong { display: block; font: 400 34pt/1 var(--disp); color: var(--o); }
+    .stats span { font: 800 6.8pt var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--k); }
+    .toc li { padding: 1.2mm 0; font-weight: 600; font-size: 9.6pt; color: var(--k); border-bottom: .3mm solid rgba(0,0,0,.1); }
+    .toc li i { display: none; }
+    .toc li span { flex: 1; }
+    .toc li b { font: 400 12pt var(--disp); color: var(--o); }
+    .steps { display: flex; flex-direction: column; gap: 1.6mm; }
+    .steps li { gap: 3.5mm; align-items: baseline; }
+    .steps .n { font: 400 17pt/1 var(--disp); color: var(--o); min-width: 9mm; }
+    .steps b { font-weight: 800; text-transform: uppercase; font-size: 8.6pt; letter-spacing: .02em; }
+    .steps p { font-size: 8.2pt; }
+    .note { margin-top: auto; padding: 3.5mm 4mm; background: var(--o); color: var(--k); font-weight: 600; font-size: 8.4pt; }
+    /* duo */
+    .duo { display: grid; grid-template-columns: 1fr 74mm 1fr; }
+    .duo__col { padding: 16mm 12mm 14mm 14mm; }
+    .duo__col:last-of-type { background: var(--k); color: rgba(255,255,255,.72); }
+    .duo__col:last-of-type b, .duo__col:last-of-type .ttl, .duo__col:last-of-type .sec { color: var(--w); }
+    .duo__col:last-of-type .ttl .l { -webkit-text-stroke-color: var(--o); }
+    .duo__media .ph { height: 100%; }
+    .checks li { padding: 1.6mm 0 1.6mm 7mm; position: relative; border-bottom: .3mm solid rgba(0,0,0,.12); font-weight: 600; color: var(--k); }
+    .checks li::before { content: "✓"; position: absolute; left: 0; top: 1.3mm; width: 4.4mm; height: 4.4mm; display: grid; place-items: center; background: var(--o); color: var(--k); font-size: 7pt; font-weight: 800; }
+    .svc { gap: 0 4mm; margin-top: 2mm; }
+    .svc li { padding: 1.4mm 0; border-bottom: .3mm solid rgba(255,255,255,.18); font-weight: 700; color: var(--w); text-transform: uppercase; font-size: 7.6pt; letter-spacing: .04em; }
+    .svc .hot { color: var(--o); }
+    /* projets */
+    .projet .split__txt { position: relative; }
+    .bignum { position: absolute; left: 10mm; bottom: -8mm; font: 400 120pt/1 var(--disp); color: var(--g); z-index: 0; }
+    .projet .split__txt > *:not(.bignum) { position: relative; z-index: 1; }
+    .projet .body { margin-top: 4mm; }
+    .chips { gap: 1.3mm; margin-top: 2mm; }
+    .chips li { padding: .8mm 2.2mm; background: var(--k); color: var(--w); font: 700 6.6pt var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+    .m3 { gap: 2.5mm; background: var(--k); grid-template-columns: 1fr 1fr; grid-template-rows: 1.35fr 1fr; grid-template-areas: "a a" "b c"; height: 100%; }
+    .tag { position: absolute; left: -8mm; top: 12mm; padding: 3mm 5mm; background: var(--o); color: var(--k); transform: rotate(-3deg); box-shadow: 0 2mm 5mm rgba(0,0,0,.25); }
+    .split--rev .tag { left: auto; right: -8mm; transform: rotate(3deg); }
+    .tag b { display: block; font: 400 17pt/1 var(--disp); text-transform: uppercase; color: var(--k); }
+    .tag small { font-weight: 700; font-size: 7pt; }
+    .pn { position: absolute; top: 8mm; right: 10mm; padding: .6mm 2.2mm; background: var(--k); color: var(--w); font: 800 7pt var(--sans); z-index: 2; }
+    .split--rev .pn { right: auto; left: 10mm; }
+    /* logo */
+    .blogo span { display: block; font: 400 30pt/1 var(--disp); letter-spacing: .04em; color: var(--w); }
+    .blogo em { display: inline-block; margin-top: 1.5mm; padding: .5mm 2mm; background: var(--o); color: var(--k); font: italic 800 7.5pt var(--sans); }
+    /* couverture */
+    .cover { background: var(--k); }
+    .cover__media { position: absolute; inset: 0 0 0 128mm; display: grid; gap: 2.5mm; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; background: var(--k); }
+    .cover__media .c3 { grid-column: 1 / 3; }
+    .cover__txt { position: absolute; left: 16mm; top: 16mm; bottom: 34mm; width: 104mm; display: flex; flex-direction: column; }
+    .cover h1 { margin-top: auto; font: 400 50pt/.9 var(--disp); text-transform: uppercase; color: var(--w); }
+    .cover h1 .o { display: block; color: transparent; -webkit-text-stroke: .4mm var(--o); }
+    .cover__sub { margin-top: 5mm; font-weight: 600; font-size: 10pt; color: rgba(255,255,255,.75); }
+    .tape { position: absolute; left: -10mm; right: -10mm; bottom: 12mm; padding: 2.4mm 0; background: var(--o); transform: rotate(-2deg); white-space: nowrap; overflow: hidden; font: 400 13pt var(--disp); text-transform: uppercase; letter-spacing: .06em; color: var(--k); z-index: 2; }
+    /* dos */
+    .back { grid-template-columns: 1fr 1.25fr; background: var(--o); }
+    .back__txt { display: flex; flex-direction: column; justify-content: center; padding: 0 18mm; color: var(--k); }
+    .back .blogo span { color: var(--k); font-size: 40pt; }
+    .back .blogo em { background: var(--k); color: var(--o); }
+    .back__lead { margin-top: 10mm; font: 400 26pt/1 var(--disp); text-transform: uppercase; }
+    .back__hours { margin: 2mm 0 6mm; font-weight: 700; }
+    .back__list li { display: grid; grid-template-columns: 30mm 1fr; padding: 2mm 0; border-bottom: .4mm solid var(--k); font-weight: 700; font-size: 10pt; }
+    .back__list span { font-size: 6.8pt; letter-spacing: .12em; text-transform: uppercase; padding-top: .9mm; font-weight: 800; }
+    .back__site { margin-top: 7mm; font: 400 30pt var(--disp); color: var(--w); }
+</style>
+</head>
+<body>
+  <div class="toolbar"><p>Plaquette EMBI · style Bold · 16 pages A4 paysage. PDF : Imprimer › « Enregistrer au format PDF », Paysage, marges « Aucune », arrière-plans activés.</p>
+    <div class="toolbar__actions"><a href="plaquettes.html">← Tous les styles</a><button type="button" onclick="window.print()">Imprimer / PDF</button></div></div>
+<section class="page cover">
+  <div class="cover__media"><figure class="ph c1"><img src="images/plaquette/couverture-gauche.jpg" alt="" /></figure><figure class="ph c2"><img src="images/plaquette/couverture-droite.jpg" alt="" /></figure><figure class="ph c3"><img src="images/plaquette/couverture-bas.jpg" alt="" /></figure></div>
+  <div class="cover__txt">
+    <div class="blogo"><span>EMBI</span><em>Le plaisir de rénover</em></div>
+    <h1><span class="o">Nous réalisons</span> toutes vos envies</h1>
+    <p class="cover__sub">Petits ou grands projets, nous sommes à votre écoute.</p>
+  </div>
+  <div class="tape"><span>Hôtels ● Boutiques ● Restaurants ● Particuliers ● Rénovation clé en main ● Hôtels ● Boutiques ● Restaurants ● Particuliers ●</span></div>
+  
+</section>
+<section class="page split split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>02</b>L'entreprise</p><h2 class="ttl"><span class="l">Vous avez un projet</span> <span class="b">d'envergure&nbsp;?</span></h2><div class="body">
+<p class="lead">Notre société organise pour vous des travaux&nbsp;:</p>
+<ul class="list"><li>de rénovation</li><li>de transformation</li><li>d'aménagement</li><li>de réhabilitation</li><li>d'extension de bien immobilier, intérieure et extérieure</li></ul>
+<ul class="stats">
+  <li><strong>15</strong><span>ans d'expérience</span></li>
+  <li><strong>40</strong><span>professionnels qualifiés</span></li>
+  <li><strong>1</strong><span>interlocuteur unique</span></li>
+  <li><strong>7j/7</strong><span>dépannage</span></li>
+</ul></div></div>
+  <div class="split__media m1"><figure class="ph "><img src="images/plaquette/envergure.jpg" alt="" /></figure></div>
+  <span class="pn">02</span>
+</section>
+<section class="page split split--dark">
+  <div class="split__txt" data-fit><p class="sec"><b>03</b>L'entreprise</p><h2 class="ttl"><span class="l">EMBI &amp;</span> <span class="b">ses avantages</span></h2><div class="body">
+<p><b>EMBI</b>, c'est pour vous la <b>proximité</b>, la <b>disponibilité</b> et la <b>facilité</b>.</p>
+<p><b>EMBI</b> définit avec vous la solution adaptée à vos besoins&nbsp;: un projet <b>sur mesure</b> et personnalisé, un projet <b>clé en main</b>.</p>
+<p>De l'étude de votre projet à la livraison, EMBI vous accompagne pas à pas, grâce à <b>un suivi de chantier rigoureux</b> et <b>un conseil permanent</b>.</p>
+<p class="small-h">EMBI s'engage aussi sur</p>
+<ul class="list"><li>une optimisation du budget global, avec un prix de revient performant&nbsp;;</li><li>un choix des matériaux sélectionnés en fonction de votre projet et du cahier des charges établi.</li></ul></div></div>
+  <div class="split__media m1"><figure class="ph "><img src="images/plaquette/avantages.jpg" alt="" /></figure></div>
+  <span class="pn">03</span>
+</section>
+<section class="page split split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>04</b>Sommaire</p><h2 class="ttl"><span class="l">Que vous soyez professionnel</span> <span class="b">ou particulier</span></h2><div class="body">
+<p class="lead">Vous trouverez la prestation qu'il vous faut&nbsp;!</p>
+<ul class="toc"><li><span>Nos multiples savoir-faire</span><i></i><b>05</b></li><li><span>Nos engagements &amp; nos services</span><i></i><b>06</b></li><li><span>Notre fonctionnement</span><i></i><b>07</b></li><li><span>Appartements de particuliers</span><i></i><b>08</b></li><li><span>Hôtel Le Grand Pigalle</span><i></i><b>09</b></li><li><span>Hôtel Paradis</span><i></i><b>10</b></li><li><span>Hôtel Panache</span><i></i><b>11</b></li><li><span>Café Pinson</span><i></i><b>12</b></li><li><span>The Fish Club</span><i></i><b>13</b></li><li><span>Boutique Petite Mendigote</span><i></i><b>14</b></li><li><span>Boutique Colette</span><i></i><b>15</b></li></ul></div></div>
+  <div class="split__media m1"><figure class="ph "><img src="images/plaquette/sommaire.jpg" alt="" /></figure></div>
+  <span class="pn">04</span>
+</section>
+<section class="page split">
+  <div class="split__txt" data-fit><p class="sec"><b>05</b>Nos métiers</p><h2 class="ttl"><span class="l">Nos multiples</span> <span class="b">savoir-faire</span></h2><div class="body">
+<p><b>EMBI</b>, entreprise experte et dynamique dans le bâtiment, a l'ambition de faire perdurer le savoir-faire en alliant la modernité et la réactivité&nbsp;: <b>15 ans</b> de maîtrise des différents corps de métier du gros et du second œuvre, pour les commerces, les professions libérales et les particuliers.</p>
+<p class="small-h">Le gros œuvre</p>
+<p>Terrassement, maçonnerie, charpente métallique et bois, isolation thermique et phonique, rénovation intérieure comme extérieure, ouvertures de baies, façades. Normes coupe-feu, incendie et PMR.</p>
+<p class="small-h">Le second œuvre</p>
+<p>Pièces supplémentaires, cloisons, faux plafonds, menuiserie, revêtements des sols et muraux, électricité, plomberie, sanitaire, chauffage, peinture, serrurerie et décoration.</p></div></div>
+  <div class="split__media m1"><figure class="ph "><img src="images/plaquette/savoir-faire.jpg" alt="" /></figure><blockquote class="quote"><span>Notre concept</span>La fidélisation de nos clients, le conseil, l'accompagnement et la réalisation de tous vos projets.</blockquote></div>
+  <span class="pn">05</span>
+</section>
+<section class="page duo">
+  <div class="duo__col" data-fit><p class="sec"><b>06</b>Nos métiers</p><h2 class="ttl"><span class="l">Nos</span> <span class="b">engagements</span></h2><div class="body"><p class="lead">Votre projet clé en main, de l'élaboration à la livraison.</p>
+<ul class="checks"><li>Un interlocuteur unique dédié</li><li>Le respect des délais garanti</li><li>Une force de réactivité</li><li>La sécurité à tous les niveaux</li><li>Un rapport qualité-prix optimisé</li><li>Des professionnels qualifiés</li><li>Le respect de l'environnement</li></ul></div></div>
+  <div class="duo__media"><figure class="ph "><img src="images/plaquette/engagements.jpg" alt="" /></figure></div>
+  <div class="duo__col" data-fit><p class="sec"><b>06</b>Nos métiers</p><h2 class="ttl"><span class="l">Nos</span> <span class="b">services</span></h2><div class="body"><p>Tous vos travaux de rénovation et d'aménagement, intérieur et extérieur, pour votre habitation comme pour votre local professionnel.</p>
+<ul class="svc"><li>Peinture</li><li>Parquet</li><li>Plomberie</li><li>Isolation</li><li>Électricité</li><li>Menuiserie</li><li>Revêtements muraux</li><li>Corniche en staff</li><li class="hot">Dépannage 7j/7</li></ul></div></div>
+  <span class="pn">06</span>
+</section>
+<section class="page split split--rev split--dark">
+  <div class="split__txt" data-fit><p class="sec"><b>07</b>Nos métiers</p><h2 class="ttl"><span class="l">Notre</span> <span class="b">fonctionnement</span></h2><div class="body">
+<ol class="steps"><li><span class="n">01</span><div><b>Étude de faisabilité</b><p>Nous étudions et analysons l'ensemble de votre projet afin de valider la faisabilité des travaux et de vous proposer la prestation qu'il vous faut, au meilleur rapport qualité-prix.</p></div></li><li><span class="n">02</span><div><b>Chiffrage des travaux</b><p>Un devis réalisé ensemble, en toute transparence, en amont de la phase de travaux.</p></div></li><li><span class="n">03</span><div><b>Mise en place du chantier</b></div></li><li><span class="n">04</span><div><b>Signature du contrat</b></div></li><li><span class="n">05</span><div><b>Réalisation du chantier</b></div></li><li><span class="n">06</span><div><b>Livraison / réception</b><p>Un expert EMBI vous présente l'intégralité des travaux réalisés.</p></div></li></ol>
+<p class="note">EMBI prend aussi en charge la programmation globale du chantier&nbsp;: son suivi permanent vous apporte le meilleur confort et les meilleures garanties.</p></div></div>
+  <div class="split__media m1"><figure class="ph "><img src="images/plaquette/fonctionnement.jpg" alt="" /></figure></div>
+  <span class="pn">07</span>
+</section>
+<section class="page split projet">
+  <div class="split__txt" data-fit><p class="sec"><b>08</b>Nos réalisations</p><span class="bignum">01</span><h2 class="ttl"><span class="l">Appartements</span> <span class="b">de particuliers</span></h2><div class="body"><p>Rénovation et mise aux normes d'appartements, de la cuisine sur mesure à la salle de bain.</p><ul class="chips"><li>Rénovation</li><li>Mise aux normes</li><li>Cuisine sur mesure</li><li>Salle de bain</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/particuliers-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/particuliers-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/particuliers-3.jpg" alt="" /></figure><div class="tag"><b>Du sur-mesure, pièce par pièce</b></div></div>
+  <span class="pn">08</span>
+</section>
+<section class="page split projet split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>09</b>Nos réalisations</p><span class="bignum">02</span><h2 class="ttl"><span class="l">Hôtel</span> <span class="b">Le Grand Pigalle</span></h2><div class="body"><p>Remise aux normes de l'hôtel (sanitaires, circulations PMR, incendie, électricité, ravalement, étanchéité de la terrasse) et embellissement de l'ensemble du bâtiment.</p><ul class="chips"><li>Mise aux normes</li><li>PMR</li><li>Incendie</li><li>Électricité</li><li>Étanchéité</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/grand-pigalle-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/grand-pigalle-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/grand-pigalle-3.jpg" alt="" /></figure><div class="tag"><b>Un charme exceptionnel</b><small>grandpigalle.com</small></div></div>
+  <span class="pn">09</span>
+</section>
+<section class="page split projet">
+  <div class="split__txt" data-fit><p class="sec"><b>10</b>Nos réalisations</p><span class="bignum">03</span><h2 class="ttl"><span class="l">Hôtel</span> <span class="b">Paradis</span></h2><div class="body"><p>Remise aux normes de l'hôtel (sanitaires, circulations PMR, incendie, électricité), travaux d'embellissement et de rénovation.</p><ul class="chips"><li>Mise aux normes</li><li>PMR</li><li>Incendie</li><li>Embellissement</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/paradis-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/paradis-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/paradis-3.jpg" alt="" /></figure><div class="tag"><b>Moderne &amp; romantique</b><small>hotelparadisparis.com</small></div></div>
+  <span class="pn">10</span>
+</section>
+<section class="page split projet split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>11</b>Nos réalisations</p><span class="bignum">04</span><h2 class="ttl"><span class="l">Hôtel</span> <span class="b">Panache</span></h2><div class="body"><p>Remise aux normes de l'hôtel (sanitaires, circulations PMR, incendie, électricité), travaux d'embellissement et de rénovation.</p><ul class="chips"><li>Mise aux normes</li><li>PMR</li><li>Incendie</li><li>Rénovation</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/panache-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/panache-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/panache-3.jpg" alt="" /></figure><div class="tag"><b>Dans l'air du temps</b><small>hotelpanache.com</small></div></div>
+  <span class="pn">11</span>
+</section>
+<section class="page split projet">
+  <div class="split__txt" data-fit><p class="sec"><b>12</b>Nos réalisations</p><span class="bignum">05</span><h2 class="ttl"><span class="l">Café</span> <span class="b">Pinson</span></h2><div class="body"><p>Une ancienne boulangerie parisienne totalement repensée et réaménagée&nbsp;: rénovation et décoration complètes, dans le respect des normes de la restauration.</p><ul class="chips"><li>Rénovation complète</li><li>Décoration</li><li>Normes restauration</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/pinson-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/pinson-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/pinson-3.jpg" alt="" /></figure><div class="tag"><b>Naturellement authentique</b><small>cafepinson.fr</small></div></div>
+  <span class="pn">12</span>
+</section>
+<section class="page split projet split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>13</b>Nos réalisations</p><span class="bignum">06</span><h2 class="ttl"><span class="l">The Fish</span> <span class="b">Club</span></h2><div class="body"><p>Une ancienne boucherie des Halles transformée en restaurant, pour l'Experimental Group.</p><ul class="chips"><li>Transformation complète</li><li>Restaurant</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/fishclub-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/fishclub-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/fishclub-3.jpg" alt="" /></figure><div class="tag"><b>Chic &amp; renouveau</b><small>eccfishclub.com</small></div></div>
+  <span class="pn">13</span>
+</section>
+<section class="page split projet">
+  <div class="split__txt" data-fit><p class="sec"><b>14</b>Nos réalisations</p><span class="bignum">07</span><h2 class="ttl"><span class="l">Boutique</span> <span class="b">Petite Mendigote</span></h2><div class="body"><p>Une boutique de prêt-à-porter repensée et réaménagée tout en gardant son charme et son authenticité.</p><ul class="chips"><li>Réaménagement</li><li>Prêt-à-porter</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/mendigote-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/mendigote-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/mendigote-3.jpg" alt="" /></figure><div class="tag"><b>Du sur-mesure pour le prêt-à-porter</b><small>petitemendigote.fr</small></div></div>
+  <span class="pn">14</span>
+</section>
+<section class="page split projet split--rev">
+  <div class="split__txt" data-fit><p class="sec"><b>15</b>Nos réalisations</p><span class="bignum">08</span><h2 class="ttl"><span class="l">Boutique</span> <span class="b">Colette</span></h2><div class="body"><p>Le concept store de luxe, point de rencontre entre la mode, le parfum, le design, la musique, l'édition, la photo, la beauté et les hautes technologies.</p><ul class="chips"><li>Concept store</li><li>Rénovation complète</li></ul></div></div>
+  <div class="split__media m3"><figure class="ph a"><img src="images/plaquette/colette-1.jpg" alt="" /></figure><figure class="ph b"><img src="images/plaquette/colette-2.jpg" alt="" /></figure><figure class="ph c"><img src="images/plaquette/colette-3.jpg" alt="" /></figure><div class="tag"><b>Une boutique… une histoire…</b><small>Inoubliablement hype</small></div></div>
+  <span class="pn">15</span>
+</section>
+<section class="page back">
+  <div class="back__media"><figure class="ph "><img src="images/plaquette/portrait.jpg" alt="" /></figure></div>
+  <div class="back__txt"><div class="blogo"><span>EMBI</span><em>Le plaisir de rénover</em></div><p class="back__lead">Venez découvrir notre showroom</p>
+<p class="back__hours">Du lundi au vendredi, de 10h à 18h</p>
+<ul class="back__list">
+  <li><span>Adresse</span>5, rue Villebois-Mareuil, 75017 Paris</li>
+  <li><span>Téléphone</span>01 45 72 65 24</li>
+  <li><span>E-mail</span>sec@embi.fr</li>
+  <li><span>Urgence 7j/7</span>06 31 60 01 35</li>
+</ul>
+<p class="back__site">embi.fr</p></div>
+  
+</section>
+</body>
+</html>

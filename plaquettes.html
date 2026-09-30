@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMBI | Plaquettes</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root { --bg: #f3efe8; --ink: #161513; --muted: #6b655c; --line: rgba(22,21,19,.12); --acc: #ff5a1f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 16px 64px; }
+    h1 { margin: 0 0 8px; font-size: clamp(28px, 5vw, 40px); }
+    main > p { margin: 0 0 32px; color: var(--muted); }
+    ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); gap: 24px; }
+    a { color: inherit; text-decoration: none; }
+    li a { display: block; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    li a:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.1); }
+    img { display: block; width: 100%; aspect-ratio: 297 / 210; object-fit: cover; border-bottom: 1px solid var(--line); }
+    li div { padding: 16px 18px 18px; }
+    h2 { margin: 0 0 4px; font-size: 19px; }
+    li p { margin: 0; color: var(--muted); font-size: 14px; }
+    .back { display: inline-block; margin-bottom: 24px; color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="index.html">← Retour au site</a>
+    <h1>Plaquettes EMBI</h1>
+    <p>4 styles, mêmes textes et mêmes photos. 16 pages A4 paysage, à imprimer ou à enregistrer en PDF.</p>
+    <ul>
+      <li><a href="plaquette.html"><img src="images/plaquette/apercus/ancienne.jpg" alt="Couverture du style Ancienne pimpée" /><div><h2>Ancienne pimpée</h2><p>L'ancienne plaquette modernisée : bleu marine et orange, découpes en diagonale, écusson.</p></div></a></li>
+      <li><a href="plaquette-editorial.html"><img src="images/plaquette/apercus/editorial.jpg" alt="Couverture du style Éditorial" /><div><h2>Éditorial</h2><p>Magazine de luxe : crème, typographie à empattements, terracotta, beaucoup d'air.</p></div></a></li>
+      <li><a href="plaquette-architecte.html"><img src="images/plaquette/apercus/architecte.jpg" alt="Couverture du style Architecte" /><div><h2>Architecte</h2><p>Plan bleu quadrillé, cotes, cartouche d'architecte sur chaque planche.</p></div></a></li>
+      <li><a href="plaquette-bold.html"><img src="images/plaquette/apercus/bold.jpg" alt="Couverture du style Bold" /><div><h2>Bold</h2><p>Noir, blanc et orange : grosse typographie, stickers, très contrasté.</p></div></a></li>
+    </ul>
+  </main>
+</body>
+</html>

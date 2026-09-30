@@ -50,8 +50,12 @@ Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mes
 - **Catalogues** : liste `SHOWROOM_CATALOGUES` dans le même fichier (couverture + lien PDF).
 - Les boutons « Demander un devis » pré-cochent « Carrelage / parquet » dans le formulaire de l'accueil.
 
-## Plaquette de présentation
-`plaquette.html` reprend l'ancienne plaquette EMBI en la modernisant : 16 pages A4 paysage, bleu marine et orange, police Montserrat, photos séparées par des découpes en diagonale et écusson « E.M.B.I. – Le plaisir de rénover ».
-Pages : couverture, projet d'envergure, avantages, sommaire, savoir-faire, engagements et services, fonctionnement, puis les réalisations (appartements de particuliers, Le Grand Pigalle, Paradis, Panache, Café Pinson, The Fish Club, Petite Mendigote, Colette) et le dos (showroom et contact).
-Pour obtenir le PDF : ouvrir la page dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », mise en page « Paysage », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
+## Plaquettes de présentation
+`plaquettes.html` présente 4 styles de plaquette (16 pages A4 paysage, mêmes textes et photos) :
+- `plaquette.html` : l'ancienne plaquette modernisée (bleu marine, orange, découpes en diagonale, écusson) ;
+- `plaquette-editorial.html` : magazine de luxe (crème, serif, terracotta) ;
+- `plaquette-architecte.html` : plan d'architecte (bleu quadrillé, cotes, cartouche) ;
+- `plaquette-bold.html` : graphique contrasté (noir, blanc, orange).
+
+Pour obtenir le PDF : ouvrir la plaquette dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », mise en page « Paysage », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
 Les photos viennent du PDF de l'ancienne plaquette et sont rangées dans `images/plaquette/`.
