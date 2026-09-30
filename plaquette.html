@@ -57,7 +57,29 @@
     .ph { position: absolute; background: var(--navy-2); }
     .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .cuts { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; filter: drop-shadow(0 0 1.2mm rgba(0, 0, 0, .35)); }
-    .cuts line { stroke: #fff; stroke-width: 2.4; stroke-linecap: square; }
+    .cuts line { stroke: #fff; stroke-width: 2.6; stroke-linecap: square; }
+    .cuts line.o { stroke: var(--orange); stroke-width: .7; }
+
+    /* rubriques */
+    .sec { display: flex; align-items: center; gap: 3mm; margin-bottom: -1mm; font-size: 7.5pt; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); }
+    .sec::after { content: ""; width: 14mm; height: .5mm; background: var(--orange); }
+
+    /* chiffres clés */
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 6mm; margin-top: auto; padding-top: 6mm; border-top: .3mm solid var(--line); }
+    .stats strong { display: block; font-size: 26pt; font-weight: 900; line-height: 1; color: var(--orange); letter-spacing: -.01em; }
+    .stats span { display: block; margin-top: 1mm; font-size: 7.5pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--navy); }
+
+    /* étiquettes + grand numéro des réalisations */
+    .chips { display: flex; flex-wrap: wrap; gap: 1.4mm; margin-top: 1mm; }
+    .chips li { padding: .8mm 2.6mm; border-radius: 99px; background: var(--navy); color: #fff; font-size: 6.8pt; font-weight: 600; letter-spacing: .02em; }
+    .chips li:first-child { background: var(--orange); color: var(--navy); }
+    .bignum { position: absolute; left: 13mm; bottom: 13mm; font-size: 84pt; font-weight: 900; line-height: .8; letter-spacing: -.02em; color: transparent; -webkit-text-stroke: .45mm var(--orange); z-index: 1; }
+
+    /* pages marine */
+    .page--navy { background: var(--navy); color: rgba(255, 255, 255, .82); }
+    .page--navy .ttl, .page--navy b, .page--navy strong { color: #fff; }
+    .page--navy .note { background: rgba(255, 255, 255, .07); }
+    .page--navy .steps .n { background: var(--orange); color: var(--navy); }
 
     /* textes */
     .txt { position: absolute; top: 18mm; left: 16mm; bottom: 16mm; display: flex; flex-direction: column; gap: 3.2mm; }
@@ -102,14 +124,14 @@
 
     /* réalisations */
     .txt--proj { width: 70mm; }
-    .proj__body { margin-top: auto; margin-bottom: 30mm; display: flex; flex-direction: column; gap: 3mm; font-size: 9pt; }
+    .proj__body { margin-top: auto; margin-bottom: 36mm; display: flex; flex-direction: column; gap: 3mm; font-size: 9pt; }
     .proj__body em { color: var(--muted); }
     .proj__body--top { margin: 2mm 0 0; }
     .ttl--sm .l { font-size: 17pt; }
     .ttl--sm .b { font-size: 19pt; letter-spacing: .08em; }
 
     /* bandeau sur photo */
-    .banner { position: absolute; right: 0; padding: 3.2mm 10mm 3.4mm; background: rgba(12, 19, 56, .82); color: #fff; text-align: center; max-width: 150mm; }
+    .banner { position: absolute; right: 0; padding: 3.2mm 10mm 3.4mm; border-left: 1.6mm solid var(--orange); background: rgba(12, 19, 56, .86); color: #fff; text-align: center; max-width: 150mm; }
     .banner b { display: block; color: #fff; font-weight: 900; font-size: 13pt; letter-spacing: .04em; text-transform: uppercase; line-height: 1.2; }
     .banner small { display: block; margin-top: .8mm; font-size: 8pt; letter-spacing: .04em; opacity: .85; }
     .banner--bottom { bottom: 12mm; }
@@ -127,6 +149,7 @@
     /* couverture */
     .cover .cover__foot { position: absolute; left: 0; right: 0; bottom: 0; padding: 26mm 20mm 9mm; text-align: center; color: #fff; background: linear-gradient(transparent, rgba(8, 12, 36, .88)); }
     .cover h1 { font-weight: 900; font-size: 25pt; letter-spacing: .03em; text-transform: uppercase; line-height: 1.1; }
+    .cover h1::after { content: ""; display: block; width: 22mm; height: .9mm; margin: 3mm auto 0; background: var(--orange); }
     .cover .cover__foot p { margin-top: 1.5mm; font-weight: 400; font-size: 10.5pt; letter-spacing: .06em; text-transform: uppercase; }
     .cover .cover__foot span { display: inline-block; margin-top: 5mm; padding: 1.5mm 5mm; border: .3mm solid rgba(255,255,255,.6); border-radius: 99px; font-size: 8.5pt; letter-spacing: .1em; }
 
@@ -161,7 +184,7 @@
     <figure class="ph " style="left:0mm;top:0mm;width:297.00mm;height:210.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/couverture-bas.jpg" alt="" style="object-position:center 70%" /></figure>
     <figure class="ph " style="left:0mm;top:0mm;width:148.50mm;height:178.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 56.18%, 0.00% 100.00%)"><img src="images/plaquette/couverture-gauche.jpg" alt="" style="object-position:center 30%" /></figure>
     <figure class="ph " style="left:148.5mm;top:0mm;width:148.50mm;height:178.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 56.18%)"><img src="images/plaquette/couverture-droite.jpg" alt="" style="object-position:center 30%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="148.5" y1="100" x2="0" y2="178" /><line x1="148.5" y1="100" x2="297" y2="178" /><line x1="148.5" y1="0" x2="148.5" y2="100" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="148.5" y1="100" x2="0" y2="178" /><line x1="148.5" y1="100" x2="297" y2="178" /><line x1="148.5" y1="0" x2="148.5" y2="100" /><line class="o" x1="148.5" y1="100" x2="0" y2="178" /><line class="o" x1="148.5" y1="100" x2="297" y2="178" /><line class="o" x1="148.5" y1="0" x2="148.5" y2="100" /></svg>
     <svg class="shield shield--cover" viewBox="-4 -4 108 130" role="img" aria-label="E.M.B.I. – Le plaisir de rénover">
       <path class="shield__ring" d="M0 -4 H100 V86 Q100 90 96 92.6 L54 119.8 Q50 122.4 46 119.8 L4 92.6 Q0 90 0 86 Z" />
       <path class="shield__body" d="M3 -4 H97 V84.6 Q97 88 94 90 L53 116.6 Q50 118.6 47 116.6 L6 90 Q3 88 3 84.6 Z" />
@@ -180,19 +203,25 @@
   <section class="page ">
     <figure class="ph " style="left:0mm;top:0mm;width:178.00mm;height:210.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 92.13% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/envergure.jpg" alt="" style="object-position:center 60%" /></figure>
     <div class="txt txt--right" style="left:184mm">
-      <h2 class="ttl "><span class="l">Vous avez un projet</span><span class="b">d'envergure&nbsp;?</span></h2>
+      <span class="sec">01 · L'entreprise</span><h2 class="ttl "><span class="l">Vous avez un projet</span><span class="b">d'envergure&nbsp;?</span></h2>
       <p class="lead">Notre société organise pour vous des travaux&nbsp;:</p>
       <ul class="bul bul--big">
         <li>de rénovation</li><li>de transformation</li><li>d'aménagement</li><li>de réhabilitation</li>
         <li>d'extension de bien immobilier <em>(intérieure et extérieure)</em></li>
       </ul>
+      <ul class="stats">
+        <li><strong>15</strong><span>ans d'expérience</span></li>
+        <li><strong>40</strong><span>professionnels qualifiés</span></li>
+        <li><strong>1</strong><span>interlocuteur unique</span></li>
+        <li><strong>7j/7</strong><span>dépannage</span></li>
+      </ul>
     </div>
     <span class="pn pn--l">02</span>
   </section>
 
-  <section class="page ">
+  <section class="page page--navy">
     <div class="txt" style="width:98mm">
-      <h2 class="ttl "><span class="l">EMBI &amp;</span><span class="b">ses avantages</span></h2>
+      <span class="sec">01 · L'entreprise</span><h2 class="ttl "><span class="l">EMBI &amp;</span><span class="b">ses avantages</span></h2>
       <p><b>EMBI</b>, c'est pour vous&nbsp;:</p>
       <ul class="bul"><li>la proximité</li><li>la disponibilité</li><li>la facilité</li></ul>
       <p><b>EMBI</b> définit avec vous <b>la solution adaptée à vos besoins</b>&nbsp;:</p>
@@ -205,12 +234,14 @@
       </ul>
     </div>
     <figure class="ph " style="left:114mm;top:0mm;width:183.00mm;height:210.00mm;clip-path:polygon(7.65% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/avantages.jpg" alt="" style="object-position:center 40%" /></figure>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="128" y1="0" x2="114" y2="210" /><line class="o" x1="128" y1="0" x2="114" y2="210" /></svg>
     <span class="pn pn--r">03</span>
   </section>
 
   <section class="page ">
     <figure class="ph " style="left:0mm;top:0mm;width:168.00mm;height:210.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 91.67% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/sommaire.jpg" alt="" style="object-position:center 55%" /></figure>
     <div class="txt txt--right" style="left:170mm">
+      <span class="sec">01 · L'entreprise</span>
       <h2 class="ttl ttl--stack"><span class="l">Que vous soyez</span><span class="b">professionnel</span><span class="l">ou <strong>particulier</strong></span></h2>
       <p class="kick">Vous trouverez la prestation qu'il vous faut&nbsp;!</p>
       <ul class="toc"><li><span>Nos multiples savoir-faire</span><i></i><b>p. 5</b></li><li><span>Nos engagements &amp; nos services</span><i></i><b>p. 6</b></li><li><span>Notre fonctionnement</span><i></i><b>p. 7</b></li></ul>
@@ -222,7 +253,7 @@
 
   <section class="page ">
     <div class="txt" style="width:118mm">
-      <h2 class="ttl "><span class="l">Nos multiples</span><span class="b">savoir-faire</span></h2>
+      <span class="sec">02 · Nos métiers</span><h2 class="ttl "><span class="l">Nos multiples</span><span class="b">savoir-faire</span></h2>
       <p><b>EMBI</b>, entreprise experte et dynamique dans le bâtiment, a l'ambition de faire perdurer le savoir-faire tout en alliant la modernité et la réactivité.</p>
       <p><b>EMBI</b>, c'est la maîtrise depuis <b>15 ans</b> des différents corps de métier du gros et du second œuvre. Nous intervenons aussi bien pour les commerces et les professions libérales que pour les particuliers.</p>
       <h3 class="sub">Le gros œuvre</h3>
@@ -238,7 +269,7 @@
 
   <section class="page ">
     <div class="txt" style="width:88mm">
-      <h2 class="ttl "><span class="l">Nos</span><span class="b">engagements</span></h2>
+      <span class="sec">02 · Nos métiers</span><h2 class="ttl "><span class="l">Nos</span><span class="b">engagements</span></h2>
       <p class="kick">Votre projet clé en main, de l'élaboration à la livraison.</p>
       <ul class="checks">
         <li>Un interlocuteur <b>unique</b> dédié</li><li>Le respect <b>des délais garanti</b></li><li>Une force de <b>réactivité</b></li>
@@ -248,7 +279,7 @@
     </div>
     <figure class="ph " style="left:102mm;top:0mm;width:94.00mm;height:210.00mm;clip-path:polygon(14.89% 0.00%, 100.00% 0.00%, 85.11% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/engagements.jpg" alt="" style="object-position:center 50%" /></figure>
     <div class="txt txt--right" style="left:200mm">
-      <h2 class="ttl "><span class="l">Nos</span><span class="b">services</span></h2>
+      <h2 class="ttl"><span class="l">Nos</span><span class="b">services</span></h2>
       <p>Notre connaissance et notre expérience du terrain nous permettent de prendre en charge tous vos travaux de rénovation et d'aménagement, intérieur et extérieur.</p>
       <p><b>EMBI</b> vous conseille et vous accompagne dans <b>tous vos projets d'aménagement et de rénovation</b>, qu'il s'agisse de votre habitation (maison, appartement…) ou de votre local professionnel (hôtel, restaurant, bureau, boutique…).</p>
       <ul class="svc">
@@ -259,13 +290,14 @@
     <span class="pn pn--l">06</span>
   </section>
 
-  <section class="page ">
+  <section class="page page--navy">
     <div class="txt" style="width:128mm">
-      <h2 class="ttl "><span class="l">Notre</span><span class="b">fonctionnement</span></h2>
+      <span class="sec">02 · Nos métiers</span><h2 class="ttl "><span class="l">Notre</span><span class="b">fonctionnement</span></h2>
       <ol class="steps"><li><span class="n">1</span><div><b>Étude de faisabilité</b><p>Première étape indispensable : nous étudions et analysons l'ensemble de votre projet afin de valider la faisabilité des travaux et de vous proposer la prestation qu'il vous faut, au meilleur rapport qualité-prix.</p></div></li><li><span class="n">2</span><div><b>Chiffrage des travaux</b><p>Nous réalisons ensemble, en toute transparence, un devis en amont de la phase de travaux.</p></div></li><li><span class="n">3</span><div><b>Définition de la mise en place du chantier</b></div></li><li><span class="n">4</span><div><b>Signature du contrat</b></div></li><li><span class="n">5</span><div><b>Réalisation du chantier</b></div></li><li><span class="n">6</span><div><b>Livraison / réception du chantier</b><p>Un expert EMBI vous accompagne lors de cette étape afin de vous présenter l'intégralité des travaux réalisés.</p></div></li></ol>
       <p class="note">EMBI prend aussi en charge la programmation globale de la réalisation du chantier. Le suivi permanent de nos chantiers nous permet d'apporter le meilleur confort et les meilleures garanties à nos clients.</p>
     </div>
     <figure class="ph " style="left:148mm;top:0mm;width:149.00mm;height:210.00mm;clip-path:polygon(9.40% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/fonctionnement.jpg" alt="" style="object-position:center 50%" /></figure>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="162" y1="0" x2="148" y2="210" /><line class="o" x1="162" y1="0" x2="148" y2="210" /></svg>
     <div class="banner banner--top"><b>Accompagnement · Réalisation · Suivi de chantier</b></div>
     <span class="pn pn--r">07</span>
   </section>
@@ -274,12 +306,13 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/particuliers-1.jpg" alt="" style="object-position:center 45%" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/particuliers-2.jpg" alt="" style="object-position:center 40%" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/particuliers-3.jpg" alt="" style="object-position:center 60%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <figure class="ph " style="left:0mm;top:126mm;width:86.40mm;height:84.00mm;clip-path:polygon(0.00% 19.05%, 100.00% 0.00%, 94.33% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/particuliers-4.jpg" alt="" style="object-position:center 60%" /></figure>
     <div class="txt txt--proj">
-      <h2 class="ttl ttl--sm"><span class="l">Les appartements</span><span class="b">de particuliers</span></h2>
-      <div class="proj__body proj__body--top"><p>Rénovation et mise aux normes d'appartements, de la cuisine sur mesure à la salle de bain.</p></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl ttl--sm"><span class="l">Les appartements</span><span class="b">de particuliers</span></h2>
+      <div class="proj__body proj__body--top"><p>Rénovation et mise aux normes d'appartements, de la cuisine sur mesure à la salle de bain.</p><ul class="chips"><li>Rénovation</li><li>Mise aux normes</li><li>Cuisine sur mesure</li><li>Salle de bain</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">01</span>
     <span class="pn pn--l">08</span>
   </section>
 
@@ -287,11 +320,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/grand-pigalle-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/grand-pigalle-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/grand-pigalle-3.jpg" alt="" style="object-position:center 70%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Hôtel</span><span class="b">Le Grand Pigalle</span></h2>
-      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité, ravalement et travaux pour garantir l'étanchéité de la terrasse)</em></li><li>Travaux d'embellissement et de rénovation de l'ensemble du bâtiment</li></ul></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Hôtel</span><span class="b">Le Grand Pigalle</span></h2>
+      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité, ravalement et travaux pour garantir l'étanchéité de la terrasse)</em></li><li>Travaux d'embellissement et de rénovation de l'ensemble du bâtiment</li></ul><ul class="chips"><li>Mise aux normes</li><li>Accessibilité PMR</li><li>Sécurité incendie</li><li>Électricité</li><li>Ravalement</li><li>Étanchéité terrasse</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">02</span>
     <div class="banner banner--bottom"><b>Un charme exceptionnel</b><small>grandpigalle.com</small></div>
     <span class="pn pn--r">09</span>
   </section>
@@ -300,11 +334,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/paradis-1.jpg" alt="" style="object-position:center 60%" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/paradis-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/paradis-3.jpg" alt="" style="object-position:center 70%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Hôtel</span><span class="b">Paradis</span></h2>
-      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité)</em></li><li>Travaux d'embellissement et de rénovation</li></ul></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Hôtel</span><span class="b">Paradis</span></h2>
+      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité)</em></li><li>Travaux d'embellissement et de rénovation</li></ul><ul class="chips"><li>Mise aux normes</li><li>Accessibilité PMR</li><li>Sécurité incendie</li><li>Électricité</li><li>Embellissement</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">03</span>
     <div class="banner banner--bottom"><b>Moderne &amp; romantique</b><small>hotelparadisparis.com</small></div>
     <span class="pn pn--l">10</span>
   </section>
@@ -313,11 +348,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/panache-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/panache-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/panache-3.jpg" alt="" style="object-position:center 65%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Hôtel</span><span class="b">Panache</span></h2>
-      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité)</em></li><li>Travaux d'embellissement et de rénovation</li></ul></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Hôtel</span><span class="b">Panache</span></h2>
+      <div class="proj__body"><ul class="bul"><li>Remise aux normes de l'hôtel <em>(sanitaires, circulations PMR, incendie, électricité)</em></li><li>Travaux d'embellissement et de rénovation</li></ul><ul class="chips"><li>Mise aux normes</li><li>Accessibilité PMR</li><li>Sécurité incendie</li><li>Électricité</li><li>Rénovation</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">04</span>
     <div class="banner banner--bottom"><b>Dans l'air du temps</b><small>hotelpanache.com</small></div>
     <span class="pn pn--r">11</span>
   </section>
@@ -326,11 +362,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/pinson-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/pinson-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/pinson-3.jpg" alt="" style="object-position:center" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Café</span><span class="b">Pinson</span></h2>
-      <div class="proj__body"><p>Cet établissement, ancienne boulangerie parisienne, a été totalement repensé et réaménagé.</p><p><b>EMBI</b> a réalisé la rénovation et la décoration complètes du lieu, en respectant toutes les normes liées au secteur de la restauration.</p></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Café</span><span class="b">Pinson</span></h2>
+      <div class="proj__body"><p>Cet établissement, ancienne boulangerie parisienne, a été totalement repensé et réaménagé.</p><p><b>EMBI</b> a réalisé la rénovation et la décoration complètes du lieu, en respectant toutes les normes liées au secteur de la restauration.</p><ul class="chips"><li>Rénovation complète</li><li>Décoration</li><li>Normes de la restauration</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">05</span>
     <div class="banner banner--bottom"><b>Naturellement authentique</b><small>cafepinson.fr</small></div>
     <span class="pn pn--l">12</span>
   </section>
@@ -339,11 +376,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/fishclub-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/fishclub-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/fishclub-3.jpg" alt="" style="object-position:center" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">The Fish</span><span class="b">Club</span></h2>
-      <div class="proj__body"><p>Le Fish Club fait partie de l'<b>Experimental Group</b>, qui vous accueille dans ses autres établissements parisiens.</p><p>Une ancienne boucherie des Halles transformée en restaurant.</p></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">The Fish</span><span class="b">Club</span></h2>
+      <div class="proj__body"><p>Le Fish Club fait partie de l'<b>Experimental Group</b>, qui vous accueille dans ses autres établissements parisiens.</p><p>Une ancienne boucherie des Halles transformée en restaurant.</p><ul class="chips"><li>Transformation complète</li><li>Restaurant</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">06</span>
     <div class="banner banner--bottom"><b>Chic &amp; renouveau</b><small>eccfishclub.com</small></div>
     <span class="pn pn--r">13</span>
   </section>
@@ -352,11 +390,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/mendigote-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/mendigote-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/mendigote-3.jpg" alt="" style="object-position:center" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Boutique</span><span class="b">Petite Mendigote</span></h2>
-      <div class="proj__body"><p>Cette boutique de prêt-à-porter a été repensée et réaménagée tout en gardant son charme et son authenticité.</p></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Boutique</span><span class="b">Petite Mendigote</span></h2>
+      <div class="proj__body"><p>Cette boutique de prêt-à-porter a été repensée et réaménagée tout en gardant son charme et son authenticité.</p><ul class="chips"><li>Réaménagement</li><li>Prêt-à-porter</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">07</span>
     <div class="banner banner--bottom"><b>Du sur mesure pour le prêt-à-porter</b><small>petitemendigote.fr</small></div>
     <span class="pn pn--l">14</span>
   </section>
@@ -365,11 +404,12 @@
     <figure class="ph " style="left:84mm;top:0mm;width:213.00mm;height:210.00mm;clip-path:polygon(6.57% 0.00%, 100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/colette-1.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:206mm;top:0mm;width:91.00mm;height:92.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 100.00% 100.00%)"><img src="images/plaquette/colette-2.jpg" alt="" style="object-position:center" /></figure>
     <figure class="ph " style="left:166mm;top:116mm;width:131.00mm;height:94.00mm;clip-path:polygon(100.00% 0.00%, 100.00% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/colette-3.jpg" alt="" style="object-position:center" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="206" y1="0" x2="297" y2="92" /><line x1="297" y1="116" x2="166" y2="210" /><line class="o" x1="206" y1="0" x2="297" y2="92" /><line class="o" x1="297" y1="116" x2="166" y2="210" /></svg>
     <div class="txt txt--proj">
-      <h2 class="ttl "><span class="l">Boutique</span><span class="b">Colette</span></h2>
-      <div class="proj__body"><p>Colette Paris était une boutique au concept store de luxe, point de rencontre entre la mode, le parfum et le design, la musique et l'édition, la photo, la beauté et les hautes technologies.</p></div>
+      <span class="sec">03 · Nos réalisations</span><h2 class="ttl "><span class="l">Boutique</span><span class="b">Colette</span></h2>
+      <div class="proj__body"><p>Colette Paris était une boutique au concept store de luxe, point de rencontre entre la mode, le parfum et le design, la musique et l'édition, la photo, la beauté et les hautes technologies.</p><ul class="chips"><li>Concept store</li><li>Rénovation complète</li></ul></div>
     </div>
+    <span class="bignum" aria-hidden="true">08</span>
     <div class="banner banner--bottom"><b>Une boutique… une histoire…</b><small>Inoubliablement hype</small></div>
     <span class="pn pn--r">15</span>
   </section>
@@ -377,7 +417,7 @@
   <section class="page page--back">
     <div class="back__navy"></div>
     <figure class="ph " style="left:0mm;top:0mm;width:124.00mm;height:210.00mm;clip-path:polygon(0.00% 0.00%, 100.00% 0.00%, 87.10% 100.00%, 0.00% 100.00%)"><img src="images/plaquette/portrait.jpg" alt="" style="object-position:center 40%" /></figure>
-    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="124" y1="0" x2="108" y2="210" /></svg>
+    <svg class="cuts" viewBox="0 0 297 210" preserveAspectRatio="none" aria-hidden="true"><line x1="124" y1="0" x2="108" y2="210" /><line class="o" x1="124" y1="0" x2="108" y2="210" /></svg>
     <div class="back">
       <svg class="shield shield--back" viewBox="-4 -4 108 130" role="img" aria-label="E.M.B.I. – Le plaisir de rénover">
       <path class="shield__ring" d="M0 -4 H100 V86 Q100 90 96 92.6 L54 119.8 Q50 122.4 46 119.8 L4 92.6 Q0 90 0 86 Z" />
