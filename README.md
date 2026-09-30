@@ -27,3 +27,7 @@ scripts/               utilitaires
 
 Le formulaire de contact ouvre la messagerie du visiteur avec un e-mail pré-rempli vers sec@embi.fr.
 Pour recevoir les demandes sans passer par la messagerie, branchez un service comme Formspree ou Netlify Forms.
+
+## Croquis de l'étape « Livraison » (section Fonctionnement)
+Déposez l'image du croquis d'architecte dans `images/methode/livraison.jpg` (format 3:2, idéalement 1800 × 1200 px).
+Tant que l'image n'est pas présente, le site affiche automatiquement un dessin de remplacement.
