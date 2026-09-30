@@ -20,7 +20,11 @@
       document.dispatchEvent(new Event("embi:loaded"));
     }, reduce ? 0 : 250);
   };
-  if (reduce) finishLoad();
+  if (!loader) {
+    loaded = true;
+    document.body.classList.add("is-loaded");
+    setTimeout(() => document.dispatchEvent(new Event("embi:loaded")), 0);
+  } else if (reduce) finishLoad();
   else {
     // compteur 0 → 100 %, terminé au plus tard après ~1,6 s
     const t0 = performance.now(), count = $("#loaderCount");
@@ -38,13 +42,13 @@
 
   /* ───── Header ───── */
   const header = $("#header");
-  const hero = $(".hero");
-  header.classList.add("on-dark");
+  const hero = $(".hero, .cs-hero, .pj-hero");
+  if (hero) header.classList.add("on-dark");
   let lastY = 0;
   const onScroll = () => {
     const y = window.scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", y < hero.offsetHeight - 60);
+    header.classList.toggle("on-dark", !!hero && y < hero.offsetHeight - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
   };
@@ -63,12 +67,14 @@
   $$("a", nav).forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   /* ───── Marquee des références ───── */
+  if ($("#marquee")) {
   const named = projects.filter((p) => p.category !== "particulier");
   const chunk = named.map((p, i) => `<a href="${window.EMBI_PROJECT_URL(p.id)}"><span class="${i % 2 ? "is-outline" : ""}">${esc(p.title)}</span></a><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
   const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
   const chunk2 = words2.map((n) => `<span>${n}</span><i>·</i>`).join("");
   $("#marquee2").innerHTML = chunk2 + chunk2;
+  }
 
   /* ───── Mot tournant du titre ───── */
   const rot = $("#rotator");
@@ -92,13 +98,15 @@
       }, 2200);
   }
 
-  // chaque chantier a sa page : projet.html?p=<id>
+  // chaque chantier a sa page : realisations/<id>.html
   const pageOf = (i) => window.EMBI_PROJECT_URL(projects[i].id);
   const go = (i) => (location.href = pageOf(i));
 
   /* ───── Références : index en accordéon ───── */
   const refsList = $("#refsList");
-  refsList.innerHTML = projects
+  if (refsList) {
+  // la liste est déjà écrite dans la page par scripts/build.js ; sinon elle est générée ici
+  if (!refsList.querySelector(".acc__item")) refsList.innerHTML = projects
     .map((p, i) => {
       const cat = cats[p.category] || "";
       const lead = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové" }[p.category] || "Lieu rénové";
@@ -158,9 +166,11 @@
     if (li.classList.contains("is-open") && canHover) return go(+head.dataset.i);
     openAcc(li.classList.contains("is-open") ? null : li);
   });
+  }
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */
   const feature = $("#selection");
+  if (feature) {
   const featured = projects.map((p, i) => ({ p, i })).filter(({ p }) => p.featured);
   const fList = $("#featureList"), fFrame = $("#featureFrame");
   fList.innerHTML = featured
@@ -224,6 +234,7 @@
   });
   fFrame.addEventListener("click", () => openFeatured(fActive));
   $("#featureOpen").addEventListener("click", () => openFeatured(fActive));
+  }
 
   /* ───── Texte qui s'allume mot à mot ───── */
   $$("[data-words]").forEach((el) => {
@@ -345,6 +356,7 @@
   $$("[data-count]").forEach((el) => countIO.observe(el));
 
   /* ───── Savoir-faire : la maison et son plan qui se dessine ───── */
+  if ($("#build")) {
   const BUILD = {
     fondations: { n: "01", label: "Fondations", title: "Gros œuvre & grands chantiers",
       text: "Construction de maison ou rénovation totale de locaux professionnels : notre expérience du terrain nous permet de prendre en charge les projets d'envergure.",
@@ -510,6 +522,7 @@
     bp.classList.add("is-scan", "is-anim");
     obs.disconnect();
   }, { threshold: 0.3 }).observe(build);
+  }
 
   /* ───── Engagements : le contrat se coche puis le tampon frappe ───── */
   const contract = $("#contract");
@@ -552,7 +565,9 @@
       { v: "Dès que possible" }, { v: "D'ici 3 mois" }, { v: "D'ici 6 mois ou plus" }, { v: "Je me renseigne" },
     ] },
   ];
-  const quizBody = $("#quizBody"), quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack");
+  const quizBody = $("#quizBody");
+  if (quizBody) {
+  const quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack");
   const answers = [];
   const renderQuiz = () => {
     const n = answers.length;
@@ -601,6 +616,7 @@
   });
   quizBack.addEventListener("click", () => { answers.pop(); renderQuiz(); });
   renderQuiz();
+  }
 
   /* ───── Arrivée depuis une autre page (Sur mesure, Showroom, chantier) : choix pré-coché ───── */
   const preType = {
@@ -615,7 +631,7 @@
 
   /* ───── Formulaire → e-mail pré-rempli vers sec@embi.fr ───── */
   const form = $("#form");
-  form.addEventListener("submit", (e) => {
+  if (form) form.addEventListener("submit", (e) => {
     e.preventDefault();
     let ok = true;
     $$("[required]", form).forEach((input) => {
