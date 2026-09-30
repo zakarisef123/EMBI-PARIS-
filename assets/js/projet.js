@@ -75,6 +75,8 @@
     ["Année", p.annee],
     ["Surface", p.surface],
     ["Durée", p.duree],
+    ["Décoration", p.deco],
+    ["Architecte", p.archi],
     ["Prestation", "Clé en main"],
   ].filter(([, v]) => v);
   $("#pjFacts").innerHTML = `<p class="pj-facts__title">Le projet en bref</p><dl>${facts
@@ -93,11 +95,12 @@
   $("#pjWorks").hidden = !(p.travaux && p.travaux.length);
 
   // Galerie
-  const imgs = p.images;
+  const imgs = [...p.images];
   $("#pjCount").textContent = imgs.length > 1 ? `${imgs.length} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir";
   $("#pjGallery").classList.toggle("is-single", imgs.length === 1);
-  $("#pjGallery").innerHTML = imgs
-    .map((src, k) => `<button type="button" class="pj-shot" data-k="${k}" aria-label="Agrandir la photo ${k + 1}"><img src="${esc(src)}" alt="${esc(p.title)}, photo ${k + 1}" loading="${k < 2 ? "eager" : "lazy"}" /></button>`)
+  const gallery = $("#pjGallery");
+  gallery.innerHTML = imgs
+    .map((src, k) => `<button type="button" class="pj-shot" data-k="${k}" aria-label="Agrandir la photo ${k + 1}"><img src="${esc(src)}" alt="${esc(p.title)}, photo ${k + 1}" loading="eager" /></button>`)
     .join("");
 
   // Visionneuse
@@ -112,6 +115,23 @@
   };
   const openLb = (k, from) => { lastFocus = from; showLb(k); lb.hidden = false; document.body.style.overflow = "hidden"; $("#lbClose").focus(); };
   const closeLb = () => { lb.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); };
+  // photos de l'ancien site qui n'existent pas : retirées de la galerie
+  const recount = () => {
+    const n = $$(".pj-shot", gallery).length;
+    $("#pjCount").textContent = n > 1 ? `${n} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir";
+    gallery.classList.toggle("is-single", n === 1);
+  };
+  $$(".pj-shot img", gallery).forEach((im) => {
+    const drop = () => {
+      const src = im.getAttribute("src");
+      const k = imgs.indexOf(src);
+      if (k > 0) imgs.splice(k, 1);
+      im.parentElement.remove();
+      $$(".pj-shot", gallery).forEach((b, j) => (b.dataset.k = j));
+      recount();
+    };
+    im.complete && im.naturalWidth === 0 && im.getAttribute("src") ? drop() : im.addEventListener("error", drop);
+  });
   $("#pjGallery").addEventListener("click", (e) => { const b = e.target.closest(".pj-shot"); if (b) openLb(+b.dataset.k, b); });
   $("#lbClose").addEventListener("click", closeLb);
   $("#lbPrev").addEventListener("click", () => showLb(cur - 1));
