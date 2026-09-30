@@ -1552,7 +1552,7 @@ button[disabled] { opacity: 0.6; cursor: wait; }
 @media (max-width: 1100px) { .quiz__card .form__row { grid-template-columns: 1fr; } }
 /* Menu mobile : les grands intitulés s'adaptent aux petits écrans (pas de débordement horizontal) */
 @media (max-width: 860px) {
-  .nav { font-size: min(44px, 10.5vw); overflow-x: hidden; overflow-y: auto; max-width: 100vw; }
+  .nav { font-size: min(34px, 8.6vw); overflow-x: hidden; overflow-y: auto; max-width: 100vw; }
 }
 /* Pied de page : le grand logo et l'appel « Parlons-en » tiennent sur 320 px */
 .footer__inner > * { min-width: 0; }
@@ -1594,3 +1594,29 @@ main > section, main > div { overflow-x: clip; }
 .section__head > * { min-width: 0; }
 .sr-book__meta { flex-wrap: wrap; min-width: 0; }
 @media (max-width: 400px) { .sr-cat__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Mobile : l'en-tête (et le bouton du menu) reste toujours accessible au défilement */
+@media (max-width: 860px) {
+  .header.is-hidden { transform: none; }
+}
+
+/* Menu mobile ouvert : l'en-tête ne doit pas « enfermer » le menu plein écran
+   (le flou d'arrière-plan appliqué après défilement le réduisait à la hauteur de l'en-tête) */
+@media (max-width: 860px) {
+  .header:has(.nav.is-open), .menu-open .header { backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; transition: none; }
+}
+
+/* Mobile / tablette : lien vers la page de toutes les réalisations, en haut du menu déroulant */
+.mega__all--mobile { display: none; }
+@media (max-width: 1080px) { .mega__all--mobile { display: inline-flex; gap: 8px; font: 700 16px var(--sans); color: var(--accent); padding: 4px 0 8px; } }
+/* Mobile : le titre « Nos chantiers signature » reste affiché (comme sur ordinateur) */
+@media (max-width: 860px) { .feature__heading { display: block; margin: 0 0 10px; font-size: 22px; } }
+/* Mobile : « Nos chantiers signature » tient dans l'écran, boutons au-dessus de la barre Appeler / Devis */
+@media (max-width: 860px) {
+  .feature__sticky { gap: 12px; padding-top: 76px; padding-bottom: 88px; }
+  .feature__frame { height: 26svh; }
+  .feature__list button { font-size: clamp(17px, 4.6vw, 24px); padding-top: 4px; padding-bottom: 4px; }
+  .feature__meta { flex-wrap: wrap; gap: 12px 18px; }
+}
+@media (max-height: 640px) and (max-width: 860px) { .feature__frame { height: 20svh; } .feature__heading { display: none; } }
+@media (max-width: 360px) { .feature__frame { height: 20svh; } .feature__list button { font-size: 16px; } .feature__count { display: none; } }

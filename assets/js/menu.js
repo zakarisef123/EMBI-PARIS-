@@ -31,6 +31,7 @@
     <button type="button" class="mega__toggle" aria-expanded="false" aria-controls="mega">Réalisations <span aria-hidden="true">▾</span></button>
     <div class="mega" id="mega">
       <div class="mega__inner">
+        <a class="mega__all mega__all--mobile" href="${trigger.getAttribute("href")}">Voir toutes les réalisations <span aria-hidden="true">→</span></a>
         <div class="mega__cols">${cols}</div>
         <div class="mega__side">
           <div class="mega__preview"><img alt="" /></div>

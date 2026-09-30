@@ -27,8 +27,10 @@
     burger.setAttribute("aria-expanded", open);
     burger.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.classList.toggle("menu-open", open);
   };
   burger.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.classList.contains("is-open")) { setMenu(false); burger.focus(); } });
   nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
   const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
