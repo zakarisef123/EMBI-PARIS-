@@ -1,0 +1,12 @@
+{
+  "name": "embi-photos",
+  "private": true,
+  "description": "Conversion des photos EMBI en WebP (plusieurs tailles) — outil local, non utilisé par Netlify",
+  "scripts": {
+    "telecharger": "node telecharger.js",
+    "convertir": "node convertir.js"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}

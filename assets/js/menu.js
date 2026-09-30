@@ -16,7 +16,9 @@
     .map((c) => {
       const items = projects.filter((p) => p.category === c);
       if (!items.length) return "";
-      return `<div class="mega__col"><p class="mega__cat">${plural[c] || cats[c]} <sup>${items.length}</sup></p><ul>${items
+      const sector = (window.EMBI_SECTORS || {})[c];
+      const head = `${plural[c] || cats[c]} <sup>${items.length}</sup>`;
+      return `<div class="mega__col"><p class="mega__cat">${sector ? `<a href="${sector}">${head}</a>` : head}</p><ul>${items
         .map((p) => `<li><a href="${url(p.id)}" data-img="${esc(p.images[0])}"${p.id === current ? ' aria-current="page"' : ""}>${esc(p.title)}</a></li>`)
         .join("")}</ul></div>`;
     })

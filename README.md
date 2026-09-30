@@ -1,73 +1,61 @@
-# EMBI : nouveau site
+# EMBI : site vitrine multipage
 
-Site vitrine multipage en HTML/CSS/JS pur. Un petit script Node.js (`scripts/build.js`, sans dépendance) génère les pages des chantiers et le plan du site.
+Site statique en HTML/CSS/JS, généré par un petit script Node.js sans dépendance (`scripts/build.js`).
+Netlify lance la génération à chaque publication (`netlify.toml`) et publie le dossier `dist/`.
 
-## Voir le site
-Ouvrir `index.html` dans un navigateur. Pour le mettre en ligne, vous pouvez utiliser n'importe quel hébergeur statique (Netlify, OVH, GitHub Pages…), à la racine du domaine.
+## Voir le site en local
+```
+node scripts/build.js
+cd dist && python3 -m http.server 8000     # puis http://localhost:8000
+```
+Les liens sont absolus (`/contact/`…) : ouvrez le site via un petit serveur, pas en double-cliquant sur un fichier.
 
-## Les pages
-| Adresse | Contenu |
+## Où modifier quoi
+| Quoi | Où |
 |---|---|
-| `index.html` | Accueil : présentation, chantiers signature, accès aux autres pages |
-| `realisations.html` | Toutes les réalisations, avec filtres |
-| `realisations/<id>.html` | Une page par chantier (générée, ne pas modifier à la main) |
-| `conception.html` | Conception sur mesure (architecte + architecte d'intérieur) |
-| `savoir-faire.html` | Métiers : de la fondation jusqu'au toit, engagements |
-| `methode.html` | Les 5 étapes d'un chantier |
-| `showroom.html` | Showroom carrelages & parquets |
-| `contact.html` | Formulaire, « Votre projet en 3 questions », urgence, plan d'accès |
-| `mentions-legales.html`, `confidentialite.html` | Pages légales |
-| `projet.html` | Ancienne adresse des chantiers : redirige vers la nouvelle page |
+| Réglages (adresse du site, PDF, photos, formulaires, réseaux sociaux) | `site.config.js` |
+| Chantiers (textes, photos, mise en avant) | `src/data/projects.js` |
+| Textes des pages secteur (hôtels, boutiques, restaurants, particuliers) | `src/data/sectors.js` |
+| Pages (accueil, contact, showroom, légal…) | `src/pages/*.html` (titre et description dans l'en-tête JSON) |
+| Gabarits page chantier / page secteur | `src/templates/` |
+| En-tête, pied de page, animation d'intro | `src/layout/` |
+| Styles, scripts, polices, icônes | `assets/` |
 
-## Après chaque modification : `node scripts/build.js`
-Le script :
-- insère l'en-tête et le pied de page communs (`partials/header.html`, `partials/footer.html`) dans toutes les pages, entre les repères `<!-- @header -->` et `<!-- @footer -->` ;
-- crée une vraie page HTML par chantier dans `realisations/` à partir de `partials/projet.html` (meilleur référencement : titre, description, fil d'Ariane et données structurées propres à chaque chantier) ;
-- écrit la liste des réalisations directement dans `realisations.html` ;
-- ajoute l'adresse canonique de chaque page et génère `sitemap.xml` et `robots.txt`.
+Ne modifiez jamais `dist/` : il est recréé à chaque génération.
 
-L'adresse du site utilisée pour le référencement est `SITE` en haut de `scripts/build.js` (`https://www.embi.fr/`). Une fois le site en ligne, déclarez `https://www.embi.fr/sitemap.xml` dans Google Search Console.
+## Les adresses
+`/` · `/hotels/` · `/boutiques/` · `/restaurants/` · `/particuliers/` · `/realisations/` · `/realisations/<chantier>/` (17 pages)
+· `/conception-sur-mesure/` · `/savoir-faire/` · `/methode/` · `/showroom/` · `/contact/` · `/urgence/`
+· `/mentions-legales/` · `/politique-de-confidentialite/` · `/cgv/` · `/merci/` · `/404.html`
 
-## Modifier les réalisations
-Tout se passe dans `assets/js/projects.js` : un bloc par chantier (titre, catégorie, photos, description facultative). Le mode d'emploi détaillé est en haut du fichier. Relancez ensuite `node scripts/build.js`.
+Les anciennes adresses (`/contact.html`, `/projet.html?p=…`, `/realisations/panache.html`…) sont redirigées (301) grâce au fichier `_redirects` généré.
+
+## Contrôles automatiques
+La génération vérifie : un seul H1 par page, un texte alt sur chaque image, titres et descriptions uniques, liens internes existants, fichiers PDF / photos présents en mode local. Les points à vérifier s'affichent à la fin de `node scripts/build.js`.
+
+## Formulaires (FormSubmit)
+Le formulaire de devis et le questionnaire « Votre projet en 3 questions » sont envoyés par [FormSubmit](https://formsubmit.co) à l'adresse de `site.config.js` (`formsubmit`, par défaut sec@embi.fr).
+1. **Activation (une seule fois)** : une fois le site en ligne, envoyez une demande test depuis `/contact/`. FormSubmit envoie un e-mail « Confirm your email » à sec@embi.fr : cliquez sur le lien d'activation. Les demandes suivantes arrivent directement dans la boîte mail.
+2. *(Facultatif)* FormSubmit fournit ensuite un identifiant aléatoire : remplacez l'e-mail par cet identifiant dans `site.config.js` pour ne plus l'afficher dans le code.
+Chaque formulaire a une case de consentement obligatoire, un piège anti-spam invisible et, en secours, le téléphone et l'e-mail.
+
+## PDF (CGV + catalogues)
+Déposez les fichiers dans `documents/` (noms dans `documents/LISEZMOI.md`), puis mettez `documents: "local"` dans `site.config.js`. En attendant, les liens pointent vers l'ancien site www.embi.fr.
 
 ## Photos
-Les photos viennent pour l'instant de l'ancien site (embi.fr), en ~480 px de large.
-1. **Avant de fermer l'ancien site**, lancez `scripts/telecharger-images.sh` pour les copier dans `images/realisations/`.
-2. Dans `assets/js/projects.js`, remplacez `const OLD = "https://www.embi.fr/wp-content/uploads/"` par `const OLD = IMG;`, puis lancez `node scripts/build.js`.
-3. Faites de même pour l'image d'accueil dans `index.html`.
-4. Idéalement, remplacez-les par des photos haute définition (au moins 1600 px) : le rendu sera nettement meilleur.
-
-## Pages légales : à compléter avant la mise en ligne
-Les informations surlignées en jaune dans `mentions-legales.html` sont à renseigner : forme juridique, capital, RCS, SIRET, TVA, directeur de la publication, hébergeur, assurance décennale et médiateur de la consommation.
-
-## Cookies (bandeau + Google Consent Mode v2)
-`assets/js/consent.js` affiche le bandeau (Tout refuser / Personnaliser / Tout accepter) et envoie les signaux Google Consent Mode v2. Le choix est gardé 6 mois ; le lien « Gérer les cookies » en bas de page permet d'en changer.
-- La carte Google Maps ne se charge qu'après accord.
-- Pour ajouter Google Analytics ou Google Ads, renseignez `GA4_ID` ou `ADS_ID` en haut du fichier : la catégorie apparaît alors dans le bandeau et l'outil n'est chargé qu'après accord. Pensez à mettre à jour le tableau des cookies dans `confidentialite.html`.
-- Les polices sont hébergées sur le site (`assets/fonts/`) : aucun appel à Google Fonts.
-
-## Structure
+Toutes les photos viennent encore de www.embi.fr. Pour les héberger sur le site (WebP, 3 tailles, srcset) :
 ```
-*.html                 pages principales
-realisations/          pages des chantiers (générées)
-partials/              en-tête, pied de page et modèle de page chantier
-assets/css/style.css   styles (couleurs en haut du fichier, dans :root)
-assets/css/fonts.css   polices hébergées localement
-assets/js/projects.js  liste des réalisations
-assets/js/main.js      animations, filtres, questionnaire, formulaire
-assets/js/consent.js   bandeau cookies
-assets/js/cta.js       boutons « Appeler / Devis gratuit » flottants
-scripts/               build.js, telecharger-images.sh
+cd scripts/photos && npm install
+npm run telecharger     # récupère les photos de l'ancien site dans photos-originales/ (avant sa fermeture)
+npm run convertir       # crée assets/img/projets/<chantier>/… et assets/img/manifest.json
 ```
+Pour des photos haute définition, déposez-les dans `photos-originales/projets/<id-du-chantier>/` (01.jpg = couverture), relancez `npm run convertir`, puis passez `photos: "local"` dans `site.config.js`. Un chantier sans photos locales garde celles de l'ancien site.
 
-Le formulaire de contact ouvre la messagerie du visiteur avec un e-mail pré-rempli vers sec@embi.fr.
-Pour recevoir les demandes sans passer par la messagerie, branchez un service comme Formspree ou Netlify Forms (et mettez à jour la politique de confidentialité).
+## Pages légales
+Les champs `[À COMPLÉTER]` des mentions légales (raison sociale, forme juridique, capital, SIRET, RCS, siège, directeur de la publication, TVA, assurance décennale, médiateur) sont surlignés en jaune. Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur, politique de confidentialité).
 
-## Croquis de l'étape « Livraison » (page Méthode)
-Déposez l'image du croquis d'architecte dans `images/methode/livraison.jpg` (format 3:2, idéalement 1800 × 1200 px).
-Tant que l'image n'est pas présente, le site affiche automatiquement un dessin de remplacement.
+## Cookies
+`assets/js/consent.js` : bandeau léger (refuser / personnaliser / accepter), Google Consent Mode v2. La carte Google Maps ne se charge qu'après accord ; avant, un plan d'accès dessiné s'affiche avec le bouton « Afficher la carte ». Pour Google Analytics ou Google Ads : renseignez `GA4_ID` / `ADS_ID` en haut du fichier.
 
-## Page « Showroom »
-- **Photos du showroom** : ajoutez-les en haut de `assets/js/showroom.js`, dans `SHOWROOM_PHOTOS` (ex. `"images/showroom/showroom-1.jpg"`). La section « Le showroom en vrai » s'affiche automatiquement dès qu'une photo est présente.
-- **Catalogues** : liste `SHOWROOM_CATALOGUES` dans le même fichier (couverture + lien PDF).
+## Animation d'intro (accueil)
+Jouée une fois par visite, avec un bouton « Passer », désactivée si l'utilisateur a demandé moins d'animations. Sans JavaScript (et pour les robots), la page s'affiche directement et le compteur indique 100.
