@@ -130,7 +130,7 @@
     calRaf = requestAnimationFrame(tick);
   };
 
-  /* lancement à l'arrivée à l'écran + Rejouer */
+  /* lancement à l'arrivée à l'écran */
   const RUN = { sketch: () => {}, volume: runVolume, calque: runCalque, board: () => {} };
   const play = (box) => {
     const stage = box.querySelector(".stage");
@@ -140,10 +140,6 @@
     RUN[box.dataset.anim]();
   };
   const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { play(e.target); io.unobserve(e.target); } }), { threshold: 0.4 });
-  document.querySelectorAll("[data-anim]").forEach((box) => {
-    io.observe(box);
-    const b = box.querySelector(".cs-replay");
-    if (b) b.addEventListener("click", () => play(box));
-  });
+  document.querySelectorAll("[data-anim]").forEach((box) => io.observe(box));
   draw2(0);
 })();
