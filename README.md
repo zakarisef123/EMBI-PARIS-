@@ -49,3 +49,8 @@ Ses boutons ouvrent le formulaire de contact avec le choix « Conception sur mes
 - **Photos du showroom** : ajoutez-les en haut de `assets/js/showroom.js`, dans `SHOWROOM_PHOTOS` (ex. `"images/showroom/showroom-1.jpg"`). La section « Le showroom en vrai » s'affiche automatiquement dès qu'une photo est présente.
 - **Catalogues** : liste `SHOWROOM_CATALOGUES` dans le même fichier (couverture + lien PDF).
 - Les boutons « Demander un devis » pré-cochent « Carrelage / parquet » dans le formulaire de l'accueil.
+
+## Plaquette de présentation
+`plaquette.html` est une plaquette commerciale de 8 pages A4 (couverture, à propos, savoir-faire, chantiers signature, références, méthode et engagements, conception sur mesure et showroom, contact).
+Pour obtenir le PDF : ouvrir la page dans Chrome, cliquer sur « Imprimer / PDF », choisir « Enregistrer au format PDF », marges « Aucune » et cocher « Graphiques d'arrière-plan ».
+Les photos viennent de l'ancien site (comme pour `projects.js`) : pensez à les remplacer par les photos locales avant de fermer embi.fr.
