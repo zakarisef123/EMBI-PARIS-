@@ -610,43 +610,19 @@ const faqBlock = (items) => items.length ? `    <section class="section faq">
       </div>
     </section>` : "";
 const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
-// Calque animé de l'architecte d'intérieur (même animation que la page Conception sur mesure)
-const calqueBlock = () => `    <section class="section svc-calque">
+// « Du plan au volume » : les murs sortent du plan (même animation que la page Conception sur mesure)
+const volumeBlock = () => `    <section class="section svc-volume">
       <div class="container">
-        <div class="cs-anim cs-anim--rev csa" style="margin-top:0">
+        <div class="cs-anim csa" data-anim="volume" style="margin-top:0">
           <div class="cs-anim__text">
-            <span class="cs-anim__kicker">L'architecte d'intérieur</span>
-            <h2 class="h2">Le calque <em>qui donne vie au plan.</em></h2>
-            <p>Sur le plan technique, l'architecte d'intérieur pose son calque : mobilier, rangements, matières, circulation. Faites glisser le calque pour voir qui fait quoi.</p>
+            <span class="cs-anim__kicker">L'architecte</span>
+            <h2 class="h2">Du plan <em>au volume.</em></h2>
+            <p>Tout commence par un plan juste. L'architecte redessine les espaces, puis les murs prennent forme : l'appartement existe avant même le premier coup de pioche.</p>
           </div>
-          <div class="stage stage--dark calque" id="s3" style="--x:100%">
-      <svg viewBox="0 0 600 400" class="layer bp" aria-hidden="true">
-        <path d="M60 50 H540 V350 H60 Z" /><path d="M300 50 V170 M300 230 V350 M60 200 H180 M230 200 H300 M420 350 V260 H540" />
-        <path class="o" d="M300 170 A60 60 0 0 1 360 230 M180 200 A50 50 0 0 0 230 150" />
-        <path d="M110 44 H200 M110 56 H200 M380 44 H480 M380 56 H480" class="o" />
-        <path class="dim" d="M60 372 H540 M60 366 v12 M540 366 v12 M562 50 V350 M556 50 h12 M556 350 h12" />
-        <text x="300" y="390" text-anchor="middle">9,60 M</text><text x="572" y="205">6,00 M</text>
-        <text x="140" y="130">CHAMBRE</text><text x="400" y="130">SÉJOUR</text><text x="140" y="290">SDB</text><text x="440" y="310">CUISINE</text>
-      </svg>
-      <div class="layer over">
-        <svg viewBox="0 0 600 400" class="id" aria-hidden="true">
-          <path d="M60 50 H540 V350 H60 Z M300 50 V170 M300 230 V350 M60 200 H180 M230 200 H300 M420 350 V260 H540" fill="none" />
-          <rect x="90" y="80" width="110" height="80" rx="6" fill="#e9dccb" /><rect x="90" y="80" width="110" height="18" fill="#d6c3ab" />
-          <rect x="222" y="66" width="60" height="12" fill="#c79a66" />
-          <rect x="340" y="80" width="150" height="46" rx="10" fill="#ff6a33" /><rect x="340" y="80" width="150" height="14" rx="6" fill="#e0501a" />
-          <circle cx="415" cy="170" r="30" fill="#a47d59" /><ellipse cx="415" cy="170" rx="80" ry="44" fill="none" stroke-dasharray="4 4" />
-          <rect x="80" y="230" width="60" height="30" rx="14" fill="#fff" /><rect x="160" y="222" width="30" height="110" fill="#dfe8ec" />
-          <path d="M430 270 h100 v70 h-100 z" fill="#e9e2d6" /><rect x="440" y="280" width="36" height="20" fill="#cfd7dc" />
-          <circle cx="510" cy="220" r="16" fill="#8aa27a" />
-          <text x="96" y="178">lit 160</text><text x="222" y="98">dressing</text><text x="346" y="146">canapé velours</text><text x="370" y="232">tapis rond</text>
-          <text x="80" y="282">vasque</text><text x="150" y="346">douche</text><text x="440" y="330">îlot</text><text x="470" y="204">olivier</text>
-        </svg>
-      </div>
-      <span class="tag-l">Plan<span class="csa-long"> de l'architecte</span></span>
-      <span class="tag-r">Calque<span class="csa-long"> de l'architecte d'intérieur</span></span>
-      <div class="handle"><span aria-hidden="true">⟷</span></div>
-      <input type="range" min="0" max="100" value="100" aria-label="Faire glisser le calque" id="calqueRange" />
-    </div>
+          <div class="stage" id="s2">
+            <span class="stage-label" id="volLabel">Plan · vue de dessus</span>
+            <svg viewBox="0 0 600 400" class="vol" id="volSvg" aria-hidden="true"></svg>
+          </div>
         </div>
       </div>
     </section>
@@ -718,7 +694,7 @@ SERVICES.forEach((sv) => {
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
-    ...(sv.slug === "interieur" ? { scripts: ["main", "calque"] } : {}),
+    ...(sv.slug === "interieur" ? { scripts: ["main", "volume"] } : {}),
     key: "renovation",
     title: sv.title,
     description: sv.description,
@@ -736,7 +712,7 @@ SERVICES.forEach((sv) => {
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? calqueBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
