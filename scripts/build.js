@@ -264,19 +264,31 @@ const sectorMosaic = () => `<div class="mosaic container">
           }).join("\n          ")}
         </div>`;
 
-// Accueil · bandeau des marques : un logo par chantier (hors particuliers).
+// Accueil · « Ils nous ont fait confiance » : un logo par client (hors particuliers).
 // Déposez assets/img/logos/<id du chantier>.svg (ou .png) : il remplace le nom écrit.
+// Chaque logo ouvre le site officiel du client ; sans site connu (lieu fermé…), la page du chantier.
 const LOGO_DIR = path.join(ROOT, "assets/img/logos");
+const CLIENT_SITES = {
+  "hotel-panache": "https://www.hotelpanache.com",
+  "loro-piana": "https://www.loropiana.com",
+  byredo: "https://www.byredo.com",
+  "hotel-paradis": "https://www.hotelparadisparis.com",
+  "hotel-bienvenue": "https://www.hotelbienvenue.fr",
+  "petite-mendigote": "https://www.petitemendigote.com",
+};
 const brandLogos = () => {
   const brands = PROJECTS.filter((p) => p.category !== "particulier");
   const item = (p) => {
     const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
-    const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" />` : `<span>${esc(p.title.split(" · ").pop())}</span>`;
-    return `<a class="logos__item${file ? "" : " logos__item--text"}" href="${projectUrl(p)}">${inner}</a>`;
+    const name = p.title.split(" · ").pop();
+    const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" />` : `<span>${esc(name)}</span>`;
+    const site = CLIENT_SITES[p.id];
+    const link = site ? `href="${site}" target="_blank" rel="noopener" aria-label="${esc(name)} (site officiel, nouvel onglet)"` : `href="${projectUrl(p)}"`;
+    return `<a class="logos__item${file ? "" : " logos__item--text"}" ${link}>${inner}</a>`;
   };
   const row = brands.map(item).join("");
-  return `<section class="logos" aria-label="Ils nous ont fait confiance">
-      <span class="logos__mark" aria-hidden="true"></span>
+  return `<section class="logos" aria-labelledby="logos-t">
+      <div class="logos__head"><span class="logos__mark" aria-hidden="true"></span><h2 class="logos__t" id="logos-t">Ils nous ont fait confiance</h2><span class="logos__line" aria-hidden="true"></span></div>
       <div class="logos__viewport"><div class="logos__track">${row}<div class="logos__dup" aria-hidden="true">${row.replace(/<a /g, '<a tabindex="-1" ')}</div></div></div>
     </section>`;
 };
