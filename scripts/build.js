@@ -610,6 +610,38 @@ const faqBlock = (items) => items.length ? `    <section class="section faq">
       </div>
     </section>` : "";
 const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
+// Maquette animée de la maison (même animation que la page Savoir-faire), ouverte sur la partie de la page
+const houseBlock = (start) => `    <section class="section svc-house">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">La maison EMBI</p><h2 class="h2 reveal">De la fondation <em>jusqu'au toit.</em></h2></div>
+          <p class="section__aside reveal">Cliquez sur une partie de la maison pour voir le plan et les travaux que nous y menons.</p>
+        </div>
+        <div class="build" id="build" data-start="${start}">
+          <div class="build__house">
+            <div class="build__chips" role="group" aria-label="Choisir une partie de la maison">
+              <button type="button" class="build__chip" data-z="fondations">Fondations</button>
+              <button type="button" class="build__chip" data-z="interieur">Intérieur</button>
+              <button type="button" class="build__chip" data-z="exterieur">Façades</button>
+              <button type="button" class="build__chip" data-z="toit">Toit</button>
+            </div>
+            <svg class="build__svg" id="axoSvg" viewBox="0 0 540 470" role="group" aria-label="Maquette de la maison : choisissez une partie"></svg>
+            <p class="build__hint"><span class="pulse"></span>Cliquez sur une partie de la maison</p>
+          </div>
+          <div class="bp" id="bp" aria-live="polite">
+            <div class="bp__head"><span class="bp__stamp" id="bpStamp">Plan n° 02</span><span class="bp__scale">Éch. 1:50 · EMBI</span></div>
+            <svg class="bp__svg" id="bpSvg" viewBox="0 0 400 240" aria-hidden="true"></svg>
+            <div class="bp__text" id="bpText">
+              <span class="bp__n" id="bpN"></span>
+              <h3 class="bp__title" id="bpTitle"></h3>
+              <p id="bpDesc"></p>
+              <ul class="tags tags--dark" id="bpTags"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+`;
 const svcCover = (sv) => PHOTOS[{ interieur: "renovation-appartement", exterieur: "hotel-bienvenue" }[sv.slug]][0];
 
 layout({
@@ -662,7 +694,7 @@ SERVICES.forEach((sv) => {
         </ol>
       </div>
     </section>
-${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>

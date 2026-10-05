@@ -435,7 +435,7 @@
   );
   $$("[data-count]").forEach((el) => countIO.observe(el));
 
-  /* ───── Savoir-faire : la maison et son plan qui se dessine ───── */
+  /* ───── Savoir-faire et pages Rénovation : la maison et son plan qui se dessine ───── */
   if ($("#build")) {
   const BUILD = {
     fondations: { n: "01", label: "Fondations", title: "Gros œuvre & grands chantiers",
@@ -592,7 +592,7 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); chooseZone(el.dataset.z); }
       });
   });
-  chooseZone("interieur");
+  chooseZone(BUILD[build.dataset.start] ? build.dataset.start : "interieur");
   // la maison se dessine quand la section apparaît
   new IntersectionObserver((en, obs) => {
     if (!en[0].isIntersecting) return;
