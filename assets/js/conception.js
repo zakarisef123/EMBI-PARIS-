@@ -4,6 +4,7 @@
   $("#year").textContent = new Date().getFullYear();
   document.body.classList.add("is-loaded");
   const header = $("#header"), hero = $("#csHero"), progress = $("#progress"), nav = $("#nav"), burger = $("#burger");
+  header.classList.remove("on-dark"); // en-tête clair : l'en-tête de page n'est plus une photo sombre
   let lastY = 0, heroH = 0, docH = 0, ticking = false;
   const measure = () => { heroH = hero.offsetHeight; docH = document.documentElement.scrollHeight - innerHeight; };
   const onScroll = () => {
@@ -11,7 +12,6 @@
     if (document.body.classList.contains("menu-open")) return; // en-tête figé pendant que le menu est ouvert
     const y = scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
     progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;

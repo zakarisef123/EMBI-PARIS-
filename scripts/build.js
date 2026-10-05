@@ -108,17 +108,19 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 const NAV = [
+  { key: "renovation", href: "/renovation/", label: "Rénovation", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/energetique/", "Rénovation énergétique RGE"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/conception-sur-mesure/", "Conception sur mesure"], ["/showroom/", "Showroom carrelages & parquets"]] },
+  { key: "signature", href: "/signature/", label: "Signature" },
   { key: "realisations", href: "/realisations/", label: "Réalisations", mega: true },
-  { key: "conception", href: "/conception-sur-mesure/", label: "Sur mesure" },
-  { key: "savoir-faire", href: "/savoir-faire/", label: "Savoir-faire" },
-  { key: "methode", href: "/methode/", label: "Méthode" },
-  { key: "showroom", href: "/showroom/", label: "Showroom" },
+  { key: "equipe", href: "/equipe/", label: "L'équipe" },
+  { key: "mag", href: "/mag/", label: "Le Mag" },
 ];
 const HEADER = read("src/layout/header.html"), FOOTER = read("src/layout/footer.html"), LOADER = read("src/layout/loader.html");
 const header = (key) =>
   fill(HEADER, {
     nav: [
-      ...NAV.map((n) => `        <a href="${n.href}"${n.mega ? " data-mega" : ""}${n.key === key ? ' aria-current="page"' : ""}>${n.label}</a>`),
+      ...NAV.map((n) => n.menu
+        ? `        <div class="dd"><a href="${n.href}" class="dd__t"${n.key === key ? ' aria-current="page"' : ""}>${n.label} <span aria-hidden="true">▾</span></a><div class="dd__menu">${n.menu.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</div></div>`
+        : `        <a href="${n.href}"${n.mega ? " data-mega" : ""}${n.key === key ? ' aria-current="page"' : ""}>${n.label}</a>`),
       `        <a href="/contact/" class="nav__cta"${key === "contact" ? ' aria-current="page"' : ""}>Devis gratuit</a>`,
     ].join("\n"),
     urgentCurrent: key === "urgence" ? ' aria-current="page"' : "",
@@ -147,7 +149,7 @@ const layout = (o) => {
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
   if (o.jsonld) graph.push(...o.jsonld);
-  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "cta"];
+  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta"];
   const html = `<!doctype html>
 <html lang="fr">
 <head>
@@ -208,13 +210,63 @@ const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" da
             <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
-const ctaBand = (title, type = "", second = '<a href="tel:+33145726524" class="cs-cta__tel">01 45 72 65 24</a>') => `    <section class="cs-cta">
-      <div class="container cs-cta__inner">
-        <h2 class="cs-cta__title">${title}</h2>
-        <div class="cs-cta__actions">
-          <a href="/contact/${type ? `?type=${type}` : ""}" class="btn btn--dark">Demander un devis gratuit <span aria-hidden="true">→</span></a>
-          ${second}
+// Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
+// cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
+const QUIZ_Q = [
+  ["lieu", "Quel lieu voulez-vous transformer&nbsp;?", [["Appartement", "particulier"], ["Maison", "particulier"], ["Hôtel", "hotel"], ["Boutique", "boutique"], ["Restaurant", "restaurant"], ["Bureaux", ""]]],
+  ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
+  ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
+];
+const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && cat !== "particulier" ? ` data-preset="${cat}"` : ""}>
+      <div class="funnel__wrap">
+        <div class="funnel__intro">
+          <p class="funnel__kicker">Devis gratuit</p>
+          <h2 class="funnel__title">Votre projet en 3 questions</h2>
+          <p class="funnel__lead">Quelques clics pour nous décrire votre projet : votre demande de devis gratuit est prête en moins d'une minute.</p>
+          <ol class="funnel__next">
+            <li><b>1</b><span>Vous décrivez votre projet</span></li>
+            <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
+            <li><b>3</b><span>Étude de faisabilité et devis gratuit, poste par poste</span></li>
+          </ol>
+          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
         </div>
+        <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
+          <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
+          <input type="hidden" name="_next" value="{{site}}/merci/" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="page" value="" id="quizPage" />
+          <p class="form__hp" hidden><label>Ne pas remplir ce champ : <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="quiz__top">
+            <span class="quiz__step" id="quizStep" aria-live="polite">Question 1 / 3</span>
+            <button class="quiz__back" id="quizBack" type="button" hidden>← Retour</button>
+          </div>
+          <div class="quiz__bar"><span id="quizBar"></span></div>
+          <div class="quiz__body" id="quizBody">
+            ${QUIZ_Q.map(([name, q, opts], k) => `<fieldset class="quiz__set" data-step="${k}">
+              <legend class="quiz__q">${q}</legend>
+              <div class="quiz__opts">
+                ${opts.map(([v, c]) => `<label class="quiz__opt"><input type="radio" name="${name}" value="${v}"${c ? ` data-cat="${c}"` : ""} required /><span>${v}</span><i aria-hidden="true">→</i></label>`).join("\n                ")}
+              </div>
+            </fieldset>`).join("\n            ")}
+            <fieldset class="quiz__set quiz__final" data-step="3">
+              <legend class="quiz__q">Vos coordonnées</legend>
+              <ul class="quiz__recap" id="quizRecap"></ul>
+              <p class="quiz__refs" id="quizRefs" hidden></p>
+              <div class="form__row">
+                <label class="field field--light"><span>Votre nom</span><input name="nom" required autocomplete="name" /></label>
+                <label class="field field--light"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
+              </div>
+              <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
+              <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>
+              <div class="quiz__end">
+                <button type="submit" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
+                <button type="button" class="quiz__restart" id="quizRestart" hidden>Recommencer</button>
+              </div>
+              <p class="form__note" id="quizNote" role="status"></p>
+            </fieldset>
+          </div>
+        </form>
       </div>
     </section>`;
 const STEPS = [
@@ -272,9 +324,12 @@ const CLIENT_SITES = {
   "hotel-panache": "https://www.hotelpanache.com",
   "loro-piana": "https://www.loropiana.com",
   byredo: "https://www.byredo.com",
+  "le-grand-pigalle": "https://www.experimentalgroup.com/paris/grand-pigalle-experimental",
   "hotel-paradis": "https://www.hotelparadisparis.com",
-  "hotel-bienvenue": "https://www.hotelbienvenue.fr",
-  "petite-mendigote": "https://www.petitemendigote.com",
+  "tartine-et-chocolat-harrods": "https://www.tartine-et-chocolat.com",
+  "hotel-bienvenue": "https://hotelbienvenue.fr",
+  "petite-mendigote": "https://petitemendigote.com",
+  "mojo-kitchen": "https://mojoforgood-opera.fr",
 };
 const brandLogos = () => {
   const brands = PROJECTS.filter((p) => p.category !== "particulier");
@@ -407,6 +462,7 @@ const BLOCKS = {
         </div>
       </div>
     </section>`,
+  "signature-cards": () => `<div class="pj-cards">${["loro-piana", "byredo", "tartine-et-chocolat-harrods", "hotel-panache", "hotel-paradis", "le-grand-pigalle"].map((id) => card(PROJECTS.find((p) => p.id === id), "h3")).join("")}</div>`,
   "sector-links": () => SECTORS.map((s) => `<a href="${s.path}">${s.nav}</a>`).join(" · "),
 };
 const FORM_ID = cfg.formsubmit || "sec@embi.fr";
@@ -425,6 +481,7 @@ const expand = (html) =>
       const [alt, extra = ""] = rest.split("|");
       return img(sitePhoto(k), alt, extra);
     })
+    .replace(/\{\{funnel(?::(\w+))?\}\}/g, (m, c) => expand(funnel(c)))
     .replace(/\{\{block:([\w-]+)\}\}/g, (m, k) => {
       if (!BLOCKS[k]) throw new Error(`bloc inconnu : ${k}`);
       return BLOCKS[k]();
@@ -456,7 +513,7 @@ SECTORS.forEach((s) => {
     ogImage: list[0] && cover(list[0]).src,
     bodyAttrs: ` data-cta-type="${s.category}"`,
     content: fill(SECTOR_TPL, {
-      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="/contact/?type=${s.category}" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
+      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
       works: works.map((w) => `<li>${esc(w)}</li>`).join(""),
       count: `${list.length} chantier${list.length > 1 ? "s" : ""}`,
@@ -464,7 +521,7 @@ SECTORS.forEach((s) => {
       cards: list.map((p) => card(p, "h3")).join("\n          "),
       steps: methodBrief("h3"),
       others: others.map((o) => `<a class="btn btn--ghost" href="${o.path}">${o.nav}</a>`).join(""),
-      cta: ctaBand(`Votre ${s.category === "particulier" ? "appartement" : s.category === "hotel" ? "hôtel" : s.category},<br /><em>notre prochain chantier&nbsp;?</em>`, s.category),
+      cta: expand(funnel(s.category)),
     }),
   });
 });
@@ -524,9 +581,166 @@ PROJECTS.forEach((p, i) => {
       prevNext: `<a class="pj-nav__link pj-nav__link--prev" href="${projectUrl(prev)}"><span>← Chantier précédent</span><strong>${esc(prev.title)}</strong></a><a class="pj-nav__link pj-nav__link--next" href="${projectUrl(next)}"><span>Chantier suivant →</span><strong>${esc(next.title)}</strong></a>`,
       moreTitle: same.length ? `Autres <em>${esc(PLURAL[p.category])}.</em>` : "Autres <em>réalisations.</em>",
       more: more.map((q) => card(q, "h3")).join(""),
+      funnel: expand(funnel(p.category)),
     }),
   });
 });
+
+/* ───── 3b · Rénovation (intérieure, énergétique, extérieure) ───── */
+const SERVICES = require(path.join(ROOT, "src/data/services.js"));
+const ARTICLES = fs.existsSync(path.join(ROOT, "src/data/articles.js")) ? require(path.join(ROOT, "src/data/articles.js")) : [];
+const MAG_CATS = { projet: "Chantier", "renovation-interieure": "Rénovation intérieure", "renovation-energetique": "Rénovation énergétique", exterieur: "Extérieur", signature: "Signature", urgence: "Urgence" };
+const MAG_COVER = { "renovation-interieure": "renovation-appartement", "renovation-energetique": "appartement-prive", exterieur: "hotel-bienvenue", signature: "byredo", urgence: "hotel-paradis" };
+const articleUrl = (a) => `/mag/${a.slug}/`;
+const articleCover = (a) => PHOTOS[a.project && PHOTOS[a.project] ? a.project : MAG_COVER[a.category] || "hotel-panache"][0];
+const frDate = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${articleUrl(a)}">
+            <span class="mag-card__img">${img(articleCover(a), a.title, 'loading="lazy"')}</span>
+            <span class="mag-card__cat">${esc(MAG_CATS[a.category] || "")} · ${a.readingTime} min</span>
+            <${level} class="mag-card__t">${esc(a.title)}</${level}>
+            <span class="mag-card__lead">${esc(a.lead)}</span>
+          </a>`;
+const faqBlock = (items) => items.length ? `    <section class="section faq">
+      <div class="container faq__inner">
+        <h2 class="h2 reveal">Questions <em>fréquentes.</em></h2>
+        <div class="faq__list">
+          ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n          ")}
+        </div>
+      </div>
+    </section>` : "";
+const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
+const svcCover = (sv) => PHOTOS[{ interieur: "renovation-appartement", energetique: "appartement-prive", exterieur: "hotel-bienvenue" }[sv.slug]][0];
+
+layout({
+  path: "/renovation/",
+  key: "renovation",
+  title: "Rénovation à Paris : intérieure, énergétique et extérieure | EMBI",
+  description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur de A à Z.",
+  crumbs: [{ name: "Rénovation", path: "/renovation/" }],
+  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
+    <section class="pn works" id="types">
+      <div class="pn__wrap">
+        <div class="works__head reveal">
+          <h2 class="works__title">Trois métiers, un seul interlocuteur</h2>
+          <p>Choisissez votre type de rénovation : chaque page détaille nos prestations, nos chantiers et les questions à se poser avant de commencer.</p>
+        </div>
+        <div class="works__grid">
+          ${SERVICES.map((sv) => `<a class="works__card reveal" href="/renovation/${sv.slug}/">
+            <figure class="works__img">${img(svcCover(sv), sv.nav, 'loading="lazy"')}</figure>
+            <h3 class="works__t">${esc(sv.nav)}</h3>
+            <span class="works__cat">${esc(sv.card)}</span>
+          </a>`).join("\n          ")}
+        </div>
+        <p class="sector__others reveal">Aussi&nbsp;: <a class="btn btn--ghost" href="/conception-sur-mesure/">Conception sur mesure</a><a class="btn btn--ghost" href="/savoir-faire/">Savoir-faire</a><a class="btn btn--ghost" href="/methode/">Notre méthode</a><a class="btn btn--ghost" href="/showroom/">Showroom</a></p>
+      </div>
+    </section>
+    {{funnel}}`),
+});
+
+SERVICES.forEach((sv) => {
+  const path_ = `/renovation/${sv.slug}/`;
+  const crumbs = [{ name: "Rénovation", path: "/renovation/" }, { name: sv.nav, path: path_ }];
+  const projs = PROJECTS.filter((p) => sv.categories.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99)).slice(0, 3);
+  const arts = ARTICLES.filter((a) => a.category === { interieur: "renovation-interieure", energetique: "renovation-energetique", exterieur: "exterieur" }[sv.slug]).slice(0, 3);
+  layout({
+    path: path_,
+    key: "renovation",
+    title: sv.title,
+    description: sv.description,
+    crumbs,
+    jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(sv.faq)],
+    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>`, true)}
+    <section class="section svc" id="prestations">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>clé en main.</em></h2></div>
+          <p class="section__aside reveal">Un interlocuteur dédié coordonne chaque corps de métier, de l'étude de faisabilité à la livraison.</p>
+        </div>
+        <ol class="svc__grid">
+          ${sv.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
+        </ol>
+        ${sv.rge ? `<!-- À RELIRE : n'afficher que si la qualification RGE est confirmée -->
+        <div class="svc__rge reveal"><strong>RGE</strong><p>Les aides publiques à la rénovation énergétique sont réservées aux travaux réalisés par des entreprises qualifiées RGE (Reconnu Garant de l'Environnement). Nous vous orientons vers les dispositifs en vigueur dès l'étude de votre projet.</p></div>` : ""}
+      </div>
+    </section>
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Réalisations</p><h2 class="h2 reveal">Ils nous ont <em>confié leurs lieux.</em></h2></div><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div>
+        <div class="pj-cards">${projs.map((p) => card(p, "h3")).join("")}</div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Méthode</p><h2 class="h2 reveal">De l'étude <em>à la livraison.</em></h2></div><a href="/methode/" class="btn btn--ghost">Notre méthode en détail <span aria-hidden="true">→</span></a></div>
+        ${methodBrief("h3")}
+        <p class="sector__others">Nos autres rénovations&nbsp;: ${SERVICES.filter((o) => o !== sv).map((o) => `<a class="btn btn--ghost" href="/renovation/${o.slug}/">${o.nav}</a>`).join("")}</p>
+      </div>
+    </section>
+${faqBlock(sv.faq)}
+${arts.length ? `    <section class="section section--tight"><div class="container"><div class="section__head"><div><p class="eyebrow reveal">Le Mag</p><h2 class="h2 reveal">À lire <em>avant de commencer.</em></h2></div><a href="/mag/" class="btn btn--ghost">Tous les articles <span aria-hidden="true">→</span></a></div><div class="mag-grid">${arts.map((a) => articleCard(a)).join("")}</div></div></section>` : ""}
+    {{funnel}}`),
+  });
+});
+
+/* ───── 3c · Le Mag ───── */
+if (ARTICLES.length) {
+  layout({
+    path: "/mag/",
+    key: "mag",
+    title: "Le Mag EMBI : conseils et chantiers de rénovation à Paris",
+    description: "Conseils de rénovation intérieure, énergétique et extérieure, coulisses de nos chantiers d'hôtels et de boutiques à Paris : le magazine d'EMBI, entreprise de rénovation clé en main.",
+    crumbs: [{ name: "Le Mag", path: "/mag/" }],
+    content: expand(`${pageHero([{ name: "Le Mag", path: "/mag/" }], "Le Mag, <em>conseils et chantiers.</em>", "Rénovation intérieure, performance énergétique, façades, urgences, et les coulisses de nos chantiers d'hôtels et de boutiques à Paris.")}
+    <section class="section mag" id="articles">
+      <div class="container">
+        <div class="mag__filters" role="group" aria-label="Filtrer les articles">
+          <button type="button" class="mag__f is-on" data-f="">Tout</button>
+          ${Object.entries(MAG_CATS).filter(([k]) => ARTICLES.some((a) => a.category === k)).map(([k, v]) => `<button type="button" class="mag__f" data-f="${k}">${v}</button>`).join("\n          ")}
+        </div>
+        <div class="mag-grid" id="magGrid">
+          ${ARTICLES.map((a) => articleCard(a, "h2").replace('class="mag-card reveal"', `class="mag-card reveal" data-cat="${a.category}"`)).join("\n          ")}
+        </div>
+      </div>
+    </section>
+    {{funnel}}`),
+  });
+  ARTICLES.forEach((a) => {
+    const path_ = articleUrl(a);
+    const proj = a.project && PROJECTS.find((p) => p.id === a.project);
+    const others = ARTICLES.filter((o) => o !== a).sort((x, y) => (y.category === a.category) - (x.category === a.category)).slice(0, 3);
+    const faq = (a.faq || []).map((f) => [f.q, f.a]);
+    const crumbs = [{ name: "Le Mag", path: "/mag/" }, { name: a.title, path: path_ }];
+    layout({
+      path: path_,
+      key: "mag",
+      title: a.metaTitle,
+      description: a.description,
+      ogType: "article",
+      ogImage: articleCover(a).src,
+      crumbs,
+      jsonld: [{ "@type": "BlogPosting", headline: a.title, description: a.description, datePublished: a.date, dateModified: a.date, image: abs(articleCover(a).src), url: SITE + path_, mainEntityOfPage: SITE + path_, author: { "@id": `${SITE}/#entreprise` }, publisher: { "@id": `${SITE}/#entreprise` } }, ...faqLd(faq)],
+      content: expand(`    <article class="post">
+      <header class="cs-hero page-hero post__hero">
+        <div class="container page-hero__inner">
+          <nav class="pj-crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span><a href="/mag/">Le Mag</a><span aria-hidden="true">/</span><span>${esc(MAG_CATS[a.category] || "")}</span></nav>
+          <h1 class="cs-hero__title">${esc(a.title)}</h1>
+          <p class="post__meta"><span>${esc(MAG_CATS[a.category] || "")}</span><span><time datetime="${a.date}">${frDate(a.date)}</time></span><span>${a.readingTime} min de lecture</span></p>
+          <p class="cs-hero__lead">${esc(a.lead)}</p>
+        </div>
+      </header>
+      <figure class="post__cover">${img(articleCover(a), a.title, 'fetchpriority="high"')}</figure>
+      <div class="post__body">
+        ${a.sections.map((sc) => `<h2>${esc(sc.h2)}</h2>\n        ${(sc.paras || []).map((t) => `<p>${esc(t)}</p>`).join("\n        ")}${sc.list && sc.list.length ? `\n        <ul>${sc.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}`).join("\n        ")}
+        ${proj ? `<aside class="post__proj"><p class="eyebrow">Le chantier</p>${card(proj, "h3")}</aside>` : ""}
+        ${a.links && a.links.length ? `<nav class="post__links" aria-label="Pour aller plus loin"><p class="eyebrow">Pour aller plus loin</p>${a.links.map((l) => `<a href="${l.href}">${esc(l.label)} <span aria-hidden="true">→</span></a>`).join("")}</nav>` : ""}
+      </div>
+    </article>
+${faqBlock(faq)}
+    <section class="section section--tight"><div class="container"><div class="section__head"><div><p class="eyebrow reveal">Le Mag</p><h2 class="h2 reveal">À lire <em>aussi.</em></h2></div><a href="/mag/" class="btn btn--ghost">Tous les articles <span aria-hidden="true">→</span></a></div><div class="mag-grid">${others.map((o) => articleCard(o)).join("")}</div></div></section>
+    {{funnel:${proj ? proj.category : ""}}}`),
+    });
+  });
+}
 
 /* ───── 4 · Contrôles qualité ───── */
 const titles = new Map(), descs = new Map();

@@ -67,75 +67,7 @@
       </div>
     </section>
     <!-- ───────── VOTRE PROJET EN 3 QUESTIONS ───────── -->
-    <section class="quiz section" id="projet">
-      <div class="container quiz__grid">
-        <div class="quiz__intro">
-          <p class="eyebrow reveal">Votre projet</p>
-          <h2 class="h2 reveal">En 3 questions,<br /><em>on s'occupe du reste.</em></h2>
-          <p class="quiz__lead reveal">Quelques clics pour nous décrire votre projet : votre demande de devis gratuit est prête en moins d'une minute.</p>
-        </div>
-        <form class="quiz__card reveal" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
-          <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
-          <input type="hidden" name="_next" value="{{site}}/merci/" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <p class="form__hp" hidden><label>Ne pas remplir ce champ : <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></p>
-          <div class="quiz__top">
-            <span class="quiz__step" id="quizStep" aria-live="polite">Question 1 / 3</span>
-            <button class="quiz__back" id="quizBack" type="button" hidden>← Retour</button>
-          </div>
-          <div class="quiz__bar"><span id="quizBar"></span></div>
-          <div class="quiz__body" id="quizBody">
-            <fieldset class="quiz__set" data-step="0">
-              <legend class="quiz__q">Quel lieu voulez-vous transformer&nbsp;?</legend>
-              <div class="quiz__opts">
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Appartement" data-cat="particulier" required /><span>Appartement</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Maison" data-cat="particulier" required /><span>Maison</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Hôtel" data-cat="hotel" required /><span>Hôtel</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Boutique" data-cat="boutique" required /><span>Boutique</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Restaurant" data-cat="restaurant" required /><span>Restaurant</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="lieu" value="Bureaux" required /><span>Bureaux</span><i aria-hidden="true">→</i></label>
-              </div>
-            </fieldset>
-            <fieldset class="quiz__set" data-step="1">
-              <legend class="quiz__q">Quelle surface environ&nbsp;?</legend>
-              <div class="quiz__opts">
-                <label class="quiz__opt"><input type="radio" name="surface" value="Moins de 30 m²" required /><span>Moins de 30 m²</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="surface" value="30 à 80 m²" required /><span>30 à 80 m²</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="surface" value="80 à 150 m²" required /><span>80 à 150 m²</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="surface" value="Plus de 150 m²" required /><span>Plus de 150 m²</span><i aria-hidden="true">→</i></label>
-              </div>
-            </fieldset>
-            <fieldset class="quiz__set" data-step="2">
-              <legend class="quiz__q">Pour quand&nbsp;?</legend>
-              <div class="quiz__opts">
-                <label class="quiz__opt"><input type="radio" name="delai" value="Dès que possible" required /><span>Dès que possible</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="delai" value="D'ici 3 mois" required /><span>D'ici 3 mois</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="delai" value="D'ici 6 mois ou plus" required /><span>D'ici 6 mois ou plus</span><i aria-hidden="true">→</i></label>
-                <label class="quiz__opt"><input type="radio" name="delai" value="Je me renseigne" required /><span>Je me renseigne</span><i aria-hidden="true">→</i></label>
-              </div>
-            </fieldset>
-            <fieldset class="quiz__set quiz__final" data-step="3">
-              <legend class="quiz__q">Vos coordonnées</legend>
-              <ul class="quiz__recap" id="quizRecap"></ul>
-              <p class="quiz__refs" id="quizRefs" hidden></p>
-              <div class="form__row">
-                <label class="field field--light"><span>Votre nom</span><input name="nom" required autocomplete="name" /></label>
-                <label class="field field--light"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
-              </div>
-              <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
-              <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>
-              <div class="quiz__end">
-                <button type="submit" class="btn btn--dark" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
-                <button type="button" class="quiz__restart" id="quizRestart" hidden>Recommencer</button>
-              </div>
-              <p class="form__note" id="quizNote" role="status"></p>
-              <p class="form__alt">Ou appelez-nous au <a href="tel:+33145726524">01 45 72 65 24</a>, ou écrivez à <a href="mailto:sec@embi.fr?subject=Demande%20de%20devis">sec@embi.fr</a>.</p>
-            </fieldset>
-          </div>
-        </form>
-      </div>
-    </section>
+    {{funnel}}
 
     <!-- ───────── URGENCE ───────── -->
     <section class="urgent" id="urgence">

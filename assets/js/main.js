@@ -46,8 +46,8 @@
 
   /* ───── Header ───── */
   const header = $("#header");
-  const hero = $(".hero, .cs-hero, .pj-hero");
-  if (hero) header.classList.add("on-dark");
+  const hero = $(".hero, .pj-hero");
+  header.classList.toggle("on-dark", !!hero);
   let lastY = 0, heroH = hero ? hero.offsetHeight : 0, docH = 0, ticking = false;
   const progress = $("#progress");
   const measure = () => { heroH = hero ? hero.offsetHeight : 0; docH = document.documentElement.scrollHeight - innerHeight; };
@@ -666,51 +666,6 @@
       }
     });
 
-  /* ───── Votre projet en 3 questions (formulaire « questionnaire ») ───── */
-  const quiz = $("#quiz");
-  if (quiz) {
-    quiz.noValidate = true;
-    const sets = $$(".quiz__set", quiz), quizStep = $("#quizStep"), quizBar = $("#quizBar"), quizBack = $("#quizBack"), restart = $("#quizRestart");
-    const QN = sets.length - 1;
-    let step = 0;
-    const show = (n) => {
-      step = n;
-      sets.forEach((f, k) => f.classList.toggle("is-current", k === n));
-      quizBack.hidden = n === 0;
-      restart.hidden = n < QN;
-      quizBar.style.transform = `scaleX(${Math.min(n, QN) / QN})`;
-      quizStep.textContent = n < QN ? `Question ${n + 1} / ${QN}` : "C'est presque prêt !";
-      if (n === QN) {
-        const picked = sets.slice(0, QN).map((f) => $("input:checked", f)).filter(Boolean);
-        $("#quizRecap").innerHTML = picked.map((i) => `<li>${esc(i.value)}</li>`).join("");
-        const lieu = $('input[name="lieu"]:checked', quiz);
-        const cat = lieu && lieu.dataset.cat;
-        const refs = cat ? projects.filter((p) => p.category === cat).slice(0, 3) : [];
-        const box = $("#quizRefs");
-        box.hidden = !refs.length;
-        box.innerHTML = refs.length ? `Nous avons déjà réalisé des projets comme le vôtre : ${refs.map((r) => `<a href="${window.EMBI_PROJECT_URL(r.id)}"><strong>${esc(r.title)}</strong></a>`).join(", ")}.` : "";
-      }
-      quiz.classList.add("is-stepping");
-    };
-    // une réponse choisie → question suivante sans réponse (robuste aux doubles appuis et aux changements d'avis rapides)
-    let qTimer = null;
-    quiz.addEventListener("change", (e) => {
-      const opt = e.target.closest(".quiz__opt input");
-      if (!opt) return;
-      const set = opt.closest(".quiz__set");
-      $$(".quiz__opt", set).forEach((l) => l.classList.toggle("is-picked", l.contains(opt)));
-      clearTimeout(qTimer);
-      qTimer = setTimeout(() => {
-        const next = sets.findIndex((f, j) => j < QN && !$("input:checked", f));
-        show(next === -1 ? QN : next);
-      }, reduce ? 0 : 220);
-    });
-    quizBack.addEventListener("click", () => { clearTimeout(qTimer); show(Math.max(step - 1, 0)); });
-    restart.addEventListener("click", () => { clearTimeout(qTimer); $$("input[type=radio]", quiz).forEach((i) => (i.checked = false)); $$(".is-picked", quiz).forEach((l) => l.classList.remove("is-picked")); show(0); });
-    show(0);
-    netlifySubmit(quiz, $("#quizNote"));
-  }
-
   /* ───── Arrivée depuis une autre page (secteur, Sur mesure, Showroom, chantier) : choix pré-coché ───── */
   const preType = {
     conception: "#typeConception", showroom: "#typeShowroom",
@@ -807,4 +762,15 @@
   if (reduce) $("#mt-ctrlTxt").textContent = "Cliquez sur une étape pour la voir";
   show(0);
   start();
+})();
+
+/* Le Mag : filtre des articles par rubrique */
+(() => {
+  const grid = document.getElementById("magGrid");
+  if (!grid) return;
+  const btns = [...document.querySelectorAll(".mag__f")];
+  btns.forEach((b) => b.addEventListener("click", () => {
+    btns.forEach((x) => x.classList.toggle("is-on", x === b));
+    grid.querySelectorAll(".mag-card").forEach((c) => { c.hidden = !!b.dataset.f && c.dataset.cat !== b.dataset.f; if (!c.hidden) c.classList.add("is-in"); });
+  }));
 })();

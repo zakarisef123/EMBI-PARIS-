@@ -5,6 +5,7 @@
   const onContact = !!document.getElementById("form");
   const devisHref = () => {
     const type = document.body.dataset.ctaType || "";
+    if (document.getElementById("projet")) return "#projet";
     return onContact ? "#contact" : `/contact/${type ? `?type=${type}` : ""}`;
   };
   const bar = document.createElement("div");
@@ -19,7 +20,7 @@
   const devis = bar.querySelector(".fab__devis");
 
   let blocked = 0;
-  const watch = [document.getElementById("contact"), document.querySelector(".footer")].filter(Boolean);
+  const watch = [document.getElementById("contact"), document.getElementById("projet"), document.querySelector(".footer")].filter(Boolean);
   const seen = new Set();
   const io = new IntersectionObserver((en) => {
     en.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)));
