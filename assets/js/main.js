@@ -47,7 +47,7 @@
   /* ───── Header ───── */
   const header = $("#header");
   const hero = $(".hero, .pj-hero");
-  if (hero) header.classList.add("on-dark");
+  header.classList.toggle("on-dark", !!hero);
   let lastY = 0, heroH = hero ? hero.offsetHeight : 0, docH = 0, ticking = false;
   const progress = $("#progress");
   const measure = () => { heroH = hero ? hero.offsetHeight : 0; docH = document.documentElement.scrollHeight - innerHeight; };
@@ -762,4 +762,15 @@
   if (reduce) $("#mt-ctrlTxt").textContent = "Cliquez sur une étape pour la voir";
   show(0);
   start();
+})();
+
+/* Le Mag : filtre des articles par rubrique */
+(() => {
+  const grid = document.getElementById("magGrid");
+  if (!grid) return;
+  const btns = [...document.querySelectorAll(".mag__f")];
+  btns.forEach((b) => b.addEventListener("click", () => {
+    btns.forEach((x) => x.classList.toggle("is-on", x === b));
+    grid.querySelectorAll(".mag-card").forEach((c) => { c.hidden = !!b.dataset.f && c.dataset.cat !== b.dataset.f; if (!c.hidden) c.classList.add("is-in"); });
+  }));
 })();

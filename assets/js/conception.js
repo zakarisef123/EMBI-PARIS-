@@ -4,6 +4,7 @@
   $("#year").textContent = new Date().getFullYear();
   document.body.classList.add("is-loaded");
   const header = $("#header"), hero = $("#csHero"), progress = $("#progress"), nav = $("#nav"), burger = $("#burger");
+  header.classList.remove("on-dark"); // en-tête clair : l'en-tête de page n'est plus une photo sombre
   let lastY = 0, heroH = 0, docH = 0, ticking = false;
   const measure = () => { heroH = hero.offsetHeight; docH = document.documentElement.scrollHeight - innerHeight; };
   const onScroll = () => {
