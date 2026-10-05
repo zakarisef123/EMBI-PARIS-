@@ -166,7 +166,7 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${esc(og)}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0F0E0D" />
+  <meta name="theme-color" content="#14233f" />
   <script>document.documentElement.classList.add("js");${o.loader ? ` try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("embi-intro")) { document.documentElement.classList.add("intro"); sessionStorage.setItem("embi-intro", "1"); } } catch (e) {}` : ""}</script>
   <script src="/assets/js/consent.js"></script>
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
