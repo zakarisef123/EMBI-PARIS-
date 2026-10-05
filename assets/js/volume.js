@@ -18,6 +18,8 @@
   // (algorithme du peintre) : un mur de devant recouvre toujours ceux de derrière.
   // Les deux murs de façade avant sont coupés bas, comme sur une maquette, pour voir l'intérieur.
   const STEP = 20;
+  // Cloisons intérieures à mi-hauteur : le mobilier de chaque pièce reste visible
+  const isInner = ([x1, y1, x2, y2]) => !(x1 === x2 && (x1 === 60 || x1 === 540)) && !(y1 === y2 && (y1 === 50 || y1 === 350));
   const isFront = ([x1, y1, x2, y2]) => (y1 === 350 && y2 === 350) || (x1 === 540 && x2 === 540);
   const segs = [];
   walls.forEach((w) => {
@@ -25,7 +27,7 @@
     for (let i = 0; i < n; i++) {
       const a = [x1 + ((x2 - x1) * i) / n, y1 + ((y2 - y1) * i) / n];
       const b = [x1 + ((x2 - x1) * (i + 1)) / n, y1 + ((y2 - y1) * (i + 1)) / n];
-      segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
+      segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : isInner(w) ? 0.5 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
     }
   });
   // Mobilier : des groupes de boîtes posées au sol, qui montent en même temps que les murs.
@@ -37,11 +39,11 @@
      [88, 68, 32, 13, 6, "blanc", 19], [130, 68, 32, 13, 6, "blanc", 19], [82, 104, 86, 26, 2, "tissu", 19]],
     [[64, 60, 14, 14, 16, "bois"], [67, 63, 8, 8, 12, "laiton", 16]],
     [[174, 60, 14, 14, 16, "bois"], [177, 63, 8, 8, 12, "laiton", 16]],
-    [[236, 54, 60, 22, 68, "bois"]],
-    [[100, 146, 70, 40, 1, "tapis"]],
+    [[200, 54, 50, 20, 60, "bois"]],
+    [[112, 142, 58, 42, 1, "tapis"]],
     [[62, 150, 22, 44, 22, "bois"], [64, 156, 10, 10, 14, "noir", 22], [90, 166, 14, 14, 14, "tissu"], [90, 166, 4, 14, 30, "tissu"]],
     // Séjour : bibliothèque, tapis, canapé, fauteuil, table basse, plante
-    [[302, 58, 12, 80, 64, "bois"]],
+    [[302, 70, 12, 70, 44, "bois"]],
     [[400, 98, 120, 72, 1, "tapis"], [445, 114, 50, 26, 10, "bois"], [455, 118, 10, 8, 6, "laiton", 10]],
     [[420, 56, 110, 8, 28, "tissu"], [420, 62, 110, 26, 12, "tissu"], [420, 62, 8, 26, 20, "tissu"], [522, 62, 8, 26, 20, "tissu"],
      [430, 63, 28, 8, 12, "tapis", 12], [492, 63, 28, 8, 12, "tapis", 12]],
@@ -58,8 +60,8 @@
     // Cuisine : réfrigérateur, plan de travail et plaque, îlot et tabourets
     [[424, 262, 24, 20, 62, "inox"]],
     [[450, 262, 86, 18, 24, "blanc"], [480, 264, 24, 14, 1, "noir", 24]],
-    [[450, 296, 74, 26, 24, "bois"], [452, 298, 70, 22, 2, "blanc", 24]],
-    [[462, 328, 10, 10, 16, "noir"], [498, 328, 10, 10, 16, "noir"]],
+    [[478, 296, 52, 26, 24, "bois"], [480, 298, 48, 22, 2, "blanc", 24]],
+    [[484, 328, 10, 10, 16, "noir"], [512, 328, 10, 10, 16, "noir"]],
   ];
   const furn = GROUPS.map((g) => {
     const xs = g.map((b) => [b[0], b[0] + b[2]]).flat(), ys = g.map((b) => [b[1], b[1] + b[3]]).flat();
@@ -79,7 +81,7 @@
   const planG = el("g", { class: "t-plan" }, svg2);
   el("path", { class: "door", d: "M300 170 A60 60 0 0 1 360 230 M180 200 A50 50 0 0 0 230 150" }, planG);
   el("path", { class: "dim", d: "M60 372 H540 M60 366 v12 M540 366 v12" }, planG);
-  [["Chambre",120,130],["Séjour",390,130],["SdB",120,290],["Cuisine",450,310]].forEach(([s,x,y]) => { const tx = el("text", { x, y }, planG); tx.textContent = s; });
+  [["Chambre",205,118],["Séjour",405,214],["SdB",130,262],["Cuisine",426,312]].forEach(([s,x,y]) => { const tx = el("text", { x, y }, planG); tx.textContent = s; });
   const draw2 = (t) => {
     const e = t * t * (3 - 2 * t);
     floor.setAttribute("points", [[60,50],[540,50],[540,350],[60,350]].map(([x,y]) => proj(x,y,0,e).join(",")).join(" "));
