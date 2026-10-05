@@ -322,9 +322,12 @@ const CLIENT_SITES = {
   "hotel-panache": "https://www.hotelpanache.com",
   "loro-piana": "https://www.loropiana.com",
   byredo: "https://www.byredo.com",
+  "le-grand-pigalle": "https://www.experimentalgroup.com/paris/grand-pigalle-experimental",
   "hotel-paradis": "https://www.hotelparadisparis.com",
-  "hotel-bienvenue": "https://www.hotelbienvenue.fr",
-  "petite-mendigote": "https://www.petitemendigote.com",
+  "tartine-et-chocolat-harrods": "https://www.tartine-et-chocolat.com",
+  "hotel-bienvenue": "https://hotelbienvenue.fr",
+  "petite-mendigote": "https://petitemendigote.com",
+  "mojo-kitchen": "https://mojoforgood-opera.fr",
 };
 const brandLogos = () => {
   const brands = PROJECTS.filter((p) => p.category !== "particulier");
