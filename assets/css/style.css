@@ -2056,3 +2056,10 @@ body[data-page="accueil"] .footer a:hover { color: var(--accent); }
 .pn--intro .pn__wrap { padding-left: calc(clamp(28px, 2.6vw, 44px) + clamp(16px, 2.4vw, 40px)); }
 @media (max-width: 640px) { .pn--intro .pn__wrap { padding-left: clamp(16px, 2.4vw, 40px); } }
 @media (max-width: 560px) { .works__inner { grid-template-columns: minmax(0, 1fr); } }
+
+/* ───────── « Ils nous ont fait confiance » : titre au-dessus du bandeau des logos ───────── */
+.logos { flex-direction: column; align-items: stretch; gap: clamp(18px, 2.4vw, 28px); }
+.logos__head { display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); padding-right: clamp(16px, 2.4vw, 40px); }
+.logos__head .logos__mark { height: 34px; width: clamp(28px, 2.6vw, 44px); }
+.logos__t { margin: 0; font-family: var(--sans); font-weight: 500; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--dark-2); white-space: nowrap; }
+.logos__line { flex: 1; height: 1px; background: var(--dark-2); opacity: 0.35; }
