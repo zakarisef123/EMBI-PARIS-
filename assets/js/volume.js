@@ -28,11 +28,24 @@
       segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
     }
   });
-  segs.sort((p, q) => p.depth - q.depth);
+  // Mobilier : des boîtes posées au sol, qui montent en même temps que les murs
+  // [x, y, largeur, profondeur, hauteur, matière]
+  const FURN = [
+    [70, 62, 90, 66, 16, "lit"], [70, 62, 90, 10, 34, "bois"], [244, 58, 52, 22, 60, "bois"],
+    [420, 58, 110, 34, 20, "tissu"], [440, 118, 60, 30, 10, "bois"],
+    [70, 268, 58, 74, 18, "blanc"], [196, 324, 56, 22, 26, "blanc"],
+    [446, 286, 78, 34, 30, "bois"],
+  ];
+  const furn = FURN.map(([x, y, w, d, h, m]) => ({ furn: true, x, y, w, d, h, m, depth: x + w / 2 + y + d / 2 + 0.1 }));
+  const items = [...segs, ...furn].sort((p, q) => p.depth - q.depth);
   const wallG = el("g", {}, svg2);
-  segs.forEach((sg) => {
-    sg.face = el("polygon", { class: "wall" + (sg.side ? " side" : "") }, wallG);
-    sg.edge = el("path", { class: "wall-edge" }, wallG);
+  items.forEach((it) => {
+    if (it.furn) {
+      it.faces = ["fside", "fside f-y", "ftop"].map((c) => el("polygon", { class: `furn ${c} m-${it.m}` }, wallG));
+      return;
+    }
+    it.face = el("polygon", { class: "wall" + (it.side ? " side" : "") }, wallG);
+    it.edge = el("path", { class: "wall-edge" }, wallG);
   });
   const planG = el("g", { class: "t-plan" }, svg2);
   el("path", { class: "door", d: "M300 170 A60 60 0 0 1 360 230 M180 200 A50 50 0 0 0 230 150" }, planG);
@@ -51,6 +64,12 @@
       if (sg.first) d += ` M${A0} L${A1}`;
       if (sg.last) d += ` M${B0} L${B1}`;
       sg.edge.setAttribute("d", d);
+    });
+    furn.forEach(({ x, y, w, d, h, faces }) => {
+      const z = h * e, P = (px, py, pz) => proj(px, py, pz, e).join(",");
+      faces[0].setAttribute("points", [P(x + w, y, 0), P(x + w, y + d, 0), P(x + w, y + d, z), P(x + w, y, z)].join(" "));
+      faces[1].setAttribute("points", [P(x, y + d, 0), P(x + w, y + d, 0), P(x + w, y + d, z), P(x, y + d, z)].join(" "));
+      faces[2].setAttribute("points", [P(x, y, z), P(x + w, y, z), P(x + w, y + d, z), P(x, y + d, z)].join(" "));
     });
     planG.style.opacity = 1 - e * 1.6;
   };
