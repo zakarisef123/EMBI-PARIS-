@@ -293,7 +293,53 @@ const worksCards = () => {
           </div>`;
 };
 
+// Accueil · carrousel des chantiers : grande photo + aperçu de la suivante + bande « Découvrir nos réalisations »
+const showcase = () => {
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 7);
+  return `<div class="show" id="showcase">
+          <div class="show__main">
+            ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
+            <div class="show__dots">${list.map((p, i) => `<button type="button"${i ? "" : ' class="is-on"'} aria-label="${esc(p.title)}"></button>`).join("")}</div>
+          </div>
+          <button class="show__peek" type="button" aria-label="Chantier suivant">
+            ${list.map((p, i) => `<span class="show__pimg${i === 1 ? " is-active" : ""}">${img(PHOTOS[p.id][0], "", 'loading="lazy"')}</span>`).join("\n            ")}
+          </button>
+          <a class="show__band pattern" href="/realisations/"><span>Découvrir nos réalisations</span></a>
+        </div>`;
+};
+
+// Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
+const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
+            ${SECTORS.map((s) => {
+              const list = PROJECTS.filter((p) => p.category === s.category);
+              const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+              return `<a class="works__card reveal" href="${s.path}">
+              <figure class="works__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <h3 class="works__t">${s.nav}</h3>
+            </a>`;
+            }).join("\n            ")}
+          </div>`;
+
+// Accueil · en images : 4 photos de chantiers ; l'en-tête devient « Suivez-nous » si social.instagram est renseigné
+const insta = () => {
+  const ig = cfg.social.instagram;
+  const handle = ig ? "@" + ig.replace(/\/+$/, "").split("/").pop() : "EMBI en images";
+  const pics = ["hotel-paradis", "loustic", "le-grand-pigalle", "petite-mendigote"].map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean);
+  const icon = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg>`;
+  return `<section class="pn insta" aria-label="${ig ? "Instagram" : "EMBI en images"}">
+      <div class="pn__wrap">
+        <div class="insta__head">${ig ? `<a class="insta__icon" href="${esc(ig)}" target="_blank" rel="noopener" aria-label="Instagram EMBI">${icon}</a>` : `<span class="insta__icon">${icon}</span>`}<span class="insta__handle">${esc(handle)}</span><span class="insta__line" aria-hidden="true"></span>${ig ? `<a class="insta__follow" href="${esc(ig)}" target="_blank" rel="noopener">Suivez-nous</a>` : `<a class="insta__follow" href="/realisations/">Voir les réalisations</a>`}</div>
+        <div class="insta__grid">
+          ${pics.map((p) => `<a href="${ig ? esc(ig) : projectUrl(p)}"${ig ? ' target="_blank" rel="noopener"' : ""} class="insta__pic">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</a>`).join("\n          ")}
+        </div>
+      </div>
+    </section>`;
+};
+
 const BLOCKS = {
+  showcase,
+  "sector-cards-photo": sectorCardsPhoto,
+  insta,
   "brand-logos": brandLogos,
   "works-cards": worksCards,
   "hero-slides": heroSlides,
@@ -358,6 +404,7 @@ const expand = (html) =>
     .replace(/\{\{site\}\}/g, SITE)
     .replace(/\{\{doc:(\w+)\}\}/g, (m, k) => doc(k))
     .replace(/\{\{photo:([\w-]+)\}\}/g, (m, k) => sitePhoto(k).src)
+    .replace(/\{\{logo\}\}/g, () => HEADER.match(/<svg class="logo__svg"[\s\S]*?<\/svg>/)[0])
     .replace(/\{\{projimg:([\w-]+)\|([^}]*)\}\}/g, (m, id, alt) => {
       if (!PHOTOS[id]) throw new Error(`chantier inconnu : ${id}`);
       return img(PHOTOS[id][0], alt, 'loading="lazy"');

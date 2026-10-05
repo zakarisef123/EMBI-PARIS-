@@ -120,6 +120,31 @@
     }
   }
 
+  /* ───── Accueil : carrousel des chantiers (grande photo + aperçu de la suivante) ───── */
+  const show = $("#showcase");
+  if (show) {
+    const sl = $$(".show__slide", show), pv = $$(".show__pimg", show), dt = $$(".show__dots button", show);
+    let k = 0, timer = null;
+    const set = (n) => {
+      k = (n + sl.length) % sl.length;
+      sl.forEach((e, i) => { e.classList.toggle("is-active", i === k); e.tabIndex = i === k ? 0 : -1; });
+      pv.forEach((e, i) => e.classList.toggle("is-active", i === (k + 1) % sl.length));
+      dt.forEach((e, i) => e.classList.toggle("is-on", i === k));
+    };
+    const restart = () => { clearInterval(timer); if (!reduce) timer = setInterval(() => !document.hidden && set(k + 1), 5000); };
+    dt.forEach((b, i) => b.addEventListener("click", () => { set(i); restart(); }));
+    $(".show__peek", show).addEventListener("click", () => { set(k + 1); restart(); });
+    let x0 = null;
+    show.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+    show.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) { set(k + (dx < 0 ? 1 : -1)); restart(); }
+      x0 = null;
+    });
+    restart();
+  }
+
   /* ───── Mot tournant du titre ───── */
   const rot = $("#rotator");
   if (rot) {
@@ -695,6 +720,13 @@
   if (preType) {
     const c = document.querySelector(`#form ${preType}`);
     if (c) c.checked = true;
+  }
+
+  // arrivée depuis la bande « Devis gratuit » de l'accueil : e-mail déjà saisi
+  const preMail = new URLSearchParams(location.search).get("email");
+  if (preMail) {
+    const m = document.querySelector('#form input[name="email"]');
+    if (m) m.value = preMail;
   }
 
   /* ───── Formulaire de devis ───── */
