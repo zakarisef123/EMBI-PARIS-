@@ -2313,3 +2313,11 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
   .nav > a, .dd__t, .mega__toggle { letter-spacing: 0; }
   .dd__menu a { font-size: 17px; letter-spacing: 0; }
 }
+
+/* « Du plan au volume » : mobilier qui monte avec les murs */
+.csa .vol .furn { stroke: #1c1b19; stroke-width: 1.2; stroke-linejoin: round; }
+.csa .vol .ftop.m-lit { fill: #fbf8f3; } .csa .vol .fside.m-lit { fill: #e3dacb; }
+.csa .vol .ftop.m-bois { fill: #c79c6e; } .csa .vol .fside.m-bois { fill: #a47d59; }
+.csa .vol .ftop.m-tissu { fill: #3a5584; } .csa .vol .fside.m-tissu { fill: #233e6b; }
+.csa .vol .ftop.m-blanc { fill: #ffffff; } .csa .vol .fside.m-blanc { fill: #dfe4e6; }
+.csa .vol .f-y { filter: brightness(0.92); }
