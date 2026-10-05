@@ -108,6 +108,7 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 const NAV = [
+  { key: "accueil", href: "/", label: "Accueil" },
   { key: "renovation", href: "/renovation/", label: "Rénovation", menu: [["/renovation/interieur/", "Intérieur"], ["/renovation/exterieur/", "Extérieur"]] },
   { key: "signature", href: "/signature/", label: "Signature" },
   { key: "realisations", href: "/realisations/", label: "Réalisations", mega: true },
