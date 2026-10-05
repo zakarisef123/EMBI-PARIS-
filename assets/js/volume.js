@@ -28,20 +28,49 @@
       segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
     }
   });
-  // Mobilier : des boîtes posées au sol, qui montent en même temps que les murs
-  // [x, y, largeur, profondeur, hauteur, matière]
-  const FURN = [
-    [70, 62, 90, 66, 16, "lit"], [70, 62, 90, 10, 34, "bois"], [244, 58, 52, 22, 60, "bois"],
-    [420, 58, 110, 34, 20, "tissu"], [440, 118, 60, 30, 10, "bois"],
-    [70, 268, 58, 74, 18, "blanc"], [196, 324, 56, 22, 26, "blanc"],
-    [446, 286, 78, 34, 30, "bois"],
+  // Mobilier : des groupes de boîtes posées au sol, qui montent en même temps que les murs.
+  // Chaque boîte : [x, y, largeur, profondeur, hauteur, matière, hauteur de départ]
+  // Dans un groupe, les boîtes se dessinent dans l'ordre (le matelas avant les oreillers…).
+  const GROUPS = [
+    // Chambre : lit double, chevets et lampes, dressing, bureau, tapis
+    [[80, 56, 90, 8, 36, "bois"], [80, 62, 90, 72, 10, "bois"], [82, 64, 86, 68, 9, "lit", 10],
+     [88, 68, 32, 13, 6, "blanc", 19], [130, 68, 32, 13, 6, "blanc", 19], [82, 104, 86, 26, 2, "tissu", 19]],
+    [[64, 60, 14, 14, 16, "bois"], [67, 63, 8, 8, 12, "laiton", 16]],
+    [[174, 60, 14, 14, 16, "bois"], [177, 63, 8, 8, 12, "laiton", 16]],
+    [[236, 54, 60, 22, 68, "bois"]],
+    [[100, 146, 70, 40, 1, "tapis"]],
+    [[62, 150, 22, 44, 22, "bois"], [64, 156, 10, 10, 14, "noir", 22], [90, 166, 14, 14, 14, "tissu"], [90, 166, 4, 14, 30, "tissu"]],
+    // Séjour : bibliothèque, tapis, canapé, fauteuil, table basse, plante
+    [[302, 58, 12, 80, 64, "bois"]],
+    [[400, 98, 120, 72, 1, "tapis"], [445, 114, 50, 26, 10, "bois"], [455, 118, 10, 8, 6, "laiton", 10]],
+    [[420, 56, 110, 8, 28, "tissu"], [420, 62, 110, 26, 12, "tissu"], [420, 62, 8, 26, 20, "tissu"], [522, 62, 8, 26, 20, "tissu"],
+     [430, 63, 28, 8, 12, "tapis", 12], [492, 63, 28, 8, 12, "tapis", 12]],
+    [[372, 112, 24, 24, 12, "tissu"], [372, 112, 6, 24, 26, "tissu"]],
+    [[512, 226, 14, 14, 12, "bois"], [510, 224, 18, 18, 30, "plante", 12]],
+    // Salle à manger : table et quatre chaises
+    [[330, 250, 12, 10, 14, "bois"], [368, 250, 12, 10, 14, "bois"], [318, 260, 74, 36, 22, "bois"],
+     [330, 298, 12, 10, 14, "bois"], [368, 298, 12, 10, 14, "bois"], [348, 270, 12, 12, 10, "plante", 22]],
+    // Salle de bain : baignoire, douche, WC, meuble vasque
+    [[64, 266, 42, 78, 18, "blanc"], [70, 272, 30, 66, 2, "eau", 16]],
+    [[234, 206, 62, 52, 3, "blanc"], [240, 212, 50, 40, 1, "eau", 3]],
+    [[150, 330, 16, 18, 14, "blanc"], [150, 342, 16, 7, 26, "blanc"]],
+    [[196, 330, 64, 18, 24, "bois"], [206, 332, 44, 14, 3, "blanc", 24]],
+    // Cuisine : réfrigérateur, plan de travail et plaque, îlot et tabourets
+    [[424, 262, 24, 20, 62, "inox"]],
+    [[450, 262, 86, 18, 24, "blanc"], [480, 264, 24, 14, 1, "noir", 24]],
+    [[450, 296, 74, 26, 24, "bois"], [452, 298, 70, 22, 2, "blanc", 24]],
+    [[462, 328, 10, 10, 16, "noir"], [498, 328, 10, 10, 16, "noir"]],
   ];
-  const furn = FURN.map(([x, y, w, d, h, m]) => ({ furn: true, x, y, w, d, h, m, depth: x + w / 2 + y + d / 2 + 0.1 }));
+  const furn = GROUPS.map((g) => {
+    const xs = g.map((b) => [b[0], b[0] + b[2]]).flat(), ys = g.map((b) => [b[1], b[1] + b[3]]).flat();
+    const depth = (Math.min(...xs) + Math.max(...xs)) / 2 + (Math.min(...ys) + Math.max(...ys)) / 2 + 0.1;
+    return { furn: true, depth, boxes: g.map(([x, y, w, d, h, m, z0 = 0]) => ({ x, y, w, d, h, m, z0 })) };
+  });
   const items = [...segs, ...furn].sort((p, q) => p.depth - q.depth);
   const wallG = el("g", {}, svg2);
   items.forEach((it) => {
     if (it.furn) {
-      it.faces = ["fside", "fside f-y", "ftop"].map((c) => el("polygon", { class: `furn ${c} m-${it.m}` }, wallG));
+      it.boxes.forEach((bx) => { bx.faces = ["fside", "fside f-y", "ftop"].map((c) => el("polygon", { class: `furn ${c} m-${bx.m}` }, wallG)); });
       return;
     }
     it.face = el("polygon", { class: "wall" + (it.side ? " side" : "") }, wallG);
@@ -65,12 +94,12 @@
       if (sg.last) d += ` M${B0} L${B1}`;
       sg.edge.setAttribute("d", d);
     });
-    furn.forEach(({ x, y, w, d, h, faces }) => {
-      const z = h * e, P = (px, py, pz) => proj(px, py, pz, e).join(",");
-      faces[0].setAttribute("points", [P(x + w, y, 0), P(x + w, y + d, 0), P(x + w, y + d, z), P(x + w, y, z)].join(" "));
-      faces[1].setAttribute("points", [P(x, y + d, 0), P(x + w, y + d, 0), P(x + w, y + d, z), P(x, y + d, z)].join(" "));
+    furn.forEach((g) => g.boxes.forEach(({ x, y, w, d, h, z0, faces }) => {
+      const b = z0 * e, z = (z0 + h) * e, P = (px, py, pz) => proj(px, py, pz, e).join(",");
+      faces[0].setAttribute("points", [P(x + w, y, b), P(x + w, y + d, b), P(x + w, y + d, z), P(x + w, y, z)].join(" "));
+      faces[1].setAttribute("points", [P(x, y + d, b), P(x + w, y + d, b), P(x + w, y + d, z), P(x, y + d, z)].join(" "));
       faces[2].setAttribute("points", [P(x, y, z), P(x + w, y, z), P(x + w, y + d, z), P(x, y + d, z)].join(" "));
-    });
+    }));
     planG.style.opacity = 1 - e * 1.6;
   };
   let volRaf = null;

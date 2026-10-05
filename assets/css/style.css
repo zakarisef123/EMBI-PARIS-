@@ -2320,4 +2320,10 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 .csa .vol .ftop.m-bois { fill: #c79c6e; } .csa .vol .fside.m-bois { fill: #a47d59; }
 .csa .vol .ftop.m-tissu { fill: #3a5584; } .csa .vol .fside.m-tissu { fill: #233e6b; }
 .csa .vol .ftop.m-blanc { fill: #ffffff; } .csa .vol .fside.m-blanc { fill: #dfe4e6; }
+.csa .vol .ftop.m-tapis { fill: #c8b48f; } .csa .vol .fside.m-tapis { fill: #b09a73; }
+.csa .vol .ftop.m-laiton { fill: #e2c896; } .csa .vol .fside.m-laiton { fill: #c9a77a; }
+.csa .vol .ftop.m-plante { fill: #8aa27a; } .csa .vol .fside.m-plante { fill: #6f8a61; }
+.csa .vol .ftop.m-noir { fill: #3a3835; } .csa .vol .fside.m-noir { fill: #2a2825; }
+.csa .vol .ftop.m-inox { fill: #e4e8ea; } .csa .vol .fside.m-inox { fill: #c9cfd3; }
+.csa .vol .ftop.m-eau { fill: #b9d3df; } .csa .vol .fside.m-eau { fill: #9fbfcd; }
 .csa .vol .f-y { filter: brightness(0.92); }
