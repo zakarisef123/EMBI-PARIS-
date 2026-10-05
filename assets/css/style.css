@@ -1697,7 +1697,7 @@ em { font-weight: 400; }
 .nav { font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
 .nav__cta { border-radius: 0; background: var(--navy-grad); color: var(--on-dark); padding: 13px 22px; }
 .header.on-dark:not(.is-scrolled) .nav__cta { background: var(--on-dark); color: var(--dark-2); }
-.header.is-scrolled { background: rgba(246, 241, 231, 0.88); }
+.header.is-scrolled { background: rgba(246, 241, 231, 0.55); backdrop-filter: blur(6px) saturate(1.2); -webkit-backdrop-filter: blur(6px) saturate(1.2); }
 @media (max-width: 860px) { .nav { text-transform: none; letter-spacing: 0; font-weight: 400; } }
 
 /* Fonds sombres : dégradé marine */
