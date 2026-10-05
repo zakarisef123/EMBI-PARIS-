@@ -288,7 +288,7 @@ const sectorCards = () => `<div class="explore__grid">
         </div>`;
 
 // Accueil · diaporama du haut de page : la photo d'accueil puis les couvertures de ces chantiers
-const HERO_SLIDES = ["hotel-panache", "loro-piana", "byredo"];
+const HERO_SLIDES = ["hotel-panache", "loro-piana", "appartement-prive", "byredo", "le-grand-pigalle", "colette", "cafe-pinson", "hotel-ambassadeur", "renovation-appartement", "petite-mendigote", "hotel-paradis", "mojo-kitchen"];
 const heroSlides = () => {
   const slides = [
     { ph: sitePhoto("hero"), alt: "Salle du restaurant Fish Club à Paris, rénové par EMBI", label: "Fish Club · Restaurant" },
@@ -694,7 +694,7 @@ SERVICES.forEach((sv) => {
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
-    ...(sv.slug === "interieur" ? { scripts: ["main", "volume"] } : {}),
+    scripts: sv.slug === "interieur" ? ["main", "volume"] : ["main", "zone3d"],
     key: "renovation",
     title: sv.title,
     description: sv.description,

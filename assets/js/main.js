@@ -111,7 +111,7 @@
     if (dots) $$("span", dots)[0].classList.add("is-on");
     if (!reduce && slides.length > 1) {
       let timer = null;
-      const start = () => { if (!timer) timer = setInterval(() => show((cur + 1) % slides.length), 6000); };
+      const start = () => { if (!timer) timer = setInterval(() => show((cur + 1) % slides.length), 5000); };
       const stop = () => { clearInterval(timer); timer = null; };
       // pause quand l'onglet est caché
       document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
@@ -584,6 +584,7 @@
     bp.classList.remove("is-scan", "is-anim");
     void bp.offsetWidth;
     bp.classList.add("is-scan", "is-anim");
+    build.dispatchEvent(new CustomEvent("embi:zone", { detail: z }));
   };
   $$(".bz, .build__chip", build).forEach((el) => {
     el.addEventListener("click", () => chooseZone(el.dataset.z));
