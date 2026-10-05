@@ -200,7 +200,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .burger[aria-expanded="true"] span:last-child { top: 21px; transform: rotate(-45deg); }
 
 @media (max-width: 1080px) { .header__urgent { display: none; } }
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .burger { display: block; z-index: 2; }
   .nav {
     position: fixed; inset: 0; z-index: 1;
@@ -975,7 +975,7 @@ img.is-broken { opacity: 0; }
 .header { position: fixed; }
 .header__inner { position: static; }
 @media (max-width: 1080px) { .mega__inner { grid-template-columns: 1fr; } .mega__side { display: none; } }
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .nav { overflow-y: auto; justify-content: flex-start; padding: 96px var(--gutter) 40px; font-size: 34px; gap: 10px; }
   .mega-wrap { width: 100%; }
   .mega__cols > * { min-width: 0; }
@@ -1558,7 +1558,7 @@ button[disabled] { opacity: 0.6; cursor: wait; }
 .quiz__card .form__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 1100px) { .quiz__card .form__row { grid-template-columns: 1fr; } }
 /* Menu mobile : les grands intitulés s'adaptent aux petits écrans (pas de débordement horizontal) */
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .nav { font-size: min(34px, 8.6vw); overflow-x: hidden; overflow-y: auto; max-width: 100vw; }
 }
 /* Pied de page : le grand logo et l'appel « Parlons-en » tiennent sur 320 px */
@@ -1603,13 +1603,13 @@ main > section, main > div { overflow-x: clip; }
 @media (max-width: 400px) { .sr-cat__grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* Mobile : l'en-tête (et le bouton du menu) reste toujours accessible au défilement */
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .header.is-hidden { transform: none; }
 }
 
 /* Menu mobile ouvert : l'en-tête ne doit pas « enfermer » le menu plein écran
    (le flou d'arrière-plan appliqué après défilement le réduisait à la hauteur de l'en-tête) */
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .header:has(.nav.is-open), .menu-open .header { backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; transition: none; }
 }
 
@@ -1629,7 +1629,7 @@ main > section, main > div { overflow-x: clip; }
 @media (max-width: 360px) { .feature__frame { height: 20svh; } .feature__list button { font-size: 16px; } .feature__count { display: none; } }
 
 /* Menu mobile ouvert : apparence garantie sur tous les navigateurs (sans dépendre de :has) */
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .menu-open .header { color: var(--ink); background: transparent; box-shadow: none; }
   .menu-open .header .logo { color: var(--ink); }
   .menu-open .header .burger span { background: var(--ink); }
@@ -1653,7 +1653,7 @@ a, button, label, [role="button"] { -webkit-tap-highlight-color: transparent; }
 .fab.is-on { pointer-events: none; }
 .fab.is-on a { pointer-events: auto; }
 /* Menu mobile : hauteur de la partie réellement visible (barres de Safari), marge pour la zone du bas de l'iPhone */
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .nav { bottom: auto; height: 100vh; height: 100dvh; padding-bottom: calc(40px + env(safe-area-inset-bottom)); }
 }
 /* Mobile : barre compacte en bas à droite (ne recouvre plus la largeur de l'écran) */
@@ -1698,7 +1698,7 @@ em { font-weight: 400; }
 .nav__cta { border-radius: 0; background: var(--navy-grad); color: var(--on-dark); padding: 13px 22px; }
 .header.on-dark:not(.is-scrolled) .nav__cta { background: var(--on-dark); color: var(--dark-2); }
 .header.is-scrolled { background: rgba(246, 241, 231, 0.55); backdrop-filter: blur(6px) saturate(1.2); -webkit-backdrop-filter: blur(6px) saturate(1.2); }
-@media (max-width: 860px) { .nav { text-transform: none; letter-spacing: 0; font-weight: 400; } }
+@media (max-width: 1180px) { .nav { text-transform: none; letter-spacing: 0; font-weight: 400; } }
 
 /* Fonds sombres : dégradé marine */
 .section--dark, .feature, .bands, .footer, .cs-hero, .pj-hero, .loader { background-color: var(--dark); }
@@ -1773,7 +1773,7 @@ em { font-weight: 400; }
 .ck__btn:hover { background: var(--accent-2); color: var(--dark); }
 .nav { gap: 26px; letter-spacing: 0.12em; }
 .nav a, .nav__cta, .mega__toggle { white-space: nowrap; }
-@media (max-width: 1240px) and (min-width: 861px) { .nav { gap: 18px; font-size: 12px; letter-spacing: 0.08em; } }
+@media (max-width: 1360px) and (min-width: 1181px) { .nav { gap: 16px; font-size: 12px; letter-spacing: 0.08em; } .header__urgent-num { display: none; } }
 .section--dark .acc__item.is-open .acc__t, .section--dark .acc__item.is-open .acc__n, .section--dark .acc__item.is-open .acc__ar { color: var(--accent-2); }
 .form .chips input:checked + span, .form .chips label:has(input:checked) span { background: var(--on-dark); border-color: var(--on-dark); color: var(--dark); }
 
@@ -2217,7 +2217,7 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 .dd__menu a:nth-child(3) { border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 4px; }
 .dd:hover .dd__menu, .dd:focus-within .dd__menu { opacity: 1; visibility: visible; transform: none; }
 .dd:hover .dd__t span, .dd:focus-within .dd__t span { transform: rotate(180deg); }
-@media (max-width: 860px) {
+@media (max-width: 1180px) {
   .dd { display: grid; gap: 4px; }
   .dd__t span { display: none; }
   .dd__menu { position: static; opacity: 1; visibility: visible; transform: none; min-width: 0; padding: 0 0 0 14px; background: none; border: 0; box-shadow: none; }
@@ -2300,3 +2300,16 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 
 /* Partie rénovation énergétique, dans la page rénovation intérieure */
 .svc--energy { background: var(--bg-2); scroll-margin-top: 80px; }
+
+/* Page en cours : trait sous le lien, lisible sur fond clair comme sur photo */
+@media (min-width: 1181px) {
+  .nav > a[aria-current="page"]:not(.nav__cta)::after, .dd__t[aria-current="page"]::after { transform: scaleX(1); }
+  .header.on-dark:not(.is-scrolled) .nav a[aria-current="page"]:not(.nav__cta) { color: #fff; }
+}
+
+/* Menu plein écran (mobile et tablette) : des intitulés lisibles */
+@media (max-width: 1180px) {
+  .nav { font-size: min(30px, 7.6vw); letter-spacing: 0; gap: 14px; }
+  .nav > a, .dd__t, .mega__toggle { letter-spacing: 0; }
+  .dd__menu a { font-size: 17px; letter-spacing: 0; }
+}

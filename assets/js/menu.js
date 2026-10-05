@@ -29,7 +29,7 @@ window.EMBI_MENU_LOCK = (() => {
 // passage en affichage ordinateur (rotation de tablette…) avec le menu mobile ouvert : on le referme proprement
 addEventListener("resize", () => {
   const burger = document.getElementById("burger");
-  if (innerWidth > 860 && document.body.classList.contains("menu-open") && burger) burger.click();
+  if (innerWidth > 1180 && document.body.classList.contains("menu-open") && burger) burger.click();
 });
 
 (() => {
