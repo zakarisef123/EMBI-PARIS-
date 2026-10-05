@@ -584,6 +584,7 @@
     bp.classList.remove("is-scan", "is-anim");
     void bp.offsetWidth;
     bp.classList.add("is-scan", "is-anim");
+    build.dispatchEvent(new CustomEvent("embi:zone", { detail: z }));
   };
   $$(".bz, .build__chip", build).forEach((el) => {
     el.addEventListener("click", () => chooseZone(el.dataset.z));

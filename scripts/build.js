@@ -694,7 +694,7 @@ SERVICES.forEach((sv) => {
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
-    ...(sv.slug === "interieur" ? { scripts: ["main", "volume"] } : {}),
+    scripts: sv.slug === "interieur" ? ["main", "volume"] : ["main", "zone3d"],
     key: "renovation",
     title: sv.title,
     description: sv.description,

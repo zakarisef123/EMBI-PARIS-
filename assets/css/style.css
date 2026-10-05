@@ -496,6 +496,9 @@ img.is-broken { opacity: 0; }
 .bp__svg text { stroke: none; fill: rgba(255, 255, 255, 0.55); font: 600 8px var(--sans); letter-spacing: 0.14em; }
 .bp.is-anim .bp__svg path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bpDraw 0.9s var(--ease) forwards; animation-delay: calc(var(--i) * 55ms); }
 .bp.is-anim .bp__svg text { opacity: 0; animation: bpFade 0.5s ease 0.7s forwards; }
+/* la partie choisie sort du plan en volume (zone3d.js) : le tracé du plan s'efface */
+.bp__svg > path, .bp__svg > text { transition: opacity 0.8s ease; }
+.bp.is-vol .bp__svg > path, .bp.is-vol .bp__svg > text { opacity: 0.12 !important; animation: none !important; stroke-dashoffset: 0; }
 .bp__text { display: grid; gap: 12px; }
 .bp.is-anim .bp__text > * { animation: bpUp 0.6s var(--ease) both; }
 .bp.is-anim .bp__text > :nth-child(1) { animation-delay: 0.65s; }
