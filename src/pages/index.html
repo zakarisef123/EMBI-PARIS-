@@ -23,7 +23,7 @@
             rénovent vos lieux de A à Z, avec un seul interlocuteur.
           </p>
           <div class="hero__actions">
-            <a href="#selection" class="btn btn--light" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
+            <a href="#chantiers" class="btn btn--light" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
             <a href="/contact/#projet" class="btn btn--outline-light" data-magnetic>Votre projet en 3 questions</a>
           </div>
         </div>
@@ -35,25 +35,23 @@
       </div>
     </section>
 
-    <!-- ───────── MARQUEES CROISÉS ───────── -->
-    <div class="bands" aria-label="Ils nous ont fait confiance">
-      <p class="bands__label"><span>Ils nous ont fait confiance</span></p>
-      <div class="band band--names"><div class="band__track" id="marquee"></div></div>
-      <div class="band band--trades" aria-hidden="true"><div class="band__track band__track--rev" id="marquee2"></div></div>
-    </div>
+    <!-- ───────── LOGOS DES MARQUES (fichiers dans assets/img/logos/, voir LISEZMOI) ───────── -->
+    {{block:brand-logos}}
 
-    <!-- ───────── INTRO / CHIFFRES ───────── -->
-    <section class="intro section" id="intro">
-      <div class="container intro__grid">
-        <div>
-          <p class="eyebrow reveal">À propos</p>
-          <p class="intro__statement" data-words>
-            Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide
-            <em>de l'élaboration à la livraison</em>, avec un interlocuteur dédié pendant toute la durée
-            du chantier.
-          </p>
+    <!-- ───────── À PROPOS : photo + explication ───────── -->
+    <section class="split section" id="intro">
+      <div class="container split__inner">
+        <figure class="split__img reveal">{{projimg:hotel-panache|Façade de l'Hôtel Panache à Paris, rénové par EMBI}}</figure>
+        <div class="split__txt reveal">
+          <p class="eyebrow">À propos</p>
+          <h2 class="split__title">Rénovation clé en main, au cœur de Paris</h2>
+          <p>Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide de l'élaboration à la livraison, avec un interlocuteur dédié pendant toute la durée du chantier.</p>
+          <p>Hôtels, boutiques, restaurants, appartements : notre réseau de 40 professionnels, tous corps de métier, prend en charge vos travaux de A à Z, de l'étude de faisabilité jusqu'à la remise des clés.</p>
+          <a href="/methode/" class="btn btn--accent">Découvrir notre méthode</a>
         </div>
-        <ul class="stats">
+      </div>
+      <div class="container">
+        <ul class="stats stats--row">
           <li class="reveal"><strong data-count="10">10</strong><span>ans de savoir-faire en rénovation</span></li>
           <li class="reveal"><strong data-count="40">40</strong><span>professionnels, tous corps de métier</span></li>
           <li class="reveal"><strong>1</strong><span>interlocuteur unique, de A à Z</span></li>
@@ -76,26 +74,19 @@
       {{block:sector-mosaic}}
     </section>
 
-    <!-- ───────── SÉLECTION (défilement horizontal) ───────── -->
-    <section class="feature" id="selection">
-      <div class="feature__sticky">
-        <div class="feature__left">
-          <p class="eyebrow">Sélection</p>
-          <h2 class="feature__heading">Nos chantiers <em>signature.</em></h2>
-          <div class="feature__listwrap">
-            <span class="feature__rail"><span id="featureRail"></span></span>
-            <ol class="feature__list" id="featureList"><!-- généré depuis projects.js --></ol>
+    <!-- ───────── NOS CHANTIERS : cartes photo, chacune mène à la page du chantier ───────── -->
+    <section class="works section" id="chantiers">
+      <div class="container works__inner">
+        <a class="works__band" href="/realisations/"><span>Toutes les réalisations</span></a>
+        <div class="works__main">
+          <div class="works__head reveal">
+            <h2 class="works__title">Nos chantiers signature</h2>
+            <p>Maisons de luxe, hôtels de charme, restaurants parisiens : chaque chantier est mené de A à Z par un interlocuteur dédié, de l'étude jusqu'à la livraison. Découvrez quelques-unes de nos réalisations.</p>
           </div>
-          <div class="feature__meta">
-            <span class="feature__count"><b id="featureNum">01</b> / <span id="featureTotal">05</span></span>
-            <button class="btn btn--accent" id="featureOpen" type="button" data-magnetic>Voir le projet <span aria-hidden="true">→</span></button>
-            <a class="feature__all" href="/realisations/">Toutes les réalisations</a>
-          </div>
+          {{block:works-cards}}
         </div>
-        <div class="feature__frame" id="featureFrame" data-cursor="Voir"><!-- photos --></div>
       </div>
     </section>
-
 
     <!-- ───────── RÉFÉRENCES (liste typographique) ───────── -->
     {{block:refs}}
@@ -115,14 +106,14 @@
     </section>
 
     <!-- ───────── CONCEPTION SUR MESURE (renvoi vers la page) ───────── -->
-    <section class="cs-teaser" id="sur-mesure">
-      <div class="container cs-teaser__inner">
-        <figure class="cs-teaser__img reveal"><img src="/images/methode/livraison.jpg" alt="Croquis d'architecte d'intérieur d'un salon rénové" loading="lazy" /></figure>
-        <div class="cs-teaser__text">
-          <p class="eyebrow reveal">Conception sur mesure</p>
-          <h2 class="h2 reveal">Un architecte <em>et</em> un architecte d'intérieur <em>dans l'équipe.</em></h2>
-          <p class="reveal">Plans, aménagement, mobilier sur mesure : EMBI dessine votre projet puis le réalise. Un seul interlocuteur, de l'esquisse au chantier.</p>
-          <a href="/conception-sur-mesure/" class="btn btn--accent reveal">Découvrir la conception sur mesure <span aria-hidden="true">→</span></a>
+    <section class="split split--rev section" id="sur-mesure">
+      <div class="container split__inner">
+        <figure class="split__img reveal"><img src="/images/methode/livraison.jpg" alt="Croquis d'architecte d'intérieur d'un salon rénové" loading="lazy" /></figure>
+        <div class="split__txt reveal">
+          <p class="eyebrow">Conception sur mesure</p>
+          <h2 class="split__title">Un architecte et un architecte d'intérieur dans l'équipe</h2>
+          <p>Plans, aménagement, mobilier sur mesure : EMBI dessine votre projet puis le réalise. Un seul interlocuteur, de l'esquisse au chantier.</p>
+          <a href="/conception-sur-mesure/" class="btn btn--accent">Découvrir la conception sur mesure</a>
         </div>
       </div>
     </section>

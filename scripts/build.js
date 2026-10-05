@@ -264,7 +264,38 @@ const sectorMosaic = () => `<div class="mosaic container">
           }).join("\n          ")}
         </div>`;
 
+// Accueil · bandeau des marques : un logo par chantier (hors particuliers).
+// Déposez assets/img/logos/<id du chantier>.svg (ou .png) : il remplace le nom écrit.
+const LOGO_DIR = path.join(ROOT, "assets/img/logos");
+const brandLogos = () => {
+  const brands = PROJECTS.filter((p) => p.category !== "particulier");
+  const item = (p) => {
+    const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
+    const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" />` : `<span>${esc(p.title.split(" · ").pop())}</span>`;
+    return `<a class="logos__item${file ? "" : " logos__item--text"}" href="${projectUrl(p)}">${inner}</a>`;
+  };
+  const row = brands.map(item).join("");
+  return `<section class="logos" aria-label="Ils nous ont fait confiance">
+      <span class="logos__mark" aria-hidden="true"></span>
+      <div class="logos__viewport"><div class="logos__track">${row}<div class="logos__dup" aria-hidden="true">${row.replace(/<a /g, '<a tabindex="-1" ')}</div></div></div>
+    </section>`;
+};
+
+// Accueil · nos chantiers en cartes photo (les chantiers mis en avant, puis les suivants jusqu'à 6)
+const worksCards = () => {
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 6);
+  return `<div class="works__grid">
+            ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <h3 class="works__t">${esc(p.title)}</h3>
+              <span class="works__cat">${CATEGORIES_LABEL[p.category]}</span>
+            </a>`).join("\n            ")}
+          </div>`;
+};
+
 const BLOCKS = {
+  "brand-logos": brandLogos,
+  "works-cards": worksCards,
   "hero-slides": heroSlides,
   "sector-mosaic": sectorMosaic,
   "sector-cards": sectorCards,
@@ -327,6 +358,10 @@ const expand = (html) =>
     .replace(/\{\{site\}\}/g, SITE)
     .replace(/\{\{doc:(\w+)\}\}/g, (m, k) => doc(k))
     .replace(/\{\{photo:([\w-]+)\}\}/g, (m, k) => sitePhoto(k).src)
+    .replace(/\{\{projimg:([\w-]+)\|([^}]*)\}\}/g, (m, id, alt) => {
+      if (!PHOTOS[id]) throw new Error(`chantier inconnu : ${id}`);
+      return img(PHOTOS[id][0], alt, 'loading="lazy"');
+    })
     .replace(/\{\{img:([\w-]+)\|([^}]*)\}\}/g, (m, k, rest) => {
       const [alt, extra = ""] = rest.split("|");
       return img(sitePhoto(k), alt, extra);
