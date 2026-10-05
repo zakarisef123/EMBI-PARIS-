@@ -147,7 +147,7 @@ const layout = (o) => {
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
   if (o.jsonld) graph.push(...o.jsonld);
-  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "cta"];
+  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta"];
   const html = `<!doctype html>
 <html lang="fr">
 <head>
@@ -208,13 +208,63 @@ const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" da
             <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
-const ctaBand = (title, type = "", second = '<a href="tel:+33145726524" class="cs-cta__tel">01 45 72 65 24</a>') => `    <section class="cs-cta">
-      <div class="container cs-cta__inner">
-        <h2 class="cs-cta__title">${title}</h2>
-        <div class="cs-cta__actions">
-          <a href="/contact/${type ? `?type=${type}` : ""}" class="btn btn--dark">Demander un devis gratuit <span aria-hidden="true">→</span></a>
-          ${second}
+// Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
+// cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
+const QUIZ_Q = [
+  ["lieu", "Quel lieu voulez-vous transformer&nbsp;?", [["Appartement", "particulier"], ["Maison", "particulier"], ["Hôtel", "hotel"], ["Boutique", "boutique"], ["Restaurant", "restaurant"], ["Bureaux", ""]]],
+  ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
+  ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
+];
+const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && cat !== "particulier" ? ` data-preset="${cat}"` : ""}>
+      <div class="funnel__wrap">
+        <div class="funnel__intro">
+          <p class="funnel__kicker">Devis gratuit</p>
+          <h2 class="funnel__title">Votre projet en 3 questions</h2>
+          <p class="funnel__lead">Quelques clics pour nous décrire votre projet : votre demande de devis gratuit est prête en moins d'une minute.</p>
+          <ol class="funnel__next">
+            <li><b>1</b><span>Vous décrivez votre projet</span></li>
+            <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
+            <li><b>3</b><span>Étude de faisabilité et devis gratuit, poste par poste</span></li>
+          </ol>
+          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
         </div>
+        <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
+          <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
+          <input type="hidden" name="_next" value="{{site}}/merci/" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="page" value="" id="quizPage" />
+          <p class="form__hp" hidden><label>Ne pas remplir ce champ : <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="quiz__top">
+            <span class="quiz__step" id="quizStep" aria-live="polite">Question 1 / 3</span>
+            <button class="quiz__back" id="quizBack" type="button" hidden>← Retour</button>
+          </div>
+          <div class="quiz__bar"><span id="quizBar"></span></div>
+          <div class="quiz__body" id="quizBody">
+            ${QUIZ_Q.map(([name, q, opts], k) => `<fieldset class="quiz__set" data-step="${k}">
+              <legend class="quiz__q">${q}</legend>
+              <div class="quiz__opts">
+                ${opts.map(([v, c]) => `<label class="quiz__opt"><input type="radio" name="${name}" value="${v}"${c ? ` data-cat="${c}"` : ""} required /><span>${v}</span><i aria-hidden="true">→</i></label>`).join("\n                ")}
+              </div>
+            </fieldset>`).join("\n            ")}
+            <fieldset class="quiz__set quiz__final" data-step="3">
+              <legend class="quiz__q">Vos coordonnées</legend>
+              <ul class="quiz__recap" id="quizRecap"></ul>
+              <p class="quiz__refs" id="quizRefs" hidden></p>
+              <div class="form__row">
+                <label class="field field--light"><span>Votre nom</span><input name="nom" required autocomplete="name" /></label>
+                <label class="field field--light"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
+              </div>
+              <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
+              <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>
+              <div class="quiz__end">
+                <button type="submit" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
+                <button type="button" class="quiz__restart" id="quizRestart" hidden>Recommencer</button>
+              </div>
+              <p class="form__note" id="quizNote" role="status"></p>
+            </fieldset>
+          </div>
+        </form>
       </div>
     </section>`;
 const STEPS = [
@@ -425,6 +475,7 @@ const expand = (html) =>
       const [alt, extra = ""] = rest.split("|");
       return img(sitePhoto(k), alt, extra);
     })
+    .replace(/\{\{funnel(?::(\w+))?\}\}/g, (m, c) => expand(funnel(c)))
     .replace(/\{\{block:([\w-]+)\}\}/g, (m, k) => {
       if (!BLOCKS[k]) throw new Error(`bloc inconnu : ${k}`);
       return BLOCKS[k]();
@@ -456,7 +507,7 @@ SECTORS.forEach((s) => {
     ogImage: list[0] && cover(list[0]).src,
     bodyAttrs: ` data-cta-type="${s.category}"`,
     content: fill(SECTOR_TPL, {
-      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="/contact/?type=${s.category}" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
+      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
       works: works.map((w) => `<li>${esc(w)}</li>`).join(""),
       count: `${list.length} chantier${list.length > 1 ? "s" : ""}`,
@@ -464,7 +515,7 @@ SECTORS.forEach((s) => {
       cards: list.map((p) => card(p, "h3")).join("\n          "),
       steps: methodBrief("h3"),
       others: others.map((o) => `<a class="btn btn--ghost" href="${o.path}">${o.nav}</a>`).join(""),
-      cta: ctaBand(`Votre ${s.category === "particulier" ? "appartement" : s.category === "hotel" ? "hôtel" : s.category},<br /><em>notre prochain chantier&nbsp;?</em>`, s.category),
+      cta: expand(funnel(s.category)),
     }),
   });
 });
@@ -524,6 +575,7 @@ PROJECTS.forEach((p, i) => {
       prevNext: `<a class="pj-nav__link pj-nav__link--prev" href="${projectUrl(prev)}"><span>← Chantier précédent</span><strong>${esc(prev.title)}</strong></a><a class="pj-nav__link pj-nav__link--next" href="${projectUrl(next)}"><span>Chantier suivant →</span><strong>${esc(next.title)}</strong></a>`,
       moreTitle: same.length ? `Autres <em>${esc(PLURAL[p.category])}.</em>` : "Autres <em>réalisations.</em>",
       more: more.map((q) => card(q, "h3")).join(""),
+      funnel: expand(funnel(p.category)),
     }),
   });
 });

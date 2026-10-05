@@ -2063,3 +2063,144 @@ body[data-page="accueil"] .footer a:hover { color: var(--accent); }
 .logos__head .logos__mark { height: 34px; width: clamp(28px, 2.6vw, 44px); }
 .logos__t { margin: 0; font-family: var(--sans); font-weight: 500; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 0.04em; text-transform: uppercase; color: var(--dark-2); white-space: nowrap; }
 .logos__line { flex: 1; height: 1px; background: var(--dark-2); opacity: 0.35; }
+
+/* ═════════ Pages internes : légères et aérées, comme l'accueil ═════════ */
+/* fonds clairs partout (plus de grands aplats marine), titres en capitales fines, beaucoup d'air */
+:is(body:not([data-page="accueil"])) :is(.cs-hero, .section--dark, .feature, .bands, .refs, .sr-strip, .cs-made) {
+  --on-dark: var(--ink);
+  background: var(--bg); color: var(--ink);
+}
+body:not([data-page="accueil"]) :is(.section--dark, .feature, .bands, .sr-strip) { background: var(--bg-2); }
+body:not([data-page="accueil"]) .cs-hero { padding: clamp(150px, 16vw, 200px) 0 clamp(48px, 6vw, 80px); }
+body:not([data-page="accueil"]) .cs-hero::before { display: none; }
+body:not([data-page="accueil"]) .cs-hero__title,
+body:not([data-page="accueil"]) .page-hero .cs-hero__title {
+  font-family: var(--sans); font-weight: 500; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.12;
+  font-size: clamp(30px, 3.6vw, 52px); color: var(--dark-2); max-width: 22ch;
+}
+body:not([data-page="accueil"]) .cs-hero__title em { font-family: inherit; font-style: normal; font-weight: 300; color: var(--accent); }
+body:not([data-page="accueil"]) .cs-hero__lead { color: var(--ink-2); font-size: 16px; line-height: 1.85; }
+body:not([data-page="accueil"]) .cs-hero .eyebrow, body:not([data-page="accueil"]) :is(.section--dark, .feature, .bands, .refs) .eyebrow { color: var(--accent); }
+body:not([data-page="accueil"]) .cs-hero :is(nav, .crumbs, .breadcrumb) a,
+body:not([data-page="accueil"]) .cs-hero [aria-label*="Fil"] a { color: var(--muted); }
+body:not([data-page="accueil"]) .cs-hero [aria-label*="Fil"], body:not([data-page="accueil"]) .cs-hero [aria-current="page"] { color: var(--dark-2); }
+
+/* titres de section : capitales fines, plus petits */
+body:not([data-page="accueil"]) .h2 {
+  font-family: var(--sans); font-weight: 500; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.15;
+  font-size: clamp(24px, 2.4vw, 34px); color: var(--dark-2);
+}
+body:not([data-page="accueil"]) .h2 em { font-family: inherit; font-style: normal; font-weight: 300; letter-spacing: 0.01em; color: var(--accent); }
+body:not([data-page="accueil"]) .h2--xl { font-size: clamp(28px, 3vw, 44px); }
+
+/* boutons et liens prévus pour un fond sombre → version claire */
+body:not([data-page="accueil"]) .btn--outline-light { border-color: var(--dark-2); color: var(--dark-2); }
+body:not([data-page="accueil"]) .btn--outline-light:hover { background: var(--dark-2); color: var(--bg); }
+body:not([data-page="accueil"]) :is(.cs-hero, .section--dark, .feature, .refs) .btn--accent { background: var(--navy-grad); color: var(--bg); }
+body:not([data-page="accueil"]) :is(.cs-hero, .section--dark, .feature, .refs) .btn--accent:hover { filter: brightness(1.15); }
+body:not([data-page="accueil"]) :is(.section--dark, .feature, .bands, .refs, .sr-strip) :is(p, li, span, dd, dt, small) { color: inherit; }
+body:not([data-page="accueil"]) :is(.section--dark, .refs) .section__aside { color: var(--ink-2); }
+body:not([data-page="accueil"]) .sr-strip p { border-left-color: var(--line); }
+body:not([data-page="accueil"]) .sr-strip span { color: var(--ink-2); }
+body:not([data-page="accueil"]) .filters--dark .filter { color: var(--ink); border-color: var(--line); }
+body:not([data-page="accueil"]) .filters--dark .filter.is-active { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+body:not([data-page="accueil"]) .section--dark .acc__item.is-open :is(.acc__t, .acc__n, .acc__ar) { color: var(--accent); }
+body:not([data-page="accueil"]) .section { padding-top: clamp(64px, 8vw, 120px); padding-bottom: clamp(64px, 8vw, 120px); }
+
+/* formulaires sur fond clair (contact, tunnel) */
+body:not([data-page="accueil"]) :is(.contact, .funnel) .field span, .funnel .field span { color: var(--muted); }
+:is(.contact, .funnel) .field input, :is(.contact, .funnel) .field textarea { color: var(--ink); border-bottom-color: var(--line); background: transparent; }
+:is(.contact, .funnel) .field input:focus, :is(.contact, .funnel) .field textarea:focus { border-color: var(--accent); }
+:is(.contact, .funnel) .field textarea::placeholder { color: var(--muted); }
+:is(.contact, .funnel) .consent { color: var(--ink-2); }
+:is(.contact, .funnel) .consent a, :is(.contact, .funnel) :is(.form__alt, .form__note) a { color: var(--dark-2); border-bottom-color: var(--accent); }
+:is(.contact, .funnel) .form__note { color: var(--accent); }
+.contact .chips span { border-color: var(--line); color: var(--ink); }
+.contact .chips input:checked + span, .contact .chips label:has(input:checked) span { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+
+/* ───────── Tunnel de conversion « Votre projet en 3 questions » ───────── */
+.funnel { background: var(--bg-2); padding: clamp(64px, 8vw, 120px) clamp(16px, 2.4vw, 40px); }
+.funnel__wrap { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(36px, 6vw, 96px); align-items: center; }
+.funnel__kicker { margin: 0 0 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); }
+.funnel__title { margin: 0 0 18px; font-family: var(--sans); font-weight: 500; text-transform: uppercase; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; color: var(--dark-2); }
+.funnel__lead { margin: 0 0 28px; max-width: 46ch; font-size: 15px; line-height: 1.85; color: var(--ink-2); }
+.funnel__next { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 14px; }
+.funnel__next li { display: flex; align-items: center; gap: 14px; font-size: 14.5px; color: var(--ink); }
+.funnel__next b { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--dark-2); font-weight: 500; font-size: 13px; color: var(--dark-2); }
+.funnel__tel { margin: 0; font-size: 14px; color: var(--ink-2); }
+.funnel__tel a { color: var(--dark-2); font-weight: 600; border-bottom: 1px solid var(--accent); }
+.funnel .quiz__card { position: relative; background: #fff; color: var(--ink); border-radius: 0; box-shadow: 0 30px 60px -40px rgba(10, 22, 48, 0.35); min-height: 420px; }
+.funnel .quiz__card::before {
+  content: ""; position: absolute; inset: -12px; pointer-events: none; --c: var(--dark-2);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 22px 1px no-repeat, linear-gradient(var(--c), var(--c)) top left / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 22px 1px no-repeat, linear-gradient(var(--c), var(--c)) top right / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 22px 1px no-repeat, linear-gradient(var(--c), var(--c)) bottom left / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 22px 1px no-repeat, linear-gradient(var(--c), var(--c)) bottom right / 1px 22px no-repeat;
+  opacity: 0.5;
+}
+.funnel .quiz__step { color: var(--accent); }
+.funnel .quiz__back, .funnel .quiz__restart { color: var(--muted); }
+.funnel .quiz__back:hover, .funnel .quiz__restart:hover { color: var(--dark-2); }
+.funnel .quiz__bar { background: var(--bg-2); }
+.funnel .quiz__bar span { background: var(--navy-grad); }
+.funnel .quiz__q { font-family: var(--sans); font-weight: 500; text-transform: uppercase; font-size: clamp(17px, 1.6vw, 22px); letter-spacing: 0.02em; color: var(--dark-2); }
+.funnel .quiz__opt { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 0; }
+.funnel .quiz__opt i { color: var(--accent); }
+.funnel .quiz__opt:hover { border-color: var(--dark-2); background: #fff; }
+.funnel .quiz__opt.is-picked, .funnel .quiz__opt:has(input:checked) { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+.funnel .quiz__opt.is-picked i, .funnel .quiz__opt:has(input:checked) i { color: var(--bg); }
+.funnel .quiz__recap li { background: var(--bg); border-color: var(--line); color: var(--dark-2); border-radius: 0; }
+.funnel .quiz__refs { color: var(--ink-2); }
+.funnel .quiz__refs a, .funnel .quiz__refs strong { color: var(--dark-2); }
+.js .funnel .quiz__set { display: none; margin: 0; }
+.js .funnel .quiz__set.is-current { display: grid; animation: quizIn 0.5s var(--ease); }
+@media (prefers-reduced-motion: reduce) { .js .funnel .quiz__set.is-current { animation: none; } }
+@media (max-width: 860px) {
+  .funnel__wrap { grid-template-columns: minmax(0, 1fr); }
+  .funnel .quiz__card { min-height: 0; }
+}
+@media (max-width: 480px) { .funnel .quiz__opts { grid-template-columns: minmax(0, 1fr); } .funnel .quiz__card .form__row { grid-template-columns: minmax(0, 1fr); } }
+
+/* pied de page : clair et compact sur toutes les pages (le tunnel remplace le grand appel « Parlons-en ») */
+.footer { background: var(--bg-2); color: var(--dark-2); padding-top: clamp(40px, 5vw, 64px); border-top: 1px solid var(--line); }
+.footer .footer__cta, .footer #bigLogo { display: none; }
+.footer :is(p, a, span, nav) { color: var(--dark-2); }
+.footer .footer__h { color: var(--accent); }
+.footer :is(p, a) { font-size: 13.5px; }
+.footer a:hover { color: var(--accent); }
+.funnel + * , main > .funnel:last-child { border-bottom: 0; }
+
+/* pages internes claires : textes prévus en blanc → marine */
+body:not([data-page="accueil"]) .cs-hero .pj-crumbs { color: var(--muted); }
+body:not([data-page="accueil"]) .cs-hero .pj-crumbs span:last-child { color: var(--dark-2); }
+body:not([data-page="accueil"]) .cs-hero .pj-crumbs a:hover { color: var(--dark-2); }
+body:not([data-page="accueil"]) .pj-card { color: var(--ink); }
+body:not([data-page="accueil"]) .pj-card__t { font-family: var(--sans); font-weight: 500; text-transform: uppercase; font-size: 15px; letter-spacing: 0.04em; color: var(--dark-2); }
+body:not([data-page="accueil"]) .pj-card em { color: var(--muted); }
+body:not([data-page="accueil"]) :is(.acc__n, .acc__c, .acc__ar) { color: var(--muted); }
+body:not([data-page="accueil"]) .acc__head:hover .acc__t { color: var(--accent); }
+body:not([data-page="accueil"]) .acc__body p { color: var(--ink-2); }
+body:not([data-page="accueil"]) .acc__item, body:not([data-page="accueil"]) .acc { border-color: var(--line); }
+body:not([data-page="accueil"]) .band--trades { border-bottom-color: var(--line); }
+body:not([data-page="accueil"]) .band--trades span { color: var(--dark-2); opacity: 0.55; }
+body:not([data-page="accueil"]) .band--trades i { color: var(--accent); opacity: 0.5; }
+body:not([data-page="accueil"]) .feature__heading { color: var(--dark-2); }
+body:not([data-page="accueil"]) .feature__rail { background: var(--line); }
+body:not([data-page="accueil"]) .feature__list button { color: var(--muted); }
+body:not([data-page="accueil"]) :is(.feature__list li.is-active button, .feature__list button:hover, .feature__count b) { color: var(--dark-2); }
+body:not([data-page="accueil"]) .feature__count { color: var(--muted); }
+body:not([data-page="accueil"]) :is(.cs-made__list, .cs-made__list li) { border-color: var(--line); }
+body:not([data-page="accueil"]) .page-hero + :is(.section--dark, .contact) { border-top: 1px solid var(--line); }
+body:not([data-page="accueil"]) .acc__t { color: var(--dark-2); font-family: var(--sans); font-size: clamp(17px, 1.8vw, 24px); letter-spacing: 0.02em; }
+body:not([data-page="accueil"]) .acc__item.is-open :is(.acc__t, .acc__n, .acc__ar) { color: var(--accent); }
+body:not([data-page="accueil"]) .cs-kicker { color: var(--accent); }
+body:not([data-page="accueil"]) .sr-book { color: var(--dark-2); }
+body:not([data-page="accueil"]) .sr-book__meta span, body:not([data-page="accueil"]) .sr-cat .section__aside { color: var(--muted); }
+/* formulaire de contact : carte blanche sur fond clair */
+body:not([data-page="accueil"]) .contact .form { background: #fff; border: 0; border-radius: 0; box-shadow: 0 30px 60px -40px rgba(10, 22, 48, 0.35); }
+body:not([data-page="accueil"]) .contact .form :is(.chips legend, .form__alt) { color: var(--muted); }
+body:not([data-page="accueil"]) .contact .form .chips span { color: var(--ink); border-color: var(--line); }
+body:not([data-page="accueil"]) .contact .form .chips input:checked + span, body:not([data-page="accueil"]) .contact .form .chips label:has(input:checked) span { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--navy-grad); color: var(--bg); }
+.nav__cta[aria-current="page"] { color: var(--bg); opacity: 1; }

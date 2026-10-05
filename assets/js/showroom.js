@@ -31,7 +31,6 @@ const SHOWROOM_CATALOGUES = [
     if (document.body.classList.contains("menu-open")) return; // en-tête figé pendant que le menu est ouvert
     const y = scrollY;
     header.classList.toggle("is-scrolled", y > 20);
-    header.classList.toggle("on-dark", y < heroH - 60);
     header.classList.toggle("is-hidden", y > 400 && y > lastY && !nav.classList.contains("is-open"));
     lastY = y;
     progress.style.transform = `scaleX(${docH > 0 ? Math.min(y / docH, 1) : 0})`;
