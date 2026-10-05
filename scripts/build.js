@@ -108,7 +108,7 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 const NAV = [
-  { key: "renovation", href: "/renovation/", label: "Rénovation", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/energetique/", "Rénovation énergétique RGE"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/conception-sur-mesure/", "Conception sur mesure"], ["/showroom/", "Showroom carrelages & parquets"]] },
+  { key: "renovation", href: "/renovation/", label: "Rénovation", menu: [["/renovation/interieur/", "Intérieur"], ["/renovation/exterieur/", "Extérieur"]] },
   { key: "signature", href: "/signature/", label: "Signature" },
   { key: "realisations", href: "/realisations/", label: "Réalisations", mega: true },
   { key: "equipe", href: "/equipe/", label: "L'équipe" },
@@ -586,7 +586,7 @@ PROJECTS.forEach((p, i) => {
   });
 });
 
-/* ───── 3b · Rénovation (intérieure, énergétique, extérieure) ───── */
+/* ───── 3b · Rénovation (intérieure avec sa partie énergétique, extérieure) ───── */
 const SERVICES = require(path.join(ROOT, "src/data/services.js"));
 const ARTICLES = fs.existsSync(path.join(ROOT, "src/data/articles.js")) ? require(path.join(ROOT, "src/data/articles.js")) : [];
 const MAG_CATS = { projet: "Chantier", "renovation-interieure": "Rénovation intérieure", "renovation-energetique": "Rénovation énergétique", exterieur: "Extérieur", signature: "Signature", urgence: "Urgence" };
@@ -609,20 +609,20 @@ const faqBlock = (items) => items.length ? `    <section class="section faq">
       </div>
     </section>` : "";
 const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
-const svcCover = (sv) => PHOTOS[{ interieur: "renovation-appartement", energetique: "appartement-prive", exterieur: "hotel-bienvenue" }[sv.slug]][0];
+const svcCover = (sv) => PHOTOS[{ interieur: "renovation-appartement", exterieur: "hotel-bienvenue" }[sv.slug]][0];
 
 layout({
   path: "/renovation/",
   key: "renovation",
-  title: "Rénovation à Paris : intérieure, énergétique et extérieure | EMBI",
+  title: "Rénovation intérieure et extérieure à Paris | EMBI",
   description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur de A à Z.",
   crumbs: [{ name: "Rénovation", path: "/renovation/" }],
   content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
     <section class="pn works" id="types">
       <div class="pn__wrap">
         <div class="works__head reveal">
-          <h2 class="works__title">Trois métiers, un seul interlocuteur</h2>
-          <p>Choisissez votre type de rénovation : chaque page détaille nos prestations, nos chantiers et les questions à se poser avant de commencer.</p>
+          <h2 class="works__title">Intérieur ou extérieur, un seul interlocuteur</h2>
+          <p>Choisissez votre type de rénovation (la rénovation énergétique se trouve dans la partie intérieure) : chaque page détaille nos prestations, nos chantiers et les questions à se poser avant de commencer.</p>
         </div>
         <div class="works__grid">
           ${SERVICES.map((sv) => `<a class="works__card reveal" href="/renovation/${sv.slug}/">
@@ -641,7 +641,7 @@ SERVICES.forEach((sv) => {
   const path_ = `/renovation/${sv.slug}/`;
   const crumbs = [{ name: "Rénovation", path: "/renovation/" }, { name: sv.nav, path: path_ }];
   const projs = PROJECTS.filter((p) => sv.categories.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99)).slice(0, 3);
-  const arts = ARTICLES.filter((a) => a.category === { interieur: "renovation-interieure", energetique: "renovation-energetique", exterieur: "exterieur" }[sv.slug]).slice(0, 3);
+  const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
     key: "renovation",
@@ -649,7 +649,7 @@ SERVICES.forEach((sv) => {
     description: sv.description,
     crumbs,
     jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(sv.faq)],
-    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>`, true)}
+    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
     <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
@@ -659,11 +659,22 @@ SERVICES.forEach((sv) => {
         <ol class="svc__grid">
           ${sv.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
         </ol>
-        ${sv.rge ? `<!-- À RELIRE : n'afficher que si la qualification RGE est confirmée -->
+      </div>
+    </section>
+${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
+          <p class="section__aside reveal">${esc(sv.energy.lead)}</p>
+        </div>
+        <ol class="svc__grid">
+          ${sv.energy.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
+        </ol>
+        ${sv.energy.rge ? `<!-- À RELIRE : n'afficher que si la qualification RGE est confirmée -->
         <div class="svc__rge reveal"><strong>RGE</strong><p>Les aides publiques à la rénovation énergétique sont réservées aux travaux réalisés par des entreprises qualifiées RGE (Reconnu Garant de l'Environnement). Nous vous orientons vers les dispositifs en vigueur dès l'étude de votre projet.</p></div>` : ""}
       </div>
     </section>
-    <section class="section section--tight">
+` : ""}    <section class="section section--tight">
       <div class="container">
         <div class="section__head"><div><p class="eyebrow reveal">Réalisations</p><h2 class="h2 reveal">Ils nous ont <em>confié leurs lieux.</em></h2></div><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div>
         <div class="pj-cards">${projs.map((p) => card(p, "h3")).join("")}</div>

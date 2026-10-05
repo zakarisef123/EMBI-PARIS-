@@ -137,7 +137,7 @@ module.exports = [
       { q: "Qu'est-ce qu'une entreprise RGE ?", a: "C'est une entreprise titulaire d'une qualification reconnue pour certains travaux de rénovation énergétique. Faire appel à une entreprise RGE permet de prétendre à certaines aides." },
     ],
     links: [
-      { href: "/renovation/energetique/", label: "Rénovation énergétique" },
+      { href: "/renovation/interieur/#energetique", label: "Rénovation énergétique" },
       { href: "/particuliers/", label: "Rénovation d'appartements" },
       { href: "/methode/", label: "Notre méthode" },
       { href: "/contact/", label: "Demander un devis gratuit" },

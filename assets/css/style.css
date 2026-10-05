@@ -2297,3 +2297,6 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 .post__links a { padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 500; color: var(--dark-2); display: flex; justify-content: space-between; }
 .post__links a:hover { color: var(--accent); }
 .svc__grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } @media (max-width: 560px) { .svc__grid--2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* Partie rénovation énergétique, dans la page rénovation intérieure */
+.svc--energy { background: var(--bg-2); scroll-margin-top: 80px; }

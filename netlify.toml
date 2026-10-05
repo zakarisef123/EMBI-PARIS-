@@ -6,6 +6,12 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# La rénovation énergétique est désormais une partie de la page intérieure.
+[[redirects]]
+  from = "/renovation/energetique/*"
+  to = "/renovation/interieur/#energetique"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]
