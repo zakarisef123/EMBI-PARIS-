@@ -169,9 +169,8 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
-  <link rel="preload" href="/assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/cormorant-garamond-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/jost-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 ${cfg.photos !== "local" ? '  <link rel="preconnect" href="https://www.embi.fr" />\n' : ""}${o.preload || o.key === "accueil" ? `  <link rel="preload" as="image" href="${esc(o.preload || sitePhoto("hero").src)}" fetchpriority="high" />\n` : ""}  <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}</script>
@@ -235,7 +234,39 @@ const sectorCards = () => `<div class="explore__grid">
           }).join("\n          ")}
         </div>`;
 
+// Accueil · diaporama du haut de page : la photo d'accueil puis les couvertures de ces chantiers
+const HERO_SLIDES = ["hotel-panache", "loro-piana", "byredo"];
+const heroSlides = () => {
+  const slides = [
+    { ph: sitePhoto("hero"), alt: "Salle du restaurant Fish Club à Paris, rénové par EMBI", label: "Fish Club · Restaurant" },
+    ...HERO_SLIDES.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean).map((p) => ({
+      ph: PHOTOS[p.id][0], alt: `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
+    })),
+  ];
+  return `<div class="hero__photo" id="heroSlides">
+        ${slides.map((s, i) => `<figure class="hero__slide${i ? "" : " is-active"}" data-label="${esc(s.label)}">${img(s.ph, s.alt, i ? 'loading="lazy" data-hero' : 'fetchpriority="high" data-hero')}</figure>`).join("\n        ")}
+      </div>`;
+};
+const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier" };
+
+// Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
+const sectorMosaic = () => `<div class="mosaic container">
+          ${SECTORS.map((s, i) => {
+            const list = PROJECTS.filter((p) => p.category === s.category);
+            const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+            const n = list.length;
+            return `<a class="mosaic__item mosaic__item--${i + 1} reveal" href="${s.path}">
+            <figure class="mosaic__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}<figcaption>${esc(cover.title)}</figcaption></figure>
+            <span class="mosaic__n">${String(i + 1).padStart(2, "0")} · ${n} chantier${n > 1 ? "s" : ""}</span>
+            <h3 class="mosaic__t">${s.nav}</h3>
+            <p>${s.card}</p>
+          </a>`;
+          }).join("\n          ")}
+        </div>`;
+
 const BLOCKS = {
+  "hero-slides": heroSlides,
+  "sector-mosaic": sectorMosaic,
   "sector-cards": sectorCards,
   "method-brief": () => methodBrief(),
   "featured-cards": () => `<div class="pj-cards pj-cards--featured">

@@ -9,37 +9,30 @@
 -->
     <!-- ───────── HERO ───────── -->
     <section class="hero is-revealed" id="top">
-      <div class="hero__photo">
-        {{img:hero|Salle du restaurant Fish Club à Paris, rénové par EMBI|fetchpriority="high" data-hero}}
-      </div>
-      <p class="hero__tag" id="heroTag"><span>Réalisation</span> Fish Club · Paris</p>
+      {{block:hero-slides}}
 
       <div class="hero__content">
-        <p class="hero__kicker"><span class="pulse"></span>Rénovation clé en main · Paris · 10 ans d'expérience</p>
+        <p class="hero__kicker">Rénovation clé en main · Paris · 10 ans d'expérience</p>
         <h1 class="hero__title">
-          <span class="line"><span>On transforme</span></span>
-          <span class="line"><span>vos <span class="rotator" id="rotator"><span class="is-active">hôtels.</span><span>boutiques.</span><span>restaurants.</span><span>appartements.</span></span></span></span>
+          <span class="line"><span>Des lieux qui ont <em>une histoire,</em></span></span>
+          <span class="line"><span>rénovés avec soin.</span></span>
         </h1>
         <div class="hero__bottom">
           <p class="hero__lead">
-            Loro Piana, Byredo, Colette, Hôtel Panache… EMBI et son réseau de 40 professionnels
+            Hôtels, boutiques, restaurants, appartements : EMBI et son réseau de 40 professionnels
             rénovent vos lieux de A à Z, avec un seul interlocuteur.
           </p>
           <div class="hero__actions">
-            <a href="#selection" class="btn btn--accent" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
+            <a href="#selection" class="btn btn--light" data-magnetic>Voir les chantiers <span aria-hidden="true">→</span></a>
             <a href="/contact/#projet" class="btn btn--outline-light" data-magnetic>Votre projet en 3 questions</a>
-            <p class="hero__call">Devis gratuit, un seul interlocuteur · <a href="tel:+33145726524">01 45 72 65 24</a></p>
           </div>
         </div>
       </div>
 
-      <a href="#intro" class="hero__badge" aria-label="Défiler vers le bas" data-magnetic>
-        <svg viewBox="0 0 200 200" aria-hidden="true">
-          <defs><path id="circle" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0" /></defs>
-          <text><textPath href="#circle">rénovation · rapide · à votre écoute ·</textPath></text>
-        </svg>
-        <span aria-hidden="true">↓</span>
-      </a>
+      <div class="hero__aside" aria-hidden="true">
+        <div class="hero__dots" id="heroDots"></div>
+        <p class="hero__tag" id="heroTag">Fish Club · Restaurant</p>
+      </div>
     </section>
 
     <!-- ───────── MARQUEES CROISÉS ───────── -->
@@ -79,8 +72,8 @@
           </div>
           <p class="section__aside reveal">Des maisons de luxe aux hôtels parisiens, en passant par les restaurants et les appartements de particuliers : la même exigence, à chaque chantier.</p>
         </div>
-        {{block:sector-cards}}
       </div>
+      {{block:sector-mosaic}}
     </section>
 
     <!-- ───────── SÉLECTION (défilement horizontal) ───────── -->
