@@ -110,10 +110,10 @@ const SHOWROOM_CATALOGUES = [
 
   /* Motifs de carreaux (illustrations, dessinés en SVG 100 × 100) */
   const P = {
-    ciment: ["Effet carreau de ciment", () => `<rect width="100" height="100" fill="#efe7da"/><path d="M0 0h30a30 30 0 0 1-30 30zM100 0v30a30 30 0 0 1-30-30zM100 100h-30a30 30 0 0 1 30-30zM0 100v-30a30 30 0 0 1 30 30z" fill="#1c1b19"/><path d="M50 22 78 50 50 78 22 50z" fill="#ff5a1f"/><circle cx="50" cy="50" r="9" fill="#efe7da"/>`],
+    ciment: ["Effet carreau de ciment", () => `<rect width="100" height="100" fill="#efe7da"/><path d="M0 0h30a30 30 0 0 1-30 30zM100 0v30a30 30 0 0 1-30-30zM100 100h-30a30 30 0 0 1 30-30zM0 100v-30a30 30 0 0 1 30 30z" fill="#1c1b19"/><path d="M50 22 78 50 50 78 22 50z" fill="#2a4a7f"/><circle cx="50" cy="50" r="9" fill="#efe7da"/>`],
     terrazzo: ["Effet terrazzo", () => {
       let s = `<rect width="100" height="100" fill="#e9e1d4"/>`;
-      const cols = ["#ff5a1f", "#1c1b19", "#b9a78e", "#8a9a82", "#fff"];
+      const cols = ["#2a4a7f", "#1c1b19", "#b9a78e", "#8a9a82", "#fff"];
       for (let i = 0; i < 26; i++) {
         const x = rnd() * 100, y = rnd() * 100, r = 2 + rnd() * 5;
         const pts = [0, 1, 2, 3, 4].map((k) => { const a = (k / 5) * 6.28 + rnd(); return `${(x + Math.cos(a) * r * (0.6 + rnd() * 0.5)).toFixed(1)},${(y + Math.sin(a) * r * (0.6 + rnd() * 0.5)).toFixed(1)}`; });

@@ -91,6 +91,35 @@
   $("#marquee2").innerHTML = chunk2 + chunk2;
   }
 
+  /* ───── Accueil : diaporama du haut de page (fondu + zoom lent, voir .hero__slide) ───── */
+  const slidesBox = $("#heroSlides");
+  if (slidesBox) {
+    const slides = $$(".hero__slide", slidesBox);
+    const dots = $("#heroDots"), tag = $("#heroTag");
+    let cur = 0;
+    if (dots) dots.innerHTML = slides.map(() => "<span></span>").join("");
+    const show = (i) => {
+      slides[cur].classList.remove("is-active");
+      slides[cur].classList.add("is-leaving");
+      const prev = slides[cur];
+      setTimeout(() => prev.classList.remove("is-leaving"), 1600);
+      cur = i;
+      slides[cur].classList.add("is-active");
+      if (tag) tag.textContent = slides[cur].dataset.label;
+      if (dots) $$("span", dots).forEach((d, k) => d.classList.toggle("is-on", k === cur));
+    };
+    if (dots) $$("span", dots)[0].classList.add("is-on");
+    if (!reduce && slides.length > 1) {
+      let timer = null;
+      const start = () => { if (!timer) timer = setInterval(() => show((cur + 1) % slides.length), 6000); };
+      const stop = () => { clearInterval(timer); timer = null; };
+      // pause quand l'onglet est caché
+      document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+      document.addEventListener("embi:loaded", start, { once: true });
+      if (document.body.classList.contains("is-loaded")) start();
+    }
+  }
+
   /* ───── Mot tournant du titre ───── */
   const rot = $("#rotator");
   if (rot) {
