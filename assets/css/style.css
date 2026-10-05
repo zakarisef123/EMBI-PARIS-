@@ -1973,3 +1973,86 @@ body[data-page="accueil"] .footer a:hover { color: var(--accent); }
 .logos__item--text:nth-child(4n + 3) span { font-size: 28px; }
 .logos__item--text:nth-child(4n + 4) span { font-size: 16px; }
 @media (max-width: 860px) { .pn-intro__logo { display: none; } }
+
+/* ═════════ Menu toujours visible · accueil pleine largeur · décor « plan d'architecte » ═════════ */
+/* le menu translucide reste affiché sur tout le parcours, sur toutes les pages */
+.header.is-hidden { transform: none; }
+
+/* accueil : les sections occupent toute la largeur de l'écran */
+.pn__wrap { max-width: none; padding: 0 clamp(16px, 2.4vw, 40px); }
+.works__inner.pn__wrap { padding-left: 0; }
+.pn.split .split__inner { max-width: none; grid-template-columns: 1.1fr 0.9fr; }
+.pn.split .split__img { aspect-ratio: 4 / 3; }
+.split__txt { max-width: 520px; }
+.works__head { max-width: 820px; }
+.pn-news__box { max-width: 1100px; }
+
+/* trame de plan : quadrillage fin + quadrillage majeur, sur le dégradé marine */
+.pattern {
+  background-color: var(--dark-2);
+  background-image:
+    linear-gradient(rgba(223, 231, 245, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(223, 231, 245, 0.16) 1px, transparent 1px),
+    linear-gradient(rgba(223, 231, 245, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(223, 231, 245, 0.06) 1px, transparent 1px),
+    var(--navy-grad);
+  background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px, 100% 100%;
+  background-position: -1px -1px;
+}
+
+/* bandes verticales : une cote d'architecte (trait, deux traits obliques, libellé) */
+.show__band, .works__band { position: relative; align-items: center; padding: 0; filter: none; }
+.show__band::before, .works__band::before {
+  content: ""; position: absolute; top: 28px; bottom: 28px; left: 50%; width: 1px;
+  background: rgba(246, 241, 231, 0.7);
+}
+.show__band::after, .works__band::after {
+  content: ""; position: absolute; inset: 22px calc(50% - 7px); pointer-events: none;
+  background:
+    linear-gradient(135deg, transparent calc(50% - 0.75px), rgba(246, 241, 231, 0.9) calc(50% - 0.75px), rgba(246, 241, 231, 0.9) calc(50% + 0.75px), transparent calc(50% + 0.75px)) top / 14px 14px no-repeat,
+    linear-gradient(135deg, transparent calc(50% - 0.75px), rgba(246, 241, 231, 0.9) calc(50% - 0.75px), rgba(246, 241, 231, 0.9) calc(50% + 0.75px), transparent calc(50% + 0.75px)) bottom / 14px 14px no-repeat;
+}
+.show__band span, .works__band span {
+  position: relative; z-index: 1; background: var(--dark-2); color: var(--bg);
+  padding: 14px 6px; font-size: 11px; letter-spacing: 0.24em; transition: color 0.3s;
+}
+.works__band span { position: sticky; top: 50vh; align-self: auto; }
+.show__band:hover, .works__band:hover { filter: none; }
+.show__band:hover span, .works__band:hover span { color: var(--accent-2); }
+
+/* bande contact : le formulaire posé sur le plan, avec des repères d'angle */
+.pn-news { padding: clamp(44px, 5vw, 64px) var(--gutter); }
+.pn-news__box { position: relative; }
+.pn-news__box::before {
+  content: ""; position: absolute; inset: -12px; pointer-events: none;
+  --c: rgba(246, 241, 231, 0.85);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 1px 22px no-repeat;
+}
+.pn__mark { background: var(--navy-grad); }
+
+@media (max-width: 640px) {
+  .show__band { padding: 18px 16px; }
+  .show__band::before { top: 50%; bottom: auto; left: 16px; right: 16px; width: auto; height: 1px; }
+  .show__band::after { inset: calc(50% - 7px) 10px; background-position: left, right; }
+  .show__band span { position: static; padding: 6px 14px; }
+}
+@media (max-width: 560px) {
+  .works__band { padding: 18px 16px; }
+  .works__band::before { top: 50%; bottom: auto; left: 16px; right: 16px; width: auto; height: 1px; }
+  .works__band::after { inset: calc(50% - 7px) 10px; background-position: left, right; }
+  .works__band span { position: static; padding: 6px 14px; }
+}
+@media (max-width: 560px) {
+  .works__inner.pn__wrap { padding-left: clamp(16px, 2.4vw, 40px); }
+}
+.pn--intro .pn__wrap { padding-left: calc(clamp(28px, 2.6vw, 44px) + clamp(16px, 2.4vw, 40px)); }
+@media (max-width: 640px) { .pn--intro .pn__wrap { padding-left: clamp(16px, 2.4vw, 40px); } }
+@media (max-width: 560px) { .works__inner { grid-template-columns: minmax(0, 1fr); } }
