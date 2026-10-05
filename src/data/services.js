@@ -1,6 +1,6 @@
 /*
  * ─────────────────────────────────────────────────────────────
- *  PAGES RÉNOVATION : /renovation/interieur/, /renovation/energetique/, /renovation/exterieur/
+ *  PAGES RÉNOVATION : /renovation/interieur/ (avec une partie rénovation énergétique) et /renovation/exterieur/
  *  Prestations reprises de la page Savoir-faire ; textes composés à relire (<!-- À RELIRE -->).
  *  RGE : à n'afficher que si l'entreprise (ou les partenaires qui réalisent ces travaux) détient la qualification.
  * ─────────────────────────────────────────────────────────────
@@ -10,11 +10,11 @@ module.exports = [
     slug: "interieur",
     nav: "Rénovation intérieure",
     short: "Intérieur",
-    title: "Rénovation intérieure à Paris : appartements, hôtels, boutiques | EMBI",
-    description: "Plomberie, électricité, revêtements, isolation, décoration : EMBI rénove votre intérieur à Paris, du simple embellissement à la rénovation complète, avec un seul interlocuteur.",
+    title: "Rénovation intérieure et énergétique à Paris | EMBI",
+    description: "Plomberie, électricité, revêtements, décoration et rénovation énergétique : EMBI rénove votre intérieur à Paris, de l'embellissement à la rénovation complète, avec un seul interlocuteur.",
     h1: "Rénovation intérieure <em>à Paris.</em>",
     lead: "Aménagement et rénovation d'intérieur, pour votre habitation comme pour votre local professionnel : EMBI coordonne tous les corps de métier, de l'étude à la livraison.",
-    card: "Plomberie, électricité, revêtements, isolation et décoration : l'intérieur, pièce par pièce ou en totalité.",
+    card: "Plomberie, électricité, revêtements et décoration, avec un volet rénovation énergétique : isolation, fenêtres, chauffage.",
     services: [
       ["Rénovation complète", "Appartement, hôtel, boutique ou restaurant : redistribution des espaces, réseaux, revêtements et finitions, menés par un interlocuteur unique."],
       ["Plomberie & salles de bain", "Création ou rénovation de salles de bain et de cuisines, remplacement des réseaux, sanitaires aux normes."],
@@ -24,32 +24,24 @@ module.exports = [
       ["Décoration & sur-mesure", "Peinture, mobilier et rangements dessinés par notre architecte d'intérieur."],
     ],
     categories: ["particulier", "hotel", "boutique", "restaurant"],
+    // Partie « Rénovation énergétique » de la page intérieure (ancre #energetique).
+    energy: {
+      title: "Rénovation énergétique",
+      lead: "Moins de pertes de chaleur, plus de confort, des factures maîtrisées : EMBI réalise les travaux qui améliorent la performance énergétique de votre logement ou de vos locaux.",
+      rge: true,
+      services: [
+        ["Isolation des murs", "Isolation par l'intérieur, adaptée aux immeubles parisiens, ou par l'extérieur lors d'un ravalement."],
+        ["Combles & toitures", "Isolation des combles et de la toiture, reprise d'étanchéité."],
+        ["Fenêtres & menuiseries", "Remplacement des fenêtres et portes pour limiter les déperditions, dans le respect du style de l'immeuble."],
+        ["Ventilation", "Une ventilation adaptée, indispensable à un logement mieux isolé et plus sain."],
+        ["Chauffage & eau chaude", "Remplacement des équipements par des solutions plus performantes."],
+        ["Accompagnement aux aides", "Nous vous orientons vers les dispositifs en vigueur, réservés aux travaux réalisés par des entreprises RGE."],
+      ],
+    },
     faq: [
       ["Pouvez-vous rénover un appartement entier ?", "Oui. EMBI prend en charge la rénovation complète d'un appartement, de l'étude de faisabilité à la livraison, en coordonnant tous les corps de métier."],
       ["Intervenez-vous sur les locaux professionnels ?", "Oui : hôtels, boutiques, restaurants et bureaux. Les travaux peuvent inclure la remise aux normes en parallèle de la décoration."],
       ["Puis-je choisir mes matériaux sur place ?", "Notre showroom carrelages et parquets du 17e vous permet de voir et toucher les matières avant de décider."],
-    ],
-  },
-  {
-    slug: "energetique",
-    nav: "Rénovation énergétique RGE",
-    short: "Énergétique RGE",
-    title: "Rénovation énergétique RGE à Paris : isolation, menuiseries | EMBI",
-    description: "Isolation, fenêtres, ventilation, chauffage : EMBI améliore la performance énergétique de votre logement ou de vos locaux à Paris, avec un interlocuteur unique du diagnostic aux travaux.",
-    h1: "Rénovation énergétique <em>RGE à Paris.</em>",
-    lead: "Moins de pertes de chaleur, plus de confort, des factures maîtrisées : EMBI réalise les travaux qui améliorent la performance énergétique de votre logement ou de vos locaux.",
-    rge: true,
-    card: "Isolation, menuiseries, ventilation et chauffage, avec des entreprises RGE pour les aides.",
-    services: [
-      ["Isolation des murs", "Isolation par l'intérieur, adaptée aux immeubles parisiens, ou par l'extérieur lors d'un ravalement."],
-      ["Combles & toitures", "Isolation des combles et de la toiture, reprise d'étanchéité."],
-      ["Fenêtres & menuiseries", "Remplacement des fenêtres et portes pour limiter les déperditions, dans le respect du style de l'immeuble."],
-      ["Ventilation", "Une ventilation adaptée, indispensable à un logement mieux isolé et plus sain."],
-      ["Chauffage & eau chaude", "Remplacement des équipements par des solutions plus performantes."],
-      ["Accompagnement aux aides", "Nous vous orientons vers les dispositifs en vigueur, réservés aux travaux réalisés par des entreprises RGE."],
-    ],
-    categories: ["particulier", "hotel"],
-    faq: [
       ["Qu'est-ce que la qualification RGE ?", "RGE signifie « Reconnu Garant de l'Environnement ». Faire réaliser ses travaux par une entreprise RGE est une condition pour prétendre à la plupart des aides publiques à la rénovation énergétique."],
       ["Par quels travaux commencer ?", "En général, par l'isolation et les menuiseries, puis la ventilation et le chauffage. Un état des lieux permet de prioriser selon votre logement."],
       ["Quelles aides pour mes travaux ?", "Les aides évoluent régulièrement : consultez les conditions en vigueur sur france-renov.gouv.fr. Nous vous orientons lors de l'étude de votre projet."],
@@ -76,7 +68,7 @@ module.exports = [
     faq: [
       ["Faut-il une autorisation pour un ravalement à Paris ?", "Les travaux qui modifient l'aspect extérieur d'un bâtiment demandent en général une déclaration préalable en mairie. Nous vous aidons à constituer le dossier."],
       ["Intervenez-vous sur les toitures ?", "Oui : toitures, étanchéité et carrelage de terrasse. EMBI intervient de la fondation jusqu'au toit."],
-      ["Pouvez-vous combiner ravalement et isolation ?", "Oui, un ravalement est souvent le bon moment pour isoler par l'extérieur. Voir notre page rénovation énergétique."],
+      ["Pouvez-vous combiner ravalement et isolation ?", "Oui, un ravalement est souvent le bon moment pour isoler par l'extérieur. Voir la partie rénovation énergétique de notre page rénovation intérieure."],
     ],
   },
 ];
