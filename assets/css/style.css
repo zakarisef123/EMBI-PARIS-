@@ -2689,3 +2689,27 @@ body .pn-news .pn-news__link { white-space: nowrap; color: var(--accent); text-d
 body .pn-news .pn-news__link i { font-style: normal; display: inline-block; margin-left: 4px; transition: transform .3s var(--ease); }
 body .pn-news .pn-news__link:hover { color: var(--dark); background-size: 100% 2px; }
 body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
+
+/* ═════════ Mobile : même contenu et même rendu soigné que sur ordinateur ═════════ */
+/* « Toutes les réalisations » : la bande verticale devient une barre horizontale, comme « Découvrir nos réalisations » */
+@media (max-width: 560px) {
+  .works__band span { writing-mode: horizontal-tb; transform: none; white-space: nowrap; }
+}
+/* Groupes de boutons (« Aussi », « Nos autres secteurs »…) : des rangées pleines au lieu d'un escalier */
+@media (max-width: 560px) {
+  .sector__others, #types .sector__others { justify-content: flex-start; }
+  .sector__others .btn { flex: 1 1 auto; justify-content: center; text-align: center; }
+}
+/* Tableaux des mentions et de la confidentialité : une fiche par ligne, sans colonnes coupées */
+@media (max-width: 640px) {
+  .legal__table { overflow: visible; border: 0; }
+  .legal table { min-width: 0; }
+  .legal thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .legal table, .legal tbody, .legal tr, .legal td { display: block; width: 100%; }
+  .legal tr { border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 14px; margin-bottom: 12px; }
+  .legal td { border: 0; padding: 8px 0; }
+  .legal td + td { border-top: 1px solid var(--line); }
+  .legal td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font: 500 11px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+}
+/* Carte foncée « L'architecte d'intérieur » : le petit titre restait marine sur marine */
+.cs-card--dark .cs-card__role { color: var(--accent-2); }
