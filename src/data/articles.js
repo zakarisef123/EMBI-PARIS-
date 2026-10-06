@@ -779,6 +779,7 @@ module.exports = [
   },
   {
     slug: "mise-aux-normes-electriques-quand-comment",
+    cover: ["appartement-rue-saint-dominique", 9],
     category: "renovation-interieure",
     project: null,
     title: "Mise aux normes électriques : quand et comment la réaliser ?",
