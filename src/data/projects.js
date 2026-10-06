@@ -118,6 +118,12 @@ const PROJECTS = [
     histoire: ["Pour le restaurant Triomphe, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration signée Richard Lafond.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
 
+  { id: "appartement-renovation-complete", title: "Appartement rénové de A à Z", category: "particulier",
+    text: "Rénovation complète d'un appartement parisien : parquet, cuisine, salles d'eau, plomberie et électricité.",
+    travaux: ["Rénovation complète", "Parquet chêne", "Cuisine équipée", "Salle d'eau et douche à l'italienne", "Plomberie", "Électricité"],
+    histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
+    images: [] },
+
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
   { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
     text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",

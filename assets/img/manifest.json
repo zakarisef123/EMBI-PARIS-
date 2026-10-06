@@ -646,6 +646,98 @@
         "w": 960,
         "h": 1707
       }
+    ],
+    "appartement-renovation-complete": [
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-renovation-complete/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      }
     ]
   },
   "site": {}
