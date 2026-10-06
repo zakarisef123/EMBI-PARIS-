@@ -2584,3 +2584,9 @@ body:not([data-page="accueil"]) .refs .acc__head:hover .acc__t, body:not([data-p
 .ck__btn--ghost { grid-column: 1 / -1; order: 3; background: transparent; color: var(--dark); border-color: rgba(20, 35, 63, 0.25); }
 .ck__btn--ghost:hover { background: rgba(20, 35, 63, 0.06); color: var(--dark); border-color: var(--dark); }
 @media (max-width: 560px) { .ck { left: 8px; right: 8px; bottom: 8px; } .ck__inner { padding: 26px 22px 22px; } .ck__title { font-size: 25px; } }
+
+/* ───────── Nos réalisations : une section par catégorie ───────── */
+.acc-group + .acc-group { margin-top: clamp(40px, 5vw, 72px); }
+.acc-group[hidden] { display: none; }
+.acc-group__t { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 40px); line-height: 1.1; margin: 0 0 clamp(14px, 1.6vw, 20px); color: var(--dark-2); }
+.acc-group__t sup { font: 600 12px var(--sans); letter-spacing: 0.08em; color: var(--sand-ink, #9a8257); margin-left: 4px; vertical-align: super; }

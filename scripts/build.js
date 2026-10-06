@@ -478,12 +478,18 @@ const BLOCKS = {
             </div>
           </div>
         </div>
-        <ul class="acc" id="refsList">
-          ${PROJECTS.map((p, i) => {
+        <div class="acc-groups" id="refsList">
+          ${FILTERS.map(([c, l]) => {
+            const list = PROJECTS.map((p, i) => ({ p, i })).filter(({ p }) => p.category === c);
+            if (!list.length) return "";
+            return `<section class="acc-group" data-cat="${c}" aria-labelledby="acc-g-${c}">
+          <h3 class="acc-group__t" id="acc-g-${c}">${esc(l)} <sup>${list.length}</sup></h3>
+          <ul class="acc">
+          ${list.map(({ p, i }, k) => {
             const txt = p.text || `${LEAD[p.category] || "Lieu rénové"} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
             return `<li class="acc__item" data-cat="${p.category}">
             <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-${i}" data-i="${i}">
-              <span class="acc__n">${String(i + 1).padStart(2, "0")}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(CATEGORIES[p.category] || "")}</span><span class="acc__ar" aria-hidden="true">→</span>
+              <span class="acc__n">${String(k + 1).padStart(2, "0")}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(p.lieu || "")}</span><span class="acc__ar" aria-hidden="true">→</span>
             </button>
             <div class="acc__panel" id="acc-${i}" role="region" aria-label="${esc(p.title)}"><div class="acc__inner">
               <a class="acc__img" href="${projectUrl(p)}" tabindex="-1">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</a>
@@ -491,7 +497,10 @@ const BLOCKS = {
             </div></div>
           </li>`;
           }).join("\n          ")}
-        </ul>
+          </ul>
+        </section>`;
+          }).join("\n        ")}
+        </div>
         <div class="cta-band cta-band--dark reveal">
           <p class="cta-band__title">Votre lieu, <em>notre prochaine réalisation&nbsp;?</em></p>
           <div class="cta-band__actions">

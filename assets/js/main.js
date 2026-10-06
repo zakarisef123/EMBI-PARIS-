@@ -208,6 +208,8 @@
         const f = btn.dataset.filter;
         const keep = accItems.filter((li) => f === "all" || li.dataset.cat === f);
         accItems.forEach((li) => (li.hidden = !keep.includes(li)));
+        // une section par catégorie : on masque celles qui n'ont plus de chantier visible
+        $$(".acc-group", refsList).forEach((g) => (g.hidden = f !== "all" && g.dataset.cat !== f));
         openAcc(keep[0]);
       })
     );
