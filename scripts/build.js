@@ -157,7 +157,7 @@ const shot = (id, n) => (PHOTOS[id] || []).find((ph) => ph.src.includes(`/${id}/
 const HERO_PHOTOS = {
   "/renovation/": ["ravalement-rue-nollet", 3],
   "/renovation/interieur/": ["appartement-haussmannien", 1],
-  "/renovation/exterieur/": ["ravalement-rue-nollet", 1],
+  "/renovation/exterieur/": ["ravalement-rue-nollet", 4],
   "/projets-specifiques/": ["atelier-joaillerie-ploermel", 1],
   "/realisations/": ["hotel-bienvenue", 10],
   "/hotels/": ["hotel-beauregard", 3],
@@ -171,7 +171,7 @@ const HERO_PHOTOS = {
   "/qualifications/": ["toitures-zinguerie", 2],
   "/urgence/": ["appartement-renovation-complete", 9],
   "/urgence/plomberie/": ["appartement-rue-saint-dominique", 5],
-  "/urgence/electricite/": ["appartement-haussmannien", 3],
+  "/urgence/electricite/": ["appartement-rue-saint-dominique", 9],
   "/urgence/assainissement/": ["appartement-renovation-complete", 7],
   "/contact/": ["renovation-appartement", 3],
   "/faq/": ["appartement-lumineux", 1],
@@ -698,9 +698,10 @@ PROJECTS.forEach((p, i) => {
 const SERVICES = require(path.join(ROOT, "src/data/services.js"));
 const ARTICLES = fs.existsSync(path.join(ROOT, "src/data/articles.js")) ? require(path.join(ROOT, "src/data/articles.js")) : [];
 const MAG_CATS = { projet: "Chantier", "renovation-interieure": "Rénovation intérieure", "renovation-energetique": "Rénovation énergétique", exterieur: "Extérieur", signature: "Signature", urgence: "Urgence" };
-const MAG_COVER = { "renovation-interieure": "renovation-appartement", "renovation-energetique": "appartement-prive", exterieur: "hotel-bienvenue", signature: "byredo", urgence: "hotel-paradis" };
+// Photo de couverture par catégorie ([chantier, n° de photo]) ; un article peut choisir la sienne avec cover: [chantier, n].
+const MAG_COVER = { "renovation-interieure": ["renovation-appartement", 1], "renovation-energetique": ["appartement-renovation-complete", 1], exterieur: ["ravalement-rue-nollet", 6], signature: ["byredo", 1], urgence: ["appartement-renovation-complete", 9] };
 const articleUrl = (a) => `/mag/${a.slug}/`;
-const articleCover = (a) => PHOTOS[a.project && PHOTOS[a.project] ? a.project : MAG_COVER[a.category] || "hotel-panache"][0];
+const articleCover = (a) => a.cover ? shot(...a.cover) : a.project && PHOTOS[a.project] ? PHOTOS[a.project][0] : shot(...(MAG_COVER[a.category] || ["hotel-panache", 1]));
 const frDate = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${articleUrl(a)}">
             <span class="mag-card__img">${img(articleCover(a), a.title, 'loading="lazy"')}</span>
@@ -757,7 +758,7 @@ const houseBlock = (start) => `    <section class="section svc-house">
       </div>
     </section>
 `;
-const svcCover = (sv) => PHOTOS[{ interieur: "renovation-appartement", exterieur: "hotel-bienvenue" }[sv.slug]][0];
+const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], exterieur: ["ravalement-rue-nollet", 1] }[sv.slug]);
 
 layout({
   path: "/renovation/",
@@ -789,7 +790,7 @@ layout({
 SERVICES.forEach((sv) => {
   const path_ = `/renovation/${sv.slug}/`;
   const crumbs = [{ name: "Rénovation", path: "/renovation/" }, { name: sv.nav, path: path_ }];
-  const projs = PROJECTS.filter((p) => sv.categories.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99)).slice(0, 3);
+  const projs = sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : PROJECTS.filter((p) => sv.categories.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99)).slice(0, 3);
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
