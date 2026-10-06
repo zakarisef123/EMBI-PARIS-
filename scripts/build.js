@@ -560,7 +560,7 @@ const expand = (html) =>
       const [alt, extra = ""] = rest.split("|");
       return img(sitePhoto(k), alt, extra);
     })
-    .replace(/\{\{funnel(?::(\w+))?\}\}/g, (m, c) => expand(funnel(c)))
+    .replace(/\{\{funnel(?::(\w*))?\}\}/g, (m, c) => expand(funnel(c)))
     .replace(/\{\{block:([\w-]+)\}\}/g, (m, k) => {
       if (!BLOCKS[k]) throw new Error(`bloc inconnu : ${k}`);
       return BLOCKS[k]();

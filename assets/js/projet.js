@@ -39,6 +39,10 @@
   nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
   onScroll();
 
+  /* ───── Apparition au scroll (titre de la FAQ en bas de page) ───── */
+  const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { threshold: 0.12 });
+  $$(".reveal").forEach((el) => io.observe(el));
+
   /* ───── Galerie ───── */
   const gallery = $("#pjGallery");
   if (!gallery) return;
