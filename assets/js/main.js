@@ -40,7 +40,7 @@
     addEventListener("keydown", (e) => { if (e.key === "Escape") finishLoad(); });
     const skip = $("#loaderSkip");
     if (skip) { skip.addEventListener("click", (e) => { e.stopPropagation(); count.textContent = "100"; finishLoad(); }); skip.focus({ preventScroll: true }); }
-    setTimeout(() => { const c = $("#loaderCaption"); if (c && !loaded) c.innerHTML = "embi. <span>Du plan à la réalité.</span>"; }, 2300);
+    setTimeout(() => { const c = $("#loaderCaption"); if (c && !loaded) c.innerHTML = "EMBI <span>Du plan à la réalité</span>"; }, 2300);
   }
   $("#year").textContent = new Date().getFullYear();
 
