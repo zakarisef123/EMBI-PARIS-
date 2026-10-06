@@ -2415,3 +2415,17 @@ body:not([data-page="accueil"]) main > section.section:nth-of-type(even) .build_
 .loader__caption span, .loader__count { color: var(--sand-ink); }
 .loader__skip { color: var(--dark); border-color: rgba(20, 35, 63, 0.3); background: transparent; }
 .loader__skip:hover, .loader__skip:focus-visible { background: var(--dark); border-color: var(--dark); color: var(--on-dark); }
+
+/* ───────── FAQ par page (2026-10) : accordéon en bas de chaque page, avant le devis ───────── */
+.faq__head { position: sticky; top: 120px; }
+.faq__head .h2 { margin: 0; }
+.faq__aside { margin: 22px 0 0; max-width: 34ch; font-size: 14.5px; line-height: 1.8; color: var(--ink-2); }
+.faq__aside a, .faq__item p a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-2); text-underline-offset: 3px; }
+.faq__aside a:hover, .faq__item p a:hover { text-decoration-color: var(--accent); }
+.faq__list { border-top-color: var(--accent-2); }
+.faq__item summary { align-items: baseline; padding: 24px 0; font-family: var(--display); font-weight: 500; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.3; color: var(--ink); transition: color 0.25s var(--ease); }
+.faq__item summary:hover { color: var(--accent); }
+.faq__item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.faq__item summary::after { flex: none; font-family: var(--sans); font-weight: 300; font-size: 26px; color: var(--sand-ink, #9a8257); }
+.faq__item p { margin-top: -6px; }
+@media (max-width: 860px) { .faq__head { position: static; } .faq__aside { margin-top: 14px; } }

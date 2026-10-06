@@ -146,6 +146,10 @@ const LIGHTBOX = `
 const pages = []; // { path, html, title, description, noindex }
 const layout = (o) => {
   const url = SITE + o.path;
+  const faqItems = o.faq || FAQ.PAGES[o.path];
+  if (faqItems && !o.content.includes('class="section faq"')) {
+    o = { ...o, content: withFaq(o.content, faqItems), jsonld: [...(o.jsonld || []), ...faqLd(faqItems)] };
+  }
   const og = abs(o.ogImage || sitePhoto("hero").src);
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
@@ -488,6 +492,34 @@ const expand = (html) =>
       return BLOCKS[k]();
     });
 
+// FAQ en accordéon (details/summary) + données structurées FAQPage.
+// Dans une réponse, [texte](/adresse/) devient un lien ; il reste du texte simple pour Google.
+const FAQ = require(path.join(ROOT, "src/data/faq.js"));
+const faqLink = /\[([^\]]+)\]\((\/[^)\s]*)\)/g;
+const faqHtml = (a) => esc(a).replace(faqLink, (m, t, h) => `<a href="${h}">${t}</a>`);
+const faqText = (a) => a.replace(faqLink, "$1");
+const faqBlock = (items) => items && items.length ? `    <section class="section faq" id="faq">
+      <div class="container faq__inner">
+        <div class="faq__head">
+          <p class="eyebrow reveal">FAQ</p>
+          <h2 class="h2 reveal">Questions <em>fréquentes.</em></h2>
+          <p class="faq__aside reveal">Une autre question&nbsp;? Appelez-nous au <a href="tel:+33145726524">01&nbsp;45&nbsp;72&nbsp;65&nbsp;24</a> ou <a href="/contact/">écrivez-nous</a>.</p>
+        </div>
+        <div class="faq__list">
+          ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${faqHtml(a)}</p></details>`).join("\n          ")}
+        </div>
+      </div>
+    </section>` : "";
+const faqLd = (items) => items && items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: faqText(a) } })) }] : [];
+// Pages sans FAQ écrite dans leur gabarit : la FAQ se place juste avant le devis (ou en fin de page).
+const withFaq = (content, items) => {
+  if (!items || !items.length || content.includes('class="section faq"')) return content;
+  const at = ['<section class="funnel"', '<section class="pn-news'].map((t) => content.indexOf(t)).find((i) => i >= 0);
+  if (at === undefined) return content.trimEnd() + "\n" + faqBlock(items);
+  const lineStart = content.lastIndexOf("\n", at) + 1;
+  return content.slice(0, lineStart) + faqBlock(items) + "\n" + content.slice(lineStart);
+};
+
 /* ───── 1 · Pages écrites à la main : src/pages/*.html ───── */
 fs.readdirSync(path.join(ROOT, "src/pages"))
   .filter((f) => f.endsWith(".html"))
@@ -560,6 +592,7 @@ PROJECTS.forEach((p, i) => {
     scripts: ["projet"],
     lightbox: true,
     crumbs: [{ name: "Réalisations", path: "/realisations/" }, { name: p.title, path: path_ }],
+    faq: FAQ.project(p, sec.path),
     jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(LEAD[p.category] || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
@@ -601,15 +634,6 @@ const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${art
             <${level} class="mag-card__t">${esc(a.title)}</${level}>
             <span class="mag-card__lead">${esc(a.lead)}</span>
           </a>`;
-const faqBlock = (items) => items.length ? `    <section class="section faq">
-      <div class="container faq__inner">
-        <h2 class="h2 reveal">Questions <em>fréquentes.</em></h2>
-        <div class="faq__list">
-          ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n          ")}
-        </div>
-      </div>
-    </section>` : "";
-const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
 // « Du plan au volume » : les murs sortent du plan (même animation que la page Conception sur mesure)
 const volumeBlock = () => `    <section class="section svc-volume">
       <div class="container">
