@@ -2532,3 +2532,55 @@ body:not([data-page="accueil"]) .refs .acc__head .acc__t { color: var(--dark-2);
 body:not([data-page="accueil"]) .refs .acc__head :is(.acc__n, .acc__c) { color: var(--sand-ink, #9a8257); }
 body:not([data-page="accueil"]) .refs .acc__head .acc__ar { color: var(--dark-2); }
 body:not([data-page="accueil"]) .refs .acc__head:hover .acc__t, body:not([data-page="accueil"]) .refs .acc__item.is-open .acc__head :is(.acc__t, .acc__n, .acc__ar) { color: var(--accent); }
+
+/* ───────── Accueil · Nos services : fiches façon plan posées sur une grande photo ───────── */
+.hsvc { position: relative; overflow: hidden; padding: clamp(72px, 9vw, 128px) 0; color: var(--dark); isolation: isolate; }
+.hsvc__bg { position: absolute; inset: 0; margin: 0; z-index: -1; }
+.hsvc__bg img { width: 100%; height: 100%; object-fit: cover; }
+.hsvc__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 35, 63, 0.55), rgba(20, 35, 63, 0.25) 40%, rgba(20, 35, 63, 0.6)); }
+.hsvc__title { color: var(--on-dark); text-align: center; margin: 0 0 clamp(32px, 4vw, 52px); }
+.hsvc .hsvc__title em { color: var(--accent-2); }
+.hsvc__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); }
+.hsvc__card { position: relative; display: flex; flex-direction: column; gap: 14px; padding: clamp(26px, 2.4vw, 34px) clamp(20px, 2vw, 28px) clamp(22px, 2vw, 28px);
+  background: rgba(247, 244, 238, 0.52); -webkit-backdrop-filter: blur(5px) saturate(1.1); backdrop-filter: blur(5px) saturate(1.1);
+  border: 1px solid rgba(200, 180, 143, 0.55); transition-delay: var(--d, 0ms); }
+/* repères d'angle, comme sur un tirage de plan */
+.hsvc__card::before, .hsvc__card::after { content: ""; position: absolute; width: 14px; height: 14px; border: 0 solid var(--sand-ink); }
+.hsvc__card::before { top: 8px; left: 8px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.hsvc__card::after { bottom: 8px; right: 8px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.hsvc__n { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; border: 1.5px solid var(--sand-ink); color: var(--sand-ink); font: 400 22px var(--display); font-style: italic; }
+.hsvc__t { margin: 0; font: 500 clamp(22px, 1.8vw, 27px)/1.12 var(--display); color: var(--dark); }
+.hsvc__card p { margin: 0; flex: 1; font-size: 14.5px; line-height: 1.7; color: var(--ink); }
+.hsvc__go { align-self: flex-start; display: inline-flex; gap: 10px; align-items: center; margin-top: 6px; padding: 12px 18px; background: var(--dark); color: var(--on-dark); font: 500 12px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; transition: background 0.3s, gap 0.3s; }
+.hsvc__go:hover, .hsvc__go:focus-visible { background: var(--accent); gap: 14px; }
+@media (max-width: 1100px) { .hsvc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .hsvc__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); scrollbar-width: none; }
+  .hsvc__grid::-webkit-scrollbar { display: none; }
+  .hsvc__card { scroll-snap-align: start; }
+}
+
+/* ───────── Bandeau cookies EMBI : « fiche de plan » crème en bas à droite (fond inchangé : consent.js) ───────── */
+.ck { left: auto; right: 24px; bottom: 24px; justify-content: flex-end; }
+.ck__inner { position: relative; width: min(460px, 100%); padding: 30px 30px 26px; background: var(--bg); color: var(--dark);
+  border: 1px solid rgba(200, 180, 143, 0.7); border-radius: 0; box-shadow: 0 30px 70px -30px rgba(20, 35, 63, 0.45); }
+.ck__inner::before, .ck__inner::after { content: ""; position: absolute; width: 14px; height: 14px; border: 0 solid var(--sand-ink); pointer-events: none; }
+.ck__inner::before { top: 8px; left: 8px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.ck__inner::after { bottom: 8px; right: 8px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.ck__title { font: 400 28px/1.1 var(--display); color: var(--dark); }
+.ck__title::before { content: "Plan n° 00 · Vos données"; display: block; margin-bottom: 10px; font: 600 10.5px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand-ink); }
+.ck__title em { font-family: var(--display); color: var(--sand-ink); }
+.ck__text { font-size: 13.5px; color: var(--ink-2); }
+.ck__text a { color: var(--dark); border-color: var(--sand-ink); }
+.ck__details, .ck__cat { border-color: rgba(20, 35, 63, 0.12); }
+.ck__cat small { color: var(--ink-2); }
+.ck__cat i { background: rgba(20, 35, 63, 0.18); }
+.ck__cat input:checked + i { background: var(--dark); }
+.ck__cat input:focus-visible + i { outline-color: var(--dark); }
+/* « Tout refuser » et « Tout accepter » au même niveau, « Personnaliser » en dessous */
+.ck__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ck__btn { border-radius: 0; background: var(--dark); color: var(--on-dark); border-color: var(--dark); font: 500 12px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; }
+.ck__btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.ck__btn--ghost { grid-column: 1 / -1; order: 3; background: transparent; color: var(--dark); border-color: rgba(20, 35, 63, 0.25); }
+.ck__btn--ghost:hover { background: rgba(20, 35, 63, 0.06); color: var(--dark); border-color: var(--dark); }
+@media (max-width: 560px) { .ck { left: 8px; right: 8px; bottom: 8px; } .ck__inner { padding: 26px 22px 22px; } .ck__title { font-size: 25px; } }

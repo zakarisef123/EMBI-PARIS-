@@ -308,6 +308,30 @@ const heroSlides = () => {
         ${slides.map((s, i) => `<figure class="hero__slide${i ? "" : " is-active"}" data-label="${esc(s.label)}">${img(s.ph, s.alt, i ? 'loading="lazy" data-hero' : 'fetchpriority="high" data-hero')}</figure>`).join("\n        ")}
       </div>`;
 };
+// Accueil · « Nos services » : quatre fiches façon plan d'architecte posées sur une grande photo de chantier
+const HOME_SERVICES = [
+  ["Rénovation intérieure", "Appartements, maisons, hôtels, boutiques et restaurants : plans, aménagement sur mesure et finitions, avec un seul interlocuteur.", "/renovation/interieur/"],
+  ["Rénovation extérieure", "Ravalement, menuiseries, toitures, balcons et terrasses, dans le respect de l'architecture parisienne.", "/renovation/exterieur/"],
+  ["Projets spécifiques", "Corners en grand magasin, boutiques de luxe, ateliers, agencements sur mesure, travaux en site occupé.", "/projets-specifiques/"],
+  ["Urgences & dépannage", "Plomberie, électricité, assainissement : une ligne dédiée et une intervention rapide à Paris.", "/urgence/"],
+];
+const homeServices = () => {
+  const bg = PHOTOS["appartement-prive"] ? PHOTOS["appartement-prive"][0] : sitePhoto("hero");
+  return `<section class="hsvc" id="services" aria-labelledby="hsvc-t">
+      <figure class="hsvc__bg" aria-hidden="true">${img(bg, "", 'loading="lazy" data-hero')}</figure>
+      <div class="hsvc__inner container">
+        <h2 class="h2 hsvc__title reveal" id="hsvc-t">Nos <em>services</em></h2>
+        <ol class="hsvc__grid">
+          ${HOME_SERVICES.map(([t, d, h], i) => `<li class="hsvc__card reveal" style="--d:${i * 90}ms">
+            <span class="hsvc__n" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+            <h3 class="hsvc__t">${esc(t)}</h3>
+            <p>${esc(d)}</p>
+            <a class="hsvc__go" href="${h}">Plus d'infos<span class="sr-only"> : ${esc(t)}</span> <i aria-hidden="true">→</i></a>
+          </li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>`;
+};
 const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier" };
 
 // Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
@@ -421,6 +445,7 @@ const BLOCKS = {
   "brand-logos": brandLogos,
   "works-cards": worksCards,
   "hero-slides": heroSlides,
+  "home-services": homeServices,
   "sector-mosaic": sectorMosaic,
   "sector-cards": sectorCards,
   "method-brief": () => methodBrief(),
