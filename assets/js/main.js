@@ -187,17 +187,10 @@
     );
   }
 
-  /* ───── Réalisations : liste en accordéon (écrite dans la page par scripts/build.js) ───── */
+  /* ───── Réalisations : mosaïque de photos par catégorie (écrite dans la page par scripts/build.js), avec filtres ───── */
   const refsList = $("#refsList");
   if (refsList) {
-    const accItems = $$(".acc__item", refsList);
-    const openAcc = (li) => {
-      accItems.forEach((x) => {
-        const on = x === li;
-        x.classList.toggle("is-open", on);
-        $(".acc__head", x).setAttribute("aria-expanded", on);
-      });
-    };
+    const tiles = $$(".ref-tile", refsList);
     const refsFilters = $$(".refs .filter");
     refsFilters.forEach((btn) =>
       btn.addEventListener("click", () => {
@@ -206,46 +199,15 @@
           b.setAttribute("aria-pressed", b === btn);
         });
         const f = btn.dataset.filter;
-        const keep = accItems.filter((li) => f === "all" || li.dataset.cat === f);
-        accItems.forEach((li) => (li.hidden = !keep.includes(li)));
+        tiles.forEach((t) => (t.hidden = f !== "all" && t.dataset.cat !== f));
         // une section par catégorie : on masque celles qui n'ont plus de chantier visible
         $$(".acc-group", refsList).forEach((g) => (g.hidden = f !== "all" && g.dataset.cat !== f));
-        openAcc(keep[0]);
       })
     );
-    openAcc(accItems[0]);
     // lien direct vers un filtre : /realisations/?type=hotel
     const wanted = new URLSearchParams(location.search).get("type");
     const wantedBtn = wanted && refsFilters.find((b) => b.dataset.filter === wanted);
     if (wantedBtn) wantedBtn.click();
-    let accTimer = null;
-    const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
-    refsList.addEventListener("mouseover", (e) => {
-      if (!canHover) return;
-      const li = e.target.closest(".acc__item");
-      if (!li || li.classList.contains("is-open")) return;
-      clearTimeout(accTimer);
-      accTimer = setTimeout(() => openAcc(li), 140); // petit délai : évite l'effet « accordéon nerveux »
-    });
-    refsList.addEventListener("mouseleave", () => clearTimeout(accTimer));
-    refsList.addEventListener("click", (e) => {
-      const head = e.target.closest(".acc__head");
-      if (!head) return;
-      const li = head.parentElement;
-      // nom d'un chantier déjà ouvert : on va sur sa page (souris comme doigt)
-      if (li.classList.contains("is-open")) return go(+head.dataset.i);
-      // on garde le nom touché à la même place à l'écran pendant que la liste se réorganise,
-      // puis on s'assure que la photo et « Voir le projet » sont visibles
-      const top0 = head.getBoundingClientRect().top;
-      openAcc(li);
-      if (!canHover) {
-        const keep = () => { const d = head.getBoundingClientRect().top - top0; if (Math.abs(d) > 1) window.scrollBy(0, d); };
-        requestAnimationFrame(keep);
-        const t0 = performance.now();
-        const follow = () => { keep(); if (performance.now() - t0 < 750) requestAnimationFrame(follow); else { const r = li.getBoundingClientRect(); if (r.bottom > innerHeight - 16) window.scrollBy({ top: Math.min(r.bottom - innerHeight + 24, r.top - 90), behavior: reduce ? "auto" : "smooth" }); } };
-        requestAnimationFrame(follow);
-      }
-    });
   }
 
   /* ───── Chantiers signature : écran partagé épinglé ───── */
@@ -424,6 +386,27 @@
     { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
   );
   $$(".reveal").forEach((el) => io.observe(el));
+
+  /* ───── Photos : apparition en rideau qui s'ouvre (gauche → droite), une fois, à l'entrée dans l'écran ───── */
+  if (!reduce && "IntersectionObserver" in window) {
+    const skip = ".hero, .page-hero, .pj-hero, .logos, .show, .hsvc__bg, .header, .footer, .ck, .modal, .feature";
+    const shots = $$("main img").filter((im) => !im.closest(skip) && (im.getBoundingClientRect().width || im.width) >= 160);
+    const curtainIO = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          $$("img.curtain", en.target).forEach((im) => im.classList.add("is-open"));
+          curtainIO.unobserve(en.target);
+        }),
+      { threshold: 0.15, rootMargin: "0px 0px -30px 0px" }
+    );
+    shots.forEach((im) => {
+      const r = im.getBoundingClientRect();
+      if (r.top < innerHeight && r.bottom > 0) return; // déjà à l'écran au chargement : pas d'effet
+      im.classList.add("curtain");
+      curtainIO.observe(im.parentElement); // on observe le cadre : l'image masquée par le rideau a une surface visible nulle
+    });
+  }
 
   /* ───── Compteurs ───── */
   const countIO = new IntersectionObserver((entries) =>
