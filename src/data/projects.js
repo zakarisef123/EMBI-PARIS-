@@ -146,6 +146,17 @@ const PROJECTS = [
     histoire: ["Dans les locaux de Klesia, EMBI a aménagé le Café Joyeux : la grande salle aux murs jaunes, les comptoirs de service, la boutique et les espaces de repas."],
     images: [] },
 
+  { id: "appartement-paris-5e", title: "Appartement Paris 5e", category: "particulier", lieu: "Paris 5e",
+    text: "Rénovation d'un appartement haussmannien : parquet, moulures et lambris, bibliothèques sur mesure, cuisine et salle d'eau.",
+    travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
+    histoire: ["Dans le 5e arrondissement, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],
+    images: [] },
+  { id: "atelier-joaillerie-ploermel", title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
+    text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
+    travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
+    histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
+    images: [] },
+
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
   { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
     text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",
