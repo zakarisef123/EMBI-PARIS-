@@ -210,8 +210,10 @@ ${scripts.map((s) => `  <script src="/assets/js/${s}.js"></script>`).join("\n")}
 };
 
 /* ───── Blocs réutilisables ───── */
-const pageHero = (crumbs, h1, lead, actions = "", readme = false) => `    <section class="cs-hero page-hero" id="pageHero">
-      <div class="container page-hero__inner">
+// bg : photo de fond facultative, à droite, fondue dans le crème (sous le texte sur mobile)
+const pageHero = (crumbs, h1, lead, actions = "", readme = false, bg = null) => `    <section class="cs-hero page-hero${bg ? " page-hero--bg" : ""}" id="pageHero">
+      ${bg ? `<figure class="page-hero__bg" aria-hidden="true">${img(bg, "", 'data-hero fetchpriority="high"')}</figure>
+      ` : ""}<div class="container page-hero__inner">
         <nav class="pj-crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a>${crumbs.map((c, i) => `<span aria-hidden="true">/</span>${i < crumbs.length - 1 ? `<a href="${c.path}">${c.name}</a>` : `<span>${c.name}</span>`}`).join("")}</nav>
         <h1 class="cs-hero__title">${h1}</h1>
         ${readme ? "<!-- À RELIRE -->\n        " : ""}<p class="cs-hero__lead">${lead}</p>
@@ -734,7 +736,7 @@ layout({
   title: "Rénovation intérieure et extérieure à Paris | EMBI",
   description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur de A à Z.",
   crumbs: [{ name: "Rénovation", path: "/renovation/" }],
-  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
+  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`, false, PHOTOS["ravalement-rue-nollet"][2])}
     <section class="pn works" id="types">
       <div class="pn__wrap">
         <div class="works__head reveal">
