@@ -359,6 +359,7 @@ const homeServices = () => {
   return `<section class="hsvc" id="services" aria-labelledby="hsvc-t">
       <figure class="hsvc__bg" aria-hidden="true">${img(bg, "", 'loading="lazy" data-hero')}</figure>
       <div class="hsvc__inner container">
+        <p class="eyebrow reveal">Ce que nous faisons</p>
         <h2 class="h2 hsvc__title reveal" id="hsvc-t">Nos <em>services</em></h2>
         <ol class="hsvc__grid">
           ${HOME_SERVICES.map(([t, d, h], i) => `<li class="hsvc__card reveal" style="--d:${i * 90}ms">
@@ -498,7 +499,7 @@ const BLOCKS = {
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
           </div>`,
-  // liste des réalisations en accordéon (présentation typographique, photo à l'ouverture)
+  // toutes les réalisations en mosaïque de photos, une section par catégorie (nom du chantier au survol)
   refs: () => `<section class="refs section section--dark" id="realisations">
       <div class="container">
         <div class="section__head">
@@ -520,19 +521,13 @@ const BLOCKS = {
             if (!list.length) return "";
             return `<section class="acc-group" data-cat="${c}" aria-labelledby="acc-g-${c}">
           <h3 class="acc-group__t" id="acc-g-${c}">${esc(l)} <sup>${list.length}</sup></h3>
-          <ul class="acc">
-          ${list.map(({ p, i }, k) => {
-            const txt = p.text || `${LEAD[p.category] || "Lieu rénové"} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
-            return `<li class="acc__item" data-cat="${p.category}">
-            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-${i}" data-i="${i}">
-              <span class="acc__n">${String(k + 1).padStart(2, "0")}</span><span class="acc__t">${esc(p.title)}</span><span class="acc__c">${esc(p.lieu || "")}</span><span class="acc__ar" aria-hidden="true">→</span>
-            </button>
-            <div class="acc__panel" id="acc-${i}" role="region" aria-label="${esc(p.title)}"><div class="acc__inner">
-              <a class="acc__img" href="${projectUrl(p)}" tabindex="-1">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</a>
-              <div class="acc__body"><p>${esc(txt)}</p><a class="btn btn--accent acc__open" href="${projectUrl(p)}">Voir le projet ${esc(p.title)} <span aria-hidden="true">→</span></a></div>
-            </div></div>
-          </li>`;
-          }).join("\n          ")}
+          <ul class="ref-grid">
+          ${list.map(({ p }, k) => `<li class="ref-tile" data-cat="${p.category}">
+            <a href="${projectUrl(p)}">
+              <figure class="ref-tile__img">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <span class="ref-tile__cap"><span class="ref-tile__n">${String(k + 1).padStart(2, "0")}</span><strong class="ref-tile__t">${esc(p.title)}</strong>${p.lieu ? `<em class="ref-tile__c">${esc(p.lieu)}</em>` : ""}</span>
+            </a>
+          </li>`).join("\n          ")}
           </ul>
         </section>`;
           }).join("\n        ")}
@@ -774,6 +769,7 @@ layout({
     <section class="pn works" id="types">
       <div class="pn__wrap">
         <div class="works__head reveal">
+          <p class="eyebrow reveal">Nos rénovations</p>
           <h2 class="works__title">Intérieur ou extérieur, un seul interlocuteur</h2>
           <p>Choisissez votre type de rénovation (la rénovation énergétique se trouve dans la partie intérieure) : chaque page détaille nos prestations, nos chantiers et les questions à se poser avant de commencer.</p>
         </div>

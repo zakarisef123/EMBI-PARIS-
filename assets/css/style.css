@@ -2397,7 +2397,7 @@ body:not([data-page="accueil"]) main > section.section:nth-of-type(even) .build_
 @media (prefers-reduced-motion: reduce) { .js .hero__claim { opacity: 1; transform: none; } }
 
 /* 6 · Logos clients : même police, même gris */
-.logos__item--text span, .logos__item--text:nth-child(n) span { font-family: var(--sans); font-style: normal; font-weight: 500; font-size: clamp(15px, 1.3vw, 19px); letter-spacing: 0.24em; text-transform: uppercase; color: #8f8a80; }
+.logos .logos__item--text span, .logos .logos__item--text:nth-child(n) span { color: var(--dark-2); font-family: var(--sans); font-style: normal; font-weight: 500; font-size: clamp(15px, 1.3vw, 19px); letter-spacing: 0.24em; text-transform: uppercase; color: #8f8a80; }
 .logos__item--text:hover span { color: var(--dark-2); }
 /* boutons, filtres et pastilles : tous rectangulaires, comme les boutons */
 .build__chip, .tags li, .mag__f, .sr-wall__label, .hero__tag span { border-radius: 2px; }
@@ -2618,3 +2618,59 @@ body:not([data-page="accueil"]) .page-hero--photo .btn--outline-light:hover { ba
 body:not([data-page="accueil"]) .page-hero--photo .cs-kicker { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
 .page-hero--photo a:not(.btn) { color: inherit; }
 @media (max-width: 760px) { body:not([data-page="accueil"]) .page-hero--photo { min-height: 0; } }
+
+/* Accueil « Au cœur de Paris » : photo puis texte l'un sous l'autre sur mobile (la règle à 2 colonnes plus haut n'avait pas de version mobile) */
+@media (max-width: 860px) { .pn.split .split__inner { grid-template-columns: minmax(0, 1fr); } }
+
+/* ═════════ Pied de page marine avec le logo (2026-10) ═════════ */
+.footer, body[data-page="accueil"] .footer { background: var(--dark); color: var(--on-dark); padding: clamp(56px, 7vw, 96px) 0 32px; border-top: 0; }
+body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { display: inline-flex; font-family: var(--display); font-weight: 400; font-size: clamp(28px, 3.4vw, 48px); color: var(--on-dark); }
+.footer .footer__cta em { color: var(--accent-2); font-style: italic; }
+.footer .footer__cta span { color: var(--accent-2); }
+.footer__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; padding-bottom: clamp(32px, 4vw, 48px); border-bottom: 1px solid rgba(247, 244, 238, 0.14); }
+.footer__logo { display: inline-flex; color: var(--on-dark); }
+.footer__logo-svg { width: clamp(150px, 16vw, 210px); height: auto; }
+.footer :is(p, a, span, nav), body[data-page="accueil"] .footer :is(p, a, span, nav) { color: rgba(247, 244, 238, 0.78); }
+.footer .footer__cta, .footer .footer__cta * { color: var(--on-dark); }
+.footer .footer__cta em, .footer .footer__cta span { color: var(--accent-2); }
+.footer .footer__h, body[data-page="accueil"] .footer .footer__h { color: var(--accent-2); }
+.footer a:hover, body[data-page="accueil"] .footer a:hover { color: #fff; }
+.footer .footer__urgent { color: #fff; }
+.footer__legal { padding-top: 24px; border-top: 1px solid rgba(247, 244, 238, 0.14); }
+.footer__legal, .footer__legal :is(span, a, button) { color: rgba(247, 244, 238, 0.55) !important; }
+
+/* ═════════ Logos clients : une seule teinte, une seule hauteur, défilement lent (2026-10) ═════════ */
+.logos__track { animation-duration: 90s; }
+.logos__item { height: 56px; padding: 0 clamp(26px, 3.2vw, 48px); color: var(--dark-2); opacity: 0.45; transition: opacity 0.35s; }
+.logos__item:hover { opacity: 0.9; color: var(--dark-2); }
+.logos__item img, .logos__item:hover img { height: 30px; max-height: none; max-width: 140px; width: auto; object-fit: contain; filter: brightness(0); opacity: 1; }
+.logos .logos__item--text span, .logos .logos__item--text:nth-child(n) span { color: var(--dark-2); font-family: var(--display); font-style: normal; font-weight: 500; font-size: 24px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ═════════ Nos réalisations : mosaïque de photos, nom du chantier au survol (2026-10) ═════════ */
+.ref-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 18px); }
+.ref-tile[hidden] { display: none; }
+.ref-tile a { position: relative; display: block; overflow: hidden; background: var(--bg-2); color: #fff; }
+.ref-tile__img { margin: 0; aspect-ratio: 4 / 3; }
+.ref-tile__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.ref-tile a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 35, 63, 0) 35%, rgba(20, 35, 63, 0.85) 100%); opacity: 0; transition: opacity 0.5s var(--ease); }
+.ref-tile__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: grid; gap: 4px; padding: clamp(16px, 1.8vw, 24px); opacity: 0; transform: translateY(14px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+.ref-tile__n { font: 500 11px var(--sans); letter-spacing: 0.2em; color: var(--accent-2); }
+.ref-tile__t { font-family: var(--display); font-weight: 400; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.15; color: #fff; }
+.ref-tile__c { font: italic 400 15px var(--display); color: rgba(255, 255, 255, 0.8); }
+.ref-tile a:is(:hover, :focus-visible)::after, .ref-tile a:is(:hover, :focus-visible) .ref-tile__cap { opacity: 1; transform: none; }
+.ref-tile a:hover .ref-tile__img img { transform: scale(1.05); }
+@media (hover: none) { .ref-tile a::after, .ref-tile__cap { opacity: 1; transform: none; } }
+@media (max-width: 900px) { .ref-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .ref-grid { grid-template-columns: minmax(0, 1fr); } }
+.acc-group + .acc-group { margin-top: clamp(36px, 4vw, 56px); }
+
+/* ═════════ Photos : rideau qui s'ouvre au défilement (main.js ajoute .curtain puis .is-open) ═════════ */
+.curtain { clip-path: inset(0 100% 0 0); }
+.curtain.is-open { clip-path: inset(0 0 0 0); transition: clip-path 1.25s cubic-bezier(0.7, 0, 0.2, 1), transform 1.4s var(--ease); }
+@media (prefers-reduced-motion: reduce) { .curtain { clip-path: none; } }
+
+/* Petit titre de section (« —— ») aligné comme le titre qu'il annonce */
+.works__head .eyebrow { justify-content: flex-end; }
+.split__txt .eyebrow { justify-content: center; }
+.hsvc .eyebrow { justify-content: center; color: var(--on-dark); }
+@media (max-width: 860px) { .works__head .eyebrow { justify-content: flex-start; } }
