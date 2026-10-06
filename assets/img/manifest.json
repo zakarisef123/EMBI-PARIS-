@@ -574,6 +574,78 @@
         "w": 960,
         "h": 1280
       }
+    ],
+    "ravalement-rue-nollet": [
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      }
     ]
   },
   "site": {}
