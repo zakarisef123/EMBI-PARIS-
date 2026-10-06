@@ -2664,11 +2664,6 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 @media (max-width: 520px) { .ref-grid { grid-template-columns: minmax(0, 1fr); } }
 .acc-group + .acc-group { margin-top: clamp(36px, 4vw, 56px); }
 
-/* ═════════ Photos : rideau qui s'ouvre au défilement (main.js ajoute .curtain puis .is-open) ═════════ */
-.curtain { clip-path: inset(0 100% 0 0); }
-.curtain.is-open { clip-path: inset(0 0 0 0); transition: clip-path 1.25s cubic-bezier(0.7, 0, 0.2, 1), transform 1.4s var(--ease); }
-@media (prefers-reduced-motion: reduce) { .curtain { clip-path: none; } }
-
 /* Petit titre de section (« —— ») aligné comme le titre qu'il annonce */
 .works__head .eyebrow { justify-content: flex-end; }
 .split__txt .eyebrow { justify-content: center; }
@@ -2677,3 +2672,20 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 
 /* Nos services : pastilles 01 à 04 plus visibles (rond marine plein, chiffre sable, liseré sable) */
 .hsvc .hsvc__n { width: 58px; height: 58px; background: var(--dark); border: 2px solid var(--accent-2); color: var(--accent-2); font: italic 500 24px var(--display); box-shadow: 0 6px 18px rgba(20, 35, 63, 0.25); }
+
+/* Logos clients plus lisibles : teinte marine foncée, logos plus grands, tailles ajustées logo par logo */
+.logos .logos__item { opacity: 0.85; height: 64px; }
+.logos .logos__item:hover { opacity: 1; }
+.logos .logos__item img, .logos .logos__item:hover img { height: 38px; max-width: 170px; filter: brightness(0); }
+.logos .logos__item--text span, .logos .logos__item--text:nth-child(n) span { font-size: 26px; color: var(--dark); }
+/* logos fins ou carrés : plus hauts pour garder la même présence visuelle */
+.logos .logos__item--hotel-bienvenue img { height: 60px; }
+.logos .logos__item--petite-mendigote img { height: 56px; max-width: 150px; }
+/* Mojo : pastille ronde à fond blanc, on garde le dessin en niveaux de gris au lieu d'un disque plein */
+.logos .logos__item--mojo-kitchen img, .logos .logos__item--mojo-kitchen:hover img { height: 66px; filter: grayscale(1) contrast(2.2) brightness(0.8); mix-blend-mode: multiply; }
+
+/* Bande devis : « Devis gratuit » est un lien vers le formulaire */
+body .pn-news .pn-news__link { white-space: nowrap; color: var(--accent); text-decoration: none; background: linear-gradient(var(--accent-2), var(--accent-2)) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; transition: background-size .35s var(--ease), color .2s; }
+body .pn-news .pn-news__link i { font-style: normal; display: inline-block; margin-left: 4px; transition: transform .3s var(--ease); }
+body .pn-news .pn-news__link:hover { color: var(--dark); background-size: 100% 2px; }
+body .pn-news .pn-news__link:hover i { transform: translateX(4px); }

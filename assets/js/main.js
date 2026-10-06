@@ -387,27 +387,6 @@
   );
   $$(".reveal").forEach((el) => io.observe(el));
 
-  /* ───── Photos : apparition en rideau qui s'ouvre (gauche → droite), une fois, à l'entrée dans l'écran ───── */
-  if (!reduce && "IntersectionObserver" in window) {
-    const skip = ".hero, .page-hero, .pj-hero, .logos, .show, .hsvc__bg, .header, .footer, .ck, .modal, .feature";
-    const shots = $$("main img").filter((im) => !im.closest(skip) && (im.getBoundingClientRect().width || im.width) >= 160);
-    const curtainIO = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((en) => {
-          if (!en.isIntersecting) return;
-          $$("img.curtain", en.target).forEach((im) => im.classList.add("is-open"));
-          curtainIO.unobserve(en.target);
-        }),
-      { threshold: 0.15, rootMargin: "0px 0px -30px 0px" }
-    );
-    shots.forEach((im) => {
-      const r = im.getBoundingClientRect();
-      if (r.top < innerHeight && r.bottom > 0) return; // déjà à l'écran au chargement : pas d'effet
-      im.classList.add("curtain");
-      curtainIO.observe(im.parentElement); // on observe le cadre : l'image masquée par le rideau a une surface visible nulle
-    });
-  }
-
   /* ───── Compteurs ───── */
   const countIO = new IntersectionObserver((entries) =>
     entries.forEach((en) => {
