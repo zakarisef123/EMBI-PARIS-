@@ -2513,3 +2513,16 @@ body:not([data-page="accueil"]) main > section.section:nth-of-type(even) .build_
   .faq-page__toc .eyebrow { width: 100%; }
   .faq-page__toc a { border: 1px solid var(--line); padding: 6px 12px; font-size: 13px; }
 }
+
+/* ───────── Logo 2026-10 · « bâtiment en coupe » (marine sur crème, crème sur marine) ───────── */
+.logo__svg { height: 40px; }
+@media (max-width: 560px) { .logo__svg { height: 32px; } }
+@media (max-width: 420px) { .logo__svg { height: 30px; } }
+@media (max-width: 340px) { .logo__svg { height: 26px; } }
+.loader__brand { position: absolute; top: 20px; left: calc(max(0px, (100% - var(--max)) / 2) + var(--gutter)); z-index: 2; color: var(--dark); }
+.loader__logo-svg { display: block; height: 40px; width: auto; }
+@media (max-width: 560px) { .loader__logo-svg { height: 32px; } }
+@media (max-width: 420px) { .loader__brand { top: 25px; } .loader__logo-svg { height: 30px; } }
+
+/* Nouveau menu + nouveau logo : sur les ordinateurs étroits, le logo se resserre pour laisser la place au menu */
+@media (max-width: 1360px) and (min-width: 1181px) { .logo__svg { height: 34px; } }
