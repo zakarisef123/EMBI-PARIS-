@@ -18,7 +18,7 @@
   // (algorithme du peintre) : un mur de devant recouvre toujours ceux de derrière.
   // Les deux murs de façade avant sont coupés bas, comme sur une maquette, pour voir l'intérieur.
   const STEP = 20;
-  // Cloisons intérieures à mi-hauteur : le mobilier de chaque pièce reste visible
+  // Cloisons intérieures coupées à la même hauteur que la façade avant : le mobilier reste visible et rien ne dépasse
   const isInner = ([x1, y1, x2, y2]) => !(x1 === x2 && (x1 === 60 || x1 === 540)) && !(y1 === y2 && (y1 === 50 || y1 === 350));
   const isFront = ([x1, y1, x2, y2]) => (y1 === 350 && y2 === 350) || (x1 === 540 && x2 === 540);
   const segs = [];
@@ -27,7 +27,7 @@
     for (let i = 0; i < n; i++) {
       const a = [x1 + ((x2 - x1) * i) / n, y1 + ((y2 - y1) * i) / n];
       const b = [x1 + ((x2 - x1) * (i + 1)) / n, y1 + ((y2 - y1) * (i + 1)) / n];
-      segs.push({ a, b, side: x1 === x2, h: isFront(w) ? 0.3 : isInner(w) ? 0.5 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
+      segs.push({ a, b, side: x1 === x2, h: isFront(w) || isInner(w) ? 0.32 : 1, first: i === 0, last: i === n - 1, depth: (a[0] + a[1] + b[0] + b[1]) / 2 });
     }
   });
   // Mobilier : des groupes de boîtes posées au sol, qui montent en même temps que les murs.
@@ -67,6 +67,23 @@
     const xs = g.map((b) => [b[0], b[0] + b[2]]).flat(), ys = g.map((b) => [b[1], b[1] + b[3]]).flat();
     const depth = (Math.min(...xs) + Math.max(...xs)) / 2 + (Math.min(...ys) + Math.max(...ys)) / 2 + 0.1;
     return { furn: true, depth, boxes: g.map(([x, y, w, d, h, m, z0 = 0]) => ({ x, y, w, d, h, m, z0 })) };
+  });
+  // Un meuble collé à un mur se dessine du bon côté de ce mur : devant s'il est du côté +x / +y, derrière sinon
+  furn.forEach((f) => {
+    const xs = f.boxes.map((b) => [b.x, b.x + b.w]).flat(), ys = f.boxes.map((b) => [b.y, b.y + b.d]).flat();
+    const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    segs.forEach((sg) => {
+      const [ax, ay] = sg.a, [bx, by] = sg.b;
+      if (sg.side) {
+        if (Math.max(ay, by) <= y0 || Math.min(ay, by) >= y1) return;
+        if (x0 >= ax - 2 && x0 - ax < 80) f.depth = Math.max(f.depth, sg.depth + 0.5);
+        else if (x1 <= ax + 2 && ax - x1 < 80) f.depth = Math.min(f.depth, sg.depth - 0.5);
+      } else {
+        if (Math.max(ax, bx) <= x0 || Math.min(ax, bx) >= x1) return;
+        if (y0 >= ay - 2 && y0 - ay < 80) f.depth = Math.max(f.depth, sg.depth + 0.5);
+        else if (y1 <= ay + 2 && ay - y1 < 80) f.depth = Math.min(f.depth, sg.depth - 0.5);
+      }
+    });
   });
   const items = [...segs, ...furn].sort((p, q) => p.depth - q.depth);
   const wallG = el("g", {}, svg2);
