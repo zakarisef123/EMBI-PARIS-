@@ -45,13 +45,13 @@ Chaque formulaire a une case de consentement obligatoire, un piège anti-spam in
 Déposez les fichiers dans `documents/` (noms dans `documents/LISEZMOI.md`), puis mettez `documents: "local"` dans `site.config.js`. En attendant, les liens pointent vers l'ancien site www.embi.fr.
 
 ## Photos
-Toutes les photos viennent encore de www.embi.fr. Pour les héberger sur le site (WebP, 3 tailles, srcset) :
+Les chantiers listés dans `assets/img/manifest.json` (Le Grand Pigalle, Loro Piana, Hôtel Bienvenue, Café Pinson) utilisent déjà leurs photos hébergées sur le site, en WebP. Les autres viennent encore de www.embi.fr. Pour héberger les photos sur le site (WebP, 3 tailles, srcset) :
 ```
 cd scripts/photos && npm install
 npm run telecharger     # récupère les photos de l'ancien site dans photos-originales/ (avant sa fermeture)
 npm run convertir       # crée assets/img/projets/<chantier>/… et assets/img/manifest.json
 ```
-Pour des photos haute définition, déposez-les dans `photos-originales/projets/<id-du-chantier>/` (01.jpg = couverture), relancez `npm run convertir`, puis passez `photos: "local"` dans `site.config.js`. Un chantier sans photos locales garde celles de l'ancien site.
+Pour des photos haute définition, déposez-les dans `photos-originales/projets/<id-du-chantier>/` (01.jpg = couverture) et relancez `npm run convertir` : le chantier passe aussitôt sur ses photos locales, les chantiers déjà convertis sont conservés. Un chantier sans photos locales garde celles de l'ancien site. `photos: "local"` dans `site.config.js` signale seulement les chantiers qui n'ont pas encore leurs photos.
 
 ## Pages légales
 Les champs `[À COMPLÉTER]` des mentions légales (raison sociale, forme juridique, capital, SIRET, RCS, siège, directeur de la publication, TVA, assurance décennale, médiateur) sont surlignés en jaune. Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur, politique de confidentialité).

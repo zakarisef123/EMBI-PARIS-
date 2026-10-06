@@ -36,13 +36,15 @@ const warn = (m) => warnings.push(m);
 
 /* ───── Photos : ancien site ou WebP locaux (site.config.js → photos) ───── */
 const manifestFile = path.join(ROOT, "assets/img/manifest.json");
-const manifest = cfg.photos === "local" && fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")) : null;
+// Le manifeste est toujours lu : un chantier dont les photos ont été converties utilise ses WebP locaux,
+// les autres gardent celles de l'ancien site tant que photos: "embi.fr".
+const manifest = fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")) : null;
 if (cfg.photos === "local" && !manifest) warn("photos: \"local\" mais assets/img/manifest.json est absent : photos de l'ancien site utilisées.");
 const localSet = (e) => ({ src: `${e.base}-${e.widths[Math.min(1, e.widths.length - 1)]}.webp`, srcset: e.widths.map((w) => `${e.base}-${w}.webp ${w}w`).join(", "), width: e.w, height: e.h });
 const projectPhotos = (p) => {
   const list = manifest && manifest.projets && manifest.projets[p.id];
   if (list && list.length) return list.map(localSet);
-  if (manifest) warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
+  if (cfg.photos === "local") warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
   return p.images.map((f) => ({ src: OLD + f }));
 };
 // images du site hors chantiers (photo d'accueil, couvertures des catalogues)
@@ -1050,7 +1052,7 @@ Allow: /
 Sitemap: ${SITE}/sitemap.xml
 `);
 
-console.log(`✓ ${pages.length} pages générées dans dist/ (${indexable.length} dans le sitemap) · adresse : ${SITE} · photos : ${manifest ? "locales" : "ancien site"} · PDF : ${cfg.documents === "local" ? "locaux" : "ancien site"}`);
+console.log(`✓ ${pages.length} pages générées dans dist/ (${indexable.length} dans le sitemap) · adresse : ${SITE} · photos : ${manifest ? `${Object.keys(manifest.projets || {}).length} chantier(s) en local` : "ancien site"} · PDF : ${cfg.documents === "local" ? "locaux" : "ancien site"}`);
 if (warnings.length) {
   console.log(`\n⚠ ${warnings.length} point(s) à vérifier :`);
   warnings.forEach((w) => console.log("  - " + w));

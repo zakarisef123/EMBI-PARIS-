@@ -12,8 +12,9 @@ module.exports = {
   // "local" = fichiers déposés dans documents/ (voir documents/LISEZMOI.md).
   documents: "embi.fr",
 
-  // Photos : "embi.fr" = photos de l'ancien site,
-  // "local" = photos converties en WebP par scripts/photos (voir README).
+  // Photos : les chantiers convertis par scripts/photos (assets/img/manifest.json) utilisent
+  // toujours leurs WebP locaux ; les autres gardent les photos de l'ancien site.
+  // "local" = signaler à la génération les chantiers qui n'ont pas encore leurs photos (voir README).
   photos: "embi.fr",
 
   // Formulaires (devis + questionnaire) envoyés par FormSubmit (formsubmit.co) vers cette adresse.

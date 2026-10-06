@@ -1,0 +1,314 @@
+{
+  "projets": {
+    "cafe-pinson": [
+      {
+        "base": "/assets/img/projets/cafe-pinson/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/cafe-pinson/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/cafe-pinson/03",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 312
+      },
+      {
+        "base": "/assets/img/projets/cafe-pinson/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/cafe-pinson/05",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 320
+      },
+      {
+        "base": "/assets/img/projets/cafe-pinson/06",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 318
+      }
+    ],
+    "hotel-bienvenue": [
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/04",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/05",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/06",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/07",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/08",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/09",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/10",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      }
+    ],
+    "le-grand-pigalle": [
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 540
+      }
+    ],
+    "loro-piana": [
+      {
+        "base": "/assets/img/projets/loro-piana/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/02",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/04",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/05",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/06",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/07",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/08",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/09",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 640
+      }
+    ]
+  },
+  "site": {}
+}

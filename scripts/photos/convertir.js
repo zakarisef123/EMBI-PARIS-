@@ -32,7 +32,11 @@ const convert = async (file, outBase) => {
 
 (async () => {
   if (!fs.existsSync(IN)) return console.log("Aucun dossier photos-originales/ : rien à convertir.");
-  const manifest = { projets: {}, site: {} };
+  // On repart du manifeste existant : un chantier absent de photos-originales/ garde ses photos déjà converties.
+  const MANIFEST = path.join(OUT, "manifest.json");
+  const manifest = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, "utf8")) : {};
+  manifest.projets = manifest.projets || {};
+  manifest.site = manifest.site || {};
   const dir = path.join(IN, "projets");
   if (fs.existsSync(dir))
     for (const id of fs.readdirSync(dir).filter((d) => fs.statSync(path.join(dir, d)).isDirectory())) {
@@ -49,6 +53,6 @@ const convert = async (file, outBase) => {
       manifest.site[name] = await convert(path.join(sdir, f), path.join(OUT, "site", name));
       console.log(`site/${name}`);
     }
-  fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 2));
-  console.log("Terminé : assets/img/manifest.json mis à jour. Passez photos: \"local\" dans site.config.js.");
+  fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2));
+  console.log("Terminé : assets/img/manifest.json mis à jour. Les chantiers convertis utilisent leurs WebP locaux.");
 })();
