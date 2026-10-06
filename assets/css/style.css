@@ -2402,3 +2402,16 @@ body:not([data-page="accueil"]) main > section.section:nth-of-type(even) .build_
 /* boutons, filtres et pastilles : tous rectangulaires, comme les boutons */
 .build__chip, .tags li, .mag__f, .sr-wall__label, .hero__tag span { border-radius: 2px; }
 @media (max-width: 960px) { .hero__claim { bottom: 116px; } .hero__claim small { letter-spacing: 0.16em; font-size: 11px; } }
+
+/* Animation de lancement aux couleurs du site : fond crème, plan doux, nom EMBI en marine */
+.intro .loader, .loader { background: var(--bg); color: var(--dark); }
+.plan-outer *, .plan-walls * { stroke: var(--dark); }
+.plan-details * { stroke: rgba(20, 35, 63, 0.45); }
+.plan-dims * { stroke: rgba(20, 35, 63, 0.3); }
+.plan-labels text { fill: rgba(20, 35, 63, 0.45); }
+.plan-name * { stroke: var(--dark); filter: none; }
+.plan-columns circle { fill: var(--dark); }
+.loader__caption { color: var(--dark); }
+.loader__caption span, .loader__count { color: var(--sand-ink); }
+.loader__skip { color: var(--dark); border-color: rgba(20, 35, 63, 0.3); background: transparent; }
+.loader__skip:hover, .loader__skip:focus-visible { background: var(--dark); border-color: var(--dark); color: var(--on-dark); }
