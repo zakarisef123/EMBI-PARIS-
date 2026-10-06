@@ -111,7 +111,7 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 // Menu principal. « keys » : pages qui allument la rubrique (aria-current).
-// Le Mag n'est plus dans le menu (il reviendra avec la newsletter) : ses pages restent en ligne.
+// La FAQ n'est plus dans le menu (toujours en ligne, liée depuis le pied de page) : Le Mag reprend sa place.
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   { keys: ["renovation", "projets-specifiques"], href: "/renovation/", label: "Rénovations", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/projets-specifiques/", "Projets spécifiques"]] },
@@ -120,7 +120,7 @@ const NAV = [
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
   { keys: ["urgence"], href: "/urgence/", label: "Urgences &amp; dépannage", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
   { keys: ["contact"], href: "/contact/", label: "Contact" },
-  { keys: ["faq"], href: "/faq/", label: "FAQ" },
+  { keys: ["mag"], href: "/mag/", label: "Le Mag" },
 ];
 const HEADER = read("src/layout/header.html"), FOOTER = read("src/layout/footer.html"), LOADER = read("src/layout/loader.html");
 const header = (key, path_) => {
