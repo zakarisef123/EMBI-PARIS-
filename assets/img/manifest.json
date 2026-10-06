@@ -738,6 +738,163 @@
         "w": 960,
         "h": 720
       }
+    ],
+    "appartement-haussmannien": [
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      }
+    ],
+    "renovation-appartement": [
+      {
+        "base": "/assets/img/projets/renovation-appartement/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/03",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 320
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/05",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/06",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 720
+      }
     ]
   },
   "site": {}

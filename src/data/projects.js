@@ -107,7 +107,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour Mojo Kitchen, EMBI a réalisé les travaux sur une décoration imaginée par Dorothée Meilichzon.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/midi2.jpg", ["2017/09/midi1.jpg", "2017/09/midi3.jpg", "2017/09/midi4.jpg", "2017/09/midi5.jpg"]) },
-  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias",
+  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris",
     text: "Rénovation et mise aux normes d'un appartement, avec l'architecte Diego Delgado Elias.",
     travaux: ["Rénovation d'appartement", "Mise aux normes"],
     histoire: ["EMBI a réalisé la rénovation et la mise aux normes de cet appartement, sur un projet de l'architecte Diego Delgado Elias."],
@@ -122,6 +122,12 @@ const PROJECTS = [
     text: "Rénovation complète d'un appartement parisien : parquet, cuisine, salles d'eau, plomberie et électricité.",
     travaux: ["Rénovation complète", "Parquet chêne", "Cuisine équipée", "Salle d'eau et douche à l'italienne", "Plomberie", "Électricité"],
     histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
+    images: [] },
+
+  { id: "appartement-haussmannien", title: "Appartement haussmannien", category: "particulier",
+    text: "Rénovation complète d'un appartement haussmannien : parquet en point de Hongrie, cuisine avec îlot, salles de bains et rangements sur mesure.",
+    travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Cuisine avec îlot", "Salles de bains", "Rangements sur mesure"],
+    histoire: ["EMBI a entièrement rénové cet appartement haussmannien en gardant ses moulures et ses cheminées : parquet en point de Hongrie, cuisine ouverte avec îlot central, salles de bains en faïence à chevrons et rangements sur mesure dans les chambres et l'entrée."],
     images: [] },
 
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
