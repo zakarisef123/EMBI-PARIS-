@@ -41,6 +41,10 @@ const convert = async (file, outBase) => {
   if (fs.existsSync(dir))
     for (const id of fs.readdirSync(dir).filter((d) => fs.statSync(path.join(dir, d)).isDirectory())) {
       const files = fs.readdirSync(path.join(dir, id)).filter((f) => IMG.test(f)).sort();
+      // déjà converti et aucune photo modifiée depuis : on passe (gain de temps quand on ajoute un chantier)
+      const outDir = path.join(OUT, "projets", id);
+      const newest = Math.max(fs.statSync(path.join(dir, id)).mtimeMs, ...files.map((f) => fs.statSync(path.join(dir, id, f)).mtimeMs));
+      if ((manifest.projets[id] || []).length === files.length && fs.existsSync(outDir) && fs.statSync(outDir).mtimeMs > newest) continue;
       fs.rmSync(path.join(OUT, "projets", id), { recursive: true, force: true });
       manifest.projets[id] = [];
       for (const [k, f] of files.entries()) manifest.projets[id].push(await convert(path.join(dir, id, f), path.join(OUT, "projets", id, String(k + 1).padStart(2, "0"))));

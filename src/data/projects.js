@@ -130,6 +130,22 @@ const PROJECTS = [
     histoire: ["EMBI a entièrement rénové cet appartement haussmannien en gardant ses moulures et ses cheminées : parquet en point de Hongrie, cuisine ouverte avec îlot central, salles de bains en faïence à chevrons et rangements sur mesure dans les chambres et l'entrée."],
     images: [] },
 
+  { id: "appartement-lumineux", title: "Appartement lumineux", category: "particulier",
+    text: "Rénovation complète d'un appartement ancien : parquet en point de Hongrie, salle d'eau en laiton, rangements sur mesure et verrière.",
+    travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Salle d'eau", "Robinetterie laiton", "Rangements sur mesure", "Verrière intérieure", "Papiers peints"],
+    histoire: ["EMBI a entièrement rénové cet appartement ancien : parquet en point de Hongrie, salle d'eau avec robinetterie en laiton et papier peint, placards sur mesure de couleur, verrière cintrée et couloir habillé de lambris et de papier peint."],
+    images: [] },
+  { id: "appartement-rue-saint-dominique", title: "Appartement rue Saint-Dominique", category: "particulier", lieu: "Rue Saint-Dominique, Paris 7e",
+    text: "Rénovation complète d'un appartement : menuiseries sur mesure vert sauge, cuisine blanche, salle d'eau en carreaux verts.",
+    travaux: ["Rénovation complète", "Menuiseries sur mesure", "Cuisine", "Salle d'eau", "Parquet"],
+    histoire: ["Rue Saint-Dominique, EMBI a entièrement rénové cet appartement : entrée et rangements en menuiserie sur mesure vert sauge, cuisine blanche ouverte par une verrière, salle d'eau en petits carreaux verts et chambres avec tête de lit en bois."],
+    images: [] },
+  { id: "cafe-joyeux-klesia", title: "Café Joyeux · Klesia", category: "restaurant",
+    text: "Aménagement du Café Joyeux dans les locaux de Klesia : salle de restaurant, comptoirs et boutique.",
+    travaux: ["Aménagement de restaurant", "Comptoirs et boutique", "Peinture et décoration", "Luminaires"],
+    histoire: ["Dans les locaux de Klesia, EMBI a aménagé le Café Joyeux : la grande salle aux murs jaunes, les comptoirs de service, la boutique et les espaces de repas."],
+    images: [] },
+
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
   { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
     text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",

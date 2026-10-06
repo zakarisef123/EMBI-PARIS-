@@ -895,6 +895,282 @@
         "w": 480,
         "h": 720
       }
+    ],
+    "appartement-lumineux": [
+      {
+        "base": "/assets/img/projets/appartement-lumineux/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      }
+    ],
+    "appartement-rue-saint-dominique": [
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 642
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
+      }
+    ],
+    "cafe-joyeux-klesia": [
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      }
     ]
   },
   "site": {}
