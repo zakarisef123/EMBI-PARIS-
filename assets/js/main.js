@@ -212,6 +212,10 @@
       })
     );
     openAcc(accItems[0]);
+    // lien direct vers un filtre : /realisations/?type=hotel
+    const wanted = new URLSearchParams(location.search).get("type");
+    const wantedBtn = wanted && refsFilters.find((b) => b.dataset.filter === wanted);
+    if (wantedBtn) wantedBtn.click();
     let accTimer = null;
     const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
     refsList.addEventListener("mouseover", (e) => {

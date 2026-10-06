@@ -98,3 +98,29 @@ addEventListener("resize", () => {
   // un lien choisi ferme le menu (et le menu mobile)
   mega.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
 })();
+
+/* Sous-menus (Rénovations, À propos, Urgences) : la flèche ouvre / ferme le sous-menu.
+   Ordinateur : le survol l'ouvre aussi ; écran tactile et menu mobile : la flèche seule, l'intitulé mène à la page. */
+(() => {
+  const dds = [...document.querySelectorAll(".dd")];
+  if (!dds.length) return;
+  const set = (dd, open) => {
+    dd.classList.toggle("is-open", open);
+    dd.querySelector(".dd__btn").setAttribute("aria-expanded", String(open));
+  };
+  dds.forEach((dd) => {
+    dd.querySelector(".dd__btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = !dd.classList.contains("is-open");
+      // ordinateur : un seul sous-menu ouvert ; menu mobile : chacun se déplie indépendamment
+      if (innerWidth > 1180) dds.forEach((o) => set(o, o === dd && open));
+      else set(dd, open);
+    });
+    dd.addEventListener("mouseleave", () => { if (innerWidth > 1180) set(dd, false); });
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") dds.forEach((d) => set(d, false)); });
+  document.addEventListener("click", (e) => { if (innerWidth > 1180 && !e.target.closest(".dd")) dds.forEach((d) => set(d, false)); });
+  // menu mobile : la rubrique de la page en cours est déjà dépliée
+  const cur = document.querySelector(".dd__t[aria-current]");
+  if (cur && innerWidth <= 1180) set(cur.closest(".dd"), true);
+})();

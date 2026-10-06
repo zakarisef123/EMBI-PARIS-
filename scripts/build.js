@@ -107,25 +107,29 @@ const BUSINESS = {
 };
 
 /* ───── Gabarit de page ───── */
+// Menu principal. « keys » : pages qui allument la rubrique (aria-current).
+// Le Mag n'est plus dans le menu (il reviendra avec la newsletter) : ses pages restent en ligne.
 const NAV = [
-  { key: "accueil", href: "/", label: "Accueil" },
-  { key: "renovation", href: "/renovation/", label: "Rénovation", menu: [["/renovation/interieur/", "Intérieur"], ["/renovation/exterieur/", "Extérieur"]] },
-  { key: "signature", href: "/signature/", label: "Signature" },
-  { key: "realisations", href: "/realisations/", label: "Réalisations", mega: true },
-  { key: "equipe", href: "/equipe/", label: "L'équipe" },
-  { key: "mag", href: "/mag/", label: "Le Mag" },
+  { keys: ["accueil"], href: "/", label: "Accueil" },
+  { keys: ["renovation", "projets-specifiques"], href: "/renovation/", label: "Rénovations", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/projets-specifiques/", "Projets spécifiques"]] },
+  { keys: ["realisations", "secteur", "signature"], href: "/realisations/", label: "Nos réalisations" },
+  { keys: ["showroom"], href: "/showroom/", label: "Le showroom" },
+  { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
+  { keys: ["urgence"], href: "/urgence/", label: "Urgences &amp; dépannage", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
+  { keys: ["contact"], href: "/contact/", label: "Contact" },
+  { keys: ["faq"], href: "/faq/", label: "FAQ" },
 ];
 const HEADER = read("src/layout/header.html"), FOOTER = read("src/layout/footer.html"), LOADER = read("src/layout/loader.html");
-const header = (key) =>
-  fill(HEADER, {
-    nav: [
-      ...NAV.map((n) => n.menu
-        ? `        <div class="dd"><a href="${n.href}" class="dd__t"${n.key === key ? ' aria-current="page"' : ""}>${n.label} <span aria-hidden="true">▾</span></a><div class="dd__menu">${n.menu.map(([h, l]) => `<a href="${h}">${l}</a>`).join("")}</div></div>`
-        : `        <a href="${n.href}"${n.mega ? " data-mega" : ""}${n.key === key ? ' aria-current="page"' : ""}>${n.label}</a>`),
-      `        <a href="/contact/" class="nav__cta"${key === "contact" ? ' aria-current="page"' : ""}>Devis gratuit</a>`,
-    ].join("\n"),
-    urgentCurrent: key === "urgence" ? ' aria-current="page"' : "",
+const header = (key, path_) => {
+  const cur = (on) => (on ? ' aria-current="page"' : "");
+  return fill(HEADER, {
+    nav: NAV.map((n, i) => n.menu
+      ? `        <div class="dd"><a href="${n.href}" class="dd__t"${cur(n.keys.includes(key))}>${n.label}</a><button type="button" class="dd__btn" aria-expanded="false" aria-controls="dd-${i}" aria-label="Afficher le sous-menu ${strip(n.label).replace("&amp;", "et")}"><span aria-hidden="true">▾</span></button><div class="dd__menu" id="dd-${i}">${n.menu.map(([h, l]) => `<a href="${h}"${cur(h === path_)}>${l}</a>`).join("")}${n.call ? `<a href="tel:+33631600135" class="dd__call"><span class="pulse"></span>Urgence : 06 31 60 01 35</a>` : ""}</div></div>`
+      : `        <a href="${n.href}"${cur(n.keys.includes(key))}>${n.label}</a>`).join("\n"),
+    ctaCurrent: cur(key === "contact"),
+    urgentCurrent: cur(key === "urgence"),
   }).trim();
+};
 const SOCIAL_LABELS = { instagram: "Instagram", linkedin: "LinkedIn", facebook: "Facebook" };
 const social = Object.entries(cfg.social).filter(([, u]) => u);
 const footer = () =>
@@ -146,6 +150,10 @@ const LIGHTBOX = `
 const pages = []; // { path, html, title, description, noindex }
 const layout = (o) => {
   const url = SITE + o.path;
+  const faqItems = o.faq || FAQ.PAGES[o.path];
+  if (faqItems && !o.content.includes('class="section faq"')) {
+    o = { ...o, content: withFaq(o.content, faqItems), jsonld: [...(o.jsonld || []), ...faqLd(faqItems)] };
+  }
   const og = abs(o.ogImage || sitePhoto("hero").src);
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
@@ -183,7 +191,7 @@ ${cfg.photos !== "local" ? '  <link rel="preconnect" href="https://www.embi.fr" 
 ${o.loader ? LOADER : ""}  <div class="progress" id="progress" aria-hidden="true"></div>
 ${scripts.includes("main") ? '  <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>\n' : ""}
 
-  ${header(o.key)}
+  ${header(o.key, o.path)}
 
   <main id="main">
 ${o.content.trim()}
@@ -404,6 +412,8 @@ const insta = () => {
     </section>`;
 };
 
+// Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
+const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"]];
 const BLOCKS = {
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
@@ -422,7 +432,7 @@ const BLOCKS = {
         </div>`,
   "grid-filters": () => `<div class="filters" role="group" aria-label="Filtrer les réalisations">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
-            ${SECTORS.map((s) => `<button type="button" class="filter" data-filter="${s.category}" aria-pressed="false">${s.nav} <sup>${PROJECTS.filter((p) => p.category === s.category).length}</sup></button>`).join("\n            ")}
+            ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
           </div>`,
   // liste des réalisations en accordéon (présentation typographique, photo à l'ouverture)
   refs: () => `<section class="refs section section--dark" id="realisations">
@@ -436,7 +446,7 @@ const BLOCKS = {
             <p class="section__aside">Des maisons de luxe aux hôtels parisiens, en passant par les restaurants et les appartements de particuliers : la même exigence, à chaque chantier.</p>
             <div class="filters filters--dark" role="group" aria-label="Filtrer les réalisations">
               <button class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
-              ${SECTORS.map((s) => `<button class="filter" data-filter="${s.category}" aria-pressed="false">${s.nav} <sup>${PROJECTS.filter((p) => p.category === s.category).length}</sup></button>`).join("\n              ")}
+              ${FILTERS.map(([c, l]) => `<button class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n              ")}
             </div>
           </div>
         </div>
@@ -487,6 +497,34 @@ const expand = (html) =>
       if (!BLOCKS[k]) throw new Error(`bloc inconnu : ${k}`);
       return BLOCKS[k]();
     });
+
+// FAQ en accordéon (details/summary) + données structurées FAQPage.
+// Dans une réponse, [texte](/adresse/) devient un lien ; il reste du texte simple pour Google.
+const FAQ = require(path.join(ROOT, "src/data/faq.js"));
+const faqLink = /\[([^\]]+)\]\((\/[^)\s]*)\)/g;
+const faqHtml = (a) => esc(a).replace(faqLink, (m, t, h) => `<a href="${h}">${t}</a>`);
+const faqText = (a) => a.replace(faqLink, "$1");
+const faqBlock = (items) => items && items.length ? `    <section class="section faq" id="faq">
+      <div class="container faq__inner">
+        <div class="faq__head">
+          <p class="eyebrow reveal">FAQ</p>
+          <h2 class="h2 reveal">Questions <em>fréquentes.</em></h2>
+          <p class="faq__aside reveal">Une autre question&nbsp;? Appelez-nous au <a href="tel:+33145726524">01&nbsp;45&nbsp;72&nbsp;65&nbsp;24</a> ou <a href="/contact/">écrivez-nous</a>.</p>
+        </div>
+        <div class="faq__list">
+          ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${faqHtml(a)}</p></details>`).join("\n          ")}
+        </div>
+      </div>
+    </section>` : "";
+const faqLd = (items) => items && items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: faqText(a) } })) }] : [];
+// Pages sans FAQ écrite dans leur gabarit : la FAQ se place juste avant le devis (ou en fin de page).
+const withFaq = (content, items) => {
+  if (!items || !items.length || content.includes('class="section faq"')) return content;
+  const at = ['<section class="funnel"', '<section class="pn-news'].map((t) => content.indexOf(t)).find((i) => i >= 0);
+  if (at === undefined) return content.trimEnd() + "\n" + faqBlock(items);
+  const lineStart = content.lastIndexOf("\n", at) + 1;
+  return content.slice(0, lineStart) + faqBlock(items) + "\n" + content.slice(lineStart);
+};
 
 /* ───── 1 · Pages écrites à la main : src/pages/*.html ───── */
 fs.readdirSync(path.join(ROOT, "src/pages"))
@@ -560,6 +598,7 @@ PROJECTS.forEach((p, i) => {
     scripts: ["projet"],
     lightbox: true,
     crumbs: [{ name: "Réalisations", path: "/realisations/" }, { name: p.title, path: path_ }],
+    faq: FAQ.project(p, sec.path),
     jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(LEAD[p.category] || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
@@ -601,15 +640,6 @@ const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${art
             <${level} class="mag-card__t">${esc(a.title)}</${level}>
             <span class="mag-card__lead">${esc(a.lead)}</span>
           </a>`;
-const faqBlock = (items) => items.length ? `    <section class="section faq">
-      <div class="container faq__inner">
-        <h2 class="h2 reveal">Questions <em>fréquentes.</em></h2>
-        <div class="faq__list">
-          ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n          ")}
-        </div>
-      </div>
-    </section>` : "";
-const faqLd = (items) => items.length ? [{ "@type": "FAQPage", mainEntity: items.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [];
 // « Du plan au volume » : les murs sortent du plan (même animation que la page Conception sur mesure)
 const volumeBlock = () => `    <section class="section svc-volume">
       <div class="container">
@@ -801,6 +831,104 @@ ${faqBlock(faq)}
     <section class="section section--tight"><div class="container"><div class="section__head"><div><p class="eyebrow reveal">Le Mag</p><h2 class="h2 reveal">À lire <em>aussi.</em></h2></div><a href="/mag/" class="btn btn--ghost">Tous les articles <span aria-hidden="true">→</span></a></div><div class="mag-grid">${others.map((o) => articleCard(o)).join("")}</div></div></section>
     {{funnel:${proj ? proj.category : ""}}}`),
     });
+  });
+}
+
+/* ───── 3d · Urgences & dépannage : une page par métier ───── */
+const URGENCES = require(path.join(ROOT, "src/data/urgences.js"));
+URGENCES.forEach((u) => {
+  const path_ = `/urgence/${u.slug}/`;
+  const crumbs = [{ name: "Urgences", path: "/urgence/" }, { name: u.nav, path: path_ }];
+  layout({
+    path: path_,
+    key: "urgence",
+    title: u.title,
+    description: u.description,
+    crumbs,
+    faq: u.faq,
+    jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
+    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#services" class="btn btn--outline-light">Nos interventions</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
+
+    <section class="section svc" id="services">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Nos interventions</p><h2 class="h2 reveal">${esc(u.nav)}, <em>un seul numéro.</em></h2></div>
+          <p class="section__aside reveal">Décrivez-nous la situation au téléphone : nous vous disons tout de suite comment sécuriser les lieux en attendant l'intervention.</p>
+        </div>
+        <!-- À RELIRE -->
+        <ol class="svc__grid svc__grid--2">
+          ${u.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+
+    <section class="urgent" id="urgence">
+      <div class="container urgent__inner">
+        <div>
+          <p class="urgent__kicker"><span class="pulse"></span>Urgence ${esc(u.nav.toLowerCase())}</p>
+          <h2 class="urgent__title">${esc(u.call)}</h2>
+          <p>Un numéro dédié, en dehors des heures d'ouverture du bureau.</p>
+        </div>
+        <a class="urgent__phone" href="tel:+33631600135">06 31 60 01 35 <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section urgence-more">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">En attendant l'intervention</p><h2 class="h2 reveal">Le bon <em>réflexe.</em></h2></div>
+          <p class="section__aside reveal">Pendant les heures d'ouverture, appelez le bureau au <a href="tel:+33145726524">01 45 72 65 24</a> ou écrivez à <a href="mailto:sec@embi.fr">sec@embi.fr</a>. Le devis est gratuit.</p>
+        </div>
+        <ul class="tips tips--one"><li class="reveal"><strong>${esc(u.tip[0])}</strong>${esc(u.tip[1])}</li><li class="reveal"><strong>Et après&nbsp;?</strong>${faqHtml(u.after)}</li></ul>
+        <p class="sector__others">Nos autres urgences&nbsp;: ${URGENCES.filter((o) => o !== u).map((o) => `<a class="btn btn--ghost" href="/urgence/${o.slug}/">${o.nav}</a>`).join("")}<a class="btn btn--ghost" href="/urgence/">Toutes les urgences</a></p>
+      </div>
+    </section>
+
+    {{funnel}}`),
+  });
+});
+
+/* ───── 3e · FAQ : toutes les questions du site, regroupées par thème ───── */
+{
+  const svcFaq = (slug) => (SERVICES.find((sv) => sv.slug === slug) || {}).faq || [];
+  const THEMES = [
+    ["Rénovation clé en main", "general", [...FAQ.PAGES["/"], ...FAQ.PAGES["/renovation/"]]],
+    ["Rénovation intérieure et extérieure", "renovations", [...svcFaq("interieur"), ...svcFaq("exterieur")]],
+    ["Projets spécifiques", "projets-specifiques", [...(FAQ.PAGES["/projets-specifiques/"] || []), ...FAQ.PAGES["/signature/"], ...FAQ.PAGES["/conception-sur-mesure/"]]],
+    ["Hôtels, restaurants, boutiques, particuliers", "secteurs", ["/hotels/", "/restaurants/", "/boutiques/", "/particuliers/", "/realisations/"].flatMap((k) => FAQ.PAGES[k] || [])],
+    ["Le showroom", "showroom", FAQ.PAGES["/showroom/"]],
+    ["L'équipe et la méthode", "equipe", [...FAQ.PAGES["/equipe/"], ...FAQ.PAGES["/methode/"], ...FAQ.PAGES["/savoir-faire/"], ...(FAQ.PAGES["/qualifications/"] || [])]],
+    ["Urgences et dépannage", "urgences", [...FAQ.PAGES["/urgence/"], ...URGENCES.flatMap((u) => u.faq)]],
+    ["Devis et contact", "devis", FAQ.PAGES["/contact/"]],
+  ].map(([title, id, items]) => {
+    const seen = new Set();
+    return [title, id, (items || []).filter(([q]) => !seen.has(q) && seen.add(q))];
+  }).filter(([, , items]) => items.length);
+  layout({
+    path: "/faq/",
+    key: "faq",
+    title: "Questions fréquentes sur la rénovation à Paris | EMBI",
+    description: "Devis, rénovation clé en main, hôtels, boutiques, showroom, urgences : toutes les réponses d'EMBI aux questions que l'on nous pose le plus souvent, regroupées par thème.",
+    crumbs: [{ name: "FAQ", path: "/faq/" }],
+    faq: [],
+    content: expand(`${pageHero([{ name: "FAQ", path: "/faq/" }], "Questions <em>fréquentes.</em>", "Toutes les réponses aux questions que l'on nous pose le plus souvent, regroupées par thème. Une autre question&nbsp;? Appelez-nous au <a href=\"tel:+33145726524\">01&nbsp;45&nbsp;72&nbsp;65&nbsp;24</a>.")}
+    <section class="section faq faq-page" id="faq">
+      <div class="container faq-page__inner">
+        <nav class="faq-page__toc" aria-label="Thèmes de la FAQ">
+          <p class="eyebrow">Thèmes</p>
+          ${THEMES.map(([t, id]) => `<a href="#${id}">${esc(t)}</a>`).join("\n          ")}
+        </nav>
+        <div class="faq-page__themes">
+          ${THEMES.map(([t, id, items]) => `<div class="faq-page__theme" id="${id}">
+            <h2 class="h2 faq-page__h">${esc(t)}</h2>
+            <div class="faq__list">
+              ${items.map(([q, a]) => `<details class="faq__item"><summary>${esc(q)}</summary><p>${faqHtml(a)}</p></details>`).join("\n              ")}
+            </div>
+          </div>`).join("\n          ")}
+        </div>
+      </div>
+    </section>
+    {{funnel}}`),
   });
 }
 
