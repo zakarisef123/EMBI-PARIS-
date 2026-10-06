@@ -15,7 +15,7 @@
  *             (scripts/photos), site.config.js → photos: "local" les remplace.
  *
  *  Facultatif (affiché sur la page du chantier dès que c'est rempli) :
- *  lieu, annee, surface, duree, deco (décoration), archi (architecte),
+ *  lieu, annee, surface, duree, deco (décoration), archi (architecte), credit (photographe),
  *  travaux : ["…"], text : "une phrase", histoire : ["paragraphe", "…"]
  * ─────────────────────────────────────────────────────────────
  */
@@ -87,7 +87,7 @@ const PROJECTS = [
     travaux: ["Transformation complète", "Plomberie", "Décoration"],
     histoire: ["Loustic était à l'origine un magasin. EMBI a entièrement transformé le lieu et pris en charge tout le chantier, de la plomberie à la décoration.", "La décoration, chic et design, est signée Dorothée Meilichzon."],
     images: gal("2017/09/Loustic_01.jpg", seq("2017/09", "Loustic", 1, 8)) },
-  { id: "hotel-bienvenue", oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel",
+  { id: "hotel-bienvenue", oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel", credit: "Laurence Revol (en partie)",
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Bienvenue."],
@@ -107,7 +107,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour Mojo Kitchen, EMBI a réalisé les travaux sur une décoration imaginée par Dorothée Meilichzon.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/midi2.jpg", ["2017/09/midi1.jpg", "2017/09/midi3.jpg", "2017/09/midi4.jpg", "2017/09/midi5.jpg"]) },
-  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris",
+  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris", credit: "Yannick Labrousse (en partie)",
     text: "Rénovation et mise aux normes d'un appartement, avec l'architecte Diego Delgado Elias.",
     travaux: ["Rénovation d'appartement", "Mise aux normes"],
     histoire: ["EMBI a réalisé la rénovation et la mise aux normes de cet appartement, sur un projet de l'architecte Diego Delgado Elias."],
@@ -155,6 +155,18 @@ const PROJECTS = [
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
     travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
     histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
+    images: [] },
+
+  { id: "hotel-beauregard", title: "Hôtel Beauregard", category: "hotel", credit: "Romain Courtemanche",
+    text: "Rénovation de l'Hôtel Beauregard : chambres, salles de bains, salons du rez-de-chaussée et patio.",
+    travaux: ["Chambres", "Salles de bains", "Salons et salle du petit-déjeuner", "Patio"],
+    histoire: ["À l'Hôtel Beauregard, EMBI a réalisé les travaux des chambres et de leurs salles de bains, des salons du rez-de-chaussée, de la salle du petit-déjeuner et du patio."],
+    images: [] },
+
+  { id: "maison-a-colombages", title: "Maison à colombages", category: "particulier",
+    text: "Rénovation d'une maison de campagne à colombages : cuisine en granit, séjour sous poutres, cheminée en pierre et terrasse en tomettes.",
+    travaux: ["Rénovation intérieure", "Cuisine et plan en granit", "Bibliothèques en bois", "Terrasse en tomettes", "Murets extérieurs", "Verrière"],
+    histoire: ["Pour cette maison de campagne à colombages, EMBI a rénové l'intérieur en gardant les poutres et la cheminée en pierre : cuisine sur mesure avec plan de travail en granit, bibliothèques en bois, salle à manger, verrière. Dehors, la terrasse a été refaite en tomettes et entourée de murets."],
     images: [] },
 
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site

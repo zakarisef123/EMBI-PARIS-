@@ -119,9 +119,11 @@
       {
         "base": "/assets/img/projets/hotel-bienvenue/08",
         "widths": [
-          480
+          480,
+          960,
+          1600
         ],
-        "w": 480,
+        "w": 960,
         "h": 640
       },
       {
@@ -135,9 +137,11 @@
       {
         "base": "/assets/img/projets/hotel-bienvenue/10",
         "widths": [
-          480
+          480,
+          960,
+          1600
         ],
-        "w": 480,
+        "w": 960,
         "h": 640
       }
     ],
@@ -1357,6 +1361,206 @@
       },
       {
         "base": "/assets/img/projets/atelier-joaillerie-ploermel/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      }
+    ],
+    "hotel-beauregard": [
+      {
+        "base": "/assets/img/projets/hotel-beauregard/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 714
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 668
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1439
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/06",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1439
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/07",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1439
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/09",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1439
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      }
+    ],
+    "maison-a-colombages": [
+      {
+        "base": "/assets/img/projets/maison-a-colombages/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/10",
         "widths": [
           480,
           960,

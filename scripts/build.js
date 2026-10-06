@@ -603,7 +603,7 @@ PROJECTS.forEach((p, i) => {
   const description = p.text
     ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation clé en main par EMBI, photos et détails du chantier.`
     : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} clé en main par EMBI à Paris. Photos et détails du chantier.`;
-  const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"]].filter(([, v]) => v);
+  const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"], ["Photos", esc(p.credit)]].filter(([, v]) => v);
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de A à Z : étude de faisabilité, chiffrage transparent poste par poste, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
