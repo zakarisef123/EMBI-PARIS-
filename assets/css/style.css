@@ -2598,13 +2598,23 @@ body:not([data-page="accueil"]) .refs .acc__head:hover .acc__t, body:not([data-p
 @media (max-width: 900px) { .works__grid, .works__grid--4 { --cols: 2; } }
 #types .sector__others { justify-content: center; }
 
-/* En-tête de page avec photo de fond (page Rénovation) : la photo occupe la droite et se fond dans le crème */
-.page-hero--bg { position: relative; overflow: hidden; }
-.page-hero__bg { position: absolute; inset: 0 0 0 auto; width: 58%; margin: 0; pointer-events: none; }
-.page-hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-.page-hero__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--bg) 0%, rgba(247, 244, 238, 0.6) 14%, rgba(247, 244, 238, 0) 30%, rgba(247, 244, 238, 0) 78%, var(--bg) 100%), linear-gradient(to right, var(--bg) 0%, rgba(247, 244, 238, 0.55) 28%, rgba(247, 244, 238, 0) 60%); }
-.page-hero--bg .page-hero__inner { position: relative; z-index: 1; }
-@media (max-width: 860px) {
-  .page-hero__bg { width: 100%; }
-  .page-hero__bg::after { background: linear-gradient(to bottom, rgba(247, 244, 238, 0.7) 0%, rgba(247, 244, 238, 0.88) 55%, var(--bg) 100%); }
-}
+
+/* En-tête des pages intérieures en pleine photo, comme l'accueil : photo de chantier, voile marine, texte clair */
+body:not([data-page="accueil"]) .page-hero--photo { position: relative; overflow: hidden; color: #fff; background: var(--dark); min-height: min(78svh, 720px); display: flex; align-items: flex-end; }
+.page-hero--photo > .container { width: 100%; }
+.page-hero__photo { position: absolute; inset: 0; margin: 0; pointer-events: none; }
+.page-hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+.page-hero__photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 35, 63, 0.6) 0%, rgba(20, 35, 63, 0.18) 26%, rgba(20, 35, 63, 0.3) 52%, rgba(20, 35, 63, 0.82) 100%), linear-gradient(90deg, rgba(20, 35, 63, 0.55) 0%, rgba(20, 35, 63, 0) 70%); }
+.page-hero--photo .page-hero__inner { position: relative; z-index: 1; }
+body:not([data-page="accueil"]) .page-hero--photo .cs-hero__title { color: #fff; text-shadow: 0 2px 24px rgba(20, 35, 63, 0.35); }
+body:not([data-page="accueil"]) .page-hero--photo .cs-hero__title em { color: var(--accent-2); }
+body:not([data-page="accueil"]) .page-hero--photo .cs-hero__lead, .page-hero--photo .post__meta { color: rgba(255, 255, 255, 0.88); }
+body:not([data-page="accueil"]) .page-hero--photo [aria-label*="Fil"], body:not([data-page="accueil"]) .page-hero--photo [aria-label*="Fil"] a { color: rgba(255, 255, 255, 0.78); }
+body:not([data-page="accueil"]) .page-hero--photo [aria-label*="Fil"] > span:last-child { color: #fff; }
+.page-hero--photo .btn--accent { background: var(--on-dark); color: var(--dark-2); }
+.page-hero--photo .btn--accent:hover { background: #fff; color: var(--dark); }
+body:not([data-page="accueil"]) .page-hero--photo .btn--outline-light { color: #fff; border-color: rgba(255, 255, 255, 0.7); }
+body:not([data-page="accueil"]) .page-hero--photo .btn--outline-light:hover { background: #fff; color: var(--dark); }
+body:not([data-page="accueil"]) .page-hero--photo .cs-kicker { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+.page-hero--photo a:not(.btn) { color: inherit; }
+@media (max-width: 760px) { body:not([data-page="accueil"]) .page-hero--photo { min-height: 0; } }

@@ -46,7 +46,7 @@
 
   /* ───── Header ───── */
   const header = $("#header");
-  const hero = $(".hero, .pj-hero");
+  const hero = $(".hero, .pj-hero, .page-hero--photo");
   header.classList.toggle("on-dark", !!hero);
   let lastY = 0, heroH = hero ? hero.offsetHeight : 0, docH = 0, ticking = false;
   const progress = $("#progress");
