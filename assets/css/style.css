@@ -2683,3 +2683,9 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 .logos .logos__item--petite-mendigote img { height: 56px; max-width: 150px; }
 /* Mojo : pastille ronde à fond blanc, on garde le dessin en niveaux de gris au lieu d'un disque plein */
 .logos .logos__item--mojo-kitchen img, .logos .logos__item--mojo-kitchen:hover img { height: 66px; filter: grayscale(1) contrast(2.2) brightness(0.8); mix-blend-mode: multiply; }
+
+/* Bande devis : « Devis gratuit » est un lien vers le formulaire */
+body .pn-news .pn-news__link { white-space: nowrap; color: var(--accent); text-decoration: none; background: linear-gradient(var(--accent-2), var(--accent-2)) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; transition: background-size .35s var(--ease), color .2s; }
+body .pn-news .pn-news__link i { font-style: normal; display: inline-block; margin-left: 4px; transition: transform .3s var(--ease); }
+body .pn-news .pn-news__link:hover { color: var(--dark); background-size: 100% 2px; }
+body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
