@@ -2664,11 +2664,6 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 @media (max-width: 520px) { .ref-grid { grid-template-columns: minmax(0, 1fr); } }
 .acc-group + .acc-group { margin-top: clamp(36px, 4vw, 56px); }
 
-/* ═════════ Photos : rideau qui s'ouvre au défilement (main.js ajoute .curtain puis .is-open) ═════════ */
-.curtain { clip-path: inset(0 100% 0 0); }
-.curtain.is-open { clip-path: inset(0 0 0 0); transition: clip-path 1.25s cubic-bezier(0.7, 0, 0.2, 1), transform 1.4s var(--ease); }
-@media (prefers-reduced-motion: reduce) { .curtain { clip-path: none; } }
-
 /* Petit titre de section (« —— ») aligné comme le titre qu'il annonce */
 .works__head .eyebrow { justify-content: flex-end; }
 .split__txt .eyebrow { justify-content: center; }
