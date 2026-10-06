@@ -2674,3 +2674,6 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 .split__txt .eyebrow { justify-content: center; }
 .hsvc .eyebrow { justify-content: center; color: var(--on-dark); }
 @media (max-width: 860px) { .works__head .eyebrow { justify-content: flex-start; } }
+
+/* Nos services : pastilles 01 à 04 plus visibles (rond marine plein, chiffre sable, liseré sable) */
+.hsvc .hsvc__n { width: 58px; height: 58px; background: var(--dark); border: 2px solid var(--accent-2); color: var(--accent-2); font: italic 500 24px var(--display); box-shadow: 0 6px 18px rgba(20, 35, 63, 0.25); }
