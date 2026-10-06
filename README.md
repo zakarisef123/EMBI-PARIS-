@@ -26,7 +26,8 @@ Ne modifiez jamais `dist/` : il est recréé à chaque génération.
 
 ## Les adresses
 `/` · `/hotels/` · `/boutiques/` · `/restaurants/` · `/particuliers/` · `/realisations/` · `/realisations/<chantier>/` (17 pages)
-· `/conception-sur-mesure/` · `/savoir-faire/` · `/methode/` · `/showroom/` · `/contact/` · `/urgence/`
+· `/conception-sur-mesure/` · `/savoir-faire/` · `/methode/` · `/showroom/` · `/contact/` · `/urgence/` (+ `/urgence/plomberie/`, `/urgence/electricite/`, `/urgence/assainissement/`, textes dans `src/data/urgences.js`)
+· `/projets-specifiques/` · `/qualifications/` · `/faq/` (toutes les questions de `src/data/faq.js`, par thème)
 · `/mentions-legales/` · `/politique-de-confidentialite/` · `/cgv/` · `/merci/` · `/404.html`
 
 Les anciennes adresses (`/contact.html`, `/projet.html?p=…`, `/realisations/panache.html`…) sont redirigées (301) grâce au fichier `_redirects` généré.

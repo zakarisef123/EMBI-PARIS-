@@ -121,6 +121,18 @@ const PAGES = {
     ["Pouvez-vous respecter les standards d'une marque de luxe ?", "C'est notre exigence : chez Loro Piana, Colette ou Byredo, la marque devait se lire dans chaque finition."],
   ],
 
+  "/projets-specifiques/": [
+    ["Qu'appelez-vous un projet spécifique ?", "Un lieu ou une contrainte qui sort du cadre d'une rénovation classique : corner en grand magasin, boutique de luxe, atelier, agencement dessiné sur mesure, travaux dans un lieu qui reste ouvert."],
+    ["Travaillez-vous dans les grands magasins ?", "Oui : corner Byredo au Bon Marché, boutique Tartine et Chocolat chez Harrods. On y travaille au sein d'un magasin en activité, avec ses règles et ses horaires."],
+    ["Pouvez-vous dessiner l'agencement ?", "Oui. Notre architecte d'intérieur conçoit l'agencement et le mobilier sur mesure, puis nos équipes le réalisent. Voir la [conception sur mesure](/conception-sur-mesure/)."],
+    ["Mon projet ne rentre dans aucune case, pouvez-vous l'étudier ?", `Oui. Décrivez-le en 3 questions ou appelez le ${TEL} : l'étude de faisabilité et le devis sont gratuits.`],
+  ],
+
+  "/qualifications/": [
+    ["Qui réalise les travaux ?", "Un réseau de 40 professionnels de tous corps de métier : gros œuvre, plomberie, électricité, menuiserie, revêtements, peinture, façades, toitures, coordonnés par un interlocuteur dédié."],
+    ["J'ai une question sur vos assurances, qui contacter ?", `Appelez le bureau au ${TEL}, du lundi au vendredi de 10h à 18h, ou [écrivez-nous](/contact/).`],
+  ],
+
   "/equipe/": [
     ["Qui sera mon interlocuteur ?", "Un interlocuteur dédié, du premier rendez-vous à la remise des clés. Il coordonne les équipes, suit le planning et répond à vos questions."],
     ["Qui réalise les travaux ?", "Un réseau de 40 professionnels de tous corps de métier : gros œuvre, plomberie, électricité, menuiserie, revêtements, peinture, façades, toitures."],
