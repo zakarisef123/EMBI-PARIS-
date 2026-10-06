@@ -216,9 +216,9 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <meta name="theme-color" content="#14233f" />
   <script>document.documentElement.classList.add("js");${o.loader ? ` try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("embi-intro")) { document.documentElement.classList.add("intro"); sessionStorage.setItem("embi-intro", "1"); } } catch (e) {}` : ""}</script>
   <script src="/assets/js/consent.js"></script>
-  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+  <link rel="icon" href="/assets/img/favicon.svg?v=2" type="image/svg+xml" />
+  <link rel="icon" href="/assets/img/favicon-32.png?v=2" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2" />
   <link rel="preload" href="/assets/fonts/cormorant-garamond-500-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/jost-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
@@ -1035,6 +1035,8 @@ const copyDir = (from, to, filter = () => true) => {
   }
 };
 copyDir(path.join(ROOT, "assets"), path.join(OUT, "assets"), (n) => n !== "manifest.json");
+// Les navigateurs demandent /favicon.ico à la racine, même sans balise : on y met le nouveau logo.
+fs.copyFileSync(path.join(ROOT, "assets/img/favicon.ico"), path.join(OUT, "favicon.ico"));
 copyDir(path.join(ROOT, "images"), path.join(OUT, "images"), (n) => !n.startsWith("."));
 copyDir(path.join(ROOT, "documents"), path.join(OUT, "documents"), (n) => n.endsWith(".pdf"));
 
