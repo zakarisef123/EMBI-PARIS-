@@ -45,7 +45,7 @@ Chaque formulaire a une case de consentement obligatoire, un piège anti-spam in
 Déposez les fichiers dans `documents/` (noms dans `documents/LISEZMOI.md`), puis mettez `documents: "local"` dans `site.config.js`. En attendant, les liens pointent vers l'ancien site www.embi.fr.
 
 ## Photos
-Les chantiers listés dans `assets/img/manifest.json` (Le Grand Pigalle, Loro Piana, Hôtel Bienvenue, Café Pinson) utilisent déjà leurs photos hébergées sur le site, en WebP. Les autres viennent encore de www.embi.fr. Pour héberger les photos sur le site (WebP, 3 tailles, srcset) :
+Les chantiers listés dans `assets/img/manifest.json` utilisent déjà leurs photos hébergées sur le site, en WebP. Les autres viennent encore de www.embi.fr. Pour héberger les photos sur le site (WebP, 3 tailles, srcset) :
 ```
 cd scripts/photos && npm install
 npm run telecharger     # récupère les photos de l'ancien site dans photos-originales/ (avant sa fermeture)

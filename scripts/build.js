@@ -79,9 +79,10 @@ const doc = (k) => {
 };
 
 /* ───── Données communes ───── */
-const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové" };
-const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements" };
-const sectorOf = (cat) => SECTORS.find((s) => s.category === cat);
+const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
+// les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire
+const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/savoir-faire/" };
 const projectUrl = (p) => `/realisations/${p.id}/`;
 const featured = PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
 const PHOTOS = Object.fromEntries(PROJECTS.map((p) => [p.id, projectPhotos(p)]));
@@ -334,7 +335,7 @@ const homeServices = () => {
       </div>
     </section>`;
 };
-const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier" };
+const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
 
 // Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
 const sectorMosaic = () => `<div class="mosaic container">
@@ -367,7 +368,7 @@ const CLIENT_SITES = {
   "mojo-kitchen": "https://mojoforgood-opera.fr",
 };
 const brandLogos = () => {
-  const brands = PROJECTS.filter((p) => p.category !== "particulier");
+  const brands = PROJECTS.filter((p) => p.category !== "particulier" && p.category !== "savoir-faire");
   const item = (p) => {
     const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
     const name = p.title.split(" · ").pop();
@@ -385,7 +386,7 @@ const brandLogos = () => {
 
 // Accueil · nos chantiers en cartes photo (les chantiers mis en avant, puis les suivants jusqu'à 6)
 const worksCards = () => {
-  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 6);
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 6);
   return `<div class="works__grid">
             ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
               <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
@@ -397,7 +398,7 @@ const worksCards = () => {
 
 // Accueil · carrousel des chantiers : grande photo + aperçu de la suivante + bande « Découvrir nos réalisations »
 const showcase = () => {
-  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 7);
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 7);
   return `<div class="show" id="showcase">
           <div class="show__main">
             ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
@@ -439,7 +440,7 @@ const insta = () => {
 };
 
 // Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"]];
+const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"], ["savoir-faire", "Savoir-faire"]];
 const BLOCKS = {
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
@@ -614,7 +615,7 @@ PROJECTS.forEach((p, i) => {
   layout({
     path: path_,
     key: "realisations",
-    title: `${p.title} · ${cat} rénové à Paris | EMBI`,
+    title: p.category === "savoir-faire" ? `${p.title} · savoir-faire EMBI à Paris | EMBI` : `${p.title} · ${cat} rénové à Paris | EMBI`,
     ogTitle: `${p.title} | EMBI, rénovation à Paris`,
     description,
     ogType: "article",

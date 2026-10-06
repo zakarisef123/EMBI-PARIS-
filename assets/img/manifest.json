@@ -308,6 +308,272 @@
         "w": 480,
         "h": 640
       }
+    ],
+    "charpente-bois": [
+      {
+        "base": "/assets/img/projets/charpente-bois/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/06",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/07",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/08",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
+      }
+    ],
+    "mosaique": [
+      {
+        "base": "/assets/img/projets/mosaique/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 485
+      },
+      {
+        "base": "/assets/img/projets/mosaique/02",
+        "widths": [
+          430
+        ],
+        "w": 430,
+        "h": 500
+      },
+      {
+        "base": "/assets/img/projets/mosaique/03",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/04",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/05",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/06",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/07",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/08",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/09",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/10",
+        "widths": [
+          430
+        ],
+        "w": 430,
+        "h": 500
+      },
+      {
+        "base": "/assets/img/projets/mosaique/11",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 343
+      },
+      {
+        "base": "/assets/img/projets/mosaique/12",
+        "widths": [
+          430
+        ],
+        "w": 430,
+        "h": 500
+      }
+    ],
+    "toitures-zinguerie": [
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 842
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1067
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 539
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/06",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/07",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/08",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 972
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/09",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 853
+      },
+      {
+        "base": "/assets/img/projets/toitures-zinguerie/10",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      }
     ]
   },
   "site": {}

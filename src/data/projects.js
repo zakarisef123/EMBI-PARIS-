@@ -7,7 +7,8 @@
  *  id       : adresse de la page → /realisations/<id>/ (sans espace ni accent)
  *  oldId    : ancienne adresse (redirigée automatiquement)
  *  title    : nom du chantier
- *  category : "hotel" | "boutique" | "restaurant" | "particulier"
+ *  category : "hotel" | "boutique" | "restaurant" | "particulier" | "savoir-faire"
+ *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
  *  images   : chemins des photos sur l'ancien site (www.embi.fr/wp-content/uploads/…),
  *             la 1re sert de couverture. Quand les photos sont converties en local
@@ -23,6 +24,7 @@ const CATEGORIES = {
   boutique: "Boutique",
   restaurant: "Restaurant",
   particulier: "Particulier",
+  "savoir-faire": "Savoir-faire",
 };
 
 // Galerie : photos numérotées de l'ancien site (celles qui n'existent pas sont masquées automatiquement)
@@ -115,6 +117,23 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour le restaurant Triomphe, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration signée Richard Lafond.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
+
+  // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
+  { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
+    text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",
+    travaux: ["Tapis d'entrée au nom du lieu", "Sols en mosaïque", "Habillage de comptoirs", "Lettrage sur mesure"],
+    histoire: ["EMBI réalise des ouvrages en mosaïque sur mesure : tapis d'entrée qui portent le nom du lieu, sols complets et habillages de comptoirs.", "Parmi ces réalisations : le Café de Flore, Le Select, le Café Manfred, Le Grand Pigalle, l'Hôtel Panache, le Café Le Piquet, Leda, Le Saint Jean, Le Grand Pan et le Café de Paris."],
+    images: [] },
+  { id: "toitures-zinguerie", title: "Toitures et zinguerie", category: "savoir-faire", lieu: "Paris",
+    text: "Couvertures en zinc et en tuiles, lucarnes, verrières et ouvrages de zinguerie sur des immeubles parisiens.",
+    travaux: ["Couverture en zinc", "Couverture en tuiles", "Lucarnes", "Verrières", "Zinguerie", "Fenêtres de toit"],
+    histoire: ["Sur les toits de Paris, EMBI refait les couvertures en zinc et en tuiles, avec les lucarnes, les verrières et toute la zinguerie : gouttières, descentes, épis de faîtage."],
+    images: [] },
+  { id: "charpente-bois", title: "Charpente bois", category: "savoir-faire",
+    text: "Charpente bois, plancher et escalier neufs dans un grand volume sous verrière.",
+    travaux: ["Charpente bois", "Plancher et solivage", "Trémie et escalier"],
+    histoire: ["Dans ce grand volume sous verrière, EMBI a posé une charpente bois neuve, créé un plancher sur solivage et ouvert une trémie pour l'escalier."],
+    images: [] },
 ];
 
 module.exports = { CATEGORIES, PROJECTS };
