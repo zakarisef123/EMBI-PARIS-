@@ -412,7 +412,7 @@ const brandLogos = () => {
     const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" />` : `<span>${esc(name)}</span>`;
     const site = CLIENT_SITES[p.id];
     const link = site ? `href="${site}" target="_blank" rel="noopener" aria-label="${esc(name)} (site officiel, nouvel onglet)"` : `href="${projectUrl(p)}"`;
-    return `<a class="logos__item${file ? "" : " logos__item--text"}" ${link}>${inner}</a>`;
+    return `<a class="logos__item logos__item--${p.id}${file ? "" : " logos__item--text"}" ${link}>${inner}</a>`;
   };
   const row = brands.map(item).join("");
   return `<section class="logos" aria-labelledby="logos-t">

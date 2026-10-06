@@ -2677,3 +2677,14 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 
 /* Nos services : pastilles 01 à 04 plus visibles (rond marine plein, chiffre sable, liseré sable) */
 .hsvc .hsvc__n { width: 58px; height: 58px; background: var(--dark); border: 2px solid var(--accent-2); color: var(--accent-2); font: italic 500 24px var(--display); box-shadow: 0 6px 18px rgba(20, 35, 63, 0.25); }
+
+/* Logos clients plus lisibles : teinte marine foncée, logos plus grands, tailles ajustées logo par logo */
+.logos .logos__item { opacity: 0.85; height: 64px; }
+.logos .logos__item:hover { opacity: 1; }
+.logos .logos__item img, .logos .logos__item:hover img { height: 38px; max-width: 170px; filter: brightness(0); }
+.logos .logos__item--text span, .logos .logos__item--text:nth-child(n) span { font-size: 26px; color: var(--dark); }
+/* logos fins ou carrés : plus hauts pour garder la même présence visuelle */
+.logos .logos__item--hotel-bienvenue img { height: 60px; }
+.logos .logos__item--petite-mendigote img { height: 56px; max-width: 150px; }
+/* Mojo : pastille ronde à fond blanc, on garde le dessin en niveaux de gris au lieu d'un disque plein */
+.logos .logos__item--mojo-kitchen img, .logos .logos__item--mojo-kitchen:hover img { height: 66px; filter: grayscale(1) contrast(2.2) brightness(0.8); mix-blend-mode: multiply; }
