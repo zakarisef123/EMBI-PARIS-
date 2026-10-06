@@ -2330,3 +2330,75 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 .csa .vol .ftop.m-inox { fill: #e4e8ea; } .csa .vol .fside.m-inox { fill: #c9cfd3; }
 .csa .vol .ftop.m-eau { fill: #b9d3df; } .csa .vol .fside.m-eau { fill: #9fbfcd; }
 .csa .vol .f-y { filter: brightness(0.92); }
+
+/* ───────── Direction artistique 2026-10 : titres serif, maquette en matières, rythme resserré ───────── */
+:root { --sand-ink: #9a8257; }
+
+/* 1 · Titres : serif élégante en casse normale, fin du titre en italique sable */
+body:not([data-page="accueil"]) .h2,
+body:not([data-page="accueil"]) .cs-hero__title,
+body:not([data-page="accueil"]) .page-hero .cs-hero__title,
+.pn__title, .split__title, .works__title, .funnel__title, .logos__t, .post__body h2 {
+  font-family: var(--display); font-weight: 400; text-transform: none; letter-spacing: -0.01em; line-height: 1.04; color: var(--dark-2);
+}
+body:not([data-page="accueil"]) .h2 { font-size: clamp(34px, 3.6vw, 54px); }
+body:not([data-page="accueil"]) .h2--xl { font-size: clamp(38px, 4.4vw, 64px); }
+body:not([data-page="accueil"]) .cs-hero__title, body:not([data-page="accueil"]) .page-hero .cs-hero__title { font-size: clamp(42px, 5.4vw, 80px); max-width: 18ch; }
+.pn__title, .split__title { font-size: clamp(32px, 3.2vw, 48px); }
+.works__title { font-size: clamp(34px, 3.6vw, 54px); }
+.funnel__title { font-size: clamp(34px, 3.4vw, 50px); }
+.logos__t { font-size: clamp(24px, 2.2vw, 32px); }
+.post__body h2 { font-size: clamp(26px, 2.4vw, 34px); }
+body:not([data-page="accueil"]) .h2 em, body:not([data-page="accueil"]) .cs-hero__title em,
+.pn__title em, .split__title em, .works__title em, .funnel__title em, .h2 em {
+  font-family: var(--display); font-style: italic; font-weight: 400; letter-spacing: 0; color: var(--sand-ink);
+}
+.section--dark .h2 em, .bp .h2 em { color: var(--accent-2); }
+/* petits titres de cartes : serif aussi, un cran plus grands */
+.works__t, .svc__t, .mag-card__t, .pn-news__t, .funnel .quiz__q, .tips strong,
+body:not([data-page="accueil"]) .pj-card__t {
+  font-family: var(--display); font-weight: 500; text-transform: none; letter-spacing: 0; line-height: 1.15; color: var(--dark-2);
+}
+.works__t, body:not([data-page="accueil"]) .pj-card__t { font-size: clamp(20px, 1.7vw, 24px); }
+.svc__t, .pn-news__t, .tips strong { font-size: 21px; }
+.mag-card__t { font-size: 22px; line-height: 1.2; }
+.funnel .quiz__q { font-size: clamp(22px, 2vw, 28px); }
+.show__cap { font-family: var(--display); font-weight: 400; font-style: italic; text-transform: none; font-size: clamp(24px, 2.4vw, 34px); }
+
+/* 2 · Maquette de la maison : pierre, bois, zinc, brique (au lieu du rose) */
+.bz .face { fill: #ece4d6; stroke: var(--dark-2); stroke-width: 1.3; }
+.bz .face--floor { fill: #d9c2a0; }
+.bz .face--wall { fill: #e3d6c0; }
+.bz .face--glass { fill: #a9c4d4; }
+.bz .face--dark { fill: #b9b3a7; }
+.bz .face--roof { fill: #74808d; }
+.bz .face--brick { fill: #a85f45; }
+.bz .edge, .bz .edge--accent { stroke: var(--dark-2); }
+.bz.is-on .face { stroke: var(--accent); stroke-width: 1.8; }
+.bz.is-on .face:not(.face--glass):not(.face--roof):not(.face--brick) { fill: #efe3cb; }
+.bz.is-on .face--floor, .bz.is-on .face--wall, .bz.is-on .face--dark { fill: #dcc6a0; }
+.bz.is-on .face--roof { fill: #8e9aa6; }
+.build__house { background: #fbf8f3; }
+
+/* 4 · Rythme : sections resserrées, fonds crème et sable en alternance */
+.section { padding: clamp(64px, 8vw, 112px) 0; }
+body:not([data-page="accueil"]) .section { padding-top: clamp(56px, 6.5vw, 96px); padding-bottom: clamp(56px, 6.5vw, 96px); }
+.pn { padding: clamp(48px, 5.5vw, 80px) 0; }
+body:not([data-page="accueil"]) main > section.section:nth-of-type(even):not(.section--dark):not(.section--tight) { background: var(--bg-2); }
+body:not([data-page="accueil"]) main > section.section:nth-of-type(even) .build__house { background: var(--bg); }
+
+/* 5 · Accueil : phrase d'accroche sur le diaporama */
+.hero__claim { position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); bottom: clamp(40px, 8vh, 88px); margin: 0; color: var(--on-dark); max-width: 15ch;
+  font-family: var(--display); font-weight: 400; font-size: clamp(44px, 6.6vw, 104px); line-height: 0.98; letter-spacing: -0.015em; text-shadow: 0 2px 30px rgba(20, 35, 63, 0.35); }
+.hero__claim em { font-style: italic; color: var(--accent-2); }
+.hero__claim small { display: block; margin-top: 18px; font: 500 12px var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: rgba(246, 241, 231, 0.85); text-shadow: none; }
+.js .hero__claim { opacity: 0; transform: translateY(18px); transition: opacity 1s var(--ease) 0.3s, transform 1s var(--ease) 0.3s; }
+.js .is-loaded .hero__claim, .js.is-loaded .hero__claim, .is-loaded .hero__claim { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .hero__claim { opacity: 1; transform: none; } }
+
+/* 6 · Logos clients : même police, même gris */
+.logos__item--text span, .logos__item--text:nth-child(n) span { font-family: var(--sans); font-style: normal; font-weight: 500; font-size: clamp(15px, 1.3vw, 19px); letter-spacing: 0.24em; text-transform: uppercase; color: #8f8a80; }
+.logos__item--text:hover span { color: var(--dark-2); }
+/* boutons, filtres et pastilles : tous rectangulaires, comme les boutons */
+.build__chip, .tags li, .mag__f, .sr-wall__label, .hero__tag span { border-radius: 2px; }
+@media (max-width: 960px) { .hero__claim { bottom: 116px; } .hero__claim small { letter-spacing: 0.16em; font-size: 11px; } }
