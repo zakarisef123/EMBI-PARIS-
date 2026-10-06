@@ -36,13 +36,15 @@ const warn = (m) => warnings.push(m);
 
 /* ───── Photos : ancien site ou WebP locaux (site.config.js → photos) ───── */
 const manifestFile = path.join(ROOT, "assets/img/manifest.json");
-const manifest = cfg.photos === "local" && fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")) : null;
+// Le manifeste est toujours lu : un chantier dont les photos ont été converties utilise ses WebP locaux,
+// les autres gardent celles de l'ancien site tant que photos: "embi.fr".
+const manifest = fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")) : null;
 if (cfg.photos === "local" && !manifest) warn("photos: \"local\" mais assets/img/manifest.json est absent : photos de l'ancien site utilisées.");
 const localSet = (e) => ({ src: `${e.base}-${e.widths[Math.min(1, e.widths.length - 1)]}.webp`, srcset: e.widths.map((w) => `${e.base}-${w}.webp ${w}w`).join(", "), width: e.w, height: e.h });
 const projectPhotos = (p) => {
   const list = manifest && manifest.projets && manifest.projets[p.id];
   if (list && list.length) return list.map(localSet);
-  if (manifest) warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
+  if (cfg.photos === "local") warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
   return p.images.map((f) => ({ src: OLD + f }));
 };
 // images du site hors chantiers (photo d'accueil, couvertures des catalogues)
@@ -77,9 +79,10 @@ const doc = (k) => {
 };
 
 /* ───── Données communes ───── */
-const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové" };
-const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements" };
-const sectorOf = (cat) => SECTORS.find((s) => s.category === cat);
+const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
+// les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire
+const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/savoir-faire/" };
 const projectUrl = (p) => `/realisations/${p.id}/`;
 const featured = PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
 const PHOTOS = Object.fromEntries(PROJECTS.map((p) => [p.id, projectPhotos(p)]));
@@ -332,7 +335,7 @@ const homeServices = () => {
       </div>
     </section>`;
 };
-const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier" };
+const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
 
 // Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
 const sectorMosaic = () => `<div class="mosaic container">
@@ -365,7 +368,7 @@ const CLIENT_SITES = {
   "mojo-kitchen": "https://mojoforgood-opera.fr",
 };
 const brandLogos = () => {
-  const brands = PROJECTS.filter((p) => p.category !== "particulier");
+  const brands = PROJECTS.filter((p) => p.category !== "particulier" && p.category !== "savoir-faire");
   const item = (p) => {
     const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
     const name = p.title.split(" · ").pop();
@@ -383,7 +386,7 @@ const brandLogos = () => {
 
 // Accueil · nos chantiers en cartes photo (les chantiers mis en avant, puis les suivants jusqu'à 6)
 const worksCards = () => {
-  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 6);
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 6);
   return `<div class="works__grid">
             ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
               <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
@@ -395,7 +398,7 @@ const worksCards = () => {
 
 // Accueil · carrousel des chantiers : grande photo + aperçu de la suivante + bande « Découvrir nos réalisations »
 const showcase = () => {
-  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier")].slice(0, 7);
+  const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 7);
   return `<div class="show" id="showcase">
           <div class="show__main">
             ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
@@ -437,7 +440,7 @@ const insta = () => {
 };
 
 // Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"]];
+const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"], ["savoir-faire", "Savoir-faire"]];
 const BLOCKS = {
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
@@ -600,7 +603,7 @@ PROJECTS.forEach((p, i) => {
   const description = p.text
     ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation clé en main par EMBI, photos et détails du chantier.`
     : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} clé en main par EMBI à Paris. Photos et détails du chantier.`;
-  const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"]].filter(([, v]) => v);
+  const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"], ["Photos", esc(p.credit)]].filter(([, v]) => v);
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de A à Z : étude de faisabilité, chiffrage transparent poste par poste, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -612,7 +615,7 @@ PROJECTS.forEach((p, i) => {
   layout({
     path: path_,
     key: "realisations",
-    title: `${p.title} · ${cat} rénové à Paris | EMBI`,
+    title: p.category === "savoir-faire" ? `${p.title} · savoir-faire EMBI à Paris | EMBI` : `${p.title} · ${cat} rénové à Paris | EMBI`,
     ogTitle: `${p.title} | EMBI, rénovation à Paris`,
     description,
     ogType: "article",
@@ -1050,7 +1053,7 @@ Allow: /
 Sitemap: ${SITE}/sitemap.xml
 `);
 
-console.log(`✓ ${pages.length} pages générées dans dist/ (${indexable.length} dans le sitemap) · adresse : ${SITE} · photos : ${manifest ? "locales" : "ancien site"} · PDF : ${cfg.documents === "local" ? "locaux" : "ancien site"}`);
+console.log(`✓ ${pages.length} pages générées dans dist/ (${indexable.length} dans le sitemap) · adresse : ${SITE} · photos : ${manifest ? `${Object.keys(manifest.projets || {}).length} chantier(s) en local` : "ancien site"} · PDF : ${cfg.documents === "local" ? "locaux" : "ancien site"}`);
 if (warnings.length) {
   console.log(`\n⚠ ${warnings.length} point(s) à vérifier :`);
   warnings.forEach((w) => console.log("  - " + w));

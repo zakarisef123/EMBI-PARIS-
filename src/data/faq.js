@@ -170,7 +170,9 @@ const project = (p, sectorPath) => [
   ["Quels travaux EMBI a-t-elle réalisés sur ce chantier ?", p.text || `Un chantier mené clé en main, de l'étude de faisabilité à la livraison : ${(p.travaux || ["rénovation"]).map(lc).join(", ")}.`],
   ...(p.deco ? [["Qui a signé la décoration ?", `La décoration est signée ${p.deco}. EMBI a réalisé les travaux clé en main, dans le respect de son dessin.`]] : []),
   ...(p.archi ? [["Qui a conçu le projet ?", `Le projet est signé par l'architecte ${p.archi}. EMBI en a réalisé les travaux et la mise aux normes.`]] : []),
-  [`Pouvez-vous réaliser un projet similaire pour ${SIMILAR[p.category]} ?`, `Oui. EMBI rénove ${PLURAL[p.category]} à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [nos chantiers du même secteur](${sectorPath}) ou décrivez votre projet en 3 questions ci-dessous : le devis est gratuit.`],
+  p.category === "savoir-faire"
+    ? ["Pouvez-vous réaliser un ouvrage similaire chez moi ?", `Oui. EMBI intervient à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [tous nos savoir-faire](${sectorPath}) ou décrivez votre projet en 3 questions ci-dessous : le devis est gratuit.`]
+    : [`Pouvez-vous réaliser un projet similaire pour ${SIMILAR[p.category]} ?`, `Oui. EMBI rénove ${PLURAL[p.category]} à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [nos chantiers du même secteur](${sectorPath}) ou décrivez votre projet en 3 questions ci-dessous : le devis est gratuit.`],
   BY_CAT[p.category],
 ].filter(Boolean);
 

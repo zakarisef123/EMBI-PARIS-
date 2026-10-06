@@ -7,14 +7,15 @@
  *  id       : adresse de la page → /realisations/<id>/ (sans espace ni accent)
  *  oldId    : ancienne adresse (redirigée automatiquement)
  *  title    : nom du chantier
- *  category : "hotel" | "boutique" | "restaurant" | "particulier"
+ *  category : "hotel" | "boutique" | "restaurant" | "particulier" | "savoir-faire"
+ *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
  *  images   : chemins des photos sur l'ancien site (www.embi.fr/wp-content/uploads/…),
  *             la 1re sert de couverture. Quand les photos sont converties en local
  *             (scripts/photos), site.config.js → photos: "local" les remplace.
  *
  *  Facultatif (affiché sur la page du chantier dès que c'est rempli) :
- *  lieu, annee, surface, duree, deco (décoration), archi (architecte),
+ *  lieu, annee, surface, duree, deco (décoration), archi (architecte), credit (photographe),
  *  travaux : ["…"], text : "une phrase", histoire : ["paragraphe", "…"]
  * ─────────────────────────────────────────────────────────────
  */
@@ -23,6 +24,7 @@ const CATEGORIES = {
   boutique: "Boutique",
   restaurant: "Restaurant",
   particulier: "Particulier",
+  "savoir-faire": "Savoir-faire",
 };
 
 // Galerie : photos numérotées de l'ancien site (celles qui n'existent pas sont masquées automatiquement)
@@ -85,7 +87,7 @@ const PROJECTS = [
     travaux: ["Transformation complète", "Plomberie", "Décoration"],
     histoire: ["Loustic était à l'origine un magasin. EMBI a entièrement transformé le lieu et pris en charge tout le chantier, de la plomberie à la décoration.", "La décoration, chic et design, est signée Dorothée Meilichzon."],
     images: gal("2017/09/Loustic_01.jpg", seq("2017/09", "Loustic", 1, 8)) },
-  { id: "hotel-bienvenue", oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel",
+  { id: "hotel-bienvenue", oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel", credit: "Laurence Revol (en partie)",
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Bienvenue."],
@@ -105,7 +107,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour Mojo Kitchen, EMBI a réalisé les travaux sur une décoration imaginée par Dorothée Meilichzon.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/midi2.jpg", ["2017/09/midi1.jpg", "2017/09/midi3.jpg", "2017/09/midi4.jpg", "2017/09/midi5.jpg"]) },
-  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias",
+  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris", credit: "Yannick Labrousse (en partie)",
     text: "Rénovation et mise aux normes d'un appartement, avec l'architecte Diego Delgado Elias.",
     travaux: ["Rénovation d'appartement", "Mise aux normes"],
     histoire: ["EMBI a réalisé la rénovation et la mise aux normes de cet appartement, sur un projet de l'architecte Diego Delgado Elias."],
@@ -115,6 +117,79 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour le restaurant Triomphe, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration signée Richard Lafond.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
+
+  { id: "appartement-renovation-complete", title: "Appartement rénové de A à Z", category: "particulier",
+    text: "Rénovation complète d'un appartement parisien : parquet, cuisine, salles d'eau, plomberie et électricité.",
+    travaux: ["Rénovation complète", "Parquet chêne", "Cuisine équipée", "Salle d'eau et douche à l'italienne", "Plomberie", "Électricité"],
+    histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
+    images: [] },
+
+  { id: "appartement-haussmannien", title: "Appartement haussmannien", category: "particulier",
+    text: "Rénovation complète d'un appartement haussmannien : parquet en point de Hongrie, cuisine avec îlot, salles de bains et rangements sur mesure.",
+    travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Cuisine avec îlot", "Salles de bains", "Rangements sur mesure"],
+    histoire: ["EMBI a entièrement rénové cet appartement haussmannien en gardant ses moulures et ses cheminées : parquet en point de Hongrie, cuisine ouverte avec îlot central, salles de bains en faïence à chevrons et rangements sur mesure dans les chambres et l'entrée."],
+    images: [] },
+
+  { id: "appartement-lumineux", title: "Appartement lumineux", category: "particulier",
+    text: "Rénovation complète d'un appartement ancien : parquet en point de Hongrie, salle d'eau en laiton, rangements sur mesure et verrière.",
+    travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Salle d'eau", "Robinetterie laiton", "Rangements sur mesure", "Verrière intérieure", "Papiers peints"],
+    histoire: ["EMBI a entièrement rénové cet appartement ancien : parquet en point de Hongrie, salle d'eau avec robinetterie en laiton et papier peint, placards sur mesure de couleur, verrière cintrée et couloir habillé de lambris et de papier peint."],
+    images: [] },
+  { id: "appartement-rue-saint-dominique", title: "Appartement rue Saint-Dominique", category: "particulier", lieu: "Rue Saint-Dominique, Paris 7e",
+    text: "Rénovation complète d'un appartement : menuiseries sur mesure vert sauge, cuisine blanche, salle d'eau en carreaux verts.",
+    travaux: ["Rénovation complète", "Menuiseries sur mesure", "Cuisine", "Salle d'eau", "Parquet"],
+    histoire: ["Rue Saint-Dominique, EMBI a entièrement rénové cet appartement : entrée et rangements en menuiserie sur mesure vert sauge, cuisine blanche ouverte par une verrière, salle d'eau en petits carreaux verts et chambres avec tête de lit en bois."],
+    images: [] },
+  { id: "cafe-joyeux-klesia", title: "Café Joyeux · Klesia", category: "restaurant",
+    text: "Aménagement du Café Joyeux dans les locaux de Klesia : salle de restaurant, comptoirs et boutique.",
+    travaux: ["Aménagement de restaurant", "Comptoirs et boutique", "Peinture et décoration", "Luminaires"],
+    histoire: ["Dans les locaux de Klesia, EMBI a aménagé le Café Joyeux : la grande salle aux murs jaunes, les comptoirs de service, la boutique et les espaces de repas."],
+    images: [] },
+
+  { id: "appartement-paris-5e", title: "Appartement Paris 5e", category: "particulier", lieu: "Paris 5e",
+    text: "Rénovation d'un appartement haussmannien : parquet, moulures et lambris, bibliothèques sur mesure, cuisine et salle d'eau.",
+    travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
+    histoire: ["Dans le 5e arrondissement, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],
+    images: [] },
+  { id: "atelier-joaillerie-ploermel", title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
+    text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
+    travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
+    histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
+    images: [] },
+
+  { id: "hotel-beauregard", title: "Hôtel Beauregard", category: "hotel", credit: "Romain Courtemanche",
+    text: "Rénovation de l'Hôtel Beauregard : chambres, salles de bains, salons du rez-de-chaussée et patio.",
+    travaux: ["Chambres", "Salles de bains", "Salons et salle du petit-déjeuner", "Patio"],
+    histoire: ["À l'Hôtel Beauregard, EMBI a réalisé les travaux des chambres et de leurs salles de bains, des salons du rez-de-chaussée, de la salle du petit-déjeuner et du patio."],
+    images: [] },
+
+  { id: "maison-a-colombages", title: "Maison à colombages", category: "particulier",
+    text: "Rénovation d'une maison de campagne à colombages : cuisine en granit, séjour sous poutres, cheminée en pierre et terrasse en tomettes.",
+    travaux: ["Rénovation intérieure", "Cuisine et plan en granit", "Bibliothèques en bois", "Terrasse en tomettes", "Murets extérieurs", "Verrière"],
+    histoire: ["Pour cette maison de campagne à colombages, EMBI a rénové l'intérieur en gardant les poutres et la cheminée en pierre : cuisine sur mesure avec plan de travail en granit, bibliothèques en bois, salle à manger, verrière. Dehors, la terrasse a été refaite en tomettes et entourée de murets."],
+    images: [] },
+
+  // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
+  { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
+    text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",
+    travaux: ["Tapis d'entrée au nom du lieu", "Sols en mosaïque", "Habillage de comptoirs", "Lettrage sur mesure"],
+    histoire: ["EMBI réalise des ouvrages en mosaïque sur mesure : tapis d'entrée qui portent le nom du lieu, sols complets et habillages de comptoirs.", "Parmi ces réalisations : le Café de Flore, Le Select, le Café Manfred, Le Grand Pigalle, l'Hôtel Panache, le Café Le Piquet, Leda, Le Saint Jean, Le Grand Pan et le Café de Paris."],
+    images: [] },
+  { id: "toitures-zinguerie", title: "Toitures et zinguerie", category: "savoir-faire", lieu: "Paris",
+    text: "Couvertures en zinc et en tuiles, lucarnes, verrières et ouvrages de zinguerie sur des immeubles parisiens.",
+    travaux: ["Couverture en zinc", "Couverture en tuiles", "Lucarnes", "Verrières", "Zinguerie", "Fenêtres de toit"],
+    histoire: ["Sur les toits de Paris, EMBI refait les couvertures en zinc et en tuiles, avec les lucarnes, les verrières et toute la zinguerie : gouttières, descentes, épis de faîtage."],
+    images: [] },
+  { id: "ravalement-rue-nollet", title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
+    text: "Ravalement de la façade en pierre d'un immeuble d'angle haussmannien, rue Nollet à Paris 17e.",
+    travaux: ["Ravalement de façade", "Échafaudage sur rue", "Balcons et modénatures"],
+    histoire: ["Rue Nollet, à Paris 17e, EMBI a mené en 2019 et 2020 le ravalement de la façade en pierre d'un immeuble d'angle haussmannien, de l'échafaudage jusqu'aux balcons et aux modénatures."],
+    images: [] },
+  { id: "charpente-bois", title: "Charpente bois", category: "savoir-faire",
+    text: "Charpente bois, plancher et escalier neufs dans un grand volume sous verrière.",
+    travaux: ["Charpente bois", "Plancher et solivage", "Trémie et escalier"],
+    histoire: ["Dans ce grand volume sous verrière, EMBI a posé une charpente bois neuve, créé un plancher sur solivage et ouvert une trémie pour l'escalier."],
+    images: [] },
 ];
 
 module.exports = { CATEGORIES, PROJECTS };

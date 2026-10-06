@@ -32,11 +32,19 @@ const convert = async (file, outBase) => {
 
 (async () => {
   if (!fs.existsSync(IN)) return console.log("Aucun dossier photos-originales/ : rien à convertir.");
-  const manifest = { projets: {}, site: {} };
+  // On repart du manifeste existant : un chantier absent de photos-originales/ garde ses photos déjà converties.
+  const MANIFEST = path.join(OUT, "manifest.json");
+  const manifest = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, "utf8")) : {};
+  manifest.projets = manifest.projets || {};
+  manifest.site = manifest.site || {};
   const dir = path.join(IN, "projets");
   if (fs.existsSync(dir))
     for (const id of fs.readdirSync(dir).filter((d) => fs.statSync(path.join(dir, d)).isDirectory())) {
       const files = fs.readdirSync(path.join(dir, id)).filter((f) => IMG.test(f)).sort();
+      // déjà converti et aucune photo modifiée depuis : on passe (gain de temps quand on ajoute un chantier)
+      const outDir = path.join(OUT, "projets", id);
+      const newest = Math.max(fs.statSync(path.join(dir, id)).mtimeMs, ...files.map((f) => fs.statSync(path.join(dir, id, f)).mtimeMs));
+      if ((manifest.projets[id] || []).length === files.length && fs.existsSync(outDir) && fs.statSync(outDir).mtimeMs > newest) continue;
       fs.rmSync(path.join(OUT, "projets", id), { recursive: true, force: true });
       manifest.projets[id] = [];
       for (const [k, f] of files.entries()) manifest.projets[id].push(await convert(path.join(dir, id, f), path.join(OUT, "projets", id, String(k + 1).padStart(2, "0"))));
@@ -49,6 +57,6 @@ const convert = async (file, outBase) => {
       manifest.site[name] = await convert(path.join(sdir, f), path.join(OUT, "site", name));
       console.log(`site/${name}`);
     }
-  fs.writeFileSync(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 2));
-  console.log("Terminé : assets/img/manifest.json mis à jour. Passez photos: \"local\" dans site.config.js.");
+  fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2));
+  console.log("Terminé : assets/img/manifest.json mis à jour. Les chantiers convertis utilisent leurs WebP locaux.");
 })();
