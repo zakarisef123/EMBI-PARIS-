@@ -2618,3 +2618,6 @@ body:not([data-page="accueil"]) .page-hero--photo .btn--outline-light:hover { ba
 body:not([data-page="accueil"]) .page-hero--photo .cs-kicker { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
 .page-hero--photo a:not(.btn) { color: inherit; }
 @media (max-width: 760px) { body:not([data-page="accueil"]) .page-hero--photo { min-height: 0; } }
+
+/* Accueil « Au cœur de Paris » : photo puis texte l'un sous l'autre sur mobile (la règle à 2 colonnes plus haut n'avait pas de version mobile) */
+@media (max-width: 860px) { .pn.split .split__inner { grid-template-columns: minmax(0, 1fr); } }
