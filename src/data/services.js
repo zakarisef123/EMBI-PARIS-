@@ -69,6 +69,9 @@ module.exports = [
       ["Faut-il une autorisation pour un ravalement à Paris ?", "Les travaux qui modifient l'aspect extérieur d'un bâtiment demandent en général une déclaration préalable en mairie. Nous vous aidons à constituer le dossier."],
       ["Intervenez-vous sur les toitures ?", "Oui : toitures, étanchéité et carrelage de terrasse. EMBI intervient de la fondation jusqu'au toit."],
       ["Pouvez-vous combiner ravalement et isolation ?", "Oui, un ravalement est souvent le bon moment pour isoler par l'extérieur. Voir la partie rénovation énergétique de notre page rénovation intérieure."],
+      ["Remplacez-vous les fenêtres en respectant le style de l'immeuble ?", "Oui. Portes, fenêtres et devantures sont remplacées ou restaurées dans le respect de l'architecture du bâtiment, ce qui limite aussi les déperditions de chaleur."],
+      ["Pouvez-vous créer une véranda ?", "Oui, nous créons ou rénovons des vérandas pour gagner en lumière et en surface. Notre architecte étudie la faisabilité et vous accompagne pour les autorisations de travaux."],
+      ["Comment se prépare un ravalement de façade ?", "De la décision en copropriété jusqu'à la dépose de l'échafaudage, les étapes sont détaillées dans notre article sur le [ravalement de façade à Paris](/mag/ravalement-facade-paris-etapes/)."],
     ],
   },
 ];
