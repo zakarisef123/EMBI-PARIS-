@@ -2590,3 +2590,10 @@ body:not([data-page="accueil"]) .refs .acc__head:hover .acc__t, body:not([data-p
 .acc-group[hidden] { display: none; }
 .acc-group__t { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3vw, 40px); line-height: 1.1; margin: 0 0 clamp(14px, 1.6vw, 20px); color: var(--dark-2); }
 .acc-group__t sup { font: 600 12px var(--sans); letter-spacing: 0.08em; color: var(--sand-ink, #9a8257); margin-left: 4px; vertical-align: super; }
+
+/* Cartes photo (.works__grid) : rangée centrée quel que soit le nombre de cartes */
+.works__grid { --cols: 3; --gx: clamp(12px, 1.4vw, 20px); display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(36px, 4vw, 56px) var(--gx); }
+.works__grid > .works__card { flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gx)) / var(--cols)); min-width: 0; }
+.works__grid--4 { --cols: 4; }
+@media (max-width: 900px) { .works__grid, .works__grid--4 { --cols: 2; } }
+#types .sector__others { justify-content: center; }
