@@ -56,6 +56,18 @@ Pour des photos haute définition, déposez-les dans `photos-originales/projets/
 ## Pages légales
 Les champs `[À COMPLÉTER]` des mentions légales (raison sociale, forme juridique, capital, SIRET, RCS, siège, directeur de la publication, TVA, assurance décennale, médiateur) sont surlignés en jaune. Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur, politique de confidentialité).
 
+## Carte du quartier (page Showroom)
+Sous les infos pratiques du showroom, la carte « Autour du showroom » (`assets/js/quartier.js`) : catégories (métro, parkings, restaurants, cafés), recherche de lieux dans un rayon de 1,5 km, fiche du lieu (adresse, site, téléphone, horaires, photos, avis Google), temps de marche et itinéraire à pied depuis le showroom. Elle ne se charge qu'après l'accord « Contenus externes » du bandeau cookies. Sans clé, ou si Google refuse la clé, le plan d'accès simple s'affiche à la place.
+
+Pour l'activer, dans le compte Google Cloud d'EMBI (https://console.cloud.google.com) :
+1. **APIs à activer** : Maps JavaScript API, Places API (New), Routes API. Un compte de facturation doit être relié au projet (Google offre un quota gratuit mensuel ; chaque affichage de carte et chaque recherche est décompté).
+2. **Créer une clé** (API et services → Identifiants → Créer des identifiants → Clé API), puis la **restreindre** :
+   - Restrictions d'application : « Sites web », avec `https://embi.fr/*`, `https://www.embi.fr/*`, `https://embiparis.netlify.app/*` et `https://*--embiparis.netlify.app/*` (aperçus Netlify) ;
+   - Restrictions d'API : les trois API ci-dessus.
+3. Coller la clé dans `site.config.js` → `mapsApiKey`.
+
+La clé `AIzaSyB41DRU…` présente dans les exemples de Google ne fonctionne que sur JSFiddle : elle ne marche pas sur le site.
+
 ## Cookies
 `assets/js/consent.js` : bandeau léger (refuser / personnaliser / accepter), Google Consent Mode v2. La carte Google Maps ne se charge qu'après accord ; avant, un plan d'accès dessiné s'affiche avec le bouton « Afficher la carte ». Pour Google Analytics ou Google Ads : renseignez `GA4_ID` / `ADS_ID` en haut du fichier.
 

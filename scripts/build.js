@@ -1056,6 +1056,7 @@ window.EMBI_PROJECTS = ${JSON.stringify(PROJECTS.map((p) => ({ id: p.id, title: 
 window.EMBI_PROJECT_URL = (id) => "/realisations/" + encodeURIComponent(id) + "/";
 window.EMBI_DOCS = ${JSON.stringify(Object.fromEntries(Object.keys(DOCS).map((k) => [k, doc(k)])))};
 window.EMBI_SITE_IMG = ${JSON.stringify(Object.fromEntries(Object.keys(SITE_IMAGES).map((k) => [k, sitePhoto(k).src])))};
+window.EMBI_MAPS = ${JSON.stringify({ key: cfg.mapsApiKey || "", center: cfg.showroom || null })};
 `);
 
 // anciennes adresses → nouvelles (redirections 301)
