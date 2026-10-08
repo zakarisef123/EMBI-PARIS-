@@ -111,24 +111,26 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 // Menu principal. « keys » : pages qui allument la rubrique (aria-current).
-// La FAQ n'est plus dans le menu (toujours en ligne, liée depuis le pied de page) : Le Mag reprend sa place.
+// La FAQ et Le Mag ne sont plus dans le menu (toujours en ligne, liés depuis le pied de page).
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
-  { keys: ["renovation", "projets-specifiques"], href: "/renovation/", label: "Rénovations", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/projets-specifiques/", "Projets spécifiques"]] },
-  { keys: ["realisations", "secteur", "signature"], href: "/realisations/", label: "Nos réalisations" },
+  // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
+  { keys: ["renovation"], paths: ["/particuliers/"], href: "/particuliers/", label: "Particuliers", menu: [["/particuliers/", "Rénovation d'appartement"], ["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#energetique", "Rénovation énergétique"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
+  { keys: ["projets-specifiques"], paths: ["/hotels/", "/boutiques/", "/restaurants/"], href: "/hotels/", label: "Professionnels", menu: [["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
+  { keys: ["realisations", "signature"], href: "/realisations/", label: "Nos réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Le showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
   { keys: ["urgence"], href: "/urgence/", label: "Urgences &amp; dépannage", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
   { keys: ["contact"], href: "/contact/", label: "Contact" },
-  { keys: ["mag"], href: "/mag/", label: "Le Mag" },
 ];
 const HEADER = read("src/layout/header.html"), FOOTER = read("src/layout/footer.html"), LOADER = read("src/layout/loader.html");
 const header = (key, path_) => {
   const cur = (on) => (on ? ' aria-current="page"' : "");
+  const on = (n) => n.keys.includes(key) || (n.paths || []).includes(path_);
   return fill(HEADER, {
     nav: NAV.map((n, i) => n.menu
-      ? `        <div class="dd"><a href="${n.href}" class="dd__t"${cur(n.keys.includes(key))}>${n.label}</a><button type="button" class="dd__btn" aria-expanded="false" aria-controls="dd-${i}" aria-label="Afficher le sous-menu ${strip(n.label).replace("&amp;", "et")}"><span aria-hidden="true">▾</span></button><div class="dd__menu" id="dd-${i}">${n.menu.map(([h, l]) => `<a href="${h}"${cur(h === path_)}>${l}</a>`).join("")}${n.call ? `<a href="tel:+33631600135" class="dd__call"><span class="pulse"></span>Urgence : 06 31 60 01 35</a>` : ""}</div></div>`
-      : `        <a href="${n.href}"${cur(n.keys.includes(key))}>${n.label}</a>`).join("\n"),
+      ? `        <div class="dd"><a href="${n.href}" class="dd__t"${cur(on(n))}>${n.label}</a><button type="button" class="dd__btn" aria-expanded="false" aria-controls="dd-${i}" aria-label="Afficher le sous-menu ${strip(n.label).replace("&amp;", "et")}"><span aria-hidden="true">▾</span></button><div class="dd__menu" id="dd-${i}">${n.menu.map(([h, l]) => `<a href="${h}"${cur(h === path_)}>${l}</a>`).join("")}${n.call ? `<a href="tel:+33631600135" class="dd__call"><span class="pulse"></span>Urgence : 06 31 60 01 35</a>` : ""}</div></div>`
+      : `        <a href="${n.href}"${cur(on(n))}>${n.label}</a>`).join("\n"),
     ctaCurrent: cur(key === "contact"),
     urgentCurrent: cur(key === "urgence"),
   }).trim();
@@ -790,7 +792,11 @@ layout({
 SERVICES.forEach((sv) => {
   const path_ = `/renovation/${sv.slug}/`;
   const crumbs = [{ name: "Rénovation", path: "/renovation/" }, { name: sv.nav, path: path_ }];
-  const projs = sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : PROJECTS.filter((p) => sv.categories.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99)).slice(0, 3);
+  // Carrousel « Ils nous ont confié leurs lieux » : chantiers de particuliers et de professionnels en alternance (mis en avant d'abord)
+  const byFeat = (list) => list.sort((a, b) => (a.featured || 99) - (b.featured || 99));
+  const priv = byFeat(PROJECTS.filter((p) => p.category === "particulier" && sv.categories.includes(p.category)));
+  const pro = byFeat(PROJECTS.filter((p) => p.category !== "particulier" && sv.categories.includes(p.category)));
+  const projs = sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
@@ -827,8 +833,8 @@ ${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? ` 
     </section>
 ` : ""}    <section class="section section--tight">
       <div class="container">
-        <div class="section__head"><div><p class="eyebrow reveal">Réalisations</p><h2 class="h2 reveal">Ils nous ont <em>confié leurs lieux.</em></h2></div><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div>
-        <div class="pj-cards">${projs.map((p) => card(p, "h3")).join("")}</div>
+        <div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">Ils nous ont <em>confié leurs lieux.</em></h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${sv.slug}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${sv.slug}">→</button><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div></div>
+        <div class="pj-cards pj-cards--rail" id="rail-${sv.slug}" data-rail tabindex="0" aria-label="Chantiers réalisés">${projs.map((p) => card(p, "h3")).join("")}</div>
       </div>
     </section>
     <section class="section">

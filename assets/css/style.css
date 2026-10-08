@@ -2308,6 +2308,7 @@ body:not([data-page="accueil"]) .contact .form .btn--accent { background: var(--
 @media (min-width: 1181px) {
   .nav > a[aria-current="page"]:not(.nav__cta)::after, .dd__t[aria-current="page"]::after { transform: scaleX(1); }
   .header.on-dark:not(.is-scrolled) .nav a[aria-current="page"]:not(.nav__cta) { color: #fff; }
+  .header.on-dark:not(.is-scrolled) .nav .dd__menu a[aria-current="page"] { color: var(--accent); } /* sous-menu sur fond clair */
 }
 
 /* Menu plein écran (mobile et tablette) : des intitulés lisibles */
@@ -2786,3 +2787,18 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
   .nd__photo { position: fixed; z-index: 400; }
 }
 .nd__pac { display: block; width: 100%; color-scheme: light; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+
+/* ───────── Carrousel de chantiers (pages Rénovation) ───────── */
+.pj-cards--rail { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 40px) / 3); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
+.pj-cards--rail::-webkit-scrollbar { display: none; }
+.pj-cards--rail .pj-card { scroll-snap-align: start; min-width: 0; }
+.rail__ctrl { display: flex; align-items: center; gap: 10px; }
+.rail__btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: none; color: inherit; font-size: 18px; cursor: pointer; transition: background 0.3s, color 0.3s, opacity 0.3s; }
+.rail__btn:hover:not(:disabled) { background: var(--ink); color: var(--bg); }
+.rail__btn:disabled { opacity: 0.35; cursor: default; }
+.rail--static .rail__btn { display: none; }
+@media (max-width: 900px) { .pj-cards--rail { grid-template-columns: none; grid-auto-columns: calc((100% - 20px) / 2); } }
+@media (max-width: 600px) {
+  .pj-cards--rail { grid-template-columns: none; grid-auto-columns: 82%; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); }
+  .rail__ctrl { flex-wrap: wrap; }
+}
