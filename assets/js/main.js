@@ -743,3 +743,21 @@
     grid.querySelectorAll(".mag-card").forEach((c) => { c.hidden = !!b.dataset.f && c.dataset.cat !== b.dataset.f; if (!c.hidden) c.classList.add("is-in"); });
   }));
 })();
+
+/* Carrousel de chantiers (pages Rénovation) : boutons précédent / suivant, masqués s'il n'y a rien à faire défiler */
+document.querySelectorAll("[data-rail]").forEach((rail) => {
+  const box = rail.closest("section");
+  const prev = box.querySelector("[data-rail-prev]"), next = box.querySelector("[data-rail-next]");
+  const step = () => (rail.firstElementChild ? rail.firstElementChild.getBoundingClientRect().width + 20 : rail.clientWidth);
+  const update = () => {
+    const max = rail.scrollWidth - rail.clientWidth - 2;
+    box.classList.toggle("rail--static", max <= 0);
+    prev.disabled = rail.scrollLeft <= 2;
+    next.disabled = rail.scrollLeft >= max;
+  };
+  prev.addEventListener("click", () => rail.scrollBy({ left: -step(), behavior: "smooth" }));
+  next.addEventListener("click", () => rail.scrollBy({ left: step(), behavior: "smooth" }));
+  rail.addEventListener("scroll", update, { passive: true });
+  addEventListener("resize", update);
+  update();
+});

@@ -16,6 +16,7 @@ Les liens sont absolus (`/contact/`…) : ouvrez le site via un petit serveur, p
 | Réglages (adresse du site, PDF, photos, formulaires, réseaux sociaux) | `site.config.js` |
 | Chantiers (textes, photos, mise en avant) | `src/data/projects.js` |
 | Textes des pages secteur (hôtels, boutiques, restaurants, particuliers) | `src/data/sectors.js` |
+| Appels à l'action en milieu de page (texte propre à chaque page) | `src/data/ctas.js` |
 | Questions fréquentes (FAQ en bas de chaque page) | `src/data/faq.js` (pages Rénovation : `src/data/services.js`, articles : `src/data/articles.js`) |
 | Pages (accueil, contact, showroom, légal…) | `src/pages/*.html` (titre et description dans l'en-tête JSON) |
 | Gabarits page chantier / page secteur | `src/templates/` |
@@ -25,7 +26,7 @@ Les liens sont absolus (`/contact/`…) : ouvrez le site via un petit serveur, p
 Ne modifiez jamais `dist/` : il est recréé à chaque génération.
 
 ## Les adresses
-`/` · `/hotels/` · `/boutiques/` · `/restaurants/` · `/particuliers/` · `/realisations/` · `/realisations/<chantier>/` (17 pages)
+`/` · `/professionnels/` · `/hotels/` · `/boutiques/` · `/restaurants/` · `/particuliers/` · `/realisations/` · `/realisations/<chantier>/` (17 pages)
 · `/conception-sur-mesure/` · `/savoir-faire/` · `/methode/` · `/showroom/` · `/contact/` · `/urgence/` (+ `/urgence/plomberie/`, `/urgence/electricite/`, `/urgence/assainissement/`, textes dans `src/data/urgences.js`)
 · `/projets-specifiques/` · `/qualifications/` · `/faq/` (toutes les questions de `src/data/faq.js`, par thème)
 · `/mentions-legales/` · `/politique-de-confidentialite/` · `/cgv/` · `/merci/` · `/404.html`
