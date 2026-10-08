@@ -2802,3 +2802,15 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
   .pj-cards--rail { grid-template-columns: none; grid-auto-columns: 82%; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); }
   .rail__ctrl { flex-wrap: wrap; }
 }
+
+/* ───────── Bandeaux d'appel à l'action en milieu de page (src/data/ctas.js) ───────── */
+.cta-inline { padding-block: clamp(28px, 4vw, 56px); }
+.cta-band--inline { margin-top: 0; }
+.cta-band__copy { display: grid; gap: 10px; flex: 1 1 420px; min-width: 0; }
+.cta-band__text { margin: 0; max-width: 56ch; color: var(--muted); }
+.cta-band--inline .cta-band__actions { flex: 0 1 auto; align-items: center; }
+.cta-band--post { margin: 2.4em 0; padding: clamp(22px, 3vw, 32px); }
+.cta-band--post .cta-band__title { font-size: clamp(22px, 2.2vw, 30px); }
+@media (max-width: 600px) { .cta-band--inline .cta-band__actions, .cta-band--inline .cta-band__actions .btn { width: 100%; justify-content: center; } }
+.post__body .cta-band p { margin: 0; }
+.post__body .cta-band__title { color: var(--ink); line-height: 1.1; }

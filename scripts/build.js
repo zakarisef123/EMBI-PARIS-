@@ -24,6 +24,7 @@ const OUT = path.join(ROOT, "dist");
 const cfg = require(path.join(ROOT, "site.config.js"));
 const { CATEGORIES, PROJECTS } = require(path.join(ROOT, "src/data/projects.js"));
 const SECTORS = require(path.join(ROOT, "src/data/sectors.js"));
+const CTAS = require(path.join(ROOT, "src/data/ctas.js"));
 
 const SITE = cfg.siteUrl.replace(/\/$/, "");
 const OLD = "https://www.embi.fr/wp-content/uploads/";
@@ -116,7 +117,7 @@ const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
   { keys: ["renovation"], paths: ["/particuliers/"], href: "/particuliers/", label: "Particuliers", menu: [["/particuliers/", "Rénovation d'appartement"], ["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#energetique", "Rénovation énergétique"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
-  { keys: ["projets-specifiques"], paths: ["/hotels/", "/boutiques/", "/restaurants/"], href: "/hotels/", label: "Professionnels", menu: [["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
+  { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Nos réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Le showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
@@ -166,6 +167,7 @@ const HERO_PHOTOS = {
   "/boutiques/": ["loro-piana", 3],
   "/restaurants/": ["cafe-pinson", 1],
   "/particuliers/": ["renovation-appartement", 1],
+  "/professionnels/": ["hotel-bienvenue", 3],
   "/savoir-faire/": ["charpente-bois", 2],
   "/signature/": ["le-grand-pigalle", 8],
   "/methode/": ["charpente-bois", 3],
@@ -187,7 +189,26 @@ const HERO_PHOTOS = {
 const withHeroPhoto = (content, ph) => content.replace(/<(section|header) class="cs-hero page-hero([^"]*)"([^>]*)>/, (m, tag, cls, rest) =>
   `<${tag} class="cs-hero page-hero page-hero--photo${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true">${img(ph, "", 'data-hero fetchpriority="high"')}</figure>`);
 
+// Bandeau d'appel à l'action (src/data/ctas.js). « #projet » mène au questionnaire de la page, sinon au formulaire de contact.
+const ctaBand = (c, content, title = "", inline = false) => {
+  const href = (h) => (h === "#projet" && !content.includes('id="projet"') ? "/contact/#form" : h);
+  const btn = ([l, h], cls) => `<a href="${href(h)}" class="btn ${cls}">${l}${h.startsWith("tel:") ? "" : ' <span aria-hidden="true">→</span>'}</a>`;
+  return `<div class="cta-band cta-band--inline${inline ? " cta-band--post" : ""} reveal"><div class="cta-band__copy"><p class="cta-band__title">${c.t}</p>${c.p ? `<p class="cta-band__text">${esc(c.p.replace("{title}", title))}</p>` : ""}</div><div class="cta-band__actions">${btn(c.a, "btn--accent")}${c.b ? btn(c.b, "btn--ghost") : ""}</div></div>`;
+};
+// Un bandeau par page, après la 2e section (au milieu de la page), sauf si la page en a déjà un.
+const withCta = (o) => {
+  const proj = /^\/realisations\/[\w-]+\/$/.test(o.path) && PROJECTS.find((p) => projectUrl(p) === o.path);
+  const c = CTAS.pages[o.path] || (proj && CTAS.projects[proj.category]);
+  if (!c || o.content.includes("cta-band")) return o;
+  const ends = [...o.content.matchAll(/\n {4}<\/section>/g)];
+  if (ends.length < 3) { warn(`${o.path} : pas assez de sections pour placer le bandeau d'appel à l'action.`); return o; }
+  const at = ends[1].index + ends[1][0].length;
+  const band = `\n    <section class="section section--tight cta-inline"><div class="container">${ctaBand(c, o.content, proj ? proj.title : "")}</div></section>`;
+  return { ...o, content: o.content.slice(0, at) + band + o.content.slice(at) };
+};
+
 const layout = (o) => {
+  o = withCta(o);
   const heroPh = o.heroPhoto || (HERO_PHOTOS[o.path] && shot(...HERO_PHOTOS[o.path]));
   if (heroPh) o = { ...o, content: withHeroPhoto(o.content, heroPh) };
   const url = SITE + o.path;
@@ -260,6 +281,9 @@ const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" da
             <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
+// Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
+const projRail = (id, projs, h2 = "Ils nous ont <em>confié leurs lieux.</em>") => `<div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">${h2}</h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${id}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${id}">→</button><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div></div>
+        <div class="pj-cards pj-cards--rail" id="rail-${id}" data-rail tabindex="0" aria-label="Chantiers réalisés">${projs.map((p) => card(p, "h3")).join("")}</div>`;
 // Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
 // cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
 const QUIZ_Q = [
@@ -762,6 +786,52 @@ const houseBlock = (start) => `    <section class="section svc-house">
 `;
 const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], exterieur: ["ravalement-rue-nollet", 1] }[sv.slug]);
 
+/* ───── Page Professionnels : hôtels, boutiques, restaurants et projets spécifiques ───── */
+// <!-- À RELIRE --> : textes composés à partir des pages secteur
+{
+  const PRO = SECTORS.filter((s) => s.category !== "particulier");
+  const proProjs = PROJECTS.filter((p) => PRO.some((s) => s.category === p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99));
+  const crumbs = [{ name: "Professionnels", path: "/professionnels/" }];
+  layout({
+    path: "/professionnels/",
+    key: "professionnels",
+    title: "Rénovation pour les professionnels à Paris : hôtels, boutiques, restaurants | EMBI",
+    description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
+    crumbs,
+    jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
+    content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
+    <section class="section" id="secteurs">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Nos secteurs</p><h2 class="h2 reveal">Un savoir-faire <em>par métier.</em></h2></div>
+          <!-- À RELIRE -->
+          <p class="section__aside reveal">Mise aux normes (sanitaires, accessibilité PMR, sécurité incendie, électricité), décoration et agencement : nous organisons le chantier autour de votre activité.</p>
+        </div>
+        <div class="explore__grid">
+          ${PRO.map((s, i) => {
+            const n = PROJECTS.filter((p) => p.category === s.category).length;
+            return `<a class="explore__card reveal" href="${s.path}"><span class="explore__n">${String(i + 1).padStart(2, "0")} · ${n} chantier${n > 1 ? "s" : ""}</span><h3 class="explore__t">${s.nav}</h3><p>${s.card}</p><span class="explore__go">Rénovation de ${PLURAL[s.category]} <i aria-hidden="true">→</i></span></a>`;
+          }).join("\n          ")}
+          <a class="explore__card reveal" href="/projets-specifiques/"><span class="explore__n">${String(PRO.length + 1).padStart(2, "0")} · Sur mesure</span><h3 class="explore__t">Projets spécifiques</h3><p>Corners en grand magasin, ateliers, agencements sur mesure, travaux en site occupé.</p><span class="explore__go">Les projets hors du cadre <i aria-hidden="true">→</i></span></a>
+        </div>
+      </div>
+    </section>
+    <section class="section section--tight" id="chantiers">
+      <div class="container">
+        ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Méthode</p><h2 class="h2 reveal">De l'étude <em>à la livraison.</em></h2></div><a href="/methode/" class="btn btn--ghost">Notre méthode en détail <span aria-hidden="true">→</span></a></div>
+        ${methodBrief("h3")}
+        <p class="sector__others">Vous êtes un particulier&nbsp;? <a class="btn btn--ghost" href="/particuliers/">Rénovation d'appartement</a><a class="btn btn--ghost" href="/renovation/interieur/">Rénovation intérieure</a><a class="btn btn--ghost" href="/renovation/exterieur/">Rénovation extérieure</a></p>
+      </div>
+    </section>
+    {{funnel}}`),
+  });
+}
+
 layout({
   path: "/renovation/",
   key: "renovation",
@@ -833,8 +903,7 @@ ${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? ` 
     </section>
 ` : ""}    <section class="section section--tight">
       <div class="container">
-        <div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">Ils nous ont <em>confié leurs lieux.</em></h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${sv.slug}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${sv.slug}">→</button><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div></div>
-        <div class="pj-cards pj-cards--rail" id="rail-${sv.slug}" data-rail tabindex="0" aria-label="Chantiers réalisés">${projs.map((p) => card(p, "h3")).join("")}</div>
+        ${projRail(sv.slug, projs)}
       </div>
     </section>
     <section class="section">
@@ -899,7 +968,7 @@ if (ARTICLES.length) {
       </header>
       <figure class="post__cover">${img(articleCover(a), a.title, 'fetchpriority="high"')}</figure>
       <div class="post__body">
-        ${a.sections.map((sc) => `<h2>${esc(sc.h2)}</h2>\n        ${(sc.paras || []).map((t) => `<p>${esc(t)}</p>`).join("\n        ")}${sc.list && sc.list.length ? `\n        <ul>${sc.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}`).join("\n        ")}
+        ${a.sections.map((sc, k) => `${k && k === Math.ceil(a.sections.length / 2) && CTAS.articles[a.category] ? ctaBand(CTAS.articles[a.category], 'id="projet"', "", true) + "\n        " : ""}<h2>${esc(sc.h2)}</h2>\n        ${(sc.paras || []).map((t) => `<p>${esc(t)}</p>`).join("\n        ")}${sc.list && sc.list.length ? `\n        <ul>${sc.list.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}`).join("\n        ")}
         ${proj ? `<aside class="post__proj"><p class="eyebrow">Le chantier</p>${card(proj, "h3")}</aside>` : ""}
         ${a.links && a.links.length ? `<nav class="post__links" aria-label="Pour aller plus loin"><p class="eyebrow">Pour aller plus loin</p>${a.links.map((l) => `<a href="${l.href}">${esc(l.label)} <span aria-hidden="true">→</span></a>`).join("")}</nav>` : ""}
       </div>
