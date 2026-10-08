@@ -22,6 +22,13 @@ module.exports = {
   // fourni par FormSubmit pour ne pas afficher l'adresse dans le code de la page.
   formsubmit: "sec@embi.fr",
 
+  // Carte « Autour du showroom » (page Showroom) : clé Google Maps du compte Google Cloud d'EMBI
+  // (voir README, section « Carte du quartier » : API à activer et restriction de la clé aux adresses du site).
+  // Vide = plan d'accès simple à la place de la carte interactive.
+  // Attention : la clé « AIzaSyB41DRU… » des exemples Google ne marche que sur JSFiddle, pas sur le site.
+  mapsApiKey: "",
+  showroom: { lat: 48.8794777, lng: 2.2933696 },
+
   // Réseaux sociaux : collez les adresses complètes, les liens apparaissent dans le pied de page.
   social: {
     instagram: "",

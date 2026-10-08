@@ -80,6 +80,9 @@
         if (box) box.classList.add("is-granted");
       } else if (box) box.classList.remove("is-granted");
     });
+    // cartes chargées par script (carte du quartier, page Showroom) : elles écoutent cet événement
+    window.EMBI_MEDIA_OK = ok;
+    document.dispatchEvent(new CustomEvent("embi:media", { detail: ok }));
   };
 
   const save = (choice) => {

@@ -7,7 +7,8 @@
   "bodyClass": "page-showroom",
   "bodyAttrs": " data-cta-type=\"showroom\"",
   "scripts": [
-    "showroom"
+    "showroom",
+    "quartier"
   ],
   "lightbox": true,
   "crumbs": [
@@ -113,27 +114,49 @@
       </div>
     </section>
 
-    <!-- ───────── INFOS PRATIQUES ───────── -->
+    <!-- ───────── INFOS PRATIQUES + CARTE DU QUARTIER ───────── -->
     <section class="section sr-info" id="acces">
-      <div class="container showroom__grid">
-        <div class="showroom__map reveal" data-consent-box>
-          <iframe title="Plan d'accès au showroom EMBI, 5 rue Villebois-Mareuil, Paris 17e" data-consent-src="https://www.google.com/maps?q=5+rue+Villebois-Mareuil,+75017+Paris&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          <div class="consent-ph"><strong>Plan d'accès</strong><p>La carte Google Maps peut déposer des cookies.</p><button type="button" class="btn btn--dark" data-consent-accept>Afficher la carte</button><a href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a></div>
-        </div>
-        <div class="showroom__text">
-          <p class="eyebrow reveal">Infos pratiques</p>
-          <h2 class="h2 reveal">Passez <em>nous voir.</em></h2>
-          <p class="reveal">Le showroom vous accueille du lundi au vendredi, de 10h à 18h. Une question sur un modèle&nbsp;? Appelez-nous ou écrivez-nous.</p>
+      <div class="container">
+        <div class="sr-acces">
+          <div class="sr-acces__text">
+            <p class="eyebrow reveal">Infos pratiques</p>
+            <h2 class="h2 reveal">Passez <em>nous voir.</em></h2>
+            <p class="reveal">Le showroom vous accueille du lundi au vendredi, de 10h à 18h. Une question sur un modèle&nbsp;? Appelez-nous ou écrivez-nous.</p>
+            <div class="reveal showroom__actions">
+              <a class="btn btn--dark" href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Itinéraire <span aria-hidden="true">↗</span></a>
+              <a class="btn btn--ghost" href="/contact/?type=showroom">Poser une question</a>
+            </div>
+          </div>
           <dl class="showroom__info reveal">
             <div><dt>Adresse</dt><dd>5, rue Villebois-Mareuil<br />75017 Paris</dd></div>
             <div><dt>Horaires</dt><dd>Du lundi au vendredi<br />10h à 18h</dd></div>
             <div><dt>Téléphone</dt><dd><a href="tel:+33145726524">01 45 72 65 24</a></dd></div>
             <div><dt>E-mail</dt><dd><a href="mailto:sec@embi.fr?subject=Renseignement%20carrelage%20%2F%20parquet">sec@embi.fr</a></dd></div>
           </dl>
-          <div class="reveal showroom__actions">
-            <a class="btn btn--dark" href="https://www.google.com/maps/dir/?api=1&destination=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Itinéraire <span aria-hidden="true">↗</span></a>
-            <a class="btn btn--ghost" href="/contact/?type=showroom">Poser une question</a>
+        </div>
+
+        <!-- Carte « Autour du showroom » (Google Maps, chargée seulement après accord cookies) -->
+        <div class="nd reveal" id="quartier" data-consent-box data-nd>
+          <div class="nd__panel">
+            <p class="nd__title">Autour du showroom</p>
+            <div class="nd__search">
+              <label class="sr-only" for="ndSearch">Rechercher un lieu près du showroom</label>
+              <input id="ndSearch" class="nd__input" type="search" placeholder="Rechercher un lieu à proximité" autocomplete="off" />
+            </div>
+            <div class="nd__chips" role="group" aria-label="Lieux utiles près du showroom">
+              <button type="button" data-nd-type="subway_station">Métro</button>
+              <button type="button" data-nd-type="parking">Parkings</button>
+              <button type="button" data-nd-type="restaurant">Restaurants</button>
+              <button type="button" data-nd-type="cafe">Cafés</button>
+            </div>
+            <ul class="nd__results" aria-live="polite"></ul>
+            <button type="button" class="nd__more" hidden>Voir plus</button>
+            <p class="nd__hint">Choisissez une catégorie ou cherchez un lieu : le temps de marche depuis le showroom s'affiche avec l'itinéraire.</p>
           </div>
+          <div class="nd__details" hidden></div>
+          <div class="nd__map" role="region" aria-label="Carte du quartier du showroom"></div>
+          <div class="nd__photo" hidden><img alt="" /><div class="nd__photo-bar"><button type="button" class="nd__photo-close">Fermer</button><span class="nd__photo-attrs"></span></div></div>
+          <div class="consent-ph"><strong>Autour du showroom</strong><p>La carte interactive Google Maps peut déposer des cookies.</p><button type="button" class="btn btn--dark" data-consent-accept>Afficher la carte</button><a href="https://www.google.com/maps/search/?api=1&query=5+rue+Villebois-Mareuil+75017+Paris" target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a></div>
         </div>
       </div>
     </section>
