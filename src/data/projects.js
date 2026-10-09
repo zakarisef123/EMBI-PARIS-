@@ -56,7 +56,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Décoration"],
     histoire: ["Pour le restaurant Fish Club, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration imaginée par Dorothée Meilichzon."],
     images: gal("2017/09/FishClub_03.jpg", seq("2017/09", "FishClub", 1, 8)) },
-  { id: "hotel-ambassadeur", oldId: "ambassadeur", title: "Hôtel Ambassadeur", category: "hotel",
+  { id: "hotel-ambassadeur", oldId: "ambassadeur", title: "Projet Ambassadeur", category: "particulier", // projet privé pour un ambassadeur (pas un hôtel) ; adresse inchangée
     travaux: ["Embellissement", "Rénovation"],
     images: gal("2017/11/Hotel-ambassadeur-9.jpg", seq("2017/11", "Hotel-ambassadeur", 1, 12, 1, "-")) },
   { id: "byredo", title: "Byredo", category: "boutique", featured: 2, lieu: "Le Bon Marché, Paris 7e",
@@ -118,7 +118,7 @@ const PROJECTS = [
     histoire: ["Pour le restaurant Triomphe, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration signée Richard Lafond.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
 
-  { id: "appartement-renovation-complete", title: "Appartement rénové de A à Z", category: "particulier",
+  { id: "appartement-renovation-complete", title: "Appartement entièrement rénové", category: "particulier",
     text: "Rénovation complète d'un appartement parisien : parquet, cuisine, salles d'eau, plomberie et électricité.",
     travaux: ["Rénovation complète", "Parquet chêne", "Cuisine équipée", "Salle d'eau et douche à l'italienne", "Plomberie", "Électricité"],
     histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],

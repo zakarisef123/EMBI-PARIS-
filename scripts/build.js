@@ -112,16 +112,17 @@ const BUSINESS = {
 
 /* ───── Gabarit de page ───── */
 // Menu principal. « keys » : pages qui allument la rubrique (aria-current).
-// La FAQ et Le Mag ne sont plus dans le menu (toujours en ligne, liés depuis le pied de page).
+// La FAQ n'est plus dans le menu (toujours en ligne, liée depuis le pied de page).
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], paths: ["/particuliers/"], href: "/particuliers/", label: "Particuliers", menu: [["/particuliers/", "Rénovation d'appartement"], ["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#energetique", "Rénovation énergétique"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
+  { keys: ["renovation"], paths: ["/particuliers/"], href: "/particuliers/", label: "Particuliers", menu: [["/particuliers/", "Rénovation d'appartement"], ["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
-  { keys: ["realisations", "signature"], href: "/realisations/", label: "Nos réalisations" },
-  { keys: ["showroom"], href: "/showroom/", label: "Le showroom" },
+  { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
+  { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
-  { keys: ["urgence"], href: "/urgence/", label: "Urgences &amp; dépannage", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
+  { keys: ["urgence"], href: "/urgence/", label: "Urgences", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
+  { keys: ["mag"], href: "/mag/", label: "Le Mag" },
   { keys: ["contact"], href: "/contact/", label: "Contact" },
 ];
 const HEADER = read("src/layout/header.html"), FOOTER = read("src/layout/footer.html"), LOADER = read("src/layout/loader.html");
@@ -300,7 +301,7 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
           <ol class="funnel__next">
             <li><b>1</b><span>Vous décrivez votre projet</span></li>
             <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
-            <li><b>3</b><span>Étude de faisabilité et devis gratuit, poste par poste</span></li>
+            <li><b>3</b><span>Étude de faisabilité et devis gratuit et détaillé</span></li>
           </ol>
           <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
         </div>
@@ -345,9 +346,8 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
     </section>`;
 const STEPS = [
   ["Étude de faisabilité", "Nous analysons l'ensemble de votre projet pour valider la faisabilité des travaux."],
-  ["Chiffrage", "Un devis réalisé ensemble et en toute transparence, poste par poste."],
-  ["Mise en place", "Nous signons ensemble les termes du chantier, puis nous installons et protégeons les lieux."],
-  ["Réalisation", "Nos équipes spécialisées interviennent, coordonnées par votre interlocuteur dédié."],
+  ["Chiffrage", "Un devis détaillé, réalisé ensemble et en toute transparence."],
+  ["Réalisation", "Nos équipes spécialisées interviennent dans le respect du cahier des charges, coordonnées par votre interlocuteur dédié."],
   ["Livraison", "Un expert EMBI vous présente l'intégralité des travaux."],
 ];
 const methodBrief = (level = "h3") => `<ol class="brief">
@@ -671,7 +671,7 @@ PROJECTS.forEach((p, i) => {
     : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} clé en main par EMBI à Paris. Photos et détails du chantier.`;
   const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"], ["Photos", esc(p.credit)]].filter(([, v]) => v);
   const story = p.histoire && p.histoire.length ? p.histoire : [
-    "Comme pour chaque chantier EMBI, ce projet a été mené de A à Z : étude de faisabilité, chiffrage transparent poste par poste, puis coordination de tous les corps de métier jusqu'à la livraison.",
+    "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
   ];
   const prev = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length], next = PROJECTS[(i + 1) % PROJECTS.length];
@@ -836,7 +836,7 @@ layout({
   path: "/renovation/",
   key: "renovation",
   title: "Rénovation intérieure et extérieure à Paris | EMBI",
-  description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur de A à Z.",
+  description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.",
   crumbs: [{ name: "Rénovation", path: "/renovation/" }],
   content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
     <section class="pn works" id="types">
@@ -897,6 +897,19 @@ ${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? ` 
         <ol class="svc__grid">
           ${sv.energy.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
         </ol>
+        ${sv.energy.dpe ? `<!-- À RELIRE : explication du DPE (règles en vigueur au moment de la rédaction) -->
+        <div class="svc__dpe reveal">
+          <div class="svc__dpe-text">
+            <p class="svc__dpe-k">Respect du DPE</p>
+            <h3 class="svc__dpe-t">Le DPE, qu'est-ce que c'est&nbsp;?</h3>
+            <p>Le <strong>diagnostic de performance énergétique</strong> (DPE) note un logement de <strong>A</strong>, très performant, à <strong>G</strong>, très énergivore. Il tient compte de la consommation d'énergie et des émissions de gaz à effet de serre. Il est obligatoire pour vendre ou louer un logement et reste valable 10 ans.</p>
+            <p>Depuis la loi Climat et Résilience, les logements les plus énergivores sont progressivement interdits à la location&nbsp;: classe G depuis 2025, classe F à partir de 2028, classe E à partir de 2034.</p>
+            <p>Nos travaux de rénovation énergétique sont pensés pour respecter les exigences du DPE&nbsp;: nous partons de votre diagnostic pour cibler les postes qui pèsent le plus et faire progresser la classe de votre logement.</p>
+          </div>
+          <ol class="dpe" aria-label="Échelle du DPE, de A (très performant) à G (très énergivore)">
+            ${["A", "B", "C", "D", "E", "F", "G"].map((l, i) => `<li class="dpe__${l.toLowerCase()}" style="--w:${44 + i * 9}%"><b>${l}</b>${i === 0 ? "<span>Très performant</span>" : i === 6 ? "<span>Très énergivore</span>" : ""}</li>`).join("")}
+          </ol>
+        </div>` : ""}
         ${sv.energy.rge ? `<!-- À RELIRE : n'afficher que si la qualification RGE est confirmée -->
         <div class="svc__rge reveal"><strong>RGE</strong><p>Les aides publiques à la rénovation énergétique sont réservées aux travaux réalisés par des entreprises qualifiées RGE (Reconnu Garant de l'Environnement). Nous vous orientons vers les dispositifs en vigueur dès l'étude de votre projet.</p></div>` : ""}
       </div>

@@ -876,12 +876,7 @@ img.is-broken { opacity: 0; }
 
 /* pièce en clair */
 #methode .ink * { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-#methode .site .tarp { fill: url(#tarp); stroke: rgba(22, 21, 19, 0.4); stroke-width: 1; }
-#methode .site .tape { fill: url(#tape); stroke: none; }
-#methode .site .scaf { fill: none; stroke: var(--orange); stroke-width: 2.2; }
-#methode .site .cone { fill: var(--orange); stroke: none; }
-#methode .site .cone-b { fill: #fff; stroke: none; }
-#methode .site .lbl, #methode .work .lbl { fill: rgba(22, 21, 19, 0.55); }
+#methode .work .lbl { fill: rgba(22, 21, 19, 0.55); }
 #methode .work .paint { fill: #e9d6c4; stroke: none; }
 #methode .work .roller { fill: var(--orange); stroke: none; }
 #methode .work .handle { fill: none; stroke: var(--ink); stroke-width: 2; }
@@ -2814,3 +2809,60 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 @media (max-width: 600px) { .cta-band--inline .cta-band__actions, .cta-band--inline .cta-band__actions .btn { width: 100%; justify-content: center; } }
 .post__body .cta-band p { margin: 0; }
 .post__body .cta-band__title { color: var(--ink); line-height: 1.1; }
+
+/* En-tête : « Nous appeler » (numéro sur grand écran, bouton rond ailleurs) */
+.header__tel { flex: none; display: inline-flex; align-items: center; gap: 8px; margin-left: auto; padding: 0 2px; font: 600 14px var(--sans); letter-spacing: 0.02em; white-space: nowrap; color: var(--ink); transition: color 0.3s; }
+.header__tel svg { width: 17px; height: 17px; fill: currentColor; flex: none; }
+.header__tel:hover, .header__tel:focus-visible { color: var(--accent); }
+.header.on-dark:not(.is-scrolled) .header__tel { color: var(--on-dark); }
+.header.on-dark:not(.is-scrolled) .header__tel:hover { color: var(--accent-2); }
+.header__tel + .header__cta { margin-left: 0; }
+@media (max-width: 1599px) {
+  .header__tel { justify-content: center; width: 40px; height: 40px; padding: 0; border: 1px solid var(--line); border-radius: 50%; }
+  .header.on-dark:not(.is-scrolled) .header__tel { border-color: rgba(247, 244, 238, 0.45); }
+  .header__tel-l { display: none; }
+}
+@media (max-width: 1180px) {
+  .header__tel { position: relative; z-index: 2; margin-left: 8px; }
+  .header__urgent + .header__tel { margin-left: 8px; }
+  .header__tel + .header__cta { margin-left: 8px; }
+  .menu-open .header .header__tel, .menu-open .header.on-dark:not(.is-scrolled) .header__tel { color: var(--ink); border-color: var(--line); }
+}
+@media (max-width: 420px) {
+  .header__tel { width: 34px; height: 34px; margin-left: 6px; }
+  .header__tel svg { width: 15px; height: 15px; }
+  .header__urgent + .header__tel, .header__tel + .header__cta { margin-left: 6px; }
+}
+@media (max-width: 340px) { .header__tel { margin-left: auto; } }
+
+/* Rénovation énergétique : encadré « Respect du DPE » */
+.svc__dpe { margin-top: clamp(28px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; padding: clamp(22px, 3vw, 36px); background: #fff; border-left: 3px solid var(--accent); }
+.svc__dpe-k { margin: 0 0 8px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.svc__dpe-t { margin: 0 0 12px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.4vw, 30px); line-height: 1.15; }
+.svc__dpe-text p:not(.svc__dpe-k) { margin: 0 0 12px; font-size: 14.5px; line-height: 1.8; color: var(--ink-2); }
+.svc__dpe-text p:last-child { margin-bottom: 0; }
+.dpe { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.dpe li { display: grid; grid-template-columns: minmax(0, 1fr) 104px; align-items: center; gap: 10px; }
+.dpe b { width: var(--w); min-width: 44px; padding: 6px 12px; color: #fff; font: 700 16px var(--sans); clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); }
+.dpe span { font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.dpe__a b { background: #009c6d; } .dpe__b b { background: #52b153; } .dpe__c b { background: #a5cc74; color: var(--ink); }
+.dpe__d b { background: #f4e70f; color: var(--ink); } .dpe__e b { background: #f0b40f; color: var(--ink); } .dpe__f b { background: #eb8235; } .dpe__g b { background: #d7221f; }
+@media (max-width: 760px) { .svc__dpe { grid-template-columns: minmax(0, 1fr); } }
+
+/* En-tête ordinateur : tout tient sur une ligne (menu + téléphone + devis) */
+@media (min-width: 1181px) and (max-width: 1599px) { .header__cta-l { display: none; } }
+@media (min-width: 1181px) and (max-width: 1360px) {
+  .header__inner { gap: 14px; }
+  .nav { gap: 10px; font-size: 11px; letter-spacing: 0.04em; }
+  .dd__btn { width: 16px; }
+  .header__tel { width: 36px; height: 36px; }
+  .header__cta { padding: 11px 13px; font-size: 11px; letter-spacing: 0.06em; }
+}
+@media (max-width: 1180px) {
+  .header__inner { gap: 8px; }
+  .header__tel, .header__urgent + .header__tel, .header__tel + .header__cta { margin-left: 0; }
+  .burger { flex: none; margin-left: 2px; }
+}
+@media (max-width: 420px) { .header__inner { gap: 6px; } }
+@media (max-width: 340px) { .header__tel { margin-left: auto; } }
+@media (min-width: 1600px) { .header__inner { max-width: 1600px; } }
