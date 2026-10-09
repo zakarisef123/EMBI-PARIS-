@@ -134,7 +134,6 @@ const header = (key, path_) => {
       ? `        <div class="dd"><a href="${n.href}" class="dd__t"${cur(on(n))}>${n.label}</a><button type="button" class="dd__btn" aria-expanded="false" aria-controls="dd-${i}" aria-label="Afficher le sous-menu ${strip(n.label).replace("&amp;", "et")}"><span aria-hidden="true">▾</span></button><div class="dd__menu" id="dd-${i}">${n.menu.map(([h, l]) => `<a href="${h}"${cur(h === path_)}>${l}</a>`).join("")}${n.call ? `<a href="tel:+33631600135" class="dd__call"><span class="pulse"></span>Urgence : 06 31 60 01 35</a>` : ""}</div></div>`
       : `        <a href="${n.href}"${cur(on(n))}>${n.label}</a>`).join("\n"),
     ctaCurrent: cur(key === "contact"),
-    urgentCurrent: cur(key === "urgence"),
   }).trim();
 };
 const SOCIAL_LABELS = { instagram: "Instagram", linkedin: "LinkedIn", facebook: "Facebook" };

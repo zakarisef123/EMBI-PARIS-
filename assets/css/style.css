@@ -2833,7 +2833,6 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
   .header__tel svg { width: 15px; height: 15px; }
   .header__urgent + .header__tel, .header__tel + .header__cta { margin-left: 6px; }
 }
-@media (max-width: 340px) { .header__tel { margin-left: auto; } }
 
 /* Rénovation énergétique : encadré « Respect du DPE » */
 .svc__dpe { margin-top: clamp(28px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; padding: clamp(22px, 3vw, 36px); background: #fff; border-left: 3px solid var(--accent); }
@@ -2860,9 +2859,9 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 }
 @media (max-width: 1180px) {
   .header__inner { gap: 8px; }
-  .header__tel, .header__urgent + .header__tel, .header__tel + .header__cta { margin-left: 0; }
+  .header__tel { margin-left: auto; } /* le bouton Urgence de l'en-tête a été retiré : le téléphone part à droite */
+  .header__tel + .header__cta { margin-left: 0; }
   .burger { flex: none; margin-left: 2px; }
 }
 @media (max-width: 420px) { .header__inner { gap: 6px; } }
-@media (max-width: 340px) { .header__tel { margin-left: auto; } }
 @media (min-width: 1600px) { .header__inner { max-width: 1600px; } }
