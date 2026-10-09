@@ -42,11 +42,16 @@ const manifestFile = path.join(ROOT, "assets/img/manifest.json");
 const manifest = fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, "utf8")) : null;
 if (cfg.photos === "local" && !manifest) warn("photos: \"local\" mais assets/img/manifest.json est absent : photos de l'ancien site utilisées.");
 const localSet = (e) => ({ src: `${e.base}-${e.widths[Math.min(1, e.widths.length - 1)]}.webp`, srcset: e.widths.map((w) => `${e.base}-${w}.webp ${w}w`).join(", "), width: e.w, height: e.h });
+// « cover: n » dans projects.js : la photo n° n (devanture, bâtiment…) passe en tête et devient la photo du chantier
+const coverFirst = (list, n) => {
+  if (!n || n < 1 || n > list.length) return list;
+  return [list[n - 1], ...list.slice(0, n - 1), ...list.slice(n)];
+};
 const projectPhotos = (p) => {
   const list = manifest && manifest.projets && manifest.projets[p.id];
-  if (list && list.length) return list.map(localSet);
+  if (list && list.length) return coverFirst(list.map(localSet), p.cover);
   if (cfg.photos === "local") warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
-  return p.images.map((f) => ({ src: OLD + f }));
+  return coverFirst(p.images.map((f) => ({ src: OLD + f })), p.coverOld);
 };
 // images du site hors chantiers (photo d'accueil, couvertures des catalogues)
 const SITE_IMAGES = {
@@ -520,6 +525,22 @@ const BLOCKS = {
   "all-cards": () => `<div class="pj-cards pj-cards--grid" id="grid">
           ${PROJECTS.map((p) => card(p, "h3")).join("\n          ")}
         </div>`,
+  // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
+  "works-all": () => {
+    const order = ["hotel", "boutique", "restaurant", "particulier", "savoir-faire"];
+    const list = [...featured, ...PROJECTS.filter((p) => !p.featured).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    return `<div class="filters realisations-all" role="group" aria-label="Filtrer les réalisations">
+            <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
+            ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
+          </div>
+          <div class="works__grid works__grid--4 works__grid--all" id="grid">
+            ${list.map((p) => `<a class="works__card" href="${projectUrl(p)}" data-cat="${p.category}">
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <h3 class="works__t">${esc(p.title)}</h3>
+              <span class="works__cat">${CATEGORIES_LABEL[p.category] || ""}</span>
+            </a>`).join("\n            ")}
+          </div>`;
+  },
   "grid-filters": () => `<div class="filters" role="group" aria-label="Filtrer les réalisations">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}

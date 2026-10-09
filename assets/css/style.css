@@ -2865,3 +2865,12 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 }
 @media (max-width: 420px) { .header__inner { gap: 6px; } }
 @media (min-width: 1600px) { .header__inner { max-width: 1600px; } }
+
+/* Réalisations : filtres + toutes les cartes photo (nom du client dessous) */
+.realisations-grid .filters { margin: 0 0 clamp(28px, 4vw, 44px); }
+.works__grid--all .works__t { margin-bottom: 2px; }
+@media (max-width: 760px) {
+  .realisations-grid .filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .realisations-grid .filters::-webkit-scrollbar { display: none; }
+  .realisations-grid .filter { flex: none; white-space: nowrap; }
+}

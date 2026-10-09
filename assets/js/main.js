@@ -174,7 +174,7 @@
   /* ───── Réalisations : filtres de la grille ───── */
   const grid = $("#grid");
   if (grid) {
-    const cards = $$(".pj-card", grid);
+    const cards = $$(".pj-card, .works__card", grid);
     $$(".realisations-all .filter").forEach((btn) =>
       btn.addEventListener("click", () => {
         $$(".realisations-all .filter").forEach((b) => {
