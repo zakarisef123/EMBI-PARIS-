@@ -16,9 +16,9 @@ const URG = "06 31 60 01 35";
 const PAGES = {
   "/": [
     ["Quels types de lieux rénovez-vous ?", "Hôtels, boutiques, restaurants, bureaux, appartements et maisons de particuliers. Professionnel ou particulier, petits ou grands projets : vous trouverez la prestation qu'il vous faut. Voir nos [réalisations](/realisations/)."],
-    ["Que veut dire « rénovation clé en main » ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis poste par poste, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
+    ["Que veut dire « rénovation clé en main » ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis détaillé, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
     ["Où intervenez-vous ?", "À Paris et en Île-de-France. Notre bureau et notre showroom se trouvent au 5, rue Villebois-Mareuil, dans le 17e arrondissement."],
-    ["Le devis est-il gratuit ?", `Oui. Décrivez votre projet en 3 questions ou appelez le ${TEL} : après l'étude de faisabilité, nous établissons avec vous un devis gratuit et transparent, poste par poste.`],
+    ["Le devis est-il gratuit ?", `Oui. Décrivez votre projet en 3 questions ou appelez le ${TEL} : après l'étude de faisabilité, nous établissons avec vous un devis gratuit, détaillé et transparent.`],
     ["Avez-vous un architecte dans l'équipe ?", "Oui, un architecte et un architecte d'intérieur dessinent les projets que nos équipes réalisent ensuite. Voir la [conception sur mesure](/conception-sur-mesure/)."],
     ["Que faire en cas d'urgence ?", `En dehors des heures d'ouverture du bureau, une ligne dédiée répond pour la plomberie, l'électricité et l'assainissement : ${URG}. Voir la page [Urgence](/urgence/).`],
   ],
@@ -32,7 +32,7 @@ const PAGES = {
   ],
 
   "/boutiques/": [
-    ["Pouvez-vous créer une boutique de A à Z ?", "Oui. Pour Loro Piana, EMBI a pris en charge la création complète de la boutique. Nous réalisons aussi des rénovations complètes (Colette) et des embellissements (Petite Mendigote)."],
+    ["Pouvez-vous prendre en charge la création complète d'une boutique ?", "Oui. Pour Loro Piana, EMBI a pris en charge la création complète de la boutique. Nous réalisons aussi des rénovations complètes (Colette) et des embellissements (Petite Mendigote)."],
     ["Intervenez-vous dans les grands magasins ?", "Oui : corner Byredo au Bon Marché, boutique Tartine et Chocolat chez Harrods. On y travaille au sein d'un magasin en activité, avec ses règles et ses horaires. Lire notre article sur le [corner Byredo](/mag/corner-byredo-bon-marche-agencement/)."],
     ["Respectez-vous le cahier des charges d'une marque ?", "C'est le cœur de nos chantiers Signature : l'interlocuteur dédié, l'architecte, l'architecte d'intérieur et nos professionnels sont coordonnés pour tenir le niveau d'exigence de chaque marque. Voir [Signature](/signature/)."],
     ["Pouvez-vous dessiner l'agencement de la boutique ?", "Oui. Notre architecte d'intérieur conçoit l'agencement et le mobilier sur mesure, puis nos équipes le réalisent. Voir la [conception sur mesure](/conception-sur-mesure/)."],
@@ -60,7 +60,7 @@ const PAGES = {
     ["Quelle différence entre rénovation intérieure et extérieure ?", "L'intérieur couvre la plomberie, l'électricité, les sols et revêtements, l'isolation, la décoration et la rénovation énergétique. L'extérieur couvre le ravalement, les menuiseries, les balcons, les vérandas, les toitures et les terrasses."],
     ["Où trouver la rénovation énergétique ?", "Elle fait partie de la [rénovation intérieure](/renovation/interieur/#energetique) : isolation, fenêtres, ventilation, chauffage et eau chaude."],
     ["Pouvez-vous mener l'intérieur et l'extérieur dans le même chantier ?", "Oui. EMBI intervient de la fondation jusqu'au toit et coordonne tous les corps de métier, avec un seul interlocuteur pour l'ensemble des travaux."],
-    ["Combien coûte une rénovation ?", "Chaque projet est différent : le prix dépend du lieu, de la surface et des travaux. Après l'étude de faisabilité, nous établissons avec vous un devis gratuit, poste par poste."],
+    ["Combien coûte une rénovation ?", "Chaque projet est différent : le prix dépend du lieu, de la surface et des travaux. Après l'étude de faisabilité, nous établissons avec vous un devis gratuit et détaillé."],
     ["Faut-il une autorisation pour mes travaux ?", "Les travaux qui modifient l'aspect extérieur d'un bâtiment demandent en général une déclaration préalable en mairie. Notre architecte vous accompagne pour les autorisations de travaux."],
   ],
 
@@ -78,12 +78,12 @@ const PAGES = {
     ["Intervenez-vous sur le gros œuvre ?", "Oui : structure métallique ou bois, ouvertures de baies, normes coupe-feu, construction de maison ou rénovation totale de locaux professionnels."],
     ["Faites-vous aussi les petits travaux ?", "Oui. Professionnel ou particulier, petits ou grands projets, nous sommes à votre écoute."],
     ["Que contient votre contrat de rénovation ?", "Nos engagements : un interlocuteur unique dédié, le respect des délais, la réactivité, la sécurité à tous les niveaux, un rapport qualité-prix optimisé, des professionnels qualifiés et le respect de l'environnement."],
-    ["Faut-il plusieurs devis pour plusieurs corps de métier ?", "Non. Vous recevez un seul devis, détaillé poste par poste, et un seul interlocuteur coordonne l'ensemble des équipes."],
+    ["Faut-il plusieurs devis pour plusieurs corps de métier ?", "Non. Vous recevez un seul devis détaillé, et un seul interlocuteur coordonne l'ensemble des équipes."],
   ],
 
   "/methode/": [
-    ["Comment se déroule un chantier EMBI ?", "En 5 étapes : étude de faisabilité, chiffrage, mise en place, réalisation, livraison. Un interlocuteur dédié vous accompagne de la première à la dernière."],
-    ["À quel moment reçoit-on le devis ?", "Après l'étude de faisabilité et avant la phase de travaux. Il est réalisé ensemble, en toute transparence, poste par poste, et il est gratuit."],
+    ["Comment se déroule un chantier EMBI ?", "En 4 étapes : étude de faisabilité, chiffrage, réalisation, livraison. Un interlocuteur dédié vous accompagne de la première à la dernière."],
+    ["À quel moment reçoit-on le devis ?", "Après l'étude de faisabilité et avant la phase de travaux. Ce devis détaillé est réalisé ensemble, en toute transparence, et il est gratuit."],
     ["Que se passe-t-il avant le premier jour de travaux ?", "Nous définissons et signons ensemble les termes qui guideront tout le chantier, puis nous installons et protégeons les lieux."],
     ["Qui coordonne les équipes pendant les travaux ?", "Votre interlocuteur dédié. Il coordonne nos équipes spécialisées (électricité, sols, peinture…) et vous tient informé."],
     ["Comment se passe la livraison ?", "Un expert EMBI vous présente l'intégralité des travaux et répond à toutes vos questions."],
@@ -98,7 +98,7 @@ const PAGES = {
   ],
 
   "/contact/": [
-    ["Le devis est-il gratuit ?", "Oui, toujours. Il est établi après l'étude de faisabilité, poste par poste et en toute transparence."],
+    ["Le devis est-il gratuit ?", "Oui, toujours. Il est établi après l'étude de faisabilité, détaillé et en toute transparence."],
     ["Que se passe-t-il après l'envoi de ma demande ?", "Votre interlocuteur dédié vous recontacte pour parler de votre projet, puis nous réalisons l'étude de faisabilité et le devis."],
     ["Quelles informations donner dans ma demande ?", "Le type de lieu, la surface approximative, l'échéance souhaitée et les travaux envisagés. Si un de nos chantiers ressemble à votre projet, citez-le."],
     ["Quels sont vos horaires ?", `Le bureau et le showroom vous accueillent du lundi au vendredi, de 10h à 18h. Téléphone : ${TEL}, e-mail : sec@embi.fr.`],

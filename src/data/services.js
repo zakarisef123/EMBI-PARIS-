@@ -29,6 +29,7 @@ module.exports = [
       title: "Rénovation énergétique",
       lead: "Moins de pertes de chaleur, plus de confort, des factures maîtrisées : EMBI réalise les travaux qui améliorent la performance énergétique de votre logement ou de vos locaux.",
       rge: true,
+      dpe: true, // encadré « Respect du DPE » (explication + échelle A à G)
       services: [
         ["Isolation des murs", "Isolation par l'intérieur, adaptée aux immeubles parisiens, ou par l'extérieur lors d'un ravalement."],
         ["Combles & toitures", "Isolation des combles et de la toiture, reprise d'étanchéité."],
@@ -42,6 +43,7 @@ module.exports = [
       ["Pouvez-vous rénover un appartement entier ?", "Oui. EMBI prend en charge la rénovation complète d'un appartement, de l'étude de faisabilité à la livraison, en coordonnant tous les corps de métier."],
       ["Intervenez-vous sur les locaux professionnels ?", "Oui : hôtels, boutiques, restaurants et bureaux. Les travaux peuvent inclure la remise aux normes en parallèle de la décoration."],
       ["Puis-je choisir mes matériaux sur place ?", "Notre showroom carrelages et parquets du 17e vous permet de voir et toucher les matières avant de décider."],
+      ["Qu'est-ce que le DPE ?", "Le diagnostic de performance énergétique classe un logement de A (très performant) à G (très énergivore), selon sa consommation d'énergie et ses émissions de gaz à effet de serre. Il est obligatoire pour vendre ou louer et reste valable 10 ans. Nos travaux de rénovation énergétique sont pensés pour respecter ses exigences et faire progresser la classe de votre logement."],
       ["Qu'est-ce que la qualification RGE ?", "RGE signifie « Reconnu Garant de l'Environnement ». Faire réaliser ses travaux par une entreprise RGE est une condition pour prétendre à la plupart des aides publiques à la rénovation énergétique."],
       ["Par quels travaux commencer ?", "En général, par l'isolation et les menuiseries, puis la ventilation et le chauffage. Un état des lieux permet de prioriser selon votre logement."],
       ["Quelles aides pour mes travaux ?", "Les aides évoluent régulièrement : consultez les conditions en vigueur sur france-renov.gouv.fr. Nous vous orientons lors de l'étude de votre projet."],

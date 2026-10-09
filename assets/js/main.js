@@ -174,7 +174,7 @@
   /* ───── Réalisations : filtres de la grille ───── */
   const grid = $("#grid");
   if (grid) {
-    const cards = $$(".pj-card", grid);
+    const cards = $$(".pj-card, .works__card", grid);
     $$(".realisations-all .filter").forEach((btn) =>
       btn.addEventListener("click", () => {
         $$(".realisations-all .filter").forEach((b) => {
@@ -667,13 +667,14 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NAMES = ["Étude", "Chiffrage", "Mise en place", "Réalisation", "Livraison"];
+  const NAMES = ["Étude", "Chiffrage", "Réalisation", "Livraison"];
+  const LAST = NAMES.length - 1; // livraison
   const DURATION = 6000;
   // croquis d'architecte de la livraison : utilisé seulement si l'image est présente
   let sketchOk = false;
   const skImg = document.querySelector("#mt-sketch img");
   if (skImg) {
-    const ok = () => { sketchOk = true; skImg.parentElement.hidden = false; if (k === 4) show(4); };
+    const ok = () => { sketchOk = true; skImg.parentElement.hidden = false; if (k === LAST) show(LAST); };
     skImg.complete && skImg.naturalWidth ? setTimeout(ok, 0) : skImg.addEventListener("load", ok);
     skImg.loading = "eager";
   }
@@ -701,7 +702,7 @@
     if (sk && sketchOk) {
       sk.classList.remove("is-on");
       void sk.offsetWidth;
-      sk.classList.toggle("is-on", n === 4);
+      sk.classList.toggle("is-on", n === LAST);
     }
   };
 
@@ -709,7 +710,7 @@
     const running = !paused && !hovering && inView && !reduce;
     if (running) {
       elapsed += t - t0;
-      if (elapsed >= DURATION) show((k + 1) % 5);
+      if (elapsed >= DURATION) show((k + 1) % NAMES.length);
     }
     t0 = t;
     if (bars[k]) bars[k].style.transform = `scaleX(${Math.min(elapsed / DURATION, 1)})`;

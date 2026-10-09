@@ -39,8 +39,8 @@ module.exports = [
       {
         h2: "Comment se déroule un chantier d'hôtel avec EMBI ?",
         paras: [
-          "Chaque chantier suit la même méthode en cinq étapes. L'étude de faisabilité permet d'analyser l'ensemble du bâtiment, de repérer les contraintes et de valider ce qui peut être fait. Vient ensuite le chiffrage, un devis réalisé ensemble et poste par poste, en toute transparence, avant le début des travaux.",
-          "La mise en place fixe les termes qui guideront le chantier, puis les lieux sont installés et protégés. Pendant la réalisation, les équipes spécialisées interviennent, coordonnées par votre interlocuteur dédié. À la livraison, un expert EMBI vous présente l'intégralité des travaux et répond à vos questions.",
+          "Chaque chantier suit la même méthode en quatre étapes. L'étude de faisabilité permet d'analyser l'ensemble du bâtiment, de repérer les contraintes et de valider ce qui peut être fait. Vient ensuite le chiffrage, un devis détaillé réalisé ensemble, en toute transparence, avant le début des travaux.",
+          "Pendant la réalisation, les équipes spécialisées interviennent dans le respect du cahier des charges, coordonnées par votre interlocuteur dédié. À la livraison, un expert EMBI vous présente l'intégralité des travaux et répond à vos questions.",
         ],
       },
       {
@@ -56,20 +56,20 @@ module.exports = [
           "Quelques éléments facilitent beaucoup l'étude de faisabilité : les plans dont vous disposez, les éventuels rapports de visite ou de contrôle, la liste des points que vous souhaitez faire évoluer et vos contraintes d'exploitation.",
           "Avec plus de dix ans d'expérience et un architecte comme un architecte d'intérieur dans l'équipe, EMBI peut vous accompagner dès la réflexion, avant même que le projet soit arrêté.",
           "Pensez aussi au calendrier de votre activité. Selon la saison, le taux de remplissage ou les événements prévus, il peut être plus judicieux de fermer quelques semaines ou au contraire de phaser les travaux étage par étage. Ce choix se prend tôt, car il conditionne toute l'organisation du chantier.",
-          "Enfin, faites la liste de ce qui compte le plus pour vos clients : une chambre plus calme, une salle de bain plus généreuse, un accueil plus chaleureux. Ces priorités guideront les arbitrages, poste par poste, au moment du chiffrage.",
+          "Enfin, faites la liste de ce qui compte le plus pour vos clients : une chambre plus calme, une salle de bain plus généreuse, un accueil plus chaleureux. Ces priorités guideront les arbitrages au moment du devis détaillé.",
         ],
       },
     ],
     faq: [
       { q: "EMBI peut-elle rénover un hôtel dans son ensemble ?", a: "Oui. À l'Hôtel Panache comme au Grand Pigalle, EMBI a mené l'embellissement et la rénovation de l'ensemble du bâtiment." },
       { q: "Quelles mises aux normes concernent un hôtel ?", a: "Selon l'établissement, elles peuvent porter sur les sanitaires, les circulations et l'accessibilité PMR, la sécurité incendie et l'électricité. L'étude de faisabilité permet de faire le point." },
-      { q: "Le devis est-il payant ?", a: "Non, le devis est gratuit. Il est établi poste par poste, avant le début des travaux." },
+      { q: "Le devis est-il payant ?", a: "Non, le devis est gratuit. C'est un devis détaillé, établi avant le début des travaux." },
       { q: "Qui suit le chantier au quotidien ?", a: "Un interlocuteur dédié coordonne toutes les équipes pendant toute la durée du chantier." },
     ],
     links: [
       { href: "/realisations/hotel-panache/", label: "Le chantier de l'Hôtel Panache" },
       { href: "/hotels/", label: "Nos chantiers d'hôtels" },
-      { href: "/methode/", label: "Notre méthode en 5 étapes" },
+      { href: "/methode/", label: "Notre méthode en 4 étapes" },
     ],
   },
   {
@@ -88,6 +88,13 @@ module.exports = [
         paras: [
           "Avant de choisir une chaudière ou de nouvelles fenêtres, il faut comprendre où se perd la chaleur. Un diagnostic de performance énergétique, ou mieux un audit lorsqu'il est réalisé, donne une photographie du logement et hiérarchise les postes à traiter.",
           "La logique générale est simple : on réduit d'abord les besoins (isolation, étanchéité à l'air), on assure ensuite le renouvellement de l'air, puis on adapte le chauffage à des besoins devenus plus faibles. Inverser l'ordre conduit souvent à surdimensionner un équipement.",
+        ],
+      },
+      {
+        h2: "Le DPE : comprendre le diagnostic de performance énergétique",
+        paras: [
+          "Le DPE note un logement de A, très performant, à G, très énergivore. Il tient compte de la consommation d'énergie et des émissions de gaz à effet de serre. Il est obligatoire pour vendre ou louer un logement et reste valable 10 ans.",
+          "Depuis la loi Climat et Résilience, les logements les plus énergivores sont progressivement interdits à la location : classe G depuis 2025, classe F à partir de 2028, classe E à partir de 2034. Chez EMBI, les travaux de rénovation énergétique sont pensés pour respecter les exigences du DPE : on part du diagnostic pour cibler les postes qui pèsent le plus et faire progresser la classe du logement.",
         ],
       },
       {
@@ -126,12 +133,13 @@ module.exports = [
       {
         h2: "Comment EMBI vous accompagne",
         paras: [
-          "Plomberie, électricité, isolation, menuiseries, revêtements : EMBI coordonne un réseau de 40 professionnels et vous propose un seul interlocuteur, de l'étude de faisabilité à la livraison. Le devis est gratuit et détaillé poste par poste.",
+          "Plomberie, électricité, isolation, menuiseries, revêtements : EMBI coordonne un réseau de 40 professionnels et vous propose un seul interlocuteur, de l'étude de faisabilité à la livraison. Le devis est gratuit et détaillé.",
         ],
       },
     ],
     faq: [
       { q: "Faut-il l'accord de la copropriété pour changer ses fenêtres ?", a: "Souvent oui, car l'aspect extérieur de l'immeuble relève de la copropriété. Renseignez-vous auprès du syndic et vérifiez les éventuelles autorisations d'urbanisme." },
+      { q: "Qu'est-ce que le DPE ?", a: "Le diagnostic de performance énergétique classe un logement de A (très performant) à G (très énergivore), selon sa consommation d'énergie et ses émissions de gaz à effet de serre. Il est obligatoire pour vendre ou louer et reste valable 10 ans." },
       { q: "Quel est le premier poste à traiter ?", a: "En règle générale, la réduction des besoins : isolation et étanchéité à l'air. Ventilation et chauffage viennent ensuite." },
       { q: "Où trouver le détail des aides à jour ?", a: "Sur france-renov.gouv.fr ou auprès d'un conseiller France Rénov'. Les conditions évoluent, vérifiez-les avant de signer un devis." },
       { q: "Qu'est-ce qu'une entreprise RGE ?", a: "C'est une entreprise titulaire d'une qualification reconnue pour certains travaux de rénovation énergétique. Faire appel à une entreprise RGE permet de prétendre à certaines aides." },
@@ -177,8 +185,8 @@ module.exports = [
       {
         h2: "Comment EMBI organise la mise en place d'un corner",
         paras: [
-          "Tout commence par l'étude de faisabilité : on analyse le projet, les plans de la marque et les règles du magasin pour valider ce qui peut être réalisé, et dans quelles conditions. Le chiffrage suit, poste par poste, en toute transparence.",
-          "La mise en place est décisive : les termes du chantier sont définis et signés ensemble, puis l'espace est installé et protégé. Pendant la réalisation, les équipes spécialisées se succèdent, coordonnées par votre interlocuteur dédié. À la livraison, un expert EMBI présente l'intégralité des travaux.",
+          "Tout commence par l'étude de faisabilité : on analyse le projet, les plans de la marque et les règles du magasin pour valider ce qui peut être réalisé, et dans quelles conditions. Suit un devis détaillé, établi en toute transparence.",
+          "Pendant la réalisation, les équipes spécialisées se succèdent dans le respect du cahier des charges et des règles du magasin, coordonnées par votre interlocuteur dédié. À la livraison, un expert EMBI présente l'intégralité des travaux.",
         ],
       },
       {
@@ -205,7 +213,7 @@ module.exports = [
     ],
     faq: [
       { q: "EMBI intervient-elle dans les grands magasins ?", a: "Oui. EMBI a notamment réalisé le corner Byredo au Bon Marché et la boutique Tartine et Chocolat chez Harrods." },
-      { q: "Peut-on travailler pendant les heures d'ouverture du magasin ?", a: "Cela dépend des règles fixées par chaque grand magasin. L'organisation du chantier est définie avec vous dès la mise en place." },
+      { q: "Peut-on travailler pendant les heures d'ouverture du magasin ?", a: "Cela dépend des règles fixées par chaque grand magasin. L'organisation du chantier est définie avec vous avant le démarrage des travaux." },
       { q: "EMBI peut-elle concevoir l'agencement ?", a: "Oui. Un architecte et un architecte d'intérieur font partie de l'équipe et peuvent concevoir un agencement sur mesure." },
     ],
     links: [
@@ -244,14 +252,14 @@ module.exports = [
         h2: "Copropriété : comment s'organiser ?",
         paras: [
           "En copropriété, le ravalement est décidé en assemblée générale. En amont, le syndic et le conseil syndical rassemblent les devis et préparent la résolution. Plus le dossier est clair, plus la décision est simple.",
-          "Un devis détaillé poste par poste aide les copropriétaires à comprendre ce qu'ils votent : nettoyage, reprises, traitement des fissures, menuiseries, garde-corps.",
+          "Un devis détaillé aide les copropriétaires à comprendre ce qu'ils votent : nettoyage, reprises, traitement des fissures, menuiseries, garde-corps.",
           "Pensez également aux occupants pendant les travaux. Un échafaudage modifie la lumière, l'accès aux fenêtres et parfois l'entrée de l'immeuble. Informer les résidents et, le cas échéant, les commerces du rez-de-chaussée, évite bien des désagréments.",
         ],
       },
       {
         h2: "Les étapes d'un chantier de ravalement",
         paras: [
-          "Chez EMBI, le chantier suit la méthode en cinq étapes : étude de faisabilité, chiffrage, mise en place, réalisation, livraison. Sur une façade, l'étude consiste à observer l'état des supports pour choisir la technique adaptée.",
+          "Chez EMBI, le chantier suit la méthode en quatre étapes : étude de faisabilité, chiffrage, réalisation, livraison. Sur une façade, l'étude consiste à observer l'état des supports pour choisir la technique adaptée.",
         ],
         list: [
           "Diagnostic de la façade et des supports",
@@ -280,7 +288,7 @@ module.exports = [
       { q: "Faut-il une autorisation pour ravaler une façade à Paris ?", a: "Le plus souvent, une autorisation d'urbanisme est nécessaire, ainsi qu'une demande pour l'échafaudage sur la voie publique. Renseignez-vous auprès de la mairie." },
       { q: "Qui décide du ravalement dans un immeuble en copropriété ?", a: "L'assemblée générale des copropriétaires, sur la base des devis présentés par le syndic." },
       { q: "EMBI peut-elle changer les fenêtres en même temps ?", a: "Oui, EMBI intervient aussi sur la menuiserie extérieure, les portes et les fenêtres, sous réserve des autorisations nécessaires." },
-      { q: "Le devis est-il gratuit ?", a: "Oui, le devis est gratuit et détaillé poste par poste." },
+      { q: "Le devis est-il gratuit ?", a: "Oui, le devis est gratuit et détaillé." },
     ],
     links: [
       { href: "/renovation/exterieur/", label: "Façades et extérieurs" },
@@ -317,7 +325,7 @@ module.exports = [
         h2: "Comment EMBI prépare ce type de chantier",
         paras: [
           "L'étude de faisabilité est l'étape où l'on confronte le projet de la marque aux règles du lieu. Elle permet d'identifier tôt les points délicats et de proposer la prestation adaptée, au meilleur rapport qualité-prix.",
-          "Le chiffrage est ensuite établi ensemble, poste par poste, avant le démarrage. Lors de la mise en place, les termes du chantier sont définis et signés, puis l'espace est installé et protégé.",
+          "Un devis détaillé est ensuite établi ensemble, avant le démarrage.",
         ],
       },
       {
@@ -332,7 +340,7 @@ module.exports = [
         paras: [
           "L'embellissement porte sur ce que voit le client : peintures, revêtements, éclairage, mobilier, mise en valeur des produits. La rénovation va plus loin et peut toucher aux réseaux, aux sols, aux cloisons ou aux plafonds. Le chantier de Tartine et Chocolat a associé les deux.",
           "Cette combinaison est fréquente lorsqu'une boutique existe depuis un moment : son image mérite d'être rafraîchie, mais certains éléments techniques ont aussi besoin d'être repris. Les traiter ensemble évite de rouvrir un espace fraîchement embelli.",
-          "L'étude de faisabilité permet de faire la part des choses et de vous proposer la prestation la plus juste. Le chiffrage, poste par poste, vous permet ensuite d'arbitrer en connaissance de cause, avant que les travaux ne commencent.",
+          "L'étude de faisabilité permet de faire la part des choses et de vous proposer la prestation la plus juste. Le devis détaillé vous permet ensuite d'arbitrer en connaissance de cause, avant que les travaux ne commencent.",
         ],
       },
       {
@@ -376,7 +384,7 @@ module.exports = [
         h2: "Le phasage, clé d'un chantier réussi",
         paras: [
           "Le principe est de découper le chantier en zones et en périodes. Dans un hôtel, on traite par exemple un étage ou un groupe de chambres à la fois, tandis que le reste de l'établissement reste en service. Dans une boutique, on peut décaler certains travaux en dehors des heures d'ouverture.",
-          "Ce découpage se décide dès l'étude de faisabilité, puis il est arrêté lors de la mise en place, quand les termes qui guideront le chantier sont définis et signés ensemble.",
+          "Ce découpage se décide dès l'étude de faisabilité, puis il est arrêté avec vous avant le démarrage des travaux.",
         ],
         list: [
           "Découpage par zones ou par étages",
@@ -455,8 +463,8 @@ module.exports = [
       {
         h2: "La méthode EMBI, étape par étape",
         paras: [
-          "Tout chantier EMBI suit cinq étapes. L'étude de faisabilité analyse l'ensemble du projet et valide les travaux possibles. Le chiffrage est réalisé ensemble, poste par poste, en toute transparence.",
-          "La mise en place fixe et fait signer les termes du chantier, puis les lieux sont installés et protégés. La réalisation mobilise les équipes spécialisées, coordonnées par votre interlocuteur dédié. Enfin, la livraison : un expert EMBI vous présente l'intégralité des travaux.",
+          "Tout chantier EMBI suit quatre étapes. L'étude de faisabilité analyse l'ensemble du projet et valide les travaux possibles. Un devis détaillé est réalisé ensemble, en toute transparence.",
+          "La réalisation mobilise les équipes spécialisées, coordonnées par votre interlocuteur dédié, dans le respect du cahier des charges. Enfin, la livraison : un expert EMBI vous présente l'intégralité des travaux.",
         ],
       },
       {
@@ -602,7 +610,7 @@ module.exports = [
         h2: "Comment EMBI conduit la création d'une boutique",
         paras: [
           "L'étude de faisabilité confronte le projet de la marque au local : structure, réseaux, contraintes du bâtiment. Elle permet de proposer la prestation adaptée, au meilleur rapport qualité-prix.",
-          "Le chiffrage est réalisé ensemble, poste par poste. La mise en place fixe les termes du chantier, signés avec vous, puis le site est installé et protégé. Pendant la réalisation, votre interlocuteur dédié coordonne les équipes. À la livraison, un expert EMBI vous présente l'ensemble des travaux.",
+          "Un devis détaillé est réalisé ensemble. Pendant la réalisation, votre interlocuteur dédié coordonne les équipes. À la livraison, un expert EMBI vous présente l'ensemble des travaux.",
         ],
       },
       {
@@ -623,7 +631,7 @@ module.exports = [
       {
         h2: "D'autres boutiques réalisées par EMBI",
         paras: [
-          "EMBI a également réalisé la rénovation complète de Colette, l'embellissement et la rénovation de Petite Mendigote, le corner Byredo au Bon Marché et la boutique Tartine et Chocolat chez Harrods. Avec un réseau de 40 professionnels, l'entreprise prend en charge vos travaux de A à Z.",
+          "EMBI a également réalisé la rénovation complète de Colette, l'embellissement et la rénovation de Petite Mendigote, le corner Byredo au Bon Marché et la boutique Tartine et Chocolat chez Harrods. Avec un réseau de 40 professionnels, l'entreprise prend en charge l'ensemble de vos travaux, de l'étude à la livraison.",
         ],
       },
     ],
@@ -693,7 +701,7 @@ module.exports = [
       {
         h2: "Un seul interlocuteur, de l'esquisse à la livraison",
         paras: [
-          "EMBI réunit conception et réalisation : un architecte et un architecte d'intérieur dessinent le projet, puis un réseau de 40 professionnels le réalise, coordonné par un interlocuteur dédié. Le devis est gratuit, établi poste par poste.",
+          "EMBI réunit conception et réalisation : un architecte et un architecte d'intérieur dessinent le projet, puis un réseau de 40 professionnels le réalise, coordonné par un interlocuteur dédié. Le devis est gratuit et détaillé.",
           "Dans un immeuble ancien, ce lien entre ceux qui dessinent et ceux qui construisent est précieux : les imprévus découverts à l'ouverture d'un mur ou d'un plancher se règlent vite, sans renvoyer la question d'un intervenant à l'autre.",
         ],
       },
@@ -747,7 +755,7 @@ module.exports = [
       {
         h2: "Comment EMBI organise un chantier d'hôtel",
         paras: [
-          "L'étude de faisabilité analyse le projet de décoration et l'état du bâtiment. Le chiffrage est établi ensemble, poste par poste, avant le début des travaux. Lors de la mise en place, les termes du chantier sont signés, puis les lieux sont installés et protégés.",
+          "L'étude de faisabilité analyse le projet de décoration et l'état du bâtiment. Un devis détaillé est établi ensemble, avant le début des travaux.",
           "La réalisation mobilise les équipes spécialisées, coordonnées par un interlocuteur dédié, qui fait aussi le lien avec la décoratrice. À la livraison, un expert EMBI présente l'intégralité des travaux.",
         ],
       },
@@ -815,7 +823,7 @@ module.exports = [
         paras: [
           "Tout commence par un état des lieux de l'installation : tableau, protections, circuits, liaison à la terre, prises et points lumineux. Il permet de distinguer ce qui peut être conservé de ce qui doit être remplacé.",
           "Selon les cas, la mise aux normes va du simple remplacement du tableau et des protections jusqu'à la reprise complète des circuits. Le diagnostic évite de tout refaire lorsque ce n'est pas nécessaire.",
-          "Chez EMBI, cette analyse prend place dans l'étude de faisabilité, suivie d'un chiffrage poste par poste. Lors de la mise en place, les lieux sont protégés. La réalisation est coordonnée par votre interlocuteur dédié, et un expert vous présente les travaux à la livraison.",
+          "Chez EMBI, cette analyse prend place dans l'étude de faisabilité, suivie d'un devis détaillé. La réalisation est coordonnée par votre interlocuteur dédié, et un expert vous présente les travaux à la livraison.",
         ],
       },
       {
@@ -836,9 +844,9 @@ module.exports = [
     ],
     faq: [
       { q: "Faut-il refaire toute l'installation ?", a: "Pas forcément. Un état des lieux permet de savoir ce qui peut être conservé et ce qui doit être remplacé." },
-      { q: "Peut-on rester dans son logement pendant les travaux ?", a: "Cela dépend de l'ampleur du chantier. L'organisation est définie avec vous lors de la mise en place." },
+      { q: "Peut-on rester dans son logement pendant les travaux ?", a: "Cela dépend de l'ampleur du chantier. L'organisation est définie avec vous avant le démarrage des travaux." },
       { q: "Un diagnostic électrique est-il obligatoire pour vendre ?", a: "Pour les installations anciennes, un diagnostic est généralement requis lors d'une vente ou d'une location. Vérifiez les conditions en vigueur auprès d'un diagnostiqueur." },
-      { q: "Le devis est-il gratuit ?", a: "Oui, le devis EMBI est gratuit et établi poste par poste." },
+      { q: "Le devis est-il gratuit ?", a: "Oui, le devis EMBI est gratuit et détaillé." },
     ],
     links: [
       { href: "/renovation/interieur/", label: "Rénovation intérieure" },

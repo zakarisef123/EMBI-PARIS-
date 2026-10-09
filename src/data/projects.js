@@ -9,6 +9,7 @@
  *  title    : nom du chantier
  *  category : "hotel" | "boutique" | "restaurant" | "particulier" | "savoir-faire"
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
+ *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
  *  images   : chemins des photos sur l'ancien site (www.embi.fr/wp-content/uploads/…),
  *             la 1re sert de couverture. Quand les photos sont converties en local
@@ -56,7 +57,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Décoration"],
     histoire: ["Pour le restaurant Fish Club, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration imaginée par Dorothée Meilichzon."],
     images: gal("2017/09/FishClub_03.jpg", seq("2017/09", "FishClub", 1, 8)) },
-  { id: "hotel-ambassadeur", oldId: "ambassadeur", title: "Hôtel Ambassadeur", category: "hotel",
+  { id: "hotel-ambassadeur", oldId: "ambassadeur", title: "Projet Ambassadeur", category: "particulier", // projet privé pour un ambassadeur (pas un hôtel) ; adresse inchangée
     travaux: ["Embellissement", "Rénovation"],
     images: gal("2017/11/Hotel-ambassadeur-9.jpg", seq("2017/11", "Hotel-ambassadeur", 1, 12, 1, "-")) },
   { id: "byredo", title: "Byredo", category: "boutique", featured: 2, lieu: "Le Bon Marché, Paris 7e",
@@ -87,7 +88,7 @@ const PROJECTS = [
     travaux: ["Transformation complète", "Plomberie", "Décoration"],
     histoire: ["Loustic était à l'origine un magasin. EMBI a entièrement transformé le lieu et pris en charge tout le chantier, de la plomberie à la décoration.", "La décoration, chic et design, est signée Dorothée Meilichzon."],
     images: gal("2017/09/Loustic_01.jpg", seq("2017/09", "Loustic", 1, 8)) },
-  { id: "hotel-bienvenue", oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel", credit: "Laurence Revol (en partie)",
+  { id: "hotel-bienvenue", cover: 10 /* photo principale : patio et façade */, oldId: "bienvenue", title: "Hôtel Bienvenue", category: "hotel", credit: "Laurence Revol (en partie)",
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Bienvenue."],
@@ -97,7 +98,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation complète de la boutique"],
     histoire: ["EMBI a réalisé les travaux d'embellissement et de rénovation de l'ensemble de la boutique Petite Mendigote."],
     images: gal("2017/11/PETITE-MENDIGOTE-01.jpg", seq("2017/11", "PETITE-MENDIGOTE", 1, 8, 2, "-")) },
-  { id: "cafe-pinson", title: "Café Pinson", category: "restaurant", deco: "Dorothée Meilichzon",
+  { id: "cafe-pinson", cover: 6 /* photo principale : devanture */, title: "Café Pinson", category: "restaurant", deco: "Dorothée Meilichzon",
     text: "Rénovation complète et décoration, dans le respect de toutes les normes de la restauration.",
     travaux: ["Rénovation complète", "Décoration", "Normes de la restauration"],
     histoire: ["Pour le Café Pinson, EMBI a réalisé la rénovation complète et la décoration du restaurant, dans le respect de toutes les normes liées à la restauration.", "La décoration est signée Dorothée Meilichzon."],
@@ -118,7 +119,7 @@ const PROJECTS = [
     histoire: ["Pour le restaurant Triomphe, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration signée Richard Lafond.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/Triomphe_01.jpg", seq("2017/09", "Triomphe", 1, 8)) },
 
-  { id: "appartement-renovation-complete", title: "Appartement rénové de A à Z", category: "particulier",
+  { id: "appartement-renovation-complete", title: "Appartement entièrement rénové", category: "particulier",
     text: "Rénovation complète d'un appartement parisien : parquet, cuisine, salles d'eau, plomberie et électricité.",
     travaux: ["Rénovation complète", "Parquet chêne", "Cuisine équipée", "Salle d'eau et douche à l'italienne", "Plomberie", "Électricité"],
     histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
@@ -140,7 +141,7 @@ const PROJECTS = [
     travaux: ["Rénovation complète", "Menuiseries sur mesure", "Cuisine", "Salle d'eau", "Parquet"],
     histoire: ["Rue Saint-Dominique, EMBI a entièrement rénové cet appartement : entrée et rangements en menuiserie sur mesure vert sauge, cuisine blanche ouverte par une verrière, salle d'eau en petits carreaux verts et chambres avec tête de lit en bois."],
     images: [] },
-  { id: "cafe-joyeux-klesia", title: "Café Joyeux · Klesia", category: "restaurant",
+  { id: "cafe-joyeux-klesia", cover: 6 /* photo principale : entrée et enseigne */, title: "Café Joyeux · Klesia", category: "restaurant",
     text: "Aménagement du Café Joyeux dans les locaux de Klesia : salle de restaurant, comptoirs et boutique.",
     travaux: ["Aménagement de restaurant", "Comptoirs et boutique", "Peinture et décoration", "Luminaires"],
     histoire: ["Dans les locaux de Klesia, EMBI a aménagé le Café Joyeux : la grande salle aux murs jaunes, les comptoirs de service, la boutique et les espaces de repas."],
@@ -151,7 +152,7 @@ const PROJECTS = [
     travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
     histoire: ["Dans le 5e arrondissement, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],
     images: [] },
-  { id: "atelier-joaillerie-ploermel", title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
+  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
     travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
     histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
