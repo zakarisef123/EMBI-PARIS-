@@ -2927,3 +2927,18 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 .works__img .works__alt.is-on { opacity: 1; }
 .works__img::after { z-index: 1; }
 .works__count { position: absolute; z-index: 2; top: 10px; right: 10px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 35, 63, 0.65); color: #fff; font: 600 11px var(--sans); font-variant-numeric: tabular-nums; }
+
+/* Haut de page qui fait défiler des photos */
+.page-hero__photo .page-hero__slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease); }
+.page-hero__photo .page-hero__slide.is-on { opacity: 1; }
+.page-hero__dots { position: absolute; z-index: 2; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 8px; pointer-events: none; }
+.page-hero__dots i { width: 28px; height: 3px; background: rgba(255, 255, 255, 0.4); transition: background 0.4s; }
+.page-hero__dots i.is-on { background: #fff; }
+
+/* Pages secteur : les chantiers juste sous le haut de page (fond clair) */
+.sector-chantiers .pj-card { color: var(--ink); }
+
+/* Rénovation intérieure : partie appartement plus serrée */
+.apart .section__head { margin-bottom: 18px; }
+.apart__text { margin-bottom: clamp(24px, 3vw, 36px); }
+.apart__text p { margin: 0 0 10px; font-size: 16.5px; }

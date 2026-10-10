@@ -175,6 +175,10 @@
   const grid = $("#grid");
   if (grid) {
     const cards = $$(".pj-card, .works__card", grid);
+    // /realisations/?filtre=particulier (liens « Voir tous nos appartements », « Tous nos hôtels »…) : filtre déjà choisi
+    const pre = new URLSearchParams(location.search).get("filtre");
+    const preBtn = pre && $$(".realisations-all .filter").find((b) => b.dataset.filter === pre);
+    if (preBtn) setTimeout(() => preBtn.click(), 0);
     $$(".realisations-all .filter").forEach((btn) =>
       btn.addEventListener("click", () => {
         $$(".realisations-all .filter").forEach((b) => {
@@ -819,4 +823,28 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
       badge(st);
     });
   }, 1000);
+})();
+
+/* Haut de page qui fait défiler des photos de chantiers (pages Rénovation intérieure, secteurs, Professionnels) */
+(() => {
+  const fig = document.querySelector(".page-hero__photo[data-slides]");
+  if (!fig || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const dots = [...document.querySelectorAll(".page-hero__dots i")];
+  let slides = [...fig.querySelectorAll(".page-hero__slide")], k = 0;
+  // photo introuvable : retirée (avec son tiret)
+  slides.forEach((im, j) => im.addEventListener("error", () => { if (dots[j]) dots[j].remove(); im.remove(); slides = [...fig.querySelectorAll(".page-hero__slide")]; }));
+  const show = (n) => {
+    slides = [...fig.querySelectorAll(".page-hero__slide")];
+    const ds = [...document.querySelectorAll(".page-hero__dots i")];
+    if (slides.length < 2) return;
+    k = (n + slides.length) % slides.length;
+    slides.forEach((s, j) => s.classList.toggle("is-on", j === k));
+    ds.forEach((d, j) => d.classList.toggle("is-on", j === k));
+    const nx = slides[(k + 1) % slides.length];
+    if (nx.loading === "lazy") nx.loading = "eager"; // la suivante se charge à l'avance
+  };
+  if (slides[1]) slides[1].loading = "eager";
+  let inView = true;
+  new IntersectionObserver((en) => (inView = en[0].isIntersecting)).observe(fig);
+  setInterval(() => { if (inView && !document.hidden) { const nx = slides[(k + 1) % slides.length]; if (nx && nx.complete && nx.naturalWidth) show(k + 1); } }, 5000);
 })();

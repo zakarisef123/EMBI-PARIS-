@@ -1,5 +1,22 @@
 {{hero}}
 
+    <!-- ───────── LES CHANTIERS DU SECTEUR ───────── -->
+    <section class="section pj-more sector-chantiers" id="chantiers">
+      <div class="container">
+        <div class="section__head pj-more__head">
+          <div>
+            <p class="eyebrow">Réalisations · {{count}}</p>
+            <h2 class="h2">Nos chantiers <em>de {{plural}}.</em></h2>
+          </div>
+          <a href="/realisations/?filtre={{category}}" class="btn btn--ghost">Tous nos {{plural}} <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="pj-cards">
+          {{cards}}
+        </div>
+      </div>
+    </section>
+
+
     <!-- ───────── LE SECTEUR ───────── -->
     <section class="section sector">
       <div class="container sector__grid">
@@ -13,22 +30,6 @@
     </section>
 
 {{prestations}}
-
-    <!-- ───────── LES CHANTIERS DU SECTEUR ───────── -->
-    <section class="section section--dark pj-more" id="chantiers">
-      <div class="container">
-        <div class="section__head pj-more__head">
-          <div>
-            <p class="eyebrow">Réalisations · {{count}}</p>
-            <h2 class="h2">Nos chantiers <em>de {{plural}}.</em></h2>
-          </div>
-          <a href="/realisations/" class="btn btn--outline-light">Toutes les réalisations <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="pj-cards">
-          {{cards}}
-        </div>
-      </div>
-    </section>
 
     <!-- ───────── CONCEPTION SUR MESURE ───────── -->
     <section class="cs-teaser">
