@@ -146,7 +146,7 @@ module.exports = [
     ],
     links: [
       { href: "/renovation/interieur/#energetique", label: "Rénovation énergétique" },
-      { href: "/particuliers/", label: "Rénovation d'appartements" },
+      { href: "/renovation/interieur/#appartement", label: "Rénovation d'appartements" },
       { href: "/methode/", label: "Notre méthode" },
       { href: "/contact/", label: "Demander un devis gratuit" },
     ],
@@ -572,7 +572,7 @@ module.exports = [
     links: [
       { href: "/urgence/", label: "Ligne d'urgence EMBI" },
       { href: "/contact/", label: "Nous contacter" },
-      { href: "/particuliers/", label: "Rénovation d'appartements" },
+      { href: "/renovation/interieur/#appartement", label: "Rénovation d'appartements" },
     ],
   },
   {
@@ -716,7 +716,7 @@ module.exports = [
       { href: "/renovation/interieur/", label: "Rénovation intérieure" },
       { href: "/conception-sur-mesure/", label: "Conception sur mesure" },
       { href: "/showroom/", label: "Le showroom" },
-      { href: "/particuliers/", label: "Rénovation d'appartements" },
+      { href: "/renovation/interieur/#appartement", label: "Rénovation d'appartements" },
     ],
   },
   {

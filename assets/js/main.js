@@ -762,3 +762,61 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
   addEventListener("resize", update);
   update();
 });
+
+/* Réalisations : les photos de chaque chantier défilent dans sa carte
+   (chargées quand la carte arrive à l'écran, cartes décalées pour ne pas changer toutes en même temps) */
+(() => {
+  const grid = document.querySelector(".works__grid--all");
+  if (!grid || !window.EMBI_PROJECTS || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const byId = Object.fromEntries(window.EMBI_PROJECTS.map((p) => [p.id, p]));
+  const MAX = 6, EVERY = 4; // jusqu'à 6 photos par carte, une nouvelle photo toutes les 4 s
+  const cards = [];
+  const io = new IntersectionObserver((en) => en.forEach((e) => { const st = e.target._show; if (st) st.visible = e.isIntersecting; if (st && st.visible && !st.imgs) build(st); }), { rootMargin: "120px" });
+  grid.querySelectorAll(".works__card").forEach((c, i) => {
+    const p = byId[c.getAttribute("href").split("/").filter(Boolean).pop()];
+    if (!p || !p.images || p.images.length < 2) return;
+    c._show = { card: c, fig: c.querySelector(".works__img"), list: p.images.slice(0, MAX), k: 0, visible: false, offset: i % EVERY, imgs: null };
+    cards.push(c._show);
+    io.observe(c);
+  });
+  function build(st) {
+    const first = st.fig.querySelector("img");
+    if (!first) return;
+    first.classList.add("works__alt", "is-on");
+    st.imgs = [first];
+    st.list.slice(1).forEach((src) => {
+      const im = new Image();
+      im.alt = "";
+      im.decoding = "async";
+      im.className = "works__alt";
+      im.addEventListener("error", () => { im.remove(); st.imgs = st.imgs.filter((x) => x !== im); badge(st); });
+      im.src = src;
+      st.fig.appendChild(im);
+      st.imgs.push(im);
+    });
+    st.count = document.createElement("span");
+    st.count.className = "works__count";
+    st.count.setAttribute("aria-hidden", "true");
+    st.fig.appendChild(st.count);
+    badge(st);
+  }
+  function badge(st) {
+    if (!st.count) return;
+    st.count.hidden = st.imgs.length < 2;
+    st.count.textContent = `${st.k + 1} / ${st.imgs.length}`;
+  }
+  let t = 0;
+  setInterval(() => {
+    t++;
+    if (document.hidden) return;
+    cards.forEach((st) => {
+      if (!st.imgs || !st.visible || st.card.hidden || st.imgs.length < 2 || (t + st.offset) % EVERY) return;
+      const next = (st.k + 1) % st.imgs.length;
+      if (!st.imgs[next].complete) return; // on attend que la photo suivante soit chargée
+      st.imgs[st.k].classList.remove("is-on");
+      st.k = next;
+      st.imgs[st.k].classList.add("is-on");
+      badge(st);
+    });
+  }, 1000);
+})();

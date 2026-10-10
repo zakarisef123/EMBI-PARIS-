@@ -121,7 +121,7 @@ const BUSINESS = {
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], paths: ["/particuliers/"], href: "/particuliers/", label: "Particuliers", menu: [["/particuliers/", "Rénovation d'appartement"], ["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
+  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
@@ -652,10 +652,34 @@ fs.readdirSync(path.join(ROOT, "src/pages"))
   });
 
 /* ───── 2 · Pages secteur ───── */
+// à droite du texte : le chantier phare du secteur (sectors.js → phare, sinon le plus mis en avant)
+const sectorPhare = (s, list) => {
+  const p = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+  if (!p) return "";
+  const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).join(", ")]].filter(Boolean);
+  return `<a class="phare reveal" href="${projectUrl(p)}">
+          <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+          <div class="phare__body">
+            <p class="phare__k">Le chantier phare</p>
+            <h3 class="phare__t">${esc(p.title)}</h3>
+            <dl class="phare__facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+            <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
+          </div>
+        </a>`;
+};
+// sous le texte : « Nos prestations » (sectors.js → prestations)
+const sectorPrest = (s) => s.prestations && s.prestations.length ? `    <section class="section section--tight prest">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">Pour les ${PLURAL[s.category]}, <em>tout le chantier.</em></h2></div></div>
+        <ol class="prest__list">
+          ${s.prestations.map(([t, d, h], i) => `<li class="reveal"><a href="${h}"><span class="prest__n">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong><i aria-hidden="true">→</i><small>${esc(d)}</small></a></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+` : "";
 const SECTOR_TPL = read("src/templates/secteur.html");
-SECTORS.forEach((s) => {
+SECTORS.filter((s) => s.page !== false).forEach((s) => {
   const list = PROJECTS.filter((p) => p.category === s.category);
-  const works = [...new Set([...list.flatMap((p) => p.travaux || []), ...(s.extraWorks || [])])];
   const others = SECTORS.filter((o) => o !== s);
   layout({
     path: s.path,
@@ -668,7 +692,8 @@ SECTORS.forEach((s) => {
     content: fill(SECTOR_TPL, {
       hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
-      works: works.map((w) => `<li>${esc(w)}</li>`).join(""),
+      phare: sectorPhare(s, list),
+      prestations: sectorPrest(s),
       count: `${list.length} chantier${list.length > 1 ? "s" : ""}`,
       plural: PLURAL[s.category],
       cards: list.map((p) => card(p, "h3")).join("\n          "),
@@ -689,7 +714,6 @@ PROJECTS.forEach((p, i) => {
   const description = p.text
     ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation clé en main par EMBI, photos et détails du chantier.`
     : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} clé en main par EMBI à Paris. Photos et détails du chantier.`;
-  const facts = [["Secteur", `<a href="${sec.path}">${esc(cat)}</a>`], ["Lieu", esc(p.lieu)], ["Année", esc(p.annee)], ["Surface", esc(p.surface)], ["Durée", esc(p.duree)], ["Décoration", esc(p.deco)], ["Architecte", esc(p.archi)], ["Prestation", "Clé en main"], ["Photos", esc(p.credit)]].filter(([, v]) => v);
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -720,10 +744,19 @@ PROJECTS.forEach((p, i) => {
       cover: img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero'),
       catLine: `<a href="${sec.path}">${esc(cat)}</a>${p.lieu ? ` · ${esc(p.lieu)}` : ""}${p.annee ? ` · ${esc(p.annee)}` : ""}`,
       lead: esc(lead),
-      facts: `<p class="pj-facts__title">Le projet en bref</p><dl>${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>`,
+      // à côté du texte : les photos du chantier qui défilent (assets/js/projet.js)
+      show: photos.length ? `<div class="pj-show" id="pjShow" aria-roledescription="carrousel" aria-label="Photos du chantier ${esc(p.title)}">
+          <div class="pj-show__frame">${photos.map((ph, k) => `<button type="button" class="pj-show__slide${k ? "" : " is-on"}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}"${k ? ' tabindex="-1"' : ""}>${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k ? "lazy" : "eager"}"`)}</button>`).join("")}</div>
+          <div class="pj-show__bar"${photos.length < 2 ? " hidden" : ""}>
+            <span class="pj-show__count" aria-live="polite"><b>1</b> / <span>${photos.length}</span></span>
+            <span class="pj-show__dots" aria-hidden="true">${photos.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>
+            <span class="pj-show__arrows"><button type="button" class="pj-show__prev" aria-label="Photo précédente">←</button><button type="button" class="pj-show__next" aria-label="Photo suivante">→</button></span>
+          </div>
+          ${p.credit ? `<p class="pj-show__credit">Photos : ${esc(p.credit)}</p>` : ""}
+        </div>` : "",
       storyTitle: esc(`${LEAD[p.category] || "Lieu rénové"} clé en main à Paris`),
       story: story.map((t) => `<p>${esc(t)}</p>`).join(""),
-      works: p.travaux && p.travaux.length ? `<h3 class="pj-works__h">Les travaux</h3><ul class="pj-works" id="pjWorks">${p.travaux.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : "",
+      works: p.travaux && p.travaux.length ? `<p class="pj-works-line"><strong>Travaux réalisés&nbsp;:</strong> ${esc(p.travaux.map((t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", "))}.</p>` : "",
       result: p.deco || p.archi
         ? `<p class="pj-result">${p.deco ? `Une réalisation clé en main sur une décoration signée ${esc(p.deco)}.` : `Une réalisation clé en main sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
         : `<p class="pj-result">Découvrez le résultat en images ci-dessous.</p>`,
@@ -732,6 +765,7 @@ PROJECTS.forEach((p, i) => {
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
+      sectorOfPlural: (/^[aeiouyhéèêàâîô]/i.test(PLURAL[p.category]) ? "d'" : "de ") + PLURAL[p.category],
       prevNext: `<a class="pj-nav__link pj-nav__link--prev" href="${projectUrl(prev)}"><span>← Chantier précédent</span><strong>${esc(prev.title)}</strong></a><a class="pj-nav__link pj-nav__link--next" href="${projectUrl(next)}"><span>Chantier suivant →</span><strong>${esc(next.title)}</strong></a>`,
       moreTitle: same.length ? `Autres <em>${esc(PLURAL[p.category])}.</em>` : "Autres <em>réalisations.</em>",
       more: more.map((q) => card(q, "h3")).join(""),
@@ -845,7 +879,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
       <div class="container">
         <div class="section__head"><div><p class="eyebrow reveal">Méthode</p><h2 class="h2 reveal">De l'étude <em>à la livraison.</em></h2></div><a href="/methode/" class="btn btn--ghost">Notre méthode en détail <span aria-hidden="true">→</span></a></div>
         ${methodBrief("h3")}
-        <p class="sector__others">Vous êtes un particulier&nbsp;? <a class="btn btn--ghost" href="/particuliers/">Rénovation d'appartement</a><a class="btn btn--ghost" href="/renovation/interieur/">Rénovation intérieure</a><a class="btn btn--ghost" href="/renovation/exterieur/">Rénovation extérieure</a></p>
+        <p class="sector__others">Vous êtes un particulier&nbsp;? <a class="btn btn--ghost" href="/renovation/interieur/#appartement">Rénovation d'appartement complète</a><a class="btn btn--ghost" href="/renovation/interieur/">Rénovation intérieure</a><a class="btn btn--ghost" href="/renovation/exterieur/">Rénovation extérieure</a></p>
       </div>
     </section>
     {{funnel}}`),
@@ -879,6 +913,24 @@ layout({
     {{funnel}}`),
 });
 
+// Page Rénovation intérieure · partie « Rénovation d'appartement complète » (ancienne page Particuliers)
+const apartBlock = () => {
+  const s = SECTORS.find((x) => x.category === "particulier");
+  const list = PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99));
+  return `    <section class="section apart" id="appartement">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Particuliers</p><h2 class="h2 reveal">Rénovation d'appartement <em>complète.</em></h2></div>
+          <p class="section__aside reveal">${esc(s.lead)}</p>
+        </div>
+        <div class="apart__text">
+          ${s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          ")}
+        </div>
+        ${projRail("appartement", list, "Nos <em>appartements rénovés.</em>")}
+      </div>
+    </section>
+`;
+};
 SERVICES.forEach((sv) => {
   const path_ = `/renovation/${sv.slug}/`;
   const crumbs = [{ name: "Rénovation", path: "/renovation/" }, { name: sv.nav, path: path_ }];
@@ -887,6 +939,8 @@ SERVICES.forEach((sv) => {
   const priv = byFeat(PROJECTS.filter((p) => p.category === "particulier" && sv.categories.includes(p.category)));
   const pro = byFeat(PROJECTS.filter((p) => p.category !== "particulier" && sv.categories.includes(p.category)));
   const projs = sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
+  // la page intérieure reprend aussi les questions de l'ancienne page Particuliers (rénovation d'appartement)
+  const svFaq = sv.slug === "interieur" ? [...sv.faq, ...(FAQ.PAGES["/particuliers/"] || []).filter(([q]) => !sv.faq.some(([q2]) => q2 === q))] : sv.faq;
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
@@ -895,7 +949,7 @@ SERVICES.forEach((sv) => {
     title: sv.title,
     description: sv.description,
     crumbs,
-    jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(sv.faq)],
+    jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
     content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
     <section class="section svc" id="prestations">
       <div class="container">
@@ -908,7 +962,7 @@ SERVICES.forEach((sv) => {
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${sv.slug === "interieur" ? apartBlock() + volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
@@ -946,7 +1000,7 @@ ${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? ` 
         <p class="sector__others">Nos autres rénovations&nbsp;: ${SERVICES.filter((o) => o !== sv).map((o) => `<a class="btn btn--ghost" href="/renovation/${o.slug}/">${o.nav}</a>`).join("")}</p>
       </div>
     </section>
-${faqBlock(sv.faq)}
+${faqBlock(svFaq)}
 ${arts.length ? `    <section class="section section--tight"><div class="container"><div class="section__head"><div><p class="eyebrow reveal">Le Mag</p><h2 class="h2 reveal">À lire <em>avant de commencer.</em></h2></div><a href="/mag/" class="btn btn--ghost">Tous les articles <span aria-hidden="true">→</span></a></div><div class="mag-grid">${arts.map((a) => articleCard(a)).join("")}</div></div></section>` : ""}
     {{funnel}}`),
   });
@@ -1180,6 +1234,8 @@ const redirects = [
   ["/mentions-legales.html", "/mentions-legales/"],
   ["/confidentialite.html", "/politique-de-confidentialite/"],
   ["/confidentialite", "/politique-de-confidentialite/"],
+  ["/particuliers/", "/renovation/interieur/#appartement"],
+  ["/particuliers", "/renovation/interieur/#appartement"],
   ...PROJECTS.flatMap((p) => [[`/realisations/${p.id}.html`, projectUrl(p)], ...(p.oldId ? [[`/realisations/${p.oldId}.html`, projectUrl(p)], [`/realisations/${p.oldId}/`, projectUrl(p)]] : [])]),
 ];
 fs.writeFileSync(path.join(OUT, "_redirects"), `# Généré par scripts/build.js : anciennes adresses du site → nouvelles adresses

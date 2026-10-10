@@ -1008,12 +1008,6 @@ img.is-broken { opacity: 0; }
 .pj-hero__lead { margin: 0; max-width: 56ch; font-size: clamp(16px, 1.4vw, 20px); color: rgba(255, 255, 255, 0.82); }
 
 .pj-body__grid { display: grid; grid-template-columns: 320px 1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
-.pj-facts { position: sticky; top: 110px; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
-.pj-facts__title { font: 600 12px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
-.pj-facts dl { margin: 0; display: grid; }
-.pj-facts dl div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
-.pj-facts dt { font-size: 14px; color: var(--muted); }
-.pj-facts dd { margin: 0; font-weight: 600; text-align: right; }
 .pj-story { max-width: 68ch; }
 .pj-story #pjStory p { font-size: clamp(18px, 1.5vw, 22px); line-height: 1.55; margin: 0 0 20px; color: var(--ink); }
 .pj-story #pjStory p:first-child::first-letter { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 3.2em; float: left; line-height: 0.8; margin: 6px 10px 0 0; }
@@ -1056,7 +1050,6 @@ img.is-broken { opacity: 0; }
 
 @media (max-width: 900px) {
   .pj-body__grid { grid-template-columns: 1fr; }
-  .pj-facts { position: static; }
   .pj-cards { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
@@ -1502,7 +1495,6 @@ mark.todo { background: #fff1a8; color: #5a4600; padding: 1px 6px; border-radius
 .pj-result { margin: 18px 0 0; font-size: 17px; color: var(--ink-2); }
 .pj-story__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .pj-story__actions .pj-cta { margin: 0; }
-.pj-facts dd a { border-bottom: 1px solid var(--accent); }
 .pj-hero__cat a { color: inherit; }
 
 /* Formulaires : consentement, secours, anti-spam */
@@ -2874,3 +2866,64 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
   .realisations-grid .filters::-webkit-scrollbar { display: none; }
   .realisations-grid .filter { flex: none; white-space: nowrap; }
 }
+
+/* Rénovation intérieure : partie « Rénovation d'appartement complète » */
+.apart__text { max-width: 760px; margin: 0 0 clamp(32px, 4vw, 48px); }
+.apart__text p { font-size: 16px; line-height: 1.85; color: var(--ink-2); }
+
+/* Pages secteur : le chantier phare (à droite du texte) */
+.phare { display: block; align-self: start; background: #fff; border: 1px solid var(--line); color: var(--ink); transition: box-shadow 0.4s var(--ease); }
+.phare:hover { box-shadow: 0 24px 50px -30px rgba(20, 35, 63, 0.45); }
+.phare__img { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); }
+.phare__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease); }
+.phare:hover .phare__img img { transform: scale(1.04); }
+.phare__body { padding: 22px 24px 24px; }
+.phare__k { margin: 0 0 8px; font: 600 11px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+.phare__t { margin: 0 0 14px; font: 500 clamp(24px, 2.2vw, 30px) / 1.1 var(--display); color: var(--dark-2); }
+.phare__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin: 0 0 18px; }
+.phare__facts dt { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.phare__facts dd { margin: 3px 0 0; font-size: 14.5px; line-height: 1.4; }
+.phare__go { font: 600 12.5px var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+/* Pages secteur : « Nos prestations » */
+.prest__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 64px); border-top: 1px solid var(--line); }
+.prest__list li { border-bottom: 1px solid var(--line); }
+.prest__list a { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline; padding: 20px 4px; color: var(--ink); }
+.prest__n { font: 600 12px var(--sans); letter-spacing: 0.1em; color: var(--accent); }
+.prest__list strong { font: 500 18px var(--sans); color: var(--dark-2); transition: color 0.25s; }
+.prest__list i { font-style: normal; color: var(--accent); transition: transform 0.3s var(--ease); }
+.prest__list small { grid-column: 2 / 3; font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+.prest__list a:hover strong { color: var(--accent); }
+.prest__list a:hover i { transform: translateX(4px); }
+@media (max-width: 760px) { .prest__list { grid-template-columns: minmax(0, 1fr); } }
+
+/* Page chantier : le texte, et les photos du chantier qui défilent à côté */
+.pj-body__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+.pj-show { position: sticky; top: 110px; min-width: 0; }
+.pj-show__frame { position: relative; aspect-ratio: 4 / 3.2; overflow: hidden; border-radius: var(--radius); background: var(--bg-2); }
+.pj-show__slide { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: zoom-in; opacity: 0; transition: opacity 0.9s var(--ease); }
+.pj-show__slide.is-on { opacity: 1; z-index: 1; }
+.pj-show__slide img { width: 100%; height: 100%; object-fit: cover; }
+.pj-show__bar { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+.pj-show__count { flex: none; font: 500 13px var(--sans); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pj-show__count b { color: var(--dark-2); font-weight: 600; }
+.pj-show__dots { flex: 1; min-width: 0; display: flex; gap: 6px; overflow: hidden; }
+.pj-show__dots i { flex: 0 1 22px; min-width: 6px; height: 3px; background: var(--line); transition: background 0.3s; }
+.pj-show__dots i.is-on { background: var(--accent); }
+.pj-show__arrows { flex: none; display: flex; gap: 8px; }
+.pj-show__arrows button { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); font-size: 16px; cursor: pointer; transition: background 0.25s, color 0.25s; }
+.pj-show__arrows button:hover { background: var(--dark); color: var(--on-dark); }
+.pj-show__credit { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); }
+.pj-works-line { margin: 4px 0 18px; font-size: 15.5px; line-height: 1.7; color: var(--ink-2); }
+.pj-works-line strong { color: var(--dark-2); font-weight: 600; }
+.pj-body__grid.is-noshow { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .pj-body__grid { grid-template-columns: minmax(0, 1fr); }
+  .pj-show { position: static; order: -1; }
+}
+
+/* Réalisations : photos qui défilent dans les cartes */
+.works__img .works__alt { position: absolute; inset: 0; opacity: 0; transition: opacity 1s var(--ease), transform 1.4s var(--ease); }
+.works__img .works__alt.is-on { opacity: 1; }
+.works__img::after { z-index: 1; }
+.works__count { position: absolute; z-index: 2; top: 10px; right: 10px; padding: 3px 9px; border-radius: 999px; background: rgba(20, 35, 63, 0.65); color: #fff; font: 600 11px var(--sans); font-variant-numeric: tabular-nums; }

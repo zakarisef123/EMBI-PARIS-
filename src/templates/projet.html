@@ -14,7 +14,6 @@
     <!-- ───────── LE PROJET : CONTEXTE, TRAVAUX, RÉSULTAT ───────── -->
     <section class="section pj-body">
       <div class="container pj-body__grid">
-        <aside class="pj-facts" id="pjFacts" aria-label="Le projet en bref">{{facts}}</aside>
         <div class="pj-story">
           <p class="eyebrow">Le chantier</p>
           <h2 class="pj-story__h">{{storyTitle}}</h2>
@@ -23,9 +22,10 @@
           {{result}}
           <div class="pj-story__actions">
             <a href="/contact/?type={{category}}" class="btn btn--accent pj-cta">Un projet similaire&nbsp;? Devis gratuit <span aria-hidden="true">→</span></a>
-            <a href="{{sectorPath}}" class="btn btn--ghost">Nos chantiers de {{sectorPlural}}</a>
+            <a href="{{sectorPath}}" class="btn btn--ghost">Nos chantiers {{sectorOfPlural}}</a>
           </div>
         </div>
+        {{show}}
       </div>
     </section>
 
