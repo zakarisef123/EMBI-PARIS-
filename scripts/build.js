@@ -163,38 +163,41 @@ const pages = []; // { path, html, title, description, noindex }
 // shot(id, n) : la photo n° n du chantier, d'après le nom du fichier (01, 02…).
 const shot = (id, n) => (PHOTOS[id] || []).find((ph) => ph.src.includes(`/${id}/${String(n).padStart(2, "0")}-`)) || (PHOTOS[id] || [])[0];
 const HERO_PHOTOS = {
-  "/renovation/": ["ravalement-rue-nollet", 3],
-  "/renovation/interieur/": ["appartement-haussmannien", 1],
-  "/renovation/exterieur/": ["ravalement-rue-nollet", 4],
-  "/projets-specifiques/": ["atelier-joaillerie-ploermel", 1],
-  "/realisations/": ["hotel-bienvenue", 10],
-  "/hotels/": ["hotel-beauregard", 3],
-  "/boutiques/": ["loro-piana", 3],
-  "/restaurants/": ["cafe-pinson", 1],
-  "/particuliers/": ["renovation-appartement", 1],
-  "/professionnels/": ["hotel-bienvenue", 3],
-  "/savoir-faire/": ["charpente-bois", 2],
-  "/signature/": ["le-grand-pigalle", 8],
-  "/methode/": ["charpente-bois", 3],
-  "/equipe/": ["ravalement-rue-nollet", 6],
-  "/qualifications/": ["toitures-zinguerie", 2],
-  "/urgence/": ["appartement-renovation-complete", 9],
-  "/urgence/plomberie/": ["appartement-rue-saint-dominique", 5],
-  "/urgence/electricite/": ["appartement-rue-saint-dominique", 9],
-  "/urgence/assainissement/": ["appartement-renovation-complete", 7],
-  "/contact/": ["renovation-appartement", 3],
-  "/faq/": ["appartement-lumineux", 1],
-  "/mag/": ["maison-a-colombages", 2],
-  "/cgv/": ["toitures-zinguerie", 3],
-  "/mentions-legales/": ["toitures-zinguerie", 3],
-  "/politique-de-confidentialite/": ["toitures-zinguerie", 3],
-  "/merci/": ["hotel-bienvenue", 10],
-  "/404.html": ["charpente-bois", 1],
+  // chaque page : les photos du haut de page, qui défilent (la 1re sert aussi de photo de partage)
+  "/renovation/": [["ravalement-rue-nollet", 3], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
+  "/renovation/interieur/": [["appartement-haussmannien", 1], ["appartement-lumineux", 1], ["renovation-appartement", 1], ["appartement-paris-5e", 2], ["appartement-rue-saint-dominique", 1]],
+  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3], ["toitures-zinguerie", 7]],
+  "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
+  "/realisations/": [["hotel-bienvenue", 10], ["loro-piana", 1], ["appartement-haussmannien", 1], ["cafe-pinson", 6], ["le-grand-pigalle", 8]],
+  "/hotels/": [["hotel-beauregard", 3]],
+  "/boutiques/": [["loro-piana", 3]],
+  "/restaurants/": [["cafe-pinson", 1]],
+  "/professionnels/": [["hotel-bienvenue", 3]],
+  "/savoir-faire/": [["charpente-bois", 2], ["mosaique", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 6], ["mosaique", 9]],
+  "/signature/": [["le-grand-pigalle", 8], ["loro-piana", 1], ["hotel-bienvenue", 10], ["hotel-beauregard", 3]],
+  "/methode/": [["charpente-bois", 3], ["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 7], ["toitures-zinguerie", 9], ["appartement-renovation-complete", 9]],
+  "/equipe/": [["ravalement-rue-nollet", 6], ["charpente-bois", 1], ["toitures-zinguerie", 2], ["appartement-haussmannien", 3]],
+  "/qualifications/": [["toitures-zinguerie", 2], ["ravalement-rue-nollet", 6], ["charpente-bois", 5], ["appartement-renovation-complete", 9]],
+  "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
+  "/urgence/plomberie/": [["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
+  "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
+  "/urgence/assainissement/": [["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
+  "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["appartement-haussmannien", 2], ["loro-piana", 1]],
+  "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-paris-5e", 2]],
+  "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
+  "/cgv/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
+  "/mentions-legales/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
+  "/politique-de-confidentialite/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
+  "/merci/": [["hotel-bienvenue", 10], ["appartement-haussmannien", 1], ["loro-piana", 1]],
+  "/404.html": [["charpente-bois", 1], ["toitures-zinguerie", 1], ["appartement-lumineux", 1]],
 };
+// liste de photos sans doublon (une photo absente du chantier est remplacée par sa couverture : on ne la garde qu'une fois)
+const uniqPhotos = (list) => list.filter((ph, i) => ph && list.findIndex((x) => x && x.src === ph.src) === i);
+const heroList = (path_) => HERO_PHOTOS[path_] ? uniqPhotos(HERO_PHOTOS[path_].map((x) => shot(...x))) : null;
 // heroSlides (liste de photos) : le haut de page fait défiler ces photos (assets/js/main.js), avec des tirets en bas
 const withHeroPhoto = (content, ph, slides) => content.replace(/<(section|header) class="cs-hero page-hero([^"]*)"([^>]*)>/, (m, tag, cls, rest) =>
   slides && slides.length > 1
-    ? `<${tag} class="cs-hero page-hero page-hero--photo page-hero--slides${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true" data-slides>${slides.map((s, k) => img(s, "", k ? 'loading="lazy" class="page-hero__slide"' : 'data-hero fetchpriority="high" class="page-hero__slide is-on"')).join("")}</figure>\n      <span class="page-hero__dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>`
+    ? `<${tag} class="cs-hero page-hero page-hero--photo page-hero--slides${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true" data-slides>${slides.map((s, k) => img(s, "", k ? 'loading="lazy" data-hero class="page-hero__slide"' : 'data-hero fetchpriority="high" class="page-hero__slide is-on"')).join("")}</figure>\n      <span class="page-hero__dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>`
     : `<${tag} class="cs-hero page-hero page-hero--photo${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true">${img(ph, "", 'data-hero fetchpriority="high"')}</figure>`);
 // photos du haut de page : la couverture de chaque chantier de la liste, photos hébergées sur le site en premier (5 au plus)
 const localFirst = (list) => [...list].sort((a, b) => (PHOTOS[b.id][0].src.startsWith("/assets/") - PHOTOS[a.id][0].src.startsWith("/assets/")));
@@ -220,8 +223,9 @@ const withCta = (o) => {
 
 const layout = (o) => {
   o = withCta(o);
-  const heroPh = o.heroPhoto || (HERO_PHOTOS[o.path] && shot(...HERO_PHOTOS[o.path]));
-  if (heroPh || o.heroSlides) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroSlides) };
+  const list = o.heroSlides || heroList(o.path);
+  const heroPh = o.heroPhoto || (list && list[0]);
+  if (heroPh || list) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroPhoto && !o.heroSlides ? null : list) };
   const url = SITE + o.path;
   const faqItems = o.faq || FAQ.PAGES[o.path];
   if (faqItems && !o.content.includes('class="section faq"')) {
@@ -231,7 +235,7 @@ const layout = (o) => {
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
   if (o.jsonld) graph.push(...o.jsonld);
-  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta"];
+  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta", ...(o.content.includes("data-slides") ? ["hero"] : [])];
   const html = `<!doctype html>
 <html lang="fr">
 <head>
@@ -659,28 +663,31 @@ fs.readdirSync(path.join(ROOT, "src/pages"))
 
 /* ───── 2 · Pages secteur ───── */
 // à droite du texte : le chantier phare du secteur (sectors.js → phare, sinon le plus mis en avant)
-const sectorPhare = (s, list) => {
-  // carrousel : le chantier phare d'abord, puis les autres chantiers du secteur (photos hébergées sur le site en premier)
-  const first = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
-  if (!first) return "";
-  const all = [first, ...localFirst(list.filter((q) => q !== first))];
+// carrousel de chantiers à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
+const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
+  if (!all.length) return "";
   const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
   const slide = (p, k) => {
     const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
             <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
             <div class="phare__body">
-              <p class="phare__k">${k ? "Nos chantiers" : "Le chantier phare"}</p>
+              <p class="phare__k">${k ? otherKicker : firstKicker}</p>
               <h3 class="phare__t">${esc(p.title)}</h3>
               <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
               <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
             </div>
           </a>`;
   };
-  return `<div class="phare reveal" data-phare aria-roledescription="carrousel" aria-label="Nos chantiers ${esc(PLURAL[s.category])}">
+  return `<div class="phare reveal" data-phare aria-roledescription="carrousel" aria-label="${esc(label)}">
           <div class="phare__stack">${all.map(slide).join("")}</div>
           ${all.length > 1 ? `<div class="phare__bar"><span class="phare__dots" aria-hidden="true">${all.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span><span class="phare__arrows"><button type="button" class="phare__prev" aria-label="Chantier précédent">←</button><button type="button" class="phare__next" aria-label="Chantier suivant">→</button></span></div>` : ""}
         </div>`;
+};
+// pages secteur : le chantier phare d'abord, puis les autres chantiers du secteur (photos hébergées sur le site en premier)
+const sectorPhare = (s, list) => {
+  const first = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+  return first ? phareCarousel([first, ...localFirst(list.filter((q) => q !== first))], `Nos chantiers ${PLURAL[s.category]}`) : "";
 };
 // sous le texte : « Nos prestations » (sectors.js → prestations)
 const sectorPrest = (s) => s.prestations && s.prestations.length ? `    <section class="section section--tight prest">
@@ -758,7 +765,10 @@ PROJECTS.forEach((p, i) => {
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
       category: p.category,
-      cover: img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero'),
+      // haut de page : les photos du chantier qui défilent (assets/js/hero.js)
+      cover: photos.length > 1
+        ? `${photos.slice(0, 5).map((ph, k) => img(ph, k ? "" : `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, k ? 'loading="lazy" data-hero class="page-hero__slide" aria-hidden="true"' : 'id="pjCover" fetchpriority="high" data-hero class="page-hero__slide is-on"')).join("")}</div>\n      <span class="page-hero__dots" aria-hidden="true">${photos.slice(0, 5).map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>\n      <div hidden>`
+        : img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero'),
       catLine: `<a href="${sec.path}">${esc(cat)}</a>${p.lieu ? ` · ${esc(p.lieu)}` : ""}${p.annee ? ` · ${esc(p.annee)}` : ""}`,
       lead: esc(lead),
       // à côté du texte : les photos du chantier qui défilent (assets/js/projet.js)
@@ -799,6 +809,16 @@ const MAG_CATS = { projet: "Chantier", "renovation-interieure": "Rénovation int
 const MAG_COVER = { "renovation-interieure": ["renovation-appartement", 1], "renovation-energetique": ["appartement-renovation-complete", 1], exterieur: ["ravalement-rue-nollet", 6], signature: ["byredo", 1], urgence: ["appartement-renovation-complete", 9] };
 const articleUrl = (a) => `/mag/${a.slug}/`;
 const articleCover = (a) => a.cover ? shot(...a.cover) : a.project && PHOTOS[a.project] ? PHOTOS[a.project][0] : shot(...(MAG_COVER[a.category] || ["hotel-panache", 1]));
+// haut de page d'un article : les photos du chantier dont il parle, sinon des photos liées à son sujet
+const MAG_SLIDES = {
+  "renovation-energetique-appartement-paris": [["appartement-renovation-complete", 1], ["appartement-lumineux", 1], ["appartement-paris-5e", 9], ["maison-a-colombages", 9]],
+  "ravalement-facade-paris-etapes": [["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 1], ["ravalement-rue-nollet", 7], ["ravalement-rue-nollet", 3]],
+  "travaux-site-occupe-hotel-boutique": [["hotel-bienvenue", 10], ["le-grand-pigalle", 8], ["loro-piana", 2], ["hotel-beauregard", 3]],
+  "fuite-eau-urgence-paris-que-faire": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 7], ["appartement-haussmannien", 6]],
+  "renovation-appartement-haussmannien-paris": [["appartement-paris-5e", 1], ["appartement-haussmannien", 1], ["appartement-paris-5e", 4], ["renovation-appartement", 1], ["appartement-haussmannien", 5]],
+  "mise-aux-normes-electriques-quand-comment": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
+};
+const articleSlides = (a) => uniqPhotos([articleCover(a), ...(a.project && PHOTOS[a.project] ? PHOTOS[a.project].slice(0, 5) : (MAG_SLIDES[a.slug] || []).map((x) => shot(...x)))]);
 const frDate = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${articleUrl(a)}">
             <span class="mag-card__img">${img(articleCover(a), a.title, 'loading="lazy"')}</span>
@@ -931,20 +951,37 @@ layout({
     {{funnel}}`),
 });
 
-// Page Rénovation intérieure · partie « Rénovation d'appartement complète » (ancienne page Particuliers)
-const apartBlock = () => {
-  const s = SECTORS.find((x) => x.category === "particulier");
-  const list = localFirst(PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99)));
-  return `    <section class="section apart" id="appartement">
-      <div class="container">
-        <div class="section__head">
-          <div><p class="eyebrow reveal">Particuliers</p><h2 class="h2 reveal">Rénovation d'appartement <em>complète.</em></h2></div>
-          <p class="section__aside reveal">${esc(s.lead)}</p>
-        </div>
-        <div class="apart__text">
+// Pages Rénovation intérieure et extérieure : comme les pages pros, le texte à gauche et un carrousel de chantiers à droite.
+// Intérieur : la rénovation d'appartement complète (ancienne page Particuliers, ancre #appartement) et les appartements rénovés.
+const svcIntro = (sv) => {
+  if (sv.slug === "interieur") {
+    const s = SECTORS.find((x) => x.category === "particulier");
+    const list = localFirst(PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99)));
+    return `    <section class="section sector" id="appartement">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">Particuliers</p>
+          <h2 class="h2 reveal">Rénovation d'appartement <em>complète.</em></h2>
+          <!-- À RELIRE -->
+          <p class="reveal">${esc(s.lead)}</p>
           ${s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          ")}
         </div>
-        ${projRail("appartement", list, "Nos <em>appartements rénovés.</em>", ["/realisations/?filtre=particulier", "Voir tous nos appartements"])}
+        ${phareCarousel(list, "Nos appartements rénovés", "Appartement rénové", "Appartement rénové")}
+      </div>
+    </section>
+`;
+  }
+  const list = (sv.projects || []).map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean);
+  return `    <section class="section sector" id="savoir-faire">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">Notre savoir-faire</p>
+          <h2 class="h2 reveal">Un seul interlocuteur, <em>de la fondation jusqu'au toit.</em></h2>
+          <!-- À RELIRE -->
+          <p class="reveal">${esc(sv.lead)}</p>
+          <p class="reveal">Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide de l'élaboration à la livraison, avec un interlocuteur dédié pendant toute la durée du chantier.</p>
+        </div>
+        ${phareCarousel(list, "Nos chantiers de rénovation extérieure", "Nos chantiers", "Nos chantiers")}
       </div>
     </section>
 `;
@@ -956,22 +993,21 @@ SERVICES.forEach((sv) => {
   const byFeat = (list) => list.sort((a, b) => (a.featured || 99) - (b.featured || 99));
   const priv = byFeat(PROJECTS.filter((p) => p.category === "particulier" && sv.categories.includes(p.category)));
   const pro = byFeat(PROJECTS.filter((p) => p.category !== "particulier" && sv.categories.includes(p.category)));
-  // page intérieure : les appartements ont leur carrousel plus haut, celui-ci ne montre que les chantiers de professionnels
-  const projs = sv.slug === "interieur" ? pro.slice(0, 8) : sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
+  // page intérieure : le carrousel du bas montre tous les appartements rénovés (photos hébergées sur le site en premier)
+  const projs = sv.slug === "interieur" ? localFirst(priv) : sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
   // la page intérieure reprend aussi les questions de l'ancienne page Particuliers (rénovation d'appartement)
   const svFaq = sv.slug === "interieur" ? [...sv.faq, ...(FAQ.PAGES["/particuliers/"] || []).filter(([q]) => !sv.faq.some(([q2]) => q2 === q))] : sv.faq;
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
     scripts: sv.slug === "interieur" ? ["main", "volume"] : ["main", "zone3d"],
-    heroSlides: sv.slug === "interieur" ? heroSlidesOf(PROJECTS.filter((p) => p.category === "particulier")) : undefined,
     key: "renovation",
     title: sv.title,
     description: sv.description,
     crumbs,
     jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
     content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
-${sv.slug === "interieur" ? apartBlock() : ""}    <section class="section svc" id="prestations">
+${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>clé en main.</em></h2></div>
@@ -1010,7 +1046,7 @@ ${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? ` 
     </section>
 ` : ""}    <section class="section section--tight">
       <div class="container">
-        ${projRail(sv.slug, projs)}
+        ${sv.slug === "interieur" ? projRail("appartement", projs, "Nos <em>appartements rénovés.</em>", ["/realisations/?filtre=particulier", "Voir tous nos appartements"]) : projRail(sv.slug, projs)}
       </div>
     </section>
     <section class="section">
@@ -1062,6 +1098,7 @@ if (ARTICLES.length) {
       ogType: "article",
       ogImage: articleCover(a).src,
       heroPhoto: articleCover(a),
+      heroSlides: articleSlides(a),
       crumbs,
       jsonld: [{ "@type": "BlogPosting", headline: a.title, description: a.description, datePublished: a.date, dateModified: a.date, image: abs(articleCover(a).src), url: SITE + path_, mainEntityOfPage: SITE + path_, author: { "@id": `${SITE}/#entreprise` }, publisher: { "@id": `${SITE}/#entreprise` } }, ...faqLd(faq)],
       content: expand(`    <article class="post">
