@@ -191,8 +191,14 @@ const HERO_PHOTOS = {
   "/merci/": ["hotel-bienvenue", 10],
   "/404.html": ["charpente-bois", 1],
 };
-const withHeroPhoto = (content, ph) => content.replace(/<(section|header) class="cs-hero page-hero([^"]*)"([^>]*)>/, (m, tag, cls, rest) =>
-  `<${tag} class="cs-hero page-hero page-hero--photo${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true">${img(ph, "", 'data-hero fetchpriority="high"')}</figure>`);
+// heroSlides (liste de photos) : le haut de page fait défiler ces photos (assets/js/main.js), avec des tirets en bas
+const withHeroPhoto = (content, ph, slides) => content.replace(/<(section|header) class="cs-hero page-hero([^"]*)"([^>]*)>/, (m, tag, cls, rest) =>
+  slides && slides.length > 1
+    ? `<${tag} class="cs-hero page-hero page-hero--photo page-hero--slides${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true" data-slides>${slides.map((s, k) => img(s, "", k ? 'loading="lazy" class="page-hero__slide"' : 'data-hero fetchpriority="high" class="page-hero__slide is-on"')).join("")}</figure>\n      <span class="page-hero__dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>`
+    : `<${tag} class="cs-hero page-hero page-hero--photo${cls}"${rest}>\n      <figure class="page-hero__photo" aria-hidden="true">${img(ph, "", 'data-hero fetchpriority="high"')}</figure>`);
+// photos du haut de page : la couverture de chaque chantier de la liste, photos hébergées sur le site en premier (5 au plus)
+const localFirst = (list) => [...list].sort((a, b) => (PHOTOS[b.id][0].src.startsWith("/assets/") - PHOTOS[a.id][0].src.startsWith("/assets/")));
+const heroSlidesOf = (list) => localFirst(list).slice(0, 5).map((p) => PHOTOS[p.id][0]);
 
 // Bandeau d'appel à l'action (src/data/ctas.js). « #projet » mène au questionnaire de la page, sinon au formulaire de contact.
 const ctaBand = (c, content, title = "", inline = false) => {
@@ -215,7 +221,7 @@ const withCta = (o) => {
 const layout = (o) => {
   o = withCta(o);
   const heroPh = o.heroPhoto || (HERO_PHOTOS[o.path] && shot(...HERO_PHOTOS[o.path]));
-  if (heroPh) o = { ...o, content: withHeroPhoto(o.content, heroPh) };
+  if (heroPh || o.heroSlides) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroSlides) };
   const url = SITE + o.path;
   const faqItems = o.faq || FAQ.PAGES[o.path];
   if (faqItems && !o.content.includes('class="section faq"')) {
@@ -287,7 +293,7 @@ const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" da
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
 // Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
-const projRail = (id, projs, h2 = "Ils nous ont <em>confié leurs lieux.</em>") => `<div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">${h2}</h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${id}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${id}">→</button><a href="/realisations/" class="btn btn--ghost">Toutes les réalisations <span aria-hidden="true">→</span></a></div></div>
+const projRail = (id, projs, h2 = "Ils nous ont <em>confié leurs lieux.</em>", all = ["/realisations/", "Toutes les réalisations"]) => `<div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">${h2}</h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${id}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${id}">→</button><a href="${all[0]}" class="btn btn--ghost">${all[1]} <span aria-hidden="true">→</span></a></div></div>
         <div class="pj-cards pj-cards--rail" id="rail-${id}" data-rail tabindex="0" aria-label="Chantiers réalisés">${projs.map((p) => card(p, "h3")).join("")}</div>`;
 // Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
 // cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
@@ -689,6 +695,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
     crumbs: [{ name: s.nav, path: s.path }],
     ogImage: list[0] && cover(list[0]).src,
     bodyAttrs: ` data-cta-type="${s.category}"`,
+    heroSlides: heroSlidesOf(list),
     content: fill(SECTOR_TPL, {
       hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
@@ -696,6 +703,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
       prestations: sectorPrest(s),
       count: `${list.length} chantier${list.length > 1 ? "s" : ""}`,
       plural: PLURAL[s.category],
+      category: s.category,
       cards: list.map((p) => card(p, "h3")).join("\n          "),
       steps: methodBrief("h3"),
       others: others.map((o) => `<a class="btn btn--ghost" href="${o.path}">${o.nav}</a>`).join(""),
@@ -849,11 +857,17 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
   layout({
     path: "/professionnels/",
     key: "professionnels",
+    heroSlides: heroSlidesOf(proProjs),
     title: "Rénovation pour les professionnels à Paris : hôtels, boutiques, restaurants | EMBI",
     description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
     crumbs,
     jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
     content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
+    <section class="section section--tight" id="chantiers">
+      <div class="container">
+        ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
+      </div>
+    </section>
     <section class="section" id="secteurs">
       <div class="container">
         <div class="section__head">
@@ -868,11 +882,6 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
           }).join("\n          ")}
           <a class="explore__card reveal" href="/projets-specifiques/"><span class="explore__n">${String(PRO.length + 1).padStart(2, "0")} · Sur mesure</span><h3 class="explore__t">Projets spécifiques</h3><p>Corners en grand magasin, ateliers, agencements sur mesure, travaux en site occupé.</p><span class="explore__go">Les projets hors du cadre <i aria-hidden="true">→</i></span></a>
         </div>
-      </div>
-    </section>
-    <section class="section section--tight" id="chantiers">
-      <div class="container">
-        ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
       </div>
     </section>
     <section class="section">
@@ -916,7 +925,7 @@ layout({
 // Page Rénovation intérieure · partie « Rénovation d'appartement complète » (ancienne page Particuliers)
 const apartBlock = () => {
   const s = SECTORS.find((x) => x.category === "particulier");
-  const list = PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99));
+  const list = localFirst(PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99)));
   return `    <section class="section apart" id="appartement">
       <div class="container">
         <div class="section__head">
@@ -926,7 +935,7 @@ const apartBlock = () => {
         <div class="apart__text">
           ${s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          ")}
         </div>
-        ${projRail("appartement", list, "Nos <em>appartements rénovés.</em>")}
+        ${projRail("appartement", list, "Nos <em>appartements rénovés.</em>", ["/realisations/?filtre=particulier", "Voir tous nos appartements"])}
       </div>
     </section>
 `;
@@ -938,20 +947,22 @@ SERVICES.forEach((sv) => {
   const byFeat = (list) => list.sort((a, b) => (a.featured || 99) - (b.featured || 99));
   const priv = byFeat(PROJECTS.filter((p) => p.category === "particulier" && sv.categories.includes(p.category)));
   const pro = byFeat(PROJECTS.filter((p) => p.category !== "particulier" && sv.categories.includes(p.category)));
-  const projs = sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
+  // page intérieure : les appartements ont leur carrousel plus haut, celui-ci ne montre que les chantiers de professionnels
+  const projs = sv.slug === "interieur" ? pro.slice(0, 8) : sv.projects ? sv.projects.map((id) => PROJECTS.find((p) => p.id === id)) : Array.from({ length: Math.max(priv.length, pro.length) }, (_, k) => [priv[k], pro[k]]).flat().filter(Boolean).slice(0, 8);
   // la page intérieure reprend aussi les questions de l'ancienne page Particuliers (rénovation d'appartement)
   const svFaq = sv.slug === "interieur" ? [...sv.faq, ...(FAQ.PAGES["/particuliers/"] || []).filter(([q]) => !sv.faq.some(([q2]) => q2 === q))] : sv.faq;
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
     scripts: sv.slug === "interieur" ? ["main", "volume"] : ["main", "zone3d"],
+    heroSlides: sv.slug === "interieur" ? heroSlidesOf(PROJECTS.filter((p) => p.category === "particulier")) : undefined,
     key: "renovation",
     title: sv.title,
     description: sv.description,
     crumbs,
     jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
     content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
-    <section class="section svc" id="prestations">
+${sv.slug === "interieur" ? apartBlock() : ""}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>clé en main.</em></h2></div>
@@ -962,7 +973,7 @@ SERVICES.forEach((sv) => {
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? apartBlock() + volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
