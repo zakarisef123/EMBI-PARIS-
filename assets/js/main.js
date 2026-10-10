@@ -749,7 +749,9 @@
   }));
 })();
 
-/* Carrousel de chantiers (pages Rénovation) : boutons précédent / suivant, masqués s'il n'y a rien à faire défiler */
+/* Carrousel de chantiers (pages Rénovation, secteurs, Professionnels) : boutons précédent / suivant, masqués s'il n'y a rien
+   à faire défiler, et défilement automatique (un chantier toutes les 4 s, retour au début à la fin ; pause au survol, au
+   toucher, hors écran ; désactivé si l'utilisateur demande moins d'animations) */
 document.querySelectorAll("[data-rail]").forEach((rail) => {
   const box = rail.closest("section");
   const prev = box.querySelector("[data-rail-prev]"), next = box.querySelector("[data-rail-next]");
@@ -765,6 +767,22 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
   rail.addEventListener("scroll", update, { passive: true });
   addEventListener("resize", update);
   update();
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let inView = false, hover = false, touchedAt = 0;
+  new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.4 }).observe(rail);
+  box.addEventListener("mouseenter", () => (hover = true));
+  box.addEventListener("mouseleave", () => (hover = false));
+  const touched = () => (touchedAt = Date.now());
+  rail.addEventListener("touchstart", touched, { passive: true });
+  [prev, next].forEach((b) => b.addEventListener("click", touched));
+  rail.addEventListener("focusin", touched);
+  setInterval(() => {
+    // après une action du visiteur (toucher, flèche, clavier), on le laisse regarder 8 s avant de reprendre
+    if (!inView || hover || document.hidden || Date.now() - touchedAt < 8000) return;
+    const max = rail.scrollWidth - rail.clientWidth - 2;
+    if (max <= 0) return;
+    rail.scrollTo({ left: rail.scrollLeft >= max ? 0 : Math.min(rail.scrollLeft + step(), max + 2), behavior: "smooth" });
+  }, 4000);
 });
 
 /* Réalisations : les photos de chaque chantier défilent dans sa carte

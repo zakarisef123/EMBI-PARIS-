@@ -704,7 +704,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
       count: `${list.length} chantier${list.length > 1 ? "s" : ""}`,
       plural: PLURAL[s.category],
       category: s.category,
-      cards: list.map((p) => card(p, "h3")).join("\n          "),
+      rail: projRail(s.category, list, `Nos chantiers <em>${/^[aeiouyhéèêàâîô]/i.test(PLURAL[s.category]) ? "d'" : "de "}${PLURAL[s.category]}.</em>`, [`/realisations/?filtre=${s.category}`, `Tous nos ${PLURAL[s.category]}`]),
       steps: methodBrief("h3"),
       others: others.map((o) => `<a class="btn btn--ghost" href="${o.path}">${o.nav}</a>`).join(""),
       cta: expand(funnel(s.category)),
@@ -863,11 +863,6 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
     crumbs,
     jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
     content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
-    <section class="section section--tight" id="chantiers">
-      <div class="container">
-        ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
-      </div>
-    </section>
     <section class="section" id="secteurs">
       <div class="container">
         <div class="section__head">
@@ -882,6 +877,11 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
           }).join("\n          ")}
           <a class="explore__card reveal" href="/projets-specifiques/"><span class="explore__n">${String(PRO.length + 1).padStart(2, "0")} · Sur mesure</span><h3 class="explore__t">Projets spécifiques</h3><p>Corners en grand magasin, ateliers, agencements sur mesure, travaux en site occupé.</p><span class="explore__go">Les projets hors du cadre <i aria-hidden="true">→</i></span></a>
         </div>
+      </div>
+    </section>
+    <section class="section section--tight" id="chantiers">
+      <div class="container">
+        ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
       </div>
     </section>
     <section class="section">
