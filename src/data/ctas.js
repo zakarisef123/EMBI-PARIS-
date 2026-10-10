@@ -41,7 +41,7 @@ module.exports = {
     hotel: { t: "Votre hôtel, <em>prochain chantier&nbsp;?</em>", p: "Ce que nous avons fait pour {title}, nous pouvons l'adapter à votre établissement.", a: ["Parler de mon hôtel", "#projet"], b: ["Tous nos hôtels", "/hotels/"] },
     boutique: { t: "Une boutique à créer <em>ou à réinventer&nbsp;?</em>", p: "Après {title}, pourquoi pas votre enseigne ? Dites-nous où et pour quand.", a: ["Lancer mon projet", "#projet"], b: ["Toutes nos boutiques", "/boutiques/"] },
     restaurant: { t: "Un restaurant à transformer&nbsp;? <em>Commençons par une visite.</em>", p: "Comme pour {title}, nous menons la plomberie, les normes et la décoration avec un seul devis.", a: ["Organiser une visite", "#projet"], b: ["Tous nos restaurants", "/restaurants/"] },
-    particulier: { t: "Un appartement <em>comme celui-ci&nbsp;?</em>", p: "Racontez-nous le vôtre : surface, envies, calendrier. Nous revenons vers vous pour en parler.", a: ["Estimer mes travaux", "#projet"], b: ["Rénovation d'appartement", "/particuliers/"] },
+    particulier: { t: "Un appartement <em>comme celui-ci&nbsp;?</em>", p: "Racontez-nous le vôtre : surface, envies, calendrier. Nous revenons vers vous pour en parler.", a: ["Estimer mes travaux", "#projet"], b: ["Rénovation d'appartement", "/renovation/interieur/#appartement"] },
     "savoir-faire": { t: "Ce savoir-faire, <em>chez vous&nbsp;?</em>", p: "Dites-nous ce que vous souhaitez faire réaliser : nous vous proposons une solution et un chiffrage.", a: ["Demander un chiffrage", "#projet"], b: ["Tous nos savoir-faire", "/savoir-faire/"] },
   },
   articles: {

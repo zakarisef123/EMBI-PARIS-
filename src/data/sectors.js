@@ -21,6 +21,14 @@ module.exports = [
       "Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide de l'élaboration à la livraison, avec un interlocuteur dédié pendant toute la durée du chantier.",
     ],
     card: "Embellissement, rénovation de l'ensemble du bâtiment et remise aux normes hôtelières.",
+    phare: "hotel-panache", // chantier mis en avant à droite du texte (photo, travaux, lien)
+    prestations: [ // « Nos prestations » : [titre, texte, lien]
+      ["Chambres et salles de bains", "Embellissement des chambres, des salles de bains et des sanitaires.", "/renovation/interieur/"],
+      ["Accueil et parties communes", "Hall, réception et circulations, rénovés avec le reste de l'hôtel.", "/renovation/interieur/"],
+      ["Mise aux normes hôtelières", "Accessibilité PMR, sécurité incendie, électricité et sanitaires.", "/mag/mise-aux-normes-electriques-quand-comment/"],
+      ["Travaux en site occupé", "Un chantier organisé pour que l'hôtel continue d'accueillir ses clients.", "/mag/travaux-site-occupe-hotel-boutique/"],
+      ["Conception sur mesure", "Un architecte et un architecte d'intérieur dans l'équipe.", "/conception-sur-mesure/"],
+    ],
   },
   {
     category: "boutique",
@@ -36,6 +44,14 @@ module.exports = [
       "Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide de l'élaboration à la livraison, avec un interlocuteur dédié pendant toute la durée du chantier.",
     ],
     card: "Création complète, rénovation et corners en grand magasin : Loro Piana, Byredo, Colette…",
+    phare: "loro-piana",
+    prestations: [
+      ["Création complète de boutique", "Comme pour Loro Piana : de la conception à la livraison.", "/mag/creation-boutique-loro-piana/"],
+      ["Corners en grand magasin", "Byredo au Bon Marché, Tartine et Chocolat chez Harrods.", "/mag/corner-byredo-bon-marche-agencement/"],
+      ["Rénovation et embellissement", "Rénovation complète ou embellissement, comme chez Colette et Petite Mendigote.", "/renovation/interieur/"],
+      ["Travaux en magasin ouvert", "Un chantier organisé autour de l'activité de la boutique.", "/mag/travaux-site-occupe-hotel-boutique/"],
+      ["Conception sur mesure", "Un architecte et un architecte d'intérieur dans l'équipe.", "/conception-sur-mesure/"],
+    ],
   },
   {
     category: "restaurant",
@@ -51,10 +67,21 @@ module.exports = [
       "Les travaux peuvent comprendre la mise aux normes : sanitaires, circulations (PMR), sécurité incendie, électricité.",
     ],
     card: "Transformation complète, rénovation, décoration et mise aux normes de la restauration.",
+    phare: "cafe-pinson",
+    prestations: [
+      ["Transformation complète", "Un ancien magasin transformé en restaurant, comme Loustic.", "/realisations/loustic/"],
+      ["Plomberie et électricité", "Tous les corps de métier coordonnés, de la plomberie à l'électricité.", "/renovation/interieur/"],
+      ["Mise aux normes", "Sanitaires, circulations (PMR), sécurité incendie, électricité.", "/mag/mise-aux-normes-electriques-quand-comment/"],
+      ["Décorations signées", "Des chantiers sur des décorations signées Dorothée Meilichzon et Richard Lafond.", "/realisations/"],
+      ["Conception sur mesure", "Un architecte et un architecte d'intérieur dans l'équipe.", "/conception-sur-mesure/"],
+    ],
   },
   {
     category: "particulier",
-    path: "/particuliers/",
+    // plus de page à part : la rénovation d'appartement est une partie de la page Rénovation intérieure
+    // (l'ancienne adresse /particuliers/ y est redirigée)
+    path: "/renovation/interieur/#appartement",
+    page: false,
     nav: "Particuliers",
     title: "Rénovation d'appartement à Paris pour les particuliers | EMBI",
     description: "Rénovation et mise aux normes d'appartements à Paris : plomberie, électricité, revêtements, isolation, décoration. EMBI réalise vos travaux avec un seul interlocuteur, de l'étude à la livraison.",
