@@ -866,3 +866,38 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
   new IntersectionObserver((en) => (inView = en[0].isIntersecting)).observe(fig);
   setInterval(() => { if (inView && !document.hidden) { const nx = slides[(k + 1) % slides.length]; if (nx && nx.complete && nx.naturalWidth) show(k + 1); } }, 5000);
 })();
+
+/* Pages secteur : carrousel du chantier phare (photo, nom, secteur, travaux et lien changent ensemble) */
+document.querySelectorAll("[data-phare]").forEach((box) => {
+  const slides = () => [...box.querySelectorAll(".phare__slide")];
+  const dots = () => [...box.querySelectorAll(".phare__dots i")];
+  let k = 0, inView = false, hover = false, touchedAt = 0;
+  const go = (n) => {
+    const sl = slides(), ds = dots();
+    if (sl.length < 2) return;
+    k = (n + sl.length) % sl.length;
+    sl.forEach((s, j) => { const on = j === k; s.classList.toggle("is-on", on); s.tabIndex = on ? 0 : -1; s.setAttribute("aria-hidden", String(!on)); });
+    ds.forEach((d, j) => d.classList.toggle("is-on", j === k));
+    const im = sl[(k + 1) % sl.length].querySelector("img"); // la suivante se charge à l'avance
+    if (im && im.loading === "lazy") im.loading = "eager";
+  };
+  // chantier dont la photo est introuvable : retiré du carrousel (on garde toujours au moins un chantier)
+  slides().forEach((s, j) => {
+    const im = s.querySelector("img");
+    const drop = () => { if (slides().length < 2 || !s.isConnected) return; const i = slides().indexOf(s); s.remove(); if (dots()[i]) dots()[i].remove(); go(Math.min(k, slides().length - 1)); if (slides().length < 2 && box.querySelector(".phare__bar")) box.querySelector(".phare__bar").hidden = true; };
+    if (im) im.complete && im.naturalWidth === 0 ? drop() : im.addEventListener("error", drop);
+  });
+  const prev = box.querySelector(".phare__prev"), next = box.querySelector(".phare__next");
+  if (!prev) return;
+  prev.addEventListener("click", () => { touchedAt = Date.now(); go(k - 1); });
+  next.addEventListener("click", () => { touchedAt = Date.now(); go(k + 1); });
+  let sx = null;
+  box.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; touchedAt = Date.now(); }, { passive: true });
+  box.addEventListener("touchend", (e) => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 40) go(k + (dx < 0 ? 1 : -1)); });
+  box.addEventListener("mouseenter", () => (hover = true));
+  box.addEventListener("mouseleave", () => (hover = false));
+  box.addEventListener("focusin", () => (touchedAt = Date.now()));
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.4 }).observe(box);
+  setInterval(() => { if (inView && !hover && !document.hidden && Date.now() - touchedAt > 8000) go(k + 1); }, 5000);
+});

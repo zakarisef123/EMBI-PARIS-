@@ -660,18 +660,27 @@ fs.readdirSync(path.join(ROOT, "src/pages"))
 /* ───── 2 · Pages secteur ───── */
 // à droite du texte : le chantier phare du secteur (sectors.js → phare, sinon le plus mis en avant)
 const sectorPhare = (s, list) => {
-  const p = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
-  if (!p) return "";
-  const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).join(", ")]].filter(Boolean);
-  return `<a class="phare reveal" href="${projectUrl(p)}">
-          <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
-          <div class="phare__body">
-            <p class="phare__k">Le chantier phare</p>
-            <h3 class="phare__t">${esc(p.title)}</h3>
-            <dl class="phare__facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
-            <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
-          </div>
-        </a>`;
+  // carrousel : le chantier phare d'abord, puis les autres chantiers du secteur (photos hébergées sur le site en premier)
+  const first = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+  if (!first) return "";
+  const all = [first, ...localFirst(list.filter((q) => q !== first))];
+  const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
+  const slide = (p, k) => {
+    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
+    return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+            <div class="phare__body">
+              <p class="phare__k">${k ? "Nos chantiers" : "Le chantier phare"}</p>
+              <h3 class="phare__t">${esc(p.title)}</h3>
+              <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+              <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
+            </div>
+          </a>`;
+  };
+  return `<div class="phare reveal" data-phare aria-roledescription="carrousel" aria-label="Nos chantiers ${esc(PLURAL[s.category])}">
+          <div class="phare__stack">${all.map(slide).join("")}</div>
+          ${all.length > 1 ? `<div class="phare__bar"><span class="phare__dots" aria-hidden="true">${all.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span><span class="phare__arrows"><button type="button" class="phare__prev" aria-label="Chantier précédent">←</button><button type="button" class="phare__next" aria-label="Chantier suivant">→</button></span></div>` : ""}
+        </div>`;
 };
 // sous le texte : « Nos prestations » (sectors.js → prestations)
 const sectorPrest = (s) => s.prestations && s.prestations.length ? `    <section class="section section--tight prest">
