@@ -2961,3 +2961,9 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 .pj-hero__media .page-hero__slide.is-on { opacity: 1; }
 .pj-hero { position: relative; }
 .pj-hero .page-hero__dots { z-index: 3; }
+
+/* Vidéos des chantiers (scripts/videos, assets/js/videos.js) : posées sur la photo, elles apparaissent en fondu quand elles jouent */
+.pj-hero__video, .pj-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s var(--ease), transform 1.4s var(--ease); pointer-events: none; }
+.pj-hero__video.is-on, .pj-video.is-on { opacity: 1; }
+.pj-card__media { position: relative; }
+.pj-card:hover .pj-video, .works__card:hover .works__img .pj-video { transform: scale(1.05); }

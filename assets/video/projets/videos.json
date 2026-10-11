@@ -1,0 +1,92 @@
+{
+  "appartement-haussmannien": {
+    "carre": "/assets/video/projets/appartement-haussmannien-carre.mp4",
+    "paysage": "/assets/video/projets/appartement-haussmannien-paysage.mp4",
+    "portrait": "/assets/video/projets/appartement-haussmannien-portrait.mp4"
+  },
+  "appartement-lumineux": {
+    "carre": "/assets/video/projets/appartement-lumineux-carre.mp4",
+    "paysage": "/assets/video/projets/appartement-lumineux-paysage.mp4",
+    "portrait": "/assets/video/projets/appartement-lumineux-portrait.mp4"
+  },
+  "appartement-paris-5e": {
+    "carre": "/assets/video/projets/appartement-paris-5e-carre.mp4",
+    "portrait": "/assets/video/projets/appartement-paris-5e-portrait.mp4",
+    "paysage": "/assets/video/projets/appartement-paris-5e-paysage.mp4"
+  },
+  "appartement-renovation-complete": {
+    "paysage": "/assets/video/projets/appartement-renovation-complete-paysage.mp4",
+    "carre": "/assets/video/projets/appartement-renovation-complete-carre.mp4",
+    "portrait": "/assets/video/projets/appartement-renovation-complete-portrait.mp4"
+  },
+  "appartement-rue-saint-dominique": {
+    "carre": "/assets/video/projets/appartement-rue-saint-dominique-carre.mp4",
+    "paysage": "/assets/video/projets/appartement-rue-saint-dominique-paysage.mp4",
+    "portrait": "/assets/video/projets/appartement-rue-saint-dominique-portrait.mp4"
+  },
+  "atelier-joaillerie-ploermel": {
+    "carre": "/assets/video/projets/atelier-joaillerie-ploermel-carre.mp4",
+    "paysage": "/assets/video/projets/atelier-joaillerie-ploermel-paysage.mp4",
+    "portrait": "/assets/video/projets/atelier-joaillerie-ploermel-portrait.mp4"
+  },
+  "cafe-joyeux-klesia": {
+    "carre": "/assets/video/projets/cafe-joyeux-klesia-carre.mp4",
+    "paysage": "/assets/video/projets/cafe-joyeux-klesia-paysage.mp4",
+    "portrait": "/assets/video/projets/cafe-joyeux-klesia-portrait.mp4"
+  },
+  "cafe-pinson": {
+    "paysage": "/assets/video/projets/cafe-pinson-paysage.mp4",
+    "portrait": "/assets/video/projets/cafe-pinson-portrait.mp4",
+    "carre": "/assets/video/projets/cafe-pinson-carre.mp4"
+  },
+  "charpente-bois": {
+    "carre": "/assets/video/projets/charpente-bois-carre.mp4",
+    "paysage": "/assets/video/projets/charpente-bois-paysage.mp4",
+    "portrait": "/assets/video/projets/charpente-bois-portrait.mp4"
+  },
+  "hotel-beauregard": {
+    "carre": "/assets/video/projets/hotel-beauregard-carre.mp4",
+    "portrait": "/assets/video/projets/hotel-beauregard-portrait.mp4",
+    "paysage": "/assets/video/projets/hotel-beauregard-paysage.mp4"
+  },
+  "hotel-bienvenue": {
+    "portrait": "/assets/video/projets/hotel-bienvenue-portrait.mp4",
+    "carre": "/assets/video/projets/hotel-bienvenue-carre.mp4",
+    "paysage": "/assets/video/projets/hotel-bienvenue-paysage.mp4"
+  },
+  "le-grand-pigalle": {
+    "paysage": "/assets/video/projets/le-grand-pigalle-paysage.mp4",
+    "portrait": "/assets/video/projets/le-grand-pigalle-portrait.mp4",
+    "carre": "/assets/video/projets/le-grand-pigalle-carre.mp4"
+  },
+  "loro-piana": {
+    "carre": "/assets/video/projets/loro-piana-carre.mp4",
+    "portrait": "/assets/video/projets/loro-piana-portrait.mp4",
+    "paysage": "/assets/video/projets/loro-piana-paysage.mp4"
+  },
+  "maison-a-colombages": {
+    "carre": "/assets/video/projets/maison-a-colombages-carre.mp4",
+    "paysage": "/assets/video/projets/maison-a-colombages-paysage.mp4",
+    "portrait": "/assets/video/projets/maison-a-colombages-portrait.mp4"
+  },
+  "mosaique": {
+    "carre": "/assets/video/projets/mosaique-carre.mp4",
+    "paysage": "/assets/video/projets/mosaique-paysage.mp4",
+    "portrait": "/assets/video/projets/mosaique-portrait.mp4"
+  },
+  "ravalement-rue-nollet": {
+    "carre": "/assets/video/projets/ravalement-rue-nollet-carre.mp4",
+    "paysage": "/assets/video/projets/ravalement-rue-nollet-paysage.mp4",
+    "portrait": "/assets/video/projets/ravalement-rue-nollet-portrait.mp4"
+  },
+  "renovation-appartement": {
+    "carre": "/assets/video/projets/renovation-appartement-carre.mp4",
+    "portrait": "/assets/video/projets/renovation-appartement-portrait.mp4",
+    "paysage": "/assets/video/projets/renovation-appartement-paysage.mp4"
+  },
+  "toitures-zinguerie": {
+    "carre": "/assets/video/projets/toitures-zinguerie-carre.mp4",
+    "paysage": "/assets/video/projets/toitures-zinguerie-paysage.mp4",
+    "portrait": "/assets/video/projets/toitures-zinguerie-portrait.mp4"
+  }
+}

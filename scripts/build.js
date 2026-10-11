@@ -92,6 +92,11 @@ const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/s
 const projectUrl = (p) => `/realisations/${p.id}/`;
 const featured = PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
 const PHOTOS = Object.fromEntries(PROJECTS.map((p) => [p.id, projectPhotos(p)]));
+// Vidéos des chantiers (scripts/videos) : en-tête de la page chantier et miniatures, lancées par assets/js/videos.js
+const videosFile = path.join(ROOT, "assets/video/projets/videos.json");
+const VIDEOS = fs.existsSync(videosFile) ? JSON.parse(fs.readFileSync(videosFile, "utf8")) : {};
+const hasVideo = (id, fmt) => !!(VIDEOS[id] && VIDEOS[id][fmt] && fs.existsSync(path.join(ROOT, VIDEOS[id][fmt].replace(/^\//, ""))));
+const cardVideo = (id) => (hasVideo(id, "carre") ? `<video class="pj-video" data-video="${VIDEOS[id].carre}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "");
 const cover = (p) => PHOTOS[p.id][0];
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
 
@@ -235,7 +240,7 @@ const layout = (o) => {
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
   if (o.jsonld) graph.push(...o.jsonld);
-  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta", ...(o.content.includes("data-slides") ? ["hero"] : [])];
+  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta", ...(o.content.includes("data-slides") ? ["hero"] : []), ...(/data-video/.test(o.content) ? ["videos"] : [])];
   const html = `<!doctype html>
 <html lang="fr">
 <head>
@@ -293,7 +298,7 @@ const pageHero = (crumbs, h1, lead, actions = "", readme = false) => `    <secti
       </div>
     </section>`;
 const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" data-cat="${p.category}">
-            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</span>
+            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
 // Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
@@ -466,7 +471,7 @@ const worksCards = () => {
   const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 6);
   return `<div class="works__grid">
             ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category]}</span>
             </a>`).join("\n            ")}
@@ -545,7 +550,7 @@ const BLOCKS = {
           </div>
           <div class="works__grid works__grid--4 works__grid--all" id="grid">
             ${list.map((p) => `<a class="works__card" href="${projectUrl(p)}" data-cat="${p.category}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category] || ""}</span>
             </a>`).join("\n            ")}
@@ -765,8 +770,11 @@ PROJECTS.forEach((p, i) => {
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
       category: p.category,
-      // haut de page : les photos du chantier qui défilent (assets/js/hero.js)
-      cover: photos.length > 1
+      // haut de page : la vidéo du chantier (16:9 sur ordinateur, verticale sur téléphone) au-dessus de sa photo,
+      // sinon les photos du chantier qui défilent (assets/js/hero.js)
+      cover: hasVideo(p.id, "paysage") && hasVideo(p.id, "portrait")
+        ? `${img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero')}<video class="pj-hero__video" data-video-wide="${VIDEOS[p.id].paysage}" data-video-tall="${VIDEOS[p.id].portrait}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>`
+        : photos.length > 1
         ? `${photos.slice(0, 5).map((ph, k) => img(ph, k ? "" : `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, k ? 'loading="lazy" data-hero class="page-hero__slide" aria-hidden="true"' : 'id="pjCover" fetchpriority="high" data-hero class="page-hero__slide is-on"')).join("")}</div>\n      <span class="page-hero__dots" aria-hidden="true">${photos.slice(0, 5).map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>\n      <div hidden>`
         : img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero'),
       catLine: `<a href="${sec.path}">${esc(cat)}</a>${p.lieu ? ` · ${esc(p.lieu)}` : ""}${p.annee ? ` · ${esc(p.annee)}` : ""}`,
@@ -1254,7 +1262,7 @@ const copyDir = (from, to, filter = () => true) => {
     else if (filter(e.name)) fs.copyFileSync(a, b);
   }
 };
-copyDir(path.join(ROOT, "assets"), path.join(OUT, "assets"), (n) => n !== "manifest.json");
+copyDir(path.join(ROOT, "assets"), path.join(OUT, "assets"), (n) => n !== "manifest.json" && n !== "videos.json");
 // Les navigateurs demandent /favicon.ico à la racine, même sans balise : on y met le nouveau logo.
 fs.copyFileSync(path.join(ROOT, "assets/img/favicon.ico"), path.join(OUT, "favicon.ico"));
 copyDir(path.join(ROOT, "images"), path.join(OUT, "images"), (n) => !n.startsWith("."));

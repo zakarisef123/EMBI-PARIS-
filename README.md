@@ -54,6 +54,14 @@ npm run convertir       # crée assets/img/projets/<chantier>/… et assets/img/
 ```
 Pour des photos haute définition, déposez-les dans `photos-originales/projets/<id-du-chantier>/` (01.jpg = couverture) et relancez `npm run convertir` : le chantier passe aussitôt sur ses photos locales, les chantiers déjà convertis sont conservés. Un chantier sans photos locales garde celles de l'ancien site. `photos: "local"` dans `site.config.js` signale seulement les chantiers qui n'ont pas encore leurs photos.
 
+## Vidéos des chantiers
+Chaque chantier dont les photos sont hébergées sur le site a sa vidéo, faite uniquement de ses photos, sans son, qui boucle sans à-coup :
+`assets/video/projets/<chantier>-paysage.mp4` (en-tête sur ordinateur), `-portrait.mp4` (en-tête sur téléphone) et `-carre.mp4` (miniature dans les listes, recadrée par le site). Elles ne se chargent que lorsqu'elles sont visibles (`assets/js/videos.js`) et ne s'affichent pas si le visiteur demande moins d'animations ou économise ses données : la photo reste alors en place. Pour les refaire après un changement de photos (il faut ffmpeg) :
+```
+cd scripts/videos && npm install
+node generer.js                    # tous les chantiers, ou : node generer.js hotel-beauregard cafe-pinson
+```
+
 ## Pages légales
 Les champs `[À COMPLÉTER]` des mentions légales (raison sociale, forme juridique, capital, SIRET, RCS, siège, directeur de la publication, TVA, assurance décennale, médiateur) sont surlignés en jaune. Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur, politique de confidentialité).
 
