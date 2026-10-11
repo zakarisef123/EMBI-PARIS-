@@ -35,7 +35,7 @@
   let inView = true;
   new IntersectionObserver((en) => (inView = en[0].isIntersecting)).observe(fig);
   setInterval(() => {
-    if (!inView || document.hidden) return;
+    if (!inView || document.hidden || fig.querySelector(".pj-hero__video.is-on")) return; // la vidéo du chantier joue : les photos restent dessous
     const sl = all(), nx = sl[(k + 1) % sl.length];
     if (sl.length > 1 && nx.complete && nx.naturalWidth) show(k + 1);
   }, 5000);

@@ -675,7 +675,7 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   const slide = (p, k) => {
     const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
-            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "paysage") ? `<video class="pj-video" data-video="${VIDEOS[p.id].paysage}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
               <p class="phare__k">${k ? otherKicker : firstKicker}</p>
               <h3 class="phare__t">${esc(p.title)}</h3>
@@ -772,11 +772,14 @@ PROJECTS.forEach((p, i) => {
       category: p.category,
       // haut de page : la vidéo du chantier (16:9 sur ordinateur, verticale sur téléphone) au-dessus de sa photo,
       // sinon les photos du chantier qui défilent (assets/js/hero.js)
-      cover: hasVideo(p.id, "paysage") && hasVideo(p.id, "portrait")
-        ? `${img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero')}<video class="pj-hero__video" data-video-wide="${VIDEOS[p.id].paysage}" data-video-tall="${VIDEOS[p.id].portrait}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>`
-        : photos.length > 1
-        ? `${photos.slice(0, 5).map((ph, k) => img(ph, k ? "" : `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, k ? 'loading="lazy" data-hero class="page-hero__slide" aria-hidden="true"' : 'id="pjCover" fetchpriority="high" data-hero class="page-hero__slide is-on"')).join("")}</div>\n      <span class="page-hero__dots" aria-hidden="true">${photos.slice(0, 5).map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>\n      <div hidden>`
-        : img(photos[0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'id="pjCover" fetchpriority="high" data-hero'),
+      // (un format absent : photos trop petites ou pas assez horizontales pour ce cadre, la photo reste à cet endroit)
+      cover: (() => {
+        const alt = `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`;
+        const wide = hasVideo(p.id, "paysage"), tall = hasVideo(p.id, "portrait");
+        const video = wide || tall ? `<video class="pj-hero__video"${wide ? ` data-video-wide="${VIDEOS[p.id].paysage}"` : ""}${tall ? ` data-video-tall="${VIDEOS[p.id].portrait}"` : ""} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "";
+        if ((wide && tall) || photos.length < 2) return img(photos[0], alt, 'id="pjCover" fetchpriority="high" data-hero') + video;
+        return `${photos.slice(0, 5).map((ph, k) => img(ph, k ? "" : alt, k ? 'loading="lazy" data-hero class="page-hero__slide" aria-hidden="true"' : 'id="pjCover" fetchpriority="high" data-hero class="page-hero__slide is-on"')).join("")}${video}</div>\n      <span class="page-hero__dots" aria-hidden="true">${photos.slice(0, 5).map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span>\n      <div hidden>`;
+      })(),
       catLine: `<a href="${sec.path}">${esc(cat)}</a>${p.lieu ? ` · ${esc(p.lieu)}` : ""}${p.annee ? ` · ${esc(p.annee)}` : ""}`,
       lead: esc(lead),
       // à côté du texte : les photos du chantier qui défilent (assets/js/projet.js)
