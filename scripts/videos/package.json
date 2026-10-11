@@ -1,0 +1,12 @@
+{
+  "name": "embi-videos",
+  "private": true,
+  "description": "Vidéos des chantiers (en-têtes et miniatures) fabriquées à partir des photos du site — outil local, non utilisé par Netlify",
+  "scripts": {
+    "generer": "node generer.js"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0",
+    "sharp": "^0.33.5"
+  }
+}

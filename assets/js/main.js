@@ -797,6 +797,7 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
   grid.querySelectorAll(".works__card").forEach((c, i) => {
     const p = byId[c.getAttribute("href").split("/").filter(Boolean).pop()];
     if (!p || !p.images || p.images.length < 2) return;
+    if (c.querySelector("video[data-video]")) return; // le chantier a sa vidéo (assets/js/videos.js) : pas de diaporama
     c._show = { card: c, fig: c.querySelector(".works__img"), list: p.images.slice(0, MAX), k: 0, visible: false, offset: i % EVERY, imgs: null };
     cards.push(c._show);
     io.observe(c);

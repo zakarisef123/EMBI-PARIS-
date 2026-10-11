@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>EMBI · vidéo de chantier</title>
+<style>
+  html, body { margin: 0; background: #14233f; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; overflow: hidden; background: #14233f; }
+  .shot { position: absolute; inset: 0; display: none; }
+  .pane { position: absolute; overflow: hidden; background: #14233f; }
+  .pane img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+/* Lecteur image par image : le film est un enchaînement de plans (une photo plein cadre, ou deux photos côte à côte /
+   l'une sous l'autre), avec un lent mouvement de caméra sur chaque plan et un fondu enchaîné.
+   La boucle est parfaite : la dernière image raccorde avec la première. */
+const ease = (t) => (t <= 0 ? 0 : t >= 1 ? 1 : t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const stage = document.getElementById("stage");
+let PLAN = null;
+window.setup = async (plan) => {
+  PLAN = plan;
+  Object.assign(stage.style, { width: plan.W + "px", height: plan.H + "px" });
+  plan.shots.forEach((s, k) => {
+    const d = document.createElement("div"); d.className = "shot"; stage.appendChild(d); s.el = d;
+    const G = plan.gap;
+    s.panes = s.photos.map((src, j) => {
+      const p = document.createElement("div"); p.className = "pane";
+      const n = s.photos.length;
+      if (n === 1) Object.assign(p.style, { left: 0, top: 0, width: plan.W + "px", height: plan.H + "px" });
+      else if (s.split === "h") { const w = (plan.W - G) / 2; Object.assign(p.style, { left: j * (w + G) + "px", top: 0, width: w + "px", height: plan.H + "px" }); }
+      else { const h = (plan.H - G) / 2; Object.assign(p.style, { left: 0, top: j * (h + G) + "px", width: plan.W + "px", height: h + "px" }); }
+      const im = document.createElement("img"); im.src = src; im.decoding = "sync"; p.appendChild(im); d.appendChild(p);
+      return { p, im };
+    });
+  });
+  await Promise.all([...document.images].map((i) => (i.complete ? i.decode().catch(() => {}) : new Promise((r) => { i.onload = () => i.decode().then(r, r); i.onerror = r; }))));
+  return { bad: [...document.images].filter((i) => !i.naturalWidth).map((i) => i.src) };
+};
+// mouvements de caméra (zoom, recadrage) : alternés d'un plan à l'autre
+const MOVES = [
+  (u) => ({ s: 1.0 + 0.08 * u, x: 0, y: 0 }),
+  (u) => ({ s: 1.08 - 0.08 * u, x: 0, y: 0 }),
+  (u) => ({ s: 1.07, x: -2.2 + 4.4 * u, y: 0 }),
+  (u) => ({ s: 1.02 + 0.06 * u, x: 1.2 - 1.2 * u, y: -0.8 + 0.8 * u }),
+];
+window.renderAt = (t) => {
+  const { D, C, shots } = PLAN; const n = shots.length, T = n * D;
+  shots.forEach((s, k) => {
+    let tau = (((t - k * D) % T) + T) % T;
+    if (tau > T - C) tau -= T;
+    const on = tau >= -C && tau < D;
+    s.el.style.display = on ? "block" : "none";
+    if (!on) return;
+    s.el.style.zIndex = tau < 0 ? 2 : 1;
+    s.el.style.opacity = tau < 0 ? ease((tau + C) / C).toFixed(4) : "1";
+    const u = (tau + C) / (D + C);
+    s.panes.forEach(({ im }, j) => {
+      let m;
+      if (s.panes.length === 1) m = MOVES[k % MOVES.length](u);
+      else if (s.split === "h") m = { s: 1.09, x: 0, y: (j ? 1 : -1) * (-2.4 + 4.8 * u) };   // deux photos côte à côte : glissements opposés
+      else m = { s: 1.09, x: (j ? 1 : -1) * (-2.4 + 4.8 * u), y: 0 };                        // l'une sous l'autre
+      im.style.transform = `translate3d(${m.x.toFixed(3)}%,${m.y.toFixed(3)}%,0) scale(${m.s.toFixed(4)})`;
+    });
+  });
+};
+</script>
+</body>
+</html>
