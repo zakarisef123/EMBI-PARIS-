@@ -24,11 +24,25 @@
     v.addEventListener("playing", () => v.classList.add("is-on"));
     v.addEventListener("error", () => v.remove());
   });
+  // carrousel « Nos chantiers » des pages secteur : seule la vidéo du chantier affiché joue, depuis le début,
+  // et le carrousel passe au chantier suivant quand elle se termine (assets/js/main.js, événement « phare:fin »)
+  const slideOf = (v) => v.closest(".phare__slide");
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-    if (e.isIntersecting) play(e.target);
-    else if (!e.target.paused) e.target.pause();
+    const v = e.target, sl = slideOf(v);
+    v._seen = e.isIntersecting;
+    if (e.isIntersecting && (!sl || sl.classList.contains("is-on"))) play(v);
+    else if (!v.paused) v.pause();
   }), { threshold: 0.25 });
-  vids.forEach((v) => io.observe(v));
+  vids.forEach((v) => {
+    io.observe(v);
+    const sl = slideOf(v);
+    if (!sl) return;
+    v.addEventListener("ended", () => v.dispatchEvent(new CustomEvent("phare:fin", { bubbles: true })));
+    new MutationObserver(() => {
+      if (sl.classList.contains("is-on")) { if (v._seen) { if (v.getAttribute("src")) v.currentTime = 0; play(v); } }
+      else if (!v.paused) v.pause();
+    }).observe(sl, { attributes: true, attributeFilter: ["class"] });
+  });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) vids.forEach((v) => !v.paused && v.pause());
   });

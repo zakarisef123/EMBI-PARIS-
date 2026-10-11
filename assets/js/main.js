@@ -849,11 +849,12 @@ document.querySelectorAll("[data-rail]").forEach((rail) => {
 document.querySelectorAll("[data-phare]").forEach((box) => {
   const slides = () => [...box.querySelectorAll(".phare__slide")];
   const dots = () => [...box.querySelectorAll(".phare__dots i")];
-  let k = 0, inView = false, hover = false, touchedAt = 0;
+  let k = 0, inView = false, hover = false, touchedAt = 0, shownAt = Date.now();
   const go = (n) => {
     const sl = slides(), ds = dots();
     if (sl.length < 2) return;
     k = (n + sl.length) % sl.length;
+    shownAt = Date.now();
     sl.forEach((s, j) => { const on = j === k; s.classList.toggle("is-on", on); s.tabIndex = on ? 0 : -1; s.setAttribute("aria-hidden", String(!on)); });
     ds.forEach((d, j) => d.classList.toggle("is-on", j === k));
     const im = sl[(k + 1) % sl.length].querySelector("img"); // la suivante se charge à l'avance
@@ -877,5 +878,14 @@ document.querySelectorAll("[data-phare]").forEach((box) => {
   box.addEventListener("focusin", () => (touchedAt = Date.now()));
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   new IntersectionObserver((en) => (inView = en[0].isIntersecting), { threshold: 0.4 }).observe(box);
-  setInterval(() => { if (inView && !hover && !document.hidden && Date.now() - touchedAt > 8000) go(k + 1); }, 5000);
+  const free = () => inView && !hover && !document.hidden && Date.now() - touchedAt > 8000;
+  // vidéo du chantier affiché (assets/js/videos.js) : elle se joue en entier avant de passer au suivant
+  const video = () => { const v = slides()[k] && slides()[k].querySelector("video[data-video]"); return v && v.getAttribute("src") && !v.error ? v : null; };
+  box.addEventListener("phare:fin", (e) => { if (free()) go(k + 1); else { e.target.currentTime = 0; e.target.play().catch(() => {}); } });
+  setInterval(() => {
+    if (!free()) return;
+    const v = video();
+    if (v && (v.classList.contains("is-on") || Date.now() - shownAt < 8000)) return; // on attend la fin de la vidéo (8 s au plus pour qu'elle démarre)
+    if (Date.now() - shownAt >= 5000) go(k + 1);
+  }, 500);
 });

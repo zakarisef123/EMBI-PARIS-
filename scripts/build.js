@@ -675,7 +675,7 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   const slide = (p, k) => {
     const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
-            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "paysage") ? `<video class="pj-video" data-video="${VIDEOS[p.id].paysage}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
               <p class="phare__k">${k ? otherKicker : firstKicker}</p>
               <h3 class="phare__t">${esc(p.title)}</h3>
