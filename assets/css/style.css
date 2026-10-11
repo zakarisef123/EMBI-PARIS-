@@ -2968,3 +2968,4 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 .pj-card__media, .phare__img { position: relative; }
 .pj-card:hover .pj-video, .works__card:hover .works__img .pj-video { transform: scale(1.05); }
 .phare__slide:hover .phare__img .pj-video { transform: scale(1.04); }
+.pj-hero:has(.pj-hero__video.is-on) .page-hero__dots { opacity: 0; transition: opacity 0.6s var(--ease); }
