@@ -21,7 +21,7 @@ module.exports = [
       "Parce que chaque client et chaque projet est différent, EMBI vous conseille et vous guide de l'élaboration à la livraison, avec un interlocuteur dédié pendant toute la durée du chantier.",
     ],
     card: "Embellissement, rénovation de l'ensemble du bâtiment et remise aux normes hôtelières.",
-    phare: "hotel-panache", // chantier mis en avant à droite du texte (photo, travaux, lien)
+    phare: "hotel-beauregard", // chantier mis en avant à droite du texte (photo ou vidéo, travaux, lien) ; Hôtel Panache quand ses photos seront sur le site
     prestations: [ // « Nos prestations » : [titre, texte, lien]
       ["Chambres et salles de bains", "Embellissement des chambres, des salles de bains et des sanitaires.", "/renovation/interieur/"],
       ["Accueil et parties communes", "Hall, réception et circulations, rénovés avec le reste de l'hôtel.", "/renovation/interieur/"],
