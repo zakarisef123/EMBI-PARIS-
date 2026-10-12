@@ -17,6 +17,7 @@ Les liens sont absolus (`/contact/`…) : ouvrez le site via un petit serveur, p
 | Chantiers (textes, photos, mise en avant) | `src/data/projects.js` |
 | Textes des pages secteur (hôtels, boutiques, restaurants, particuliers) | `src/data/sectors.js` |
 | Appels à l'action en milieu de page (texte propre à chaque page) | `src/data/ctas.js` |
+| Choix proposés dans les formulaires (devis particulier / pro, demandes d'intervention) | `src/data/formulaires.js` (problèmes de chaque urgence : `src/data/urgences.js`) |
 | Questions fréquentes (FAQ en bas de chaque page) | `src/data/faq.js` (pages Rénovation : `src/data/services.js`, articles : `src/data/articles.js`) |
 | Pages (accueil, contact, showroom, légal…) | `src/pages/*.html` (titre et description dans l'en-tête JSON) |
 | Gabarits page chantier / page secteur | `src/templates/` |
@@ -37,7 +38,12 @@ Les anciennes adresses (`/contact.html`, `/projet.html?p=…`, `/realisations/pa
 La génération vérifie : un seul H1 par page, un texte alt sur chaque image, titres et descriptions uniques, liens internes existants, fichiers PDF / photos présents en mode local. Les points à vérifier s'affichent à la fin de `node scripts/build.js`.
 
 ## Formulaires (FormSubmit)
-Le formulaire de devis et le questionnaire « Votre projet en 3 questions » sont envoyés par [FormSubmit](https://formsubmit.co) à l'adresse de `site.config.js` (`formsubmit`, par défaut sec@embi.fr).
+Les formulaires sont envoyés par [FormSubmit](https://formsubmit.co) à l'adresse de `site.config.js` (`formsubmit`, par défaut sec@embi.fr) :
+- le formulaire de devis de la page Contact, avec un onglet particulier et un onglet professionnel ;
+- la demande d'intervention des pages Urgence : le visiteur choisit le problème parmi ceux du métier (plomberie, électricité, assainissement ; sur téléphone, la liste défile) ;
+- le questionnaire « Votre projet en 3 questions » en bas des autres pages.
+
+L'objet de l'e-mail résume la demande (par exemple « URGENT · Plomberie : Fuite d'eau · 75017 »), et chaque réponse arrive avec son intitulé. Envoi et contrôles : `assets/js/forms.js`. Une photo ou un plan peut être joint (5 Mo au plus) : la demande part alors par l'envoi classique de FormSubmit, à vérifier une fois avec une vraie pièce jointe après l'activation.
 1. **Activation (une seule fois)** : une fois le site en ligne, envoyez une demande test depuis `/contact/`. FormSubmit envoie un e-mail « Confirm your email » à sec@embi.fr : cliquez sur le lien d'activation. Les demandes suivantes arrivent directement dans la boîte mail.
 2. *(Facultatif)* FormSubmit fournit ensuite un identifiant aléatoire : remplacez l'e-mail par cet identifiant dans `site.config.js` pour ne plus l'afficher dans le code.
 Chaque formulaire a une case de consentement obligatoire, un piège anti-spam invisible et, en secours, le téléphone et l'e-mail.
