@@ -86,7 +86,7 @@
   const named = projects.filter((p) => p.category !== "particulier");
   const chunk = named.map((p, i) => `<a href="${window.EMBI_PROJECT_URL(p.id)}"><span class="${i % 2 ? "is-outline" : ""}">${esc(p.title)}</span></a><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
-  const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Clé en main"];
+  const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "De A à Z"];
   const chunk2 = words2.map((n) => `<span>${n}</span><i>·</i>`).join("");
   $("#marquee2").innerHTML = chunk2 + chunk2;
   }
@@ -601,68 +601,7 @@
     }, { threshold: 0.45 }).observe(contract);
   }
 
-  /* ───── Formulaires FormSubmit : envoi sans quitter la page, secours par téléphone / e-mail ───── */
-  const validate = (form, note) => {
-    let ok = true;
-    $$("[required]", form).forEach((input) => {
-      if (input.closest("[hidden]") || input.closest(".quiz__set:not(.quiz__final)")) return;
-      const valid = input.type === "checkbox" ? input.checked : input.value.trim() && input.checkValidity();
-      const box = input.closest(".field, .consent");
-      if (box) box.classList.toggle("is-invalid", !valid);
-      if (!valid) ok = false;
-    });
-    if (!ok) note.textContent = "Merci de renseigner votre nom, un e-mail valide et d'accepter la politique de confidentialité.";
-    return ok;
-  };
-  const mailtoFallback = (form) => {
-    const d = new FormData(form);
-    const lines = [...d.entries()].filter(([k]) => !k.startsWith("_") && k !== "consentement").map(([k, v]) => `${k} : ${v}`);
-    return `mailto:sec@embi.fr?subject=${encodeURIComponent("Demande de devis")}&body=${encodeURIComponent(lines.join("\n"))}`;
-  };
-  const netlifySubmit = (form, note) =>
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!validate(form, note)) return;
-      const btn = $('button[type="submit"]', form);
-      btn.disabled = true;
-      note.textContent = "Envoi en cours…";
-      try {
-        // point d'accès AJAX de FormSubmit (même adresse que le formulaire, préfixée par /ajax)
-        const url = form.getAttribute("action").replace("formsubmit.co/", "formsubmit.co/ajax/");
-        const r = await fetch(url, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
-        const res = await r.json().catch(() => ({}));
-        if (!r.ok || String(res.success) !== "true") throw new Error(res.message || r.status);
-        location.href = "/merci/";
-      } catch (err) {
-        btn.disabled = false;
-        note.innerHTML = `L'envoi n'a pas abouti. Appelez-nous au <a href="tel:+33145726524">01 45 72 65 24</a> ou <a href="${mailtoFallback(form)}">envoyez votre demande par e-mail</a>.`;
-      }
-    });
-
-  /* ───── Arrivée depuis une autre page (secteur, Sur mesure, Showroom, chantier) : choix pré-coché ───── */
-  const preType = {
-    conception: "#typeConception", showroom: "#typeShowroom",
-    hotel: 'input[value="Un hôtel"]', boutique: 'input[value="Une boutique"]',
-    restaurant: 'input[value="Un restaurant"]', particulier: 'input[value="Un logement (particulier)"]',
-  }[new URLSearchParams(location.search).get("type")];
-  if (preType) {
-    const c = document.querySelector(`#form ${preType}`);
-    if (c) c.checked = true;
-  }
-
-  // arrivée depuis la bande « Devis gratuit » de l'accueil : e-mail déjà saisi
-  const preMail = new URLSearchParams(location.search).get("email");
-  if (preMail) {
-    const m = document.querySelector('#form input[name="email"]');
-    if (m) m.value = preMail;
-  }
-
-  /* ───── Formulaire de devis ───── */
-  const form = $("#form");
-  if (form) {
-    form.noValidate = true;
-    netlifySubmit(form, $("#formNote"));
-  }
+  // formulaires de devis et d'intervention : assets/js/forms.js
 })();
 
 /* ───── Fonctionnement : la pièce se transforme à chaque étape ───── */

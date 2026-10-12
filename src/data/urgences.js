@@ -24,6 +24,18 @@ module.exports = [
       ["Chauffe-eau en panne", "Diagnostic du chauffe-eau et de son installation, réparation ou remplacement."],
       ["Robinetterie et sanitaires", "Robinet qui fuit, chasse d'eau, raccords, sanitaires endommagés : réparation ou remplacement."],
     ],
+    // demande d'intervention : les problèmes proposés dans le formulaire (titre, précision)
+    demandes: [
+      ["Fuite d'eau", "Apparente ou encastrée : recherche de la cause, réparation."],
+      ["Dégât des eaux", "Mise en sécurité, réparation de l'origine, remise en état."],
+      ["Chauffe-eau en panne", "Diagnostic, réparation ou remplacement."],
+      ["Robinet qui fuit", "Réparation ou remplacement de la robinetterie."],
+      ["Chasse d'eau", "Chasse d'eau qui fuit ou ne fonctionne plus."],
+      ["Raccord qui fuit", "Sous un évier, un lavabo, une machine à laver…"],
+      ["Sanitaire endommagé", "Lavabo, WC, douche : réparation ou remplacement."],
+      ["Autre demande", "Décrivez-nous la situation."],
+    ],
+    precisions: "Où se trouve la fuite, depuis quand, l'eau est-elle coupée…",
     tip: ["Fuite d'eau", "Coupez l'arrivée d'eau générale et l'électricité des pièces touchées, puis prévenez vos voisins du dessous."],
     after: "Après l'urgence, nos équipes peuvent reprendre durablement la plomberie : réseaux, salle de bains, cuisine, dans le cadre d'une [rénovation intérieure](/renovation/interieur/).",
     faq: [
@@ -46,6 +58,16 @@ module.exports = [
       ["Prise ou tableau endommagé", "Remplacement des éléments abîmés et remise en sécurité de l'installation."],
       ["Chantier électrique", "Après l'urgence, la remise à niveau : mise aux normes, rénovation complète de l'installation, tableaux et réseaux de locaux professionnels."],
     ],
+    demandes: [
+      ["Panne de courant", "Sur une pièce ou sur toute l'installation."],
+      ["Disjoncteur qui saute", "Diagnostic du circuit en défaut, sans réarmer à l'aveugle."],
+      ["Prise endommagée", "Remplacement et remise en sécurité."],
+      ["Tableau électrique endommagé", "Remplacement des éléments abîmés, remise en sécurité."],
+      ["Mise aux normes", "Après l'urgence, la remise à niveau de l'installation."],
+      ["Rénovation de l'installation", "Rénovation complète, tableaux et réseaux de locaux professionnels."],
+      ["Autre demande", "Décrivez-nous la situation."],
+    ],
+    precisions: "Pièces concernées, ce qui s'est passé juste avant la panne…",
     tip: ["Panne électrique", "Ne touchez à rien d'humide, abaissez le disjoncteur général et ne réarmez pas un disjoncteur qui saute aussitôt."],
     after: "Une installation ancienne ou qui disjoncte souvent mérite d'être reprise : lire notre article sur la [mise aux normes électriques](/mag/mise-aux-normes-electriques-quand-comment/).",
     faq: [
@@ -68,6 +90,17 @@ module.exports = [
       ["Mauvaises odeurs", "Recherche de l'origine : siphon, ventilation, raccord ou canalisation."],
       ["Remise en état", "Réparation ou remplacement des évacuations abîmées, après l'urgence."],
     ],
+    demandes: [
+      ["Évier ou lavabo bouché", "Débouchage de l'évacuation."],
+      ["Douche bouchée", "Débouchage de l'évacuation."],
+      ["WC bouchés", "Débouchage des WC."],
+      ["Colonne d'évacuation", "Débouchage des colonnes d'évacuation."],
+      ["Évacuation qui refoule", "Recherche de l'obstruction, remise en service."],
+      ["Mauvaises odeurs", "Recherche de l'origine : siphon, ventilation, raccord, canalisation."],
+      ["Évacuation abîmée", "Réparation ou remplacement, après l'urgence."],
+      ["Autre demande", "Décrivez-nous la situation."],
+    ],
+    precisions: "Évacuation concernée, étage, refoulement, odeurs…",
     tip: ["Canalisation bouchée", "Cessez d'utiliser l'évacuation concernée et évitez les produits chimiques agressifs, qui abîment les canalisations."],
     after: "Chez les particuliers comme dans les locaux professionnels : hôtels, restaurants, boutiques et bureaux.",
     faq: [

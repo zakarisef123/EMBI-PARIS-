@@ -2969,3 +2969,130 @@ body .pn-news .pn-news__link:hover i { transform: translateX(4px); }
 .pj-card:hover .pj-video, .works__card:hover .works__img .pj-video { transform: scale(1.05); }
 .phare__slide:hover .phare__img .pj-video { transform: scale(1.04); }
 .pj-hero:has(.pj-hero__video.is-on) .page-hero__dots { opacity: 0; transition: opacity 0.6s var(--ease); }
+
+/* ───── Formulaire de devis (Contact : particulier / professionnel) et demande d'intervention (Urgence) ───── */
+.contact__grid:has(.cform) { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); gap: clamp(40px, 6vw, 96px); }
+.contact__grid:has(.cform) > div:first-child { position: sticky; top: 120px; }
+.contact__steps { list-style: none; margin: 40px 0 0; padding: 26px 0 0; display: grid; gap: 14px; border-top: 1px solid var(--line); }
+.contact__steps li { display: flex; align-items: center; gap: 14px; font-size: 14.5px; color: var(--ink); }
+.contact__steps b { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--dark-2); font-weight: 500; font-size: 13px; color: var(--dark-2); }
+
+.cform { background: #fff; box-shadow: 0 30px 60px -40px rgba(20, 35, 63, 0.35); padding: clamp(20px, 3.2vw, 44px); }
+.cform__tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: clamp(24px, 3vw, 36px); }
+html:not(.js) .cform__tabs { display: none; }
+.js .cform__form.is-off { display: none; }
+.cform__tab { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 3px; align-items: center; text-align: left; padding: 16px 18px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; cursor: pointer; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+.cform__tab:hover { border-color: var(--dark-2); }
+.cform__tab svg { grid-row: span 2; width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.cform__tab b { font-weight: 500; font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.3; }
+.cform__tab small { font-size: 13px; line-height: 1.35; color: var(--muted); }
+.cform__tab.is-on { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+.cform__tab.is-on small { color: rgba(247, 244, 238, 0.7); }
+.cform__tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+body:not([data-page="accueil"]) .contact .cform .form { background: none; box-shadow: none; border: 0; padding: 0; }
+.cform .form { gap: 26px; grid-template-columns: minmax(0, 1fr); }
+:is(.cform, .uform) .form__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+:is(.cform, .uform) .field :is(input, select, textarea) { width: 100%; min-width: 0; }
+.cform__block { display: grid; gap: 24px; min-width: 0; }
+.cform__block + .cform__block { margin-top: 14px; }
+.cform__h { display: flex; align-items: center; gap: 14px; margin: 0; font: 500 14px var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--dark-2); }
+.cform__h::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.cform__h span { font-weight: 600; font-size: 13px; letter-spacing: 0.04em; color: var(--sand-ink); }
+:is(.cform, .uform) :is(.field span em, .chips legend em, .cform__req em) { font-style: normal; color: #b5482a; }
+:is(.cform, .uform) .chips legend { color: var(--muted); }
+:is(.cform, .uform) .chips legend small { margin-left: 6px; font-size: 11px; letter-spacing: 0.04em; text-transform: none; color: var(--muted); }
+:is(.cform, .uform) .chips span { font-size: 13.5px; padding: 8px 15px; border-color: var(--line); color: var(--ink); }
+:is(.cform, .uform) .chips label:hover span { border-color: var(--dark-2); }
+:is(.cform, .uform) .chips input:checked + span { background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+.chips__sub { flex-basis: 100%; margin: 6px 0 0; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sand-ink); }
+.chips__sub:first-of-type { margin-top: 0; }
+.chips--multi span::before { content: "+"; display: inline-block; width: 12px; margin-right: 5px; text-align: center; opacity: 0.55; }
+.chips--multi input:checked + span::before { content: "✓"; opacity: 1; }
+:is(.cform, .uform) .field input::placeholder { color: var(--muted); opacity: 0.75; }
+:is(.cform, .uform) .field select { font: inherit; font-size: max(16px, 1em); color: var(--ink); background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2316213a' stroke-width='1.3'/%3E%3C/svg%3E") no-repeat right 2px center / 11px 8px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 10px 26px 10px 0; appearance: none; -webkit-appearance: none; outline: none; cursor: pointer; }
+:is(.cform, .uform) .field select:focus { border-color: var(--accent); }
+:is(.cform, .uform) .field select:has(option[value=""]:checked) { color: var(--muted); }
+.cform__file { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 2px; align-items: center; padding: 18px 20px; border: 1px dashed rgba(22, 33, 58, 0.3); background: var(--bg); cursor: pointer; transition: border-color 0.3s, background 0.3s; }
+.cform__file:hover, .cform__file:focus-within { border-color: var(--accent); }
+.cform__file.is-filled { border-style: solid; border-color: var(--dark-2); background: #fff; }
+.cform__file input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.cform__file svg { grid-row: span 2; width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.cform__file b { font-weight: 500; font-size: 15px; color: var(--ink); }
+.cform__file small { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.cform__end { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; }
+:is(.cform, .uform) .cform__end .btn { margin: 0; }
+.cform__req { margin: 0; font-size: 13px; color: var(--muted); }
+.cform__after { margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: var(--ink-2); background: var(--bg); border-left: 2px solid var(--accent-2); }
+:is(.cform, .uform) .consent { color: var(--ink-2); }
+:is(.cform, .uform) .consent.is-invalid, :is(.cform, .uform) :is(.field, .chips).is-invalid > :is(span, legend) { color: #b5482a; }
+:is(.cform, .uform) .chips.is-invalid span, .uform__demandes.is-invalid .uform__tile { border-color: #e07a5f; }
+:is(.cform, .uform) .field.is-invalid :is(input, select, textarea) { border-color: #e07a5f; }
+@media (max-width: 860px) { .contact__grid:has(.cform) { grid-template-columns: minmax(0, 1fr); } .contact__grid:has(.cform) > div:first-child { position: static; } }
+@media (max-width: 560px) {
+  .cform { padding: 22px 16px 26px; }
+  .cform__tabs { gap: 8px; }
+  .cform__tab { grid-template-columns: minmax(0, 1fr); padding: 14px 12px; row-gap: 6px; }
+  .cform__tab svg { grid-row: auto; width: 26px; height: 26px; }
+  .cform__tab b { font-size: 11.5px; letter-spacing: 0.1em; }
+  .cform__tab small { font-size: 12px; }
+  :is(.cform, .uform) .form__row { grid-template-columns: minmax(0, 1fr); }
+  :is(.cform, .uform) .form__row--duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+}
+
+/* demande d'intervention */
+.uform__wrap { align-items: start; }
+.uform__intro { position: sticky; top: 120px; }
+.uform-sec .funnel__kicker { display: flex; align-items: center; gap: 10px; }
+.uform__call { display: grid; gap: 6px; margin: 4px 0 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font: 600 clamp(28px, 3vw, 38px)/1 var(--sans); letter-spacing: -0.03em; color: var(--dark-2); transition: color 0.3s; }
+.uform__call small { font: 500 11.5px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.uform__call i { display: inline-block; font-style: normal; color: var(--accent); transition: transform 0.3s var(--ease); }
+.uform__call:hover i { transform: translateX(6px); }
+:is(.cform, .uform) .form__alt { color: var(--muted); }
+.uform__hours, .uform__danger { margin: 16px 0 0; font-size: 14px; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
+.uform__hours a, .uform__danger a { color: var(--dark-2); font-weight: 600; border-bottom: 1px solid var(--accent); }
+.uform__danger { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.funnel .quiz__card.uform { display: grid; gap: 26px; min-height: 0; align-content: start; }
+.uform .form__row { gap: 22px; }
+.uform__metiers { border: 0; margin: 0 0 -6px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid var(--dark-2); }
+.uform__metiers label { position: relative; }
+.uform__metiers input { position: absolute; opacity: 0; }
+.uform__metiers span { display: block; padding: 13px 8px; text-align: center; font-size: 12.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-2); cursor: pointer; transition: background 0.3s, color 0.3s; }
+.uform__metiers label + label span { border-left: 1px solid var(--dark-2); }
+.uform__metiers input:checked + span { background: var(--dark-2); color: var(--bg); }
+.uform__metiers input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: -4px; }
+.uform__demandes { border: 0; margin: 0; padding: 0; min-width: 0; }
+.uform__demandes[hidden] { display: none; }
+.uform__rail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.uform__tile { position: relative; display: grid; align-content: start; gap: 4px; padding: 16px 44px 16px 18px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: background 0.3s, border-color 0.3s, color 0.3s; }
+.uform__tile:hover { border-color: var(--dark-2); background: #fff; }
+.uform__tile input { position: absolute; opacity: 0; pointer-events: none; }
+.uform__tile b { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--sand-ink); }
+.uform__tile strong { font-family: var(--display); font-weight: 500; font-size: 20px; line-height: 1.15; color: var(--dark-2); }
+.uform__tile small { font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+.uform__tile::after { content: ""; position: absolute; top: 14px; right: 14px; width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(22, 33, 58, 0.25); transition: all 0.3s; }
+.uform__tile:has(input:checked) { background: var(--dark-2); border-color: var(--dark-2); }
+.uform__tile:has(input:checked) :is(strong, small) { color: var(--bg); }
+.uform__tile:has(input:checked) small { color: rgba(247, 244, 238, 0.72); }
+.uform__tile:has(input:checked) b { color: var(--accent-2); }
+.uform__tile:has(input:checked)::after { content: "✓"; display: grid; place-items: center; font-size: 12px; color: var(--dark-2); background: var(--accent-2); border-color: var(--accent-2); }
+.uform__tile:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.uform__swipe { display: none; }
+.uform__recap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 14px 18px 16px; background: var(--bg); border-left: 2px solid var(--accent-2); font-size: 13.5px; color: var(--dark-2); }
+.uform__recap[hidden] { display: none; }
+.uform__recap b { flex-basis: 100%; margin-bottom: 2px; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.uform__recap span { padding: 5px 11px; background: #fff; border: 1px solid var(--line); line-height: 1.3; }
+.uform__recap span:nth-of-type(2) { font-weight: 600; background: var(--dark-2); border-color: var(--dark-2); color: var(--bg); }
+@media (max-width: 900px) { .uform__intro { position: static; } }
+@media (max-width: 640px) {
+  .uform__rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 24px; margin: 0 -24px; padding: 2px 24px 4px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .uform__rail::-webkit-scrollbar { display: none; }
+  .uform__tile { flex: 0 0 72%; scroll-snap-align: start; min-height: 148px; }
+  .uform__swipe { display: flex; justify-content: space-between; align-items: center; margin: 12px 0 0; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .uform__swipe span { font-weight: 600; letter-spacing: 0.08em; color: var(--dark-2); }
+  .uform__swipe em { font-style: normal; }
+  .uform__swipe i { display: inline-block; margin-left: 8px; font-style: normal; color: var(--accent); animation: uSwipe 1.6s var(--ease) infinite; }
+  .uform__metiers span { padding: 12px 4px; font-size: 11px; letter-spacing: 0.08em; }
+}
+@keyframes uSwipe { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .uform__swipe i { animation: none; } }

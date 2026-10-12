@@ -2,7 +2,7 @@
 {
   "path": "/contact/",
   "key": "contact",
-  "title": "Contact et devis gratuit | EMBI, rénovation clé en main à Paris",
+  "title": "Contact et devis gratuit | EMBI, rénovation de A à Z à Paris",
   "description": "Demandez votre devis gratuit à EMBI : 01 45 72 65 24, sec@embi.fr, 5 rue Villebois-Mareuil, Paris 17e. Urgence plomberie, serrurerie, électricité : 06 31 60 01 35.",
   "crumbs": [
     {
@@ -35,35 +35,14 @@
             <li><span>Urgence</span><a href="tel:+33631600135">06 31 60 01 35</a></li>
             <li><span>Showroom</span><p>5, rue Villebois-Mareuil, 75017 Paris</p></li>
           </ul>
+          <ol class="contact__steps reveal">
+            <li><b>1</b><span>Vous décrivez votre projet</span></li>
+            <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
+            <li><b>3</b><span>Étude de faisabilité et devis gratuit et détaillé</span></li>
+          </ol>
         </div>
 
-        <form class="form reveal" id="form" name="devis" method="POST" action="{{form:action}}">
-          <input type="hidden" name="_subject" value="Demande de devis (site EMBI)" />
-          <input type="hidden" name="_next" value="{{site}}/merci/" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <p class="form__hp" hidden><label>Ne pas remplir ce champ : <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></p>
-          <div class="form__row">
-            <label class="field"><span>Votre nom</span><input name="nom" required autocomplete="name" /></label>
-            <label class="field"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
-          </div>
-          <label class="field"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
-          <fieldset class="chips">
-            <legend>Votre projet concerne</legend>
-            <label><input type="radio" name="type" value="Un logement (particulier)" checked /><span>Un logement</span></label>
-            <label><input type="radio" name="type" value="Un hôtel" /><span>Un hôtel</span></label>
-            <label><input type="radio" name="type" value="Une boutique" /><span>Une boutique</span></label>
-            <label><input type="radio" name="type" value="Un restaurant" /><span>Un restaurant</span></label>
-            <label><input type="radio" name="type" value="Des bureaux" /><span>Des bureaux</span></label>
-            <label><input type="radio" name="type" value="Conception sur mesure (architecte / architecte d'intérieur)" id="typeConception" /><span>Conception sur mesure</span></label>
-            <label><input type="radio" name="type" value="Le showroom carrelage / parquet" id="typeShowroom" /><span>Carrelage / parquet</span></label>
-          </fieldset>
-          <label class="field"><span>Votre message</span><textarea name="message" rows="4" placeholder="Surface, adresse, délais souhaités…"></textarea></label>
-          <label class="consent" for="consentDevis"><input type="checkbox" id="consentDevis" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>
-          <button class="btn btn--accent" type="submit" data-magnetic>Envoyer ma demande <span aria-hidden="true">→</span></button>
-          <p class="form__note" id="formNote" role="status"></p>
-          <p class="form__alt">Un souci avec le formulaire&nbsp;? Appelez le <a href="tel:+33145726524">01 45 72 65 24</a> ou écrivez à <a href="mailto:sec@embi.fr?subject=Demande%20de%20devis" id="formMailto">sec@embi.fr</a>.</p>
-        </form>
+        {{block:devis}}
       </div>
     </section>
     <!-- ───────── VOTRE PROJET EN 3 QUESTIONS ───────── -->

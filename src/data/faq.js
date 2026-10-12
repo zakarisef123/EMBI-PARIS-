@@ -16,7 +16,7 @@ const URG = "06 31 60 01 35";
 const PAGES = {
   "/": [
     ["Quels types de lieux rénovez-vous ?", "Hôtels, boutiques, restaurants, bureaux, appartements et maisons de particuliers. Professionnel ou particulier, petits ou grands projets : vous trouverez la prestation qu'il vous faut. Voir nos [réalisations](/realisations/)."],
-    ["Que veut dire « rénovation clé en main » ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis détaillé, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
+    ["Que comprend une rénovation menée par EMBI ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis détaillé, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
     ["Où intervenez-vous ?", "À Paris et en Île-de-France. Notre bureau et notre showroom se trouvent au 5, rue Villebois-Mareuil, dans le 17e arrondissement."],
     ["Le devis est-il gratuit ?", `Oui. Décrivez votre projet en 3 questions ou appelez le ${TEL} : après l'étude de faisabilité, nous établissons avec vous un devis gratuit, détaillé et transparent.`],
     ["Avez-vous un architecte dans l'équipe ?", "Oui, un architecte et un architecte d'intérieur dessinent les projets que nos équipes réalisent ensuite. Voir la [conception sur mesure](/conception-sur-mesure/)."],
@@ -116,7 +116,7 @@ const PAGES = {
   "/signature/": [
     ["Qu'est-ce qu'un chantier Signature ?", "Les projets où chaque détail compte : maisons de luxe, corners en grand magasin, hôtels rénovés de fond en comble, décors signés par de grands designers."],
     ["Travaillez-vous en grand magasin ?", "Oui : corner Byredo au Bon Marché, boutique Tartine et Chocolat chez Harrods. Ces chantiers se mènent au sein d'un magasin en activité, avec ses règles et ses horaires."],
-    ["Pouvez-vous réaliser le décor d'un designer ?", "Oui. Nous avons réalisé clé en main des décorations signées Dorothée Meilichzon ou Richard Lafond, en donnant corps au dessin dans le respect de chaque intention."],
+    ["Pouvez-vous réaliser le décor d'un designer ?", "Oui. Nous avons réalisé de A à Z des décorations signées Dorothée Meilichzon ou Richard Lafond, en donnant corps au dessin dans le respect de chaque intention."],
     ["Qui mène un chantier Signature ?", "La même équipe que pour tous nos chantiers : un interlocuteur dédié, un architecte, un architecte d'intérieur et 40 professionnels de tous corps de métier."],
     ["Pouvez-vous respecter les standards d'une marque de luxe ?", "C'est notre exigence : chez Loro Piana, Colette ou Byredo, la marque devait se lire dans chaque finition."],
   ],
@@ -143,7 +143,7 @@ const PAGES = {
 
   "/realisations/": [
     ["Quels types de chantiers avez-vous réalisés ?", "Des hôtels (Hôtel Panache, Le Grand Pigalle, Hôtel Paradis…), des boutiques (Loro Piana, Byredo, Colette…), des restaurants (Fish Club, Loustic, Café Pinson…) et des appartements de particuliers."],
-    ["Tous ces chantiers ont-ils été menés clé en main ?", "Oui, chacun a été mené par EMBI et son réseau de 40 professionnels, avec un seul interlocuteur de l'étude à la livraison."],
+    ["Tous ces chantiers ont-ils été menés de A à Z par EMBI ?", "Oui, chacun a été mené par EMBI et son réseau de 40 professionnels, avec un seul interlocuteur de l'étude à la livraison."],
     ["Travaillez-vous avec des architectes et des décorateurs ?", "Oui : décorations signées Dorothée Meilichzon ou Richard Lafond, projet de l'architecte Diego Delgado Elias. Nous avons aussi notre propre architecte et notre architecte d'intérieur."],
     ["Mon projet ressemble à l'un de ces chantiers : que faire ?", "Citez-le dans votre demande de devis : cela nous aide à comprendre votre projet. Le devis est gratuit."],
   ],
@@ -167,8 +167,8 @@ const PLURAL = { hotel: "des hôtels", boutique: "des boutiques", restaurant: "d
 const lc = (s) => s.charAt(0).toLowerCase() + s.slice(1);
 
 const project = (p, sectorPath) => [
-  ["Quels travaux EMBI a-t-elle réalisés sur ce chantier ?", p.text || `Un chantier mené clé en main, de l'étude de faisabilité à la livraison : ${(p.travaux || ["rénovation"]).map(lc).join(", ")}.`],
-  ...(p.deco ? [["Qui a signé la décoration ?", `La décoration est signée ${p.deco}. EMBI a réalisé les travaux clé en main, dans le respect de son dessin.`]] : []),
+  ["Quels travaux EMBI a-t-elle réalisés sur ce chantier ?", p.text || `Un chantier mené par EMBI de l'étude de faisabilité à la livraison : ${(p.travaux || ["rénovation"]).map(lc).join(", ")}.`],
+  ...(p.deco ? [["Qui a signé la décoration ?", `La décoration est signée ${p.deco}. EMBI a réalisé l'ensemble des travaux, dans le respect de son dessin.`]] : []),
   ...(p.archi ? [["Qui a conçu le projet ?", `Le projet est signé par l'architecte ${p.archi}. EMBI en a réalisé les travaux et la mise aux normes.`]] : []),
   p.category === "savoir-faire"
     ? ["Pouvez-vous réaliser un ouvrage similaire chez moi ?", `Oui. EMBI intervient à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [tous nos savoir-faire](${sectorPath}) ou décrivez votre projet en 3 questions ci-dessous : le devis est gratuit.`]

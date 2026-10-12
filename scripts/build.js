@@ -104,7 +104,7 @@ const BUSINESS = {
   "@type": "GeneralContractor",
   "@id": `${SITE}/#entreprise`,
   name: "EMBI",
-  description: "Rénovation clé en main à Paris : hôtels, boutiques, restaurants et appartements.",
+  description: "Rénovation de A à Z à Paris : hôtels, boutiques, restaurants et appartements.",
   url: `${SITE}/`,
   logo: `${SITE}/assets/img/apple-touch-icon.png`,
   image: abs(sitePhoto("hero").src),
@@ -240,7 +240,7 @@ const layout = (o) => {
   const graph = [BUSINESS];
   if (o.crumbs) graph.push({ "@type": "BreadcrumbList", itemListElement: [{ name: "Accueil", path: "/" }, ...o.crumbs].map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: SITE + c.path })) });
   if (o.jsonld) graph.push(...o.jsonld);
-  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta", ...(o.content.includes("data-slides") ? ["hero"] : []), ...(/data-video/.test(o.content) ? ["videos"] : [])];
+  const scripts = ["projects", "menu", ...(o.scripts || ["main"]), "funnel", "cta", ...(o.content.includes("data-slides") ? ["hero"] : []), ...(/data-video/.test(o.content) ? ["videos"] : []), ...(o.content.includes("data-form=") ? ["forms"] : [])];
   const html = `<!doctype html>
 <html lang="fr">
 <head>
@@ -363,6 +363,144 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
         </form>
       </div>
     </section>`;
+
+// Formulaire de devis (page Contact, onglets particulier / professionnel) et demande d'intervention (pages Urgence).
+// Choix proposés : src/data/formulaires.js et src/data/urgences.js ; envoi et contrôles : assets/js/forms.js.
+const FORMS = require(path.join(ROOT, "src/data/formulaires.js"));
+const REQ = ' <em aria-hidden="true">*</em>';
+const lab = (s) => esc(s.replace(/&nbsp;/g, " "));
+const fHidden = (subject, form) => `<input type="hidden" name="_subject" value="${esc(subject)}" />
+          <input type="hidden" name="_next" value="{{site}}/merci/" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="formulaire" value="${esc(form)}" data-label="Formulaire" />
+          <input type="hidden" name="page" value="" data-label="Page" data-page />
+          <p class="form__hp" hidden><label>Ne pas remplir ce champ : <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></p>`;
+const fField = (label, name, attrs = "", req = false) => `<label class="field" data-label="${lab(label)}"><span>${label}${req ? REQ : ""}</span><input name="${name}" ${attrs}${req ? " required" : ""} /></label>`;
+const fArea = (label, name, ph, req = false) => `<label class="field" data-label="${lab(label)}"><span>${label}${req ? REQ : ""}</span><textarea name="${name}" rows="5"${req ? " required" : ""} placeholder="${esc(ph)}"></textarea></label>`;
+const fSelect = (label, name, opts) => `<label class="field field--select" data-label="${lab(label)}"><span>${label}</span><select name="${name}"><option value="">Choisir…</option>${opts.map((o) => `<option>${esc(o)}</option>`).join("")}</select></label>`;
+const fChips = (legend, name, opts, { multi = false, checked = [], hint = "", req = false } = {}) => {
+  const one = (o) => `<label><input type="${multi ? "checkbox" : "radio"}" name="${name}" value="${esc(o)}"${checked.includes(o) ? " checked" : ""} /><span>${esc(o)}</span></label>`;
+  const body = Array.isArray(opts) ? opts.map(one).join("") : Object.entries(opts).map(([g, os]) => `<p class="chips__sub">${esc(g)}</p>${os.map(one).join("")}`).join("");
+  return `<fieldset class="chips${multi ? " chips--multi" : ""}" data-label="${lab(legend)}"${req ? " data-req" : ""}><legend>${legend}${req ? REQ : ""}${hint ? ` <small>${hint}</small>` : ""}</legend>${body}</fieldset>`;
+};
+const fRow = (...f) => `<div class="form__row">${f.join("")}</div>`;
+const fDuo = (...f) => `<div class="form__row form__row--duo">${f.join("")}</div>`;
+const fBlock = (n, title, ...content) => `<div class="cform__block"><h3 class="cform__h"><span>${n}</span>${title}</h3>${content.join("")}</div>`;
+const CLIP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.3 12.1 19.2a5 5 0 0 1-7.1-7.1l8.1-8.1a3.3 3.3 0 0 1 4.7 4.7l-8 8a1.7 1.7 0 0 1-2.4-2.4l7.3-7.3"/></svg>';
+const fFile = (title, hint) => `<label class="cform__file" data-label="Pièce jointe">${CLIP}<input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf" /><b>${title}</b><small data-file-hint>${hint}</small></label>`;
+const fConsent = (id) => `<label class="consent" for="${id}"><input type="checkbox" id="${id}" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>`;
+const fEnd = (label, after, tel = "01 45 72 65 24") => `<div class="cform__end"><button class="btn btn--accent" type="submit">${label} <span aria-hidden="true">→</span></button><p class="cform__req"><em>*</em> champs obligatoires</p></div>
+          <p class="form__note" role="status" data-note></p>
+          ${after ? `<p class="cform__after">${after}</p>` : ""}
+          <p class="form__alt">Un souci avec le formulaire&nbsp;? Appelez le <a href="tel:+33${tel.replace(/\s/g, "").slice(1)}">${tel}</a> ou écrivez à <a href="mailto:sec@embi.fr">sec@embi.fr</a>.</p>`;
+const FILE_HINT = "JPG, PNG ou PDF, 5 Mo au plus (facultatif)";
+const CP = 'inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}"';
+const devisForm = () => {
+  const P = FORMS.particulier, B = FORMS.pro;
+  const ICON_HOME = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 12 3.8l9 7.4"/><path d="M5.6 9.6V20h12.8V9.6"/><path d="M10 20v-5.6h4V20"/></svg>';
+  const ICON_PRO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 20V5.2L13 3v17"/><path d="M13 8.6h6.5V20"/><path d="M2.5 20h19"/><path d="M7.5 7.6h2.6M7.5 11.2h2.6M7.5 14.8h2.6M15.8 12h1.4M15.8 15.4h1.4"/></svg>';
+  const form = (id, kind, subject, body) => `<form class="form cform__form${kind === "pro" ? " is-off" : ""}" id="${id}" role="tabpanel" aria-labelledby="${id}Tab" data-form="${kind}" name="devis-${kind}" method="POST" action="{{form:action}}" enctype="multipart/form-data">
+          ${fHidden(subject, kind === "pro" ? "Devis professionnel" : "Devis particulier")}
+          ${body}
+        </form>`;
+  const part = form("formPart", "particulier", "Demande de devis particulier (site EMBI)", [
+    fBlock("01", "Vos coordonnées",
+      fDuo(fField("Prénom", "prenom", 'autocomplete="given-name"', true), fField("Nom", "nom", 'autocomplete="family-name"', true)),
+      fRow(fField("Téléphone", "telephone", 'type="tel" autocomplete="tel"', true), fField("E-mail", "email", 'type="email" autocomplete="email"', true))),
+    fBlock("02", "Votre projet",
+      fChips("Type de bien", "type_de_bien", P.bien, { checked: [P.bien[0]] }),
+      fChips("Vous êtes", "statut", P.statut),
+      fChips("Travaux envisagés", "travaux", P.travaux, { multi: true, hint: "plusieurs choix possibles" }),
+      fDuo(fField("Code postal", "code_postal", CP, true), fField("Ville", "ville", 'autocomplete="address-level2"')),
+      fRow(fField("Surface approximative", "surface", 'inputmode="numeric" placeholder="en m²"'), fSelect("Démarrage souhaité", "demarrage", FORMS.demarrage)),
+      fChips("Pendant les travaux, le logement", "occupation", P.occupation),
+      fSelect("Budget envisagé", "budget", P.budget)),
+    fBlock("03", "Votre demande",
+      fChips("Vous nous consultez pour", "objet", P.objet, { checked: [P.objet[0]] }),
+      fArea("Décrivez votre projet", "message", "Ce que vous souhaitez transformer, l'état actuel, vos envies, vos contraintes…", true),
+      fFile("Ajouter une photo ou un plan", FILE_HINT),
+      fChips("Le meilleur moment pour vous rappeler", "rappel", FORMS.rappel, { checked: ["Peu importe"] }),
+      fSelect("Comment nous avez-vous connus&nbsp;?", "connu_par", FORMS.connu)),
+    fConsent("consentPart"),
+    fEnd("Envoyer ma demande", "Votre interlocuteur dédié vous recontacte pour organiser une visite. Le devis est gratuit et détaillé."),
+  ].join("\n          "));
+  const pro = form("formPro", "pro", "Demande de devis professionnel (site EMBI)", [
+    fBlock("01", "Votre société",
+      fChips("Vous êtes", "profil", B.profil),
+      fRow(fField("Société ou enseigne", "societe", 'autocomplete="organization"', true), fField("Fonction", "fonction", 'autocomplete="organization-title" placeholder="Gérant, directeur technique…"')),
+      fDuo(fField("Prénom", "prenom", 'autocomplete="given-name"', true), fField("Nom", "nom", 'autocomplete="family-name"', true)),
+      fRow(fField("Téléphone", "telephone", 'type="tel" autocomplete="tel"', true), fField("E-mail professionnel", "email", 'type="email" autocomplete="email"', true))),
+    fBlock("02", "Votre établissement",
+      fChips("Type d'établissement", "etablissement", B.etablissement, { req: true }),
+      fChips("Nature des travaux", "nature", B.nature, { multi: true, hint: "plusieurs choix possibles" }),
+      fDuo(fField("Code postal", "code_postal", CP, true), fField("Ville", "ville", 'autocomplete="address-level2"')),
+      fRow(fField("Surface approximative", "surface", 'inputmode="numeric" placeholder="en m²"'), fField("Capacité", "capacite", 'placeholder="Chambres, couverts, postes…"')),
+      fChips("Pendant les travaux, l'établissement", "exploitation", B.exploitation),
+      fRow(fSelect("Démarrage souhaité", "demarrage", FORMS.demarrage), fField("Date impérative", "date_imperative", 'placeholder="Ouverture, réouverture, livraison…"')),
+      fRow(fSelect("Budget envisagé", "budget", B.budget), fSelect("Architecte ou maître d'œuvre", "architecte", B.architecte))),
+    fBlock("03", "Votre demande",
+      fChips("Vous nous consultez pour", "objet", B.objet, { checked: [B.objet[0]] }),
+      fArea("Décrivez votre projet", "message", "Contexte, contraintes d'exploitation, horaires d'intervention possibles, délais…", true),
+      fFile("Joindre un document", `Plan, cahier des charges, photo : ${FILE_HINT.charAt(0).toLowerCase() + FILE_HINT.slice(1)}`),
+      fChips("Le meilleur moment pour vous rappeler", "rappel", FORMS.rappel, { checked: ["Peu importe"] }),
+      fSelect("Comment nous avez-vous connus&nbsp;?", "connu_par", FORMS.connu)),
+    fConsent("consentPro"),
+    fEnd("Envoyer la demande", "Un seul interlocuteur du premier rendez-vous à la livraison. Le devis est gratuit et détaillé."),
+  ].join("\n          "));
+  return `<div class="cform reveal" id="form" data-forms>
+        <div class="cform__tabs" role="tablist" aria-label="Vous êtes">
+          <button class="cform__tab is-on" id="formPartTab" role="tab" type="button" aria-selected="true" aria-controls="formPart">${ICON_HOME}<b>Je suis un particulier</b><small>Appartement, maison</small></button>
+          <button class="cform__tab" id="formProTab" role="tab" type="button" aria-selected="false" aria-controls="formPro" tabindex="-1">${ICON_PRO}<b>Je suis un professionnel</b><small>Hôtel, boutique, restaurant, bureaux</small></button>
+        </div>
+        ${part}
+        ${pro}
+      </div>`;
+};
+// Demande d'intervention : sur une page métier, ses propres problèmes ; sur la page Urgences, les trois métiers au choix.
+const urgenceForm = (list, cur) => {
+  const shown = cur ? [cur] : list;
+  const U = FORMS.urgence;
+  const demandes = (u, k) => `<fieldset class="uform__demandes" data-metier="${u.slug}" data-label="Problème" data-req data-ph="${esc(u.precisions)}"${k ? " hidden disabled" : ""}>
+              <legend class="sr-only">Problème de ${esc(u.nav.toLowerCase())}</legend>
+              <div class="uform__rail" data-urail>${u.demandes.map(([t, d], i) => `<label class="uform__tile"><input type="radio" name="probleme" value="${esc(t)}" /><b>${String(i + 1).padStart(2, "0")}</b><strong>${esc(t)}</strong><small>${esc(d)}</small></label>`).join("")}</div>
+              <p class="uform__swipe" aria-hidden="true"><span data-ucount>1 / ${u.demandes.length}</span><em>Faites défiler <i>→</i></em></p>
+            </fieldset>`;
+  const metiers = cur
+    ? `<input type="hidden" name="metier" value="${esc(cur.nav)}" data-label="Métier" />`
+    : `<fieldset class="uform__metiers" data-label="Métier"><legend class="sr-only">Métier</legend>${list.map((u, k) => `<label><input type="radio" name="metier" value="${esc(u.nav)}" data-metier="${u.slug}"${k ? "" : " checked"} /><span>${esc(u.nav)}</span></label>`).join("")}</fieldset>`;
+  const name = cur ? cur.nav.toLowerCase() : "";
+  return `    <section class="funnel uform-sec" id="intervention">
+      <div class="funnel__wrap uform__wrap">
+        <div class="funnel__intro uform__intro">
+          <p class="funnel__kicker"><span class="pulse"></span>Demande d'intervention</p>
+          <h2 class="funnel__title">${cur ? `Urgence ${esc(name)}&nbsp;: quel est le problème&nbsp;?` : "Plomberie, électricité, assainissement&nbsp;: quel est le problème&nbsp;?"}</h2>
+          <p class="funnel__lead">Choisissez le problème, indiquez l'adresse et votre téléphone : votre demande arrive chez EMBI avec tous les détails de l'intervention.</p>
+          <a class="uform__call" href="tel:+33631600135"><small>Le plus rapide, appelez la ligne d'urgence</small><span>06 31 60 01 35 <i aria-hidden="true">→</i></span></a>
+          <p class="uform__hours">En dehors des heures d'ouverture du bureau. Pendant les heures d'ouverture : <a href="tel:+33145726524">01 45 72 65 24</a>.</p>
+          <p class="uform__danger">En cas de danger immédiat, appelez le <a href="tel:112">112</a>.</p>
+        </div>
+        <form class="quiz__card uform" id="uform" data-form="urgence"${cur ? ` data-metier="${cur.slug}"` : ""} name="intervention" method="POST" action="{{form:action}}" enctype="multipart/form-data">
+          ${fHidden(cur ? `Demande d'intervention ${name} (site EMBI)` : "Demande d'intervention (site EMBI)", cur ? `Intervention ${name}` : "Intervention")}
+          ${metiers}
+          ${fBlock("01", "Quel est le problème&nbsp;?", ...shown.map(demandes))}
+          ${fBlock("02", "Où et quand&nbsp;?",
+            fChips("Votre besoin", "besoin", U.besoin, { checked: [U.besoin[0]] }),
+            fChips("Le lieu", "lieu", U.lieu),
+            fField("Adresse de l'intervention", "adresse", 'autocomplete="street-address" placeholder="N° et rue"', true),
+            fDuo(fField("Code postal", "code_postal", CP, true), fField("Étage, code, accès", "acces", 'placeholder="3e étage, code 1234B…"')))}
+          ${fBlock("03", "Vos coordonnées",
+            fDuo(fField("Nom", "nom", 'autocomplete="name"', true), fField("Téléphone", "telephone", 'type="tel" autocomplete="tel"', true)),
+            fField("E-mail", "email", 'type="email" autocomplete="email" placeholder="Pour recevoir le devis (facultatif)"'),
+            fArea("Précisions", "message", shown[0].precisions),
+            fFile("Ajouter une photo", FILE_HINT))}
+          <p class="uform__recap" aria-live="polite" data-recap hidden></p>
+          ${fConsent("consentUrgence")}
+          ${fEnd("Envoyer ma demande d'intervention", "", "06 31 60 01 35")}
+        </form>
+      </div>
+    </section>`;
+};
 const STEPS = [
   ["Étude de faisabilité", "Nous analysons l'ensemble de votre projet pour valider la faisabilité des travaux."],
   ["Chiffrage", "Un devis détaillé, réalisé ensemble et en toute transparence."],
@@ -524,6 +662,8 @@ const insta = () => {
 // Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
 const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"], ["savoir-faire", "Savoir-faire"]];
 const BLOCKS = {
+  devis: () => expand(devisForm()),
+  intervention: () => expand(urgenceForm(require(path.join(ROOT, "src/data/urgences.js")), null)),
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
   insta,
@@ -673,7 +813,7 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   if (!all.length) return "";
   const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
   const slide = (p, k) => {
-    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Clé en main"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
+    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "De A à Z"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
             <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
@@ -739,10 +879,10 @@ PROJECTS.forEach((p, i) => {
   const cat = CATEGORIES[p.category] || "";
   const sec = sectorOf(p.category);
   const photos = PHOTOS[p.id];
-  const lead = p.text || `${LEAD[p.category] || "Lieu rénové"} clé en main par EMBI, de l'étude de faisabilité à la livraison.`;
+  const lead = p.text || `${LEAD[p.category] || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
   const description = p.text
-    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation clé en main par EMBI, photos et détails du chantier.`
-    : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} clé en main par EMBI à Paris. Photos et détails du chantier.`;
+    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation menée de A à Z par EMBI, photos et détails du chantier.`
+    : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} de A à Z par EMBI à Paris. Photos et détails du chantier.`;
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -792,11 +932,11 @@ PROJECTS.forEach((p, i) => {
           </div>
           ${p.credit ? `<p class="pj-show__credit">Photos : ${esc(p.credit)}</p>` : ""}
         </div>` : "",
-      storyTitle: esc(`${LEAD[p.category] || "Lieu rénové"} clé en main à Paris`),
+      storyTitle: esc(`${LEAD[p.category] || "Lieu rénové"} de A à Z à Paris`),
       story: story.map((t) => `<p>${esc(t)}</p>`).join(""),
       works: p.travaux && p.travaux.length ? `<p class="pj-works-line"><strong>Travaux réalisés&nbsp;:</strong> ${esc(p.travaux.map((t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", "))}.</p>` : "",
       result: p.deco || p.archi
-        ? `<p class="pj-result">${p.deco ? `Une réalisation clé en main sur une décoration signée ${esc(p.deco)}.` : `Une réalisation clé en main sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
+        ? `<p class="pj-result">${p.deco ? `Une réalisation menée de A à Z sur une décoration signée ${esc(p.deco)}.` : `Une réalisation menée de A à Z sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
         : `<p class="pj-result">Découvrez le résultat en images ci-dessous.</p>`,
       count: photos.length > 1 ? `${photos.length} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir",
       singleClass: photos.length === 1 ? " is-single" : "",
@@ -1021,7 +1161,7 @@ SERVICES.forEach((sv) => {
 ${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
-          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>clé en main.</em></h2></div>
+          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>de A à Z.</em></h2></div>
           <p class="section__aside reveal">Un interlocuteur dédié coordonne chaque corps de métier, de l'étude de faisabilité à la livraison.</p>
         </div>
         <ol class="svc__grid">
@@ -1079,7 +1219,7 @@ if (ARTICLES.length) {
     path: "/mag/",
     key: "mag",
     title: "Le Mag EMBI : conseils et chantiers de rénovation à Paris",
-    description: "Conseils de rénovation intérieure, énergétique et extérieure, coulisses de nos chantiers d'hôtels et de boutiques à Paris : le magazine d'EMBI, entreprise de rénovation clé en main.",
+    description: "Conseils de rénovation intérieure, énergétique et extérieure, coulisses de nos chantiers d'hôtels et de boutiques à Paris : le magazine d'EMBI, entreprise de rénovation à Paris.",
     crumbs: [{ name: "Le Mag", path: "/mag/" }],
     content: expand(`${pageHero([{ name: "Le Mag", path: "/mag/" }], "Le Mag, <em>conseils et chantiers.</em>", "Rénovation intérieure, performance énergétique, façades, urgences, et les coulisses de nos chantiers d'hôtels et de boutiques à Paris.")}
     <section class="section mag" id="articles">
@@ -1148,20 +1288,9 @@ URGENCES.forEach((u) => {
     crumbs,
     faq: u.faq,
     jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
-    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#services" class="btn btn--outline-light">Nos interventions</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
+    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander une intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
 
-    <section class="section svc" id="services">
-      <div class="container">
-        <div class="section__head">
-          <div><p class="eyebrow reveal">Nos interventions</p><h2 class="h2 reveal">${esc(u.nav)}, <em>un seul numéro.</em></h2></div>
-          <p class="section__aside reveal">Décrivez-nous la situation au téléphone : nous vous disons tout de suite comment sécuriser les lieux en attendant l'intervention.</p>
-        </div>
-        <!-- À RELIRE -->
-        <ol class="svc__grid svc__grid--2">
-          ${u.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
-        </ol>
-      </div>
-    </section>
+${urgenceForm(URGENCES, u)}
 
     <section class="urgent" id="urgence">
       <div class="container urgent__inner">
@@ -1183,9 +1312,7 @@ URGENCES.forEach((u) => {
         <ul class="tips tips--one"><li class="reveal"><strong>${esc(u.tip[0])}</strong>${esc(u.tip[1])}</li><li class="reveal"><strong>Et après&nbsp;?</strong>${faqHtml(u.after)}</li></ul>
         <p class="sector__others">Nos autres urgences&nbsp;: ${URGENCES.filter((o) => o !== u).map((o) => `<a class="btn btn--ghost" href="/urgence/${o.slug}/">${o.nav}</a>`).join("")}<a class="btn btn--ghost" href="/urgence/">Toutes les urgences</a></p>
       </div>
-    </section>
-
-    {{funnel}}`),
+    </section>`),
   });
 });
 
@@ -1193,7 +1320,7 @@ URGENCES.forEach((u) => {
 {
   const svcFaq = (slug) => (SERVICES.find((sv) => sv.slug === slug) || {}).faq || [];
   const THEMES = [
-    ["Rénovation clé en main", "general", [...FAQ.PAGES["/"], ...FAQ.PAGES["/renovation/"]]],
+    ["La rénovation avec EMBI", "general", [...FAQ.PAGES["/"], ...FAQ.PAGES["/renovation/"]]],
     ["Rénovation intérieure et extérieure", "renovations", [...svcFaq("interieur"), ...svcFaq("exterieur")]],
     ["Projets spécifiques", "projets-specifiques", [...(FAQ.PAGES["/projets-specifiques/"] || []), ...FAQ.PAGES["/signature/"], ...FAQ.PAGES["/conception-sur-mesure/"]]],
     ["Hôtels, restaurants, boutiques, particuliers", "secteurs", ["/hotels/", "/restaurants/", "/boutiques/", "/particuliers/", "/realisations/"].flatMap((k) => FAQ.PAGES[k] || [])],
@@ -1209,7 +1336,7 @@ URGENCES.forEach((u) => {
     path: "/faq/",
     key: "faq",
     title: "Questions fréquentes sur la rénovation à Paris | EMBI",
-    description: "Devis, rénovation clé en main, hôtels, boutiques, showroom, urgences : toutes les réponses d'EMBI aux questions que l'on nous pose le plus souvent, regroupées par thème.",
+    description: "Devis, déroulé d'un chantier, hôtels, boutiques, showroom, urgences : toutes les réponses d'EMBI aux questions que l'on nous pose le plus souvent, regroupées par thème.",
     crumbs: [{ name: "FAQ", path: "/faq/" }],
     faq: [],
     content: expand(`${pageHero([{ name: "FAQ", path: "/faq/" }], "Questions <em>fréquentes.</em>", "Toutes les réponses aux questions que l'on nous pose le plus souvent, regroupées par thème. Une autre question&nbsp;? Appelez-nous au <a href=\"tel:+33145726524\">01&nbsp;45&nbsp;72&nbsp;65&nbsp;24</a>.")}
