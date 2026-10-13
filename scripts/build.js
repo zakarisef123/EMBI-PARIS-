@@ -350,7 +350,8 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
             <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
             <li><b>3</b><span>Étude de faisabilité et devis gratuit et détaillé</span></li>
           </ol>
-          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
+          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a> · <a href="#rappel" data-rappel>être rappelé</a></p>
+          <p class="funnel__tel">Pas encore prêt&nbsp;? <a href="#guide" data-guide>Recevoir notre guide : 10 questions avant de rénover à Paris</a></p>
           ${funnelTrust()}
         </div>
         <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">

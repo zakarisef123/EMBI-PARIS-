@@ -23,7 +23,7 @@ module.exports = {
     },
     occupation: ["Reste habité", "Sera vide", "À définir"],
     budget: ["Moins de 15 000 €", "15 000 à 50 000 €", "50 000 à 100 000 €", "Plus de 100 000 €", "Je ne sais pas encore"],
-    objet: ["Un devis", "Une visite sur place", "Un conseil"],
+    objet: ["Un devis", "Une visite sur place", "Un conseil", "Un créneau au showroom"],
   },
 
   pro: {

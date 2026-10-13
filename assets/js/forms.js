@@ -156,6 +156,9 @@
     } else if (PART[type]) {
       const c = $(`input[name="travaux"][value="${PART[type]}"]`, panel(tabs[0]));
       if (c) c.checked = true;
+      // « Réserver mon créneau au showroom » : l'objet de la demande est déjà choisi
+      const o = type === "showroom" && $('input[name="objet"][value="Un créneau au showroom"]', panel(tabs[0]));
+      if (o) o.checked = true;
     }
   }
   // arrivée depuis la bande « Devis gratuit » de l'accueil : e-mail déjà saisi
