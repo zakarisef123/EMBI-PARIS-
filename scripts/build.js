@@ -169,9 +169,10 @@ const pages = []; // { path, html, title, description, noindex }
 const shot = (id, n) => (PHOTOS[id] || []).find((ph) => ph.src.includes(`/${id}/${String(n).padStart(2, "0")}-`)) || (PHOTOS[id] || [])[0];
 const HERO_PHOTOS = {
   // chaque page : les photos du haut de page, qui défilent (la 1re sert aussi de photo de partage)
+  // [chantier, n°] = une photo de chantier ; "nom" seul = une photo du site (photos-originales/site/<nom>.jpg, voir README)
   "/renovation/": [["ravalement-rue-nollet", 3], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
   "/renovation/interieur/": [["appartement-haussmannien", 1], ["appartement-lumineux", 1], ["renovation-appartement", 1], ["appartement-paris-5e", 2], ["appartement-rue-saint-dominique", 1]],
-  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3], ["toitures-zinguerie", 7]],
+  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
   "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
   "/realisations/": [["hotel-bienvenue", 10], ["loro-piana", 1], ["appartement-haussmannien", 1], ["cafe-pinson", 6], ["le-grand-pigalle", 8]],
   "/hotels/": [["hotel-beauregard", 3]],
@@ -186,7 +187,7 @@ const HERO_PHOTOS = {
   "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
   "/urgence/plomberie/": [["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
-  "/urgence/assainissement/": [["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
+  "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["appartement-haussmannien", 2], ["loro-piana", 1]],
   "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-paris-5e", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
@@ -198,7 +199,7 @@ const HERO_PHOTOS = {
 };
 // liste de photos sans doublon (une photo absente du chantier est remplacée par sa couverture : on ne la garde qu'une fois)
 const uniqPhotos = (list) => list.filter((ph, i) => ph && list.findIndex((x) => x && x.src === ph.src) === i);
-const heroList = (path_) => HERO_PHOTOS[path_] ? uniqPhotos(HERO_PHOTOS[path_].map((x) => shot(...x))) : null;
+const heroList = (path_) => HERO_PHOTOS[path_] ? uniqPhotos(HERO_PHOTOS[path_].map((x) => (typeof x === "string" ? sitePhoto(x) : shot(...x)))) : null;
 // heroSlides (liste de photos) : le haut de page fait défiler ces photos (assets/js/main.js), avec des tirets en bas
 const withHeroPhoto = (content, ph, slides) => content.replace(/<(section|header) class="cs-hero page-hero([^"]*)"([^>]*)>/, (m, tag, cls, rest) =>
   slides && slides.length > 1

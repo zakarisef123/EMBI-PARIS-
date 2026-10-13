@@ -68,7 +68,7 @@ module.exports = [
     ],
     categories: ["particulier", "hotel", "restaurant"],
     // Chantiers montrés sous « Ils nous ont confié leurs lieux » : des travaux extérieurs (façade, toiture, charpente, terrasses)
-    projects: ["ravalement-rue-nollet", "toitures-zinguerie", "charpente-bois", "maison-a-colombages", "atelier-joaillerie-ploermel"],
+    projects: ["ravalement-rue-nollet", "toitures-zinguerie", "etancheite-toiture-terrasse", "charpente-bois", "maison-a-colombages", "atelier-joaillerie-ploermel"],
     faq: [
       ["Faut-il une autorisation pour un ravalement à Paris ?", "Les travaux qui modifient l'aspect extérieur d'un bâtiment demandent en général une déclaration préalable en mairie. Nous vous aidons à constituer le dossier."],
       ["Intervenez-vous sur les toitures ?", "Oui : toitures, étanchéité et carrelage de terrasse. EMBI intervient de la fondation jusqu'au toit."],
