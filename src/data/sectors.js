@@ -67,7 +67,7 @@ module.exports = [
       "Les travaux peuvent comprendre la mise aux normes : sanitaires, circulations (PMR), sécurité incendie, électricité.",
     ],
     card: "Transformation complète, rénovation, décoration et mise aux normes de la restauration.",
-    phare: "cafe-pinson",
+    phare: "cafe-joyeux-klesia",
     prestations: [
       ["Transformation complète", "Un ancien magasin transformé en restaurant, comme Loustic.", "/realisations/loustic/"],
       ["Plomberie et électricité", "Tous les corps de métier coordonnés, de la plomberie à l'électricité.", "/renovation/interieur/"],

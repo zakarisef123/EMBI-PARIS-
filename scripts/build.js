@@ -665,7 +665,7 @@ const showcase = () => {
 
 // Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
 // photo de chaque secteur : le chantier choisi ici, sinon le mieux placé (mis en avant, puis photos hébergées sur le site)
-const SECTOR_COVER = { particulier: "maison-en-pierre" };
+const SECTOR_COVER = { particulier: "maison-en-pierre", restaurant: "cafe-joyeux-klesia" };
 const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
             ${SECTORS.map((s) => {
               const list = PROJECTS.filter((p) => p.category === s.category);
@@ -719,6 +719,13 @@ const BLOCKS = {
     const order = ["hotel", "boutique", "restaurant", "particulier", "savoir-faire"];
     // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
     const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie
+    SECTORS.forEach((s) => {
+      const ph = list.find((p) => p.id === s.phare);
+      if (!ph) return;
+      list.splice(list.indexOf(ph), 1);
+      list.splice(list.findIndex((p) => p.category === s.category), 0, ph);
+    });
     return `<div class="filters realisations-all" role="group" aria-label="Filtrer les réalisations">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
@@ -881,7 +888,10 @@ const sectorPrest = (s) => s.prestations && s.prestations.length ? `    <section
 ` : "";
 const SECTOR_TPL = read("src/templates/secteur.html");
 SECTORS.filter((s) => s.page !== false).forEach((s) => {
-  const list = PROJECTS.filter((p) => p.category === s.category);
+  // le chantier phare du secteur (sectors.js → phare) en premier, puis ceux dont les photos sont hébergées sur le site
+  const all = PROJECTS.filter((p) => p.category === s.category);
+  const lead = all.find((p) => p.id === s.phare);
+  const list = lead ? [lead, ...localFirst(all.filter((p) => p !== lead))] : all;
   const others = SECTORS.filter((o) => o !== s);
   layout({
     path: s.path,
