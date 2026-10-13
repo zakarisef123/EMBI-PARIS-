@@ -275,6 +275,7 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=3" />
   <link rel="preload" href="/assets/fonts/cormorant-garamond-500-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/jost-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/jost-500-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
   <link rel="stylesheet" href="/assets/css/style.css" />
 ${cfg.photos !== "local" ? '  <link rel="preconnect" href="https://www.embi.fr" />\n' : ""}${o.preload || o.key === "accueil" ? `  <link rel="preload" as="image" href="${esc(o.preload || sitePhoto("hero").src)}" fetchpriority="high" />\n` : ""}  <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}</script>
