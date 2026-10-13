@@ -2624,7 +2624,9 @@ body .footer .footer__cta, body[data-page="accueil"] .footer .footer__cta { disp
 .footer .footer__cta span { color: var(--accent-2); }
 .footer__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; padding-bottom: clamp(32px, 4vw, 48px); border-bottom: 1px solid rgba(247, 244, 238, 0.14); }
 .footer__logo { display: inline-flex; color: var(--on-dark); }
-.footer__logo-svg { width: clamp(150px, 16vw, 210px); height: auto; }
+.footer__logo-svg { width: clamp(180px, 18vw, 240px); height: auto; overflow: visible; }
+.footer { --logo-gold: var(--accent-2); } /* coins du logo couleur sable sur le marine du pied de page */
+.footer .footer__logo, body[data-page] .footer .footer__logo { color: var(--on-dark); } /* le logo en couleur pleine (les autres liens du pied de page sont adoucis) */
 .footer :is(p, a, span, nav), body[data-page="accueil"] .footer :is(p, a, span, nav) { color: rgba(247, 244, 238, 0.78); }
 .footer .footer__cta, .footer .footer__cta * { color: var(--on-dark); }
 .footer .footer__cta em, .footer .footer__cta span { color: var(--accent-2); }
