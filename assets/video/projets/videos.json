@@ -52,6 +52,12 @@
     "carre": "/assets/video/projets/etancheite-toiture-terrasse-carre.mp4",
     "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4"
   },
+  "fish-club": {
+    "carre": "/assets/video/projets/fish-club-carre.mp4",
+    "portrait": "/assets/video/projets/fish-club-portrait.mp4",
+    "carte": "/assets/video/projets/fish-club-carte.mp4",
+    "paysage": "/assets/video/projets/fish-club-paysage.mp4"
+  },
   "hotel-beauregard": {
     "carre": "/assets/video/projets/hotel-beauregard-carre.mp4",
     "portrait": "/assets/video/projets/hotel-beauregard-portrait.mp4",

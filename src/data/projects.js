@@ -11,6 +11,8 @@
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
+ *  ancienSite : true → les photos hébergées sur le site (photos-originales/projets/<id>/) passent en tête,
+ *             suivies de celles de l'ancien site (images) ; sinon les photos locales remplacent les anciennes
  *  images   : chemins des photos sur l'ancien site (www.embi.fr/wp-content/uploads/…),
  *             la 1re sert de couverture. Quand les photos sont converties en local
  *             (scripts/photos), site.config.js → photos: "local" les remplace.
@@ -37,7 +39,7 @@ const gal = (cover, list) => [cover, ...list.filter((u) => u !== cover)];
 const MISE_AUX_NORMES = "Mise aux normes : sanitaires, circulations (PMR), sécurité incendie, électricité";
 
 const PROJECTS = [
-  { id: "hotel-panache", oldId: "panache", title: "Hôtel Panache", category: "hotel", featured: 4,
+  { id: "hotel-panache", oldId: "panache", ancienSite: true /* la façade en tête, puis les photos de l'ancien site */, title: "Hôtel Panache", category: "hotel", featured: 4,
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Panache.", MISE_AUX_NORMES + " : l'établissement a été remis aux normes hôtelières en parallèle des travaux de décoration."],
@@ -65,7 +67,7 @@ const PROJECTS = [
     travaux: ["Mise en place d'un corner en grand magasin"],
     histoire: ["EMBI a réalisé la mise en place du corner Byredo au Bon Marché."],
     images: gal("2017/11/BYREDO-01.jpg", seq("2017/11", "BYREDO", 1, 8, 2, "-")) },
-  { id: "le-grand-pigalle", title: "Le Grand Pigalle", category: "hotel",
+  { id: "le-grand-pigalle", cover: 10 /* photo principale : la façade */, title: "Le Grand Pigalle", category: "hotel",
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment du Grand Pigalle."],
@@ -162,6 +164,8 @@ const PROJECTS = [
     text: "Rénovation de l'Hôtel Beauregard : chambres, salles de bains, salons du rez-de-chaussée et patio.",
     travaux: ["Chambres", "Salles de bains", "Salons et salle du petit-déjeuner", "Patio"],
     histoire: ["À l'Hôtel Beauregard, EMBI a réalisé les travaux des chambres et de leurs salles de bains, des salons du rez-de-chaussée, de la salle du petit-déjeuner et du patio."],
+    images: [] },
+  { id: "hotel-du-temps", title: "Hôtel du Temps", category: "hotel", lieu: "Paris",
     images: [] },
 
   { id: "maison-a-colombages", title: "Maison à colombages", category: "particulier",
