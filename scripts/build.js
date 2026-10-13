@@ -313,12 +313,16 @@ const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" da
 // Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
 const projRail = (id, projs, h2 = "Ils nous ont <em>confié leurs lieux.</em>", all = ["/realisations/", "Toutes les réalisations"]) => `<div class="section__head"><div><p class="eyebrow reveal">Réalisations · ${projs.length} chantiers</p><h2 class="h2 reveal">${h2}</h2></div><div class="rail__ctrl"><button type="button" class="rail__btn" data-rail-prev aria-label="Chantiers précédents" aria-controls="rail-${id}">←</button><button type="button" class="rail__btn" data-rail-next aria-label="Chantiers suivants" aria-controls="rail-${id}">→</button><a href="${all[0]}" class="btn btn--ghost">${all[1]} <span aria-hidden="true">→</span></a></div></div>
         <div class="pj-cards pj-cards--rail" id="rail-${id}" data-rail tabindex="0" aria-label="Chantiers réalisés">${projs.map((p) => card(p, "h3")).join("")}</div>`;
-// Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
+// Tunnel de conversion, en bas de chaque page : 6 questions en un clic chacune, puis les coordonnées, envoi direct (sans changer de page).
 // cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
+// [nom du champ, question, [[réponse, catégorie du lieu]…]] : chaque réponse arrive telle quelle dans l'e-mail reçu par EMBI.
 const QUIZ_Q = [
   ["lieu", "Quel lieu voulez-vous transformer&nbsp;?", [["Appartement", "particulier"], ["Maison", "particulier"], ["Hôtel", "hotel"], ["Boutique", "boutique"], ["Restaurant", "restaurant"]]],
-  ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
-  ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
+  ["travaux", "Quels travaux, principalement&nbsp;?", [["Rénovation complète"], ["Cuisine ou salle de bain"], ["Plomberie, électricité"], ["Sols, murs et peinture"], ["Façade, toiture, terrasse"], ["Agencement et décoration sur mesure"]]],
+  ["surface", "Quelle surface environ&nbsp;?", [["Moins de 20 m²"], ["20 à 50 m²"], ["50 à 100 m²"], ["100 à 200 m²"], ["Plus de 200 m²"], ["Je ne sais pas"]]],
+  ["occupation", "Pendant les travaux, le lieu…", [["Reste habité ou ouvert"], ["Sera vide ou fermé"], ["À définir"]]],
+  ["budget", "Quel budget envisagez-vous&nbsp;?", [["Moins de 15 000 €"], ["15 000 à 50 000 €"], ["50 000 à 150 000 €"], ["Plus de 150 000 €"], ["Je ne sais pas encore"]]],
+  ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois"], ["Plus tard, je me renseigne"]]],
 ];
 // Premier pas, en haut des pages : la 1re question du questionnaire. Un clic coche la réponse et descend au questionnaire
 // (assets/js/funnel.js) ; sur l'accueil, qui n'a pas de questionnaire, le lien ouvre celui de la page Contact, déjà rempli.
@@ -345,8 +349,8 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
       <div class="funnel__wrap">
         <div class="funnel__intro">
           <p class="funnel__kicker">Devis gratuit</p>
-          <h2 class="funnel__title">Votre projet en 3 questions</h2>
-          <p class="funnel__lead">Quelques clics pour nous décrire votre projet : votre demande de devis gratuit est prête en moins d'une minute.</p>
+          <h2 class="funnel__title">Votre projet, en quelques clics</h2>
+          <p class="funnel__lead">Six questions, un clic pour chacune : votre demande de devis gratuit est prête en une minute, et nous arrivons au premier rendez-vous en connaissant déjà votre projet.</p>
           <ol class="funnel__next">
             <li><b>1</b><span>Vous décrivez votre projet</span></li>
             <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
@@ -357,7 +361,7 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
           ${funnelTrust()}
         </div>
         <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
-          <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
+          <input type="hidden" name="_subject" value="Votre projet : questionnaire (site EMBI)" />
           <input type="hidden" name="_next" value="{{site}}/merci/" />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_captcha" value="false" />
@@ -375,7 +379,7 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
                 ${opts.map(([v, c]) => `<label class="quiz__opt"><input type="radio" name="${name}" value="${v}"${c ? ` data-cat="${c}"` : ""} required /><span>${v}</span><i aria-hidden="true">→</i></label>`).join("\n                ")}
               </div>
             </fieldset>`).join("\n            ")}
-            <fieldset class="quiz__set quiz__final" data-step="3">
+            <fieldset class="quiz__set quiz__final" data-step="${QUIZ_Q.length}">
               <legend class="quiz__q">Vos coordonnées</legend>
               <ul class="quiz__recap" id="quizRecap"></ul>
               <p class="quiz__refs" id="quizRefs" hidden></p>
@@ -383,7 +387,11 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
                 <label class="field field--light"><span>Votre nom</span><input name="nom" required autocomplete="name" /></label>
                 <label class="field field--light"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
               </div>
-              <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
+              <div class="form__row">
+                <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
+                <label class="field field--light"><span>Code postal du lieu</span><input name="code_postal" inputmode="numeric" autocomplete="postal-code" maxlength="5" /></label>
+              </div>
+              <label class="field field--light"><span>Un mot sur votre projet (facultatif)</span><textarea name="message" rows="3" placeholder="Ce que vous souhaitez transformer, vos envies, vos contraintes…"></textarea></label>
               <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>. Opposition au démarchage téléphonique : <a href="https://www.bloctel.gouv.fr" target="_blank" rel="noopener">bloctel.gouv.fr</a>.</span></label>
               <div class="quiz__end">
                 <button type="submit" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
@@ -779,7 +787,7 @@ const BLOCKS = {
           <p class="cta-band__title">Votre lieu, <em>notre prochaine réalisation&nbsp;?</em></p>
           <div class="cta-band__actions">
             <a href="/contact/" class="btn btn--accent" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></a>
-            <a href="/contact/#projet" class="btn btn--outline-light">Estimer mon projet en 3 questions</a>
+            <a href="/contact/#projet" class="btn btn--outline-light">Estimer mon projet en quelques clics</a>
           </div>
         </div>
       </div>

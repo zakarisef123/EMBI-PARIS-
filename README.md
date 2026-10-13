@@ -41,7 +41,7 @@ La génération vérifie : un seul H1 par page, un texte alt sur chaque image, t
 Les formulaires sont envoyés par [FormSubmit](https://formsubmit.co) à l'adresse de `site.config.js` (`formsubmit`, par défaut sec@embi.fr) :
 - le formulaire de devis de la page Contact, avec un onglet particulier et un onglet professionnel ;
 - la demande d'intervention des pages Urgence : le visiteur choisit le problème parmi ceux du métier (plomberie, électricité, assainissement ; sur téléphone, la liste défile) ;
-- le questionnaire « Votre projet en 3 questions » en bas des autres pages.
+- le questionnaire « Votre projet, en quelques clics » en bas des autres pages (6 questions : lieu, travaux, surface, occupation, budget, délai, puis les coordonnées).
 
 L'objet de l'e-mail résume la demande (par exemple « URGENT · Plomberie : Fuite d'eau · 75017 »), et chaque réponse arrive avec son intitulé. Envoi et contrôles : `assets/js/forms.js`. Une photo ou un plan peut être joint (5 Mo au plus) : la demande part alors par l'envoi classique de FormSubmit, à vérifier une fois avec une vraie pièce jointe après l'activation.
 1. **Activation (une seule fois)** : une fois le site en ligne, envoyez une demande test depuis `/contact/`. FormSubmit envoie un e-mail « Confirm your email » à sec@embi.fr : cliquez sur le lien d'activation. Les demandes suivantes arrivent directement dans la boîte mail.
