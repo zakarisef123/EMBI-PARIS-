@@ -1605,6 +1605,57 @@
         "w": 480,
         "h": 587
       }
+    ],
+    "fish-club": [
+      {
+        "base": "/assets/img/projets/fish-club/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 718
+      },
+      {
+        "base": "/assets/img/projets/fish-club/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/fish-club/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/fish-club/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/fish-club/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1284
+      }
     ]
   },
   "site": {
