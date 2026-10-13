@@ -46,11 +46,13 @@
   "charpente-bois": {
     "carre": "/assets/video/projets/charpente-bois-carre.mp4",
     "portrait": "/assets/video/projets/charpente-bois-portrait.mp4",
-    "carte": "/assets/video/projets/charpente-bois-carte.mp4"
+    "carte": "/assets/video/projets/charpente-bois-carte.mp4",
+    "paysage": "/assets/video/projets/charpente-bois-paysage.mp4"
   },
   "etancheite-toiture-terrasse": {
     "carre": "/assets/video/projets/etancheite-toiture-terrasse-carre.mp4",
-    "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4"
+    "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4",
+    "carte": "/assets/video/projets/etancheite-toiture-terrasse-carte.mp4"
   },
   "fish-club": {
     "carre": "/assets/video/projets/fish-club-carre.mp4",
@@ -84,6 +86,11 @@
     "carre": "/assets/video/projets/maison-a-colombages-carre.mp4",
     "portrait": "/assets/video/projets/maison-a-colombages-portrait.mp4",
     "carte": "/assets/video/projets/maison-a-colombages-carte.mp4"
+  },
+  "maison-en-pierre": {
+    "carre": "/assets/video/projets/maison-en-pierre-carre.mp4",
+    "portrait": "/assets/video/projets/maison-en-pierre-portrait.mp4",
+    "carte": "/assets/video/projets/maison-en-pierre-carte.mp4"
   },
   "mosaique": {
     "carte": "/assets/video/projets/mosaique-carte.mp4"
