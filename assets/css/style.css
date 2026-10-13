@@ -3217,3 +3217,10 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
 .footer__seo .footer__h { margin: 0 6px 0 0; }
 .footer .footer__seo a:not(.footer__h) { color: rgba(247, 244, 238, 0.6); }
 .footer .footer__seo a:hover { color: #fff; }
+/* une seule phrase sobre vers les zones d'intervention (pas de liste d'arrondissements sur les pages) */
+.section.seo-zones:has(.seo-zones__line) { padding-block: clamp(36px, 5vw, 64px); }
+.seo-zones__line { display: grid; gap: 10px; }
+.seo-zones__line p { margin: 0; color: var(--ink-2); }
+.seo-zones__line p:first-child { font: 400 clamp(22px, 2vw, 28px)/1.3 var(--display); color: var(--dark-2); }
+.seo-zones__line p:first-child a { margin-left: 6px; font: 600 12px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid currentColor; white-space: nowrap; }
+.seo-zones__line p:first-child a::after { content: " →"; }

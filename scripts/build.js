@@ -143,7 +143,7 @@ const BUSINESS = {
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"], ["/zones/", "Zones d'intervention"]] },
+  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
@@ -170,7 +170,6 @@ const footer = () =>
     year: new Date().getFullYear(),
     social: social.length ? `          <p class="footer__social">${social.map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${SOCIAL_LABELS[k]}</a>`).join(" · ")}</p>` : "",
     metiers: METIERS.map((m) => `<a href="${metierUrl(m)}">${m.qui}</a>`).join(""),
-    zones: ZONES.map((z) => `<a href="${zoneUrl(z)}">${z.nom}</a>`).join(""),
   }).trim();
 
 const LIGHTBOX = `
@@ -646,12 +645,27 @@ const CLIENT_SITES = {
 // Bandeau « Ils nous ont fait confiance », juste sous le haut de page : accueil (toutes les marques) et pages pros (celles du secteur).
 // Les marques mises en avant d'abord (Loro Piana, Byredo, Colette, Panache…).
 const LOGO_BANDS = { "/": ["hotel", "boutique", "restaurant"], "/professionnels/": ["hotel", "boutique", "restaurant"], "/hotels/": ["hotel"], "/boutiques/": ["boutique"], "/restaurants/": ["restaurant"] };
+// dimensions d'un logo (svg, png, webp) : largeur et hauteur réservées avant chargement, sans décalage de la page
+const logoSize = (file) => {
+  const b = fs.readFileSync(path.join(LOGO_DIR, file));
+  if (file.endsWith(".svg")) {
+    const t = b.toString("utf8"), vb = t.match(/viewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/);
+    return vb ? [Math.round(+vb[1]), Math.round(+vb[2])] : null;
+  }
+  if (file.endsWith(".png")) return [b.readUInt32BE(16), b.readUInt32BE(20)];
+  const k = b.toString("ascii", 12, 16); // webp
+  if (k === "VP8X") return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (k === "VP8L") { const n = b.readUInt32LE(21); return [1 + (n & 0x3fff), 1 + ((n >> 14) & 0x3fff)]; }
+  if (k === "VP8 ") return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+  return null;
+};
 const brandLogos = (cats = LOGO_BANDS["/"]) => {
   const brands = PROJECTS.filter((p) => cats.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99));
   const item = (p) => {
     const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
     const name = p.title.split(" · ").pop();
-    const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" />` : `<span>${esc(name)}</span>`;
+    const wh = file && logoSize(file);
+    const inner = file ? `<img src="/assets/img/logos/${file}" alt="${esc(p.title)}"${wh ? ` width="${wh[0]}" height="${wh[1]}"` : ""} decoding="async" />` : `<span>${esc(name)}</span>`;
     const site = CLIENT_SITES[p.id];
     const link = site ? `href="${site}" target="_blank" rel="noopener" aria-label="${esc(name)} (site officiel, nouvel onglet)"` : `href="${projectUrl(p)}"`;
     return `<a class="logos__item logos__item--${p.id}${file ? "" : " logos__item--text"}" ${link}>${inner}</a>`;
@@ -1455,7 +1469,7 @@ METIERS.forEach((m, i) => {
   const crumbs = [{ name: "Nos métiers", path: "/metiers/" }, { name: m.nom, path: path_ }];
   const projs = localProj(m.projets);
   const voir = (m.voir || []).map((s) => METIERS.find((x) => x.slug === s)).filter(Boolean);
-  const faq = [...m.faq, [`Où intervenez-vous pour ${m.nom.toLowerCase()} ?`, `Dans tout Paris, du 1er au 20e arrondissement, dans toute l'Île-de-France et partout en France pour les projets de nos clients. Voir [nos zones d'intervention](/zones/).`]];
+  const faq = [...m.faq, [`Où intervenez-vous pour vos travaux ${/^[aeéèêiîoôuœh]/i.test(m.nom) ? "d'" : "de "}${m.nom.toLowerCase()} ?`, `Dans tout Paris, du 1er au 20e arrondissement, dans toute l'Île-de-France et partout en France pour les projets de nos clients. Voir [nos zones d'intervention](/zones/).`]];
   layout({
     path: path_, key: "savoir-faire", title: m.title, description: m.description, crumbs, faq,
     heroSlides: uniqPhotos([...projs.map((p) => PHOTOS[p.id][0])]).slice(0, 4),
@@ -1487,10 +1501,9 @@ METIERS.forEach((m, i) => {
       </div>
     </section>
     <section class="section seo-zones">
-      <div class="container">
-        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">${esc(m.qui)} <em>dans tout Paris, en Île-de-France et en France.</em></h2></div></div>
-        ${chips(ZONES.map((z) => [zoneUrl(z), `${esc(m.qui)} ${esc(zoneLabel(z))}`]))}
-        ${voir.length ? `<p class="seo-more">Métiers associés&nbsp;: ${voir.map((v) => `<a href="${metierUrl(v)}">${esc(v.nom)}</a>`).join(" · ")} · <a href="/metiers/">tous nos métiers</a></p>` : ""}
+      <div class="container seo-zones__line">
+        <p class="reveal">Nous intervenons dans tout Paris, en Île-de-France et partout en France. <a href="/zones/">Nos zones d'intervention</a></p>
+        ${voir.length ? `<p class="seo-more reveal">Métiers associés&nbsp;: ${voir.map((v) => `<a href="${metierUrl(v)}">${esc(v.nom)}</a>`).join(" · ")} · <a href="/metiers/">tous nos métiers</a></p>` : ""}
       </div>
     </section>
     {{funnel}}`),
@@ -1545,9 +1558,8 @@ ZONES.forEach((z, i) => {
       </div>
     </section>
     <section class="section seo-zones">
-      <div class="container">
-        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">Nous intervenons aussi <em>ailleurs.</em></h2></div></div>
-        ${chips(ZONES.filter((x) => x !== z).map((x) => [zoneUrl(x), `Rénovation ${esc(zoneLabel(x))}`]))}
+      <div class="container seo-zones__line">
+        <p class="reveal">Nous intervenons aussi dans le reste de Paris, en Île-de-France et partout en France. <a href="/zones/">Nos zones d'intervention</a></p>
       </div>
     </section>
     {{funnel}}`),
@@ -1572,9 +1584,8 @@ layout({
       </div>
     </section>
     <section class="section seo-zones">
-      <div class="container">
-        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">Partout à Paris, <em>en Île-de-France et en France.</em></h2></div></div>
-        ${chips(ZONES.map((z) => [zoneUrl(z), esc(z.nom)]))}
+      <div class="container seo-zones__line">
+        <p class="reveal">Nous intervenons dans tout Paris, en Île-de-France et partout en France. <a href="/zones/">Nos zones d'intervention</a></p>
       </div>
     </section>
     {{funnel}}`),
