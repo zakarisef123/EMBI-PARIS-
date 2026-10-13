@@ -1569,6 +1569,42 @@
         "w": 960,
         "h": 720
       }
+    ],
+    "etancheite-toiture-terrasse": [
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/03",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 320
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/04",
+        "widths": [
+          480
+        ],
+        "w": 480,
+        "h": 587
+      }
     ]
   },
   "site": {}

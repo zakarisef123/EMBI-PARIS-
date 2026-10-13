@@ -171,7 +171,7 @@ const HERO_PHOTOS = {
   // chaque page : les photos du haut de page, qui défilent (la 1re sert aussi de photo de partage)
   "/renovation/": [["ravalement-rue-nollet", 3], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
   "/renovation/interieur/": [["appartement-haussmannien", 1], ["appartement-lumineux", 1], ["renovation-appartement", 1], ["appartement-paris-5e", 2], ["appartement-rue-saint-dominique", 1]],
-  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3], ["toitures-zinguerie", 7]],
+  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
   "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
   "/realisations/": [["hotel-bienvenue", 10], ["loro-piana", 1], ["appartement-haussmannien", 1], ["cafe-pinson", 6], ["le-grand-pigalle", 8]],
   "/hotels/": [["hotel-beauregard", 3]],

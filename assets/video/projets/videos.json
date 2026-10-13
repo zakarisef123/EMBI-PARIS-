@@ -48,6 +48,10 @@
     "portrait": "/assets/video/projets/charpente-bois-portrait.mp4",
     "carte": "/assets/video/projets/charpente-bois-carte.mp4"
   },
+  "etancheite-toiture-terrasse": {
+    "carre": "/assets/video/projets/etancheite-toiture-terrasse-carre.mp4",
+    "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4"
+  },
   "hotel-beauregard": {
     "carre": "/assets/video/projets/hotel-beauregard-carre.mp4",
     "portrait": "/assets/video/projets/hotel-beauregard-portrait.mp4",
