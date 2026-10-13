@@ -1607,5 +1607,15 @@
       }
     ]
   },
-  "site": {}
+  "site": {
+    "camion-assainissement": {
+      "base": "/assets/img/site/camion-assainissement",
+      "widths": [
+        480,
+        960
+      ],
+      "w": 960,
+      "h": 641
+    }
+  }
 }
