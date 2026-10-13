@@ -190,7 +190,7 @@ const HERO_PHOTOS = {
   "/equipe/": [["ravalement-rue-nollet", 6], ["charpente-bois", 1], ["toitures-zinguerie", 2], ["appartement-haussmannien", 3]],
   "/qualifications/": [["toitures-zinguerie", 2], ["ravalement-rue-nollet", 6], ["charpente-bois", 5], ["appartement-renovation-complete", 9]],
   "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
-  "/urgence/plomberie/": [["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
+  "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
   "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["appartement-haussmannien", 2], ["loro-piana", 1]],
