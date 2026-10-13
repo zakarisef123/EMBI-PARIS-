@@ -11,6 +11,8 @@
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
+ *  ancienSite : true → les photos hébergées sur le site (photos-originales/projets/<id>/) passent en tête,
+ *             suivies de celles de l'ancien site (images) ; sinon les photos locales remplacent les anciennes
  *  images   : chemins des photos sur l'ancien site (www.embi.fr/wp-content/uploads/…),
  *             la 1re sert de couverture. Quand les photos sont converties en local
  *             (scripts/photos), site.config.js → photos: "local" les remplace.

@@ -49,9 +49,11 @@ const coverFirst = (list, n) => {
 };
 const projectPhotos = (p) => {
   const list = manifest && manifest.projets && manifest.projets[p.id];
-  if (list && list.length) return coverFirst(list.map(localSet), p.cover);
+  const old = () => coverFirst(p.images.map((f) => ({ src: OLD + f })), p.coverOld);
+  // « ancienSite: true » : seules quelques photos sont sur le site (la devanture…), les autres suivent depuis l'ancien site
+  if (list && list.length) return p.ancienSite ? [...coverFirst(list.map(localSet), p.cover), ...old()] : coverFirst(list.map(localSet), p.cover);
   if (cfg.photos === "local") warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
-  return coverFirst(p.images.map((f) => ({ src: OLD + f })), p.coverOld);
+  return old();
 };
 // images du site hors chantiers (photo d'accueil, couvertures des catalogues)
 const SITE_IMAGES = {
