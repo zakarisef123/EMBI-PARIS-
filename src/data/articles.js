@@ -148,7 +148,7 @@ module.exports = [
       { href: "/renovation/interieur/#energetique", label: "Rénovation énergétique" },
       { href: "/renovation/interieur/#appartement", label: "Rénovation d'appartements" },
       { href: "/methode/", label: "Notre méthode" },
-      { href: "/contact/", label: "Demander un devis gratuit" },
+      { href: "/contact/", label: "Recevoir mon devis gratuit" },
     ],
   },
   {
@@ -293,7 +293,7 @@ module.exports = [
     links: [
       { href: "/renovation/exterieur/", label: "Façades et extérieurs" },
       { href: "/savoir-faire/", label: "Notre savoir-faire" },
-      { href: "/contact/", label: "Demander un devis gratuit" },
+      { href: "/contact/", label: "Recevoir mon devis gratuit" },
     ],
   },
   {
@@ -852,7 +852,7 @@ module.exports = [
       { href: "/renovation/interieur/", label: "Rénovation intérieure" },
       { href: "/realisations/hotel-panache/", label: "La mise aux normes de l'Hôtel Panache" },
       { href: "/urgence/", label: "Ligne d'urgence" },
-      { href: "/contact/", label: "Demander un devis gratuit" },
+      { href: "/contact/", label: "Recevoir mon devis gratuit" },
     ],
   },
 ];

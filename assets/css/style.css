@@ -1850,7 +1850,7 @@ em { font-weight: 400; }
 
 /* 1 · header : photo seule, menu transparent par-dessus, points centrés */
 .hero--full { min-height: 100svh; align-items: stretch; }
-.hero--full .hero__photo::after { background: linear-gradient(180deg, rgba(20, 35, 63, 0.55) 0%, rgba(20, 35, 63, 0) 22%, rgba(20, 35, 63, 0) 70%, rgba(20, 35, 63, 0.45) 100%); }
+.hero--full .hero__photo::after { background: linear-gradient(180deg, rgba(20, 35, 63, 0.55) 0%, rgba(20, 35, 63, 0) 22%, rgba(20, 35, 63, 0) 52%, rgba(20, 35, 63, 0.72) 100%), linear-gradient(90deg, rgba(20, 35, 63, 0.5) 0%, rgba(20, 35, 63, 0) 62%); }
 .hero--full .hero__aside { top: auto; bottom: clamp(24px, 4vh, 44px); left: 50%; right: auto; transform: translateX(-50%); align-items: center; gap: 12px; }
 .hero--full .hero__dots { gap: 10px; }
 .hero--full .hero__dots span { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, 0.85); background: transparent; }
@@ -3105,3 +3105,29 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
 }
 @keyframes uSwipe { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
 @media (prefers-reduced-motion: reduce) { .uform__swipe i { animation: none; } }
+
+/* ───────── Appels à l'action · premier pas (« Quel lieu voulez-vous transformer ? » en haut de page) ───────── */
+.hq { margin-top: clamp(20px, 2.4vw, 30px); }
+.hq__q { margin: 0 0 10px; font: 500 12px var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); }
+.hq__opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.hq__opt { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 2px; background: rgba(20, 35, 63, 0.28); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); color: #fff; font: 500 14px var(--sans); transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.hq__opt:hover, .hq__opt:focus-visible { background: var(--on-dark); border-color: var(--on-dark); color: var(--dark); }
+.cs-hero:not(.page-hero--photo) .hq__q { color: var(--ink-2); }
+.cs-hero:not(.page-hero--photo) .hq__opt { color: var(--ink); border-color: var(--line); background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.cs-hero:not(.page-hero--photo) .hq__opt:hover, .cs-hero:not(.page-hero--photo) .hq__opt:focus-visible { background: var(--dark); border-color: var(--dark); color: var(--on-dark); }
+/* accueil : la question sous la phrase d'accroche, au-dessus des points du diaporama */
+.hero__first { position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); bottom: clamp(104px, 13vh, 132px); pointer-events: none; }
+.hero__first > * { pointer-events: auto; }
+.hero__first .hero__claim { position: static; }
+@media (max-width: 960px) { .hero__first { bottom: 104px; } .hq__opt { min-height: 36px; padding: 0 12px; font-size: 13px; } }
+
+/* après la galerie d'un chantier */
+.pj-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-top: clamp(28px, 3.4vw, 44px); padding: clamp(20px, 2.4vw, 28px) clamp(20px, 2.6vw, 34px); border: 1px solid var(--line); background: var(--bg); }
+.pj-next__t { margin: 0; font-family: var(--display); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.15; color: var(--dark); }
+.pj-next__t em { color: var(--accent); }
+
+/* à côté du questionnaire : quelques clients */
+.funnel__trust { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+.funnel__trust-t { margin: 0 0 14px; font: 500 11px var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); }
+.funnel__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; margin: 0; padding: 0; list-style: none; }
+.funnel__logos img { display: block; max-height: 26px; max-width: 110px; width: auto; filter: grayscale(1); opacity: 0.62; }

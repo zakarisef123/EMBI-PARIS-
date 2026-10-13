@@ -234,6 +234,7 @@ const withCta = (o) => {
 
 const layout = (o) => {
   o = withCta(o);
+  o = { ...o, content: withHeroQuiz(o.content, o.path) };
   const list = o.heroSlides || heroList(o.path);
   const heroPh = o.heroPhoto || (list && list[0]);
   if (heroPh || list) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroPhoto && !o.heroSlides ? null : list) };
@@ -317,6 +318,27 @@ const QUIZ_Q = [
   ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
   ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
 ];
+// Premier pas, en haut des pages : la 1re question du questionnaire. Un clic coche la réponse et descend au questionnaire
+// (assets/js/funnel.js) ; sur l'accueil, qui n'a pas de questionnaire, le lien ouvre celui de la page Contact, déjà rempli.
+const HERO_QUIZ = new Set(["/", "/professionnels/", "/renovation/", "/renovation/interieur/", "/renovation/exterieur/", "/savoir-faire/", "/realisations/", "/conception-sur-mesure/", "/projets-specifiques/", "/methode/", "/signature/", "/equipe/", "/qualifications/", "/showroom/"]);
+const heroQuiz = (onPage) => `<div class="hq" role="group" aria-labelledby="hq-t"><p class="hq__q" id="hq-t">Quel lieu voulez-vous transformer&nbsp;?</p><div class="hq__opts">${QUIZ_Q[0][2].map(([v]) => (onPage ? `<a class="hq__opt" href="#projet" data-quiz-lieu="${v}">${v}</a>` : `<a class="hq__opt" href="/contact/?lieu=${encodeURIComponent(v)}#projet">${v}</a>`)).join("")}</div></div>`;
+const withHeroQuiz = (content, path_) => {
+  if (!HERO_QUIZ.has(path_)) return content;
+  const q = heroQuiz(content.includes('id="projet"'));
+  if (path_ === "/") return content.replace(/(<h1 class="hero__claim">[\s\S]*?<\/h1>)/, `<div class="hero__first">$1\n      ${q}</div>`);
+  if (/<div class="cs-hero__actions">[\s\S]*?<\/div>/.test(content)) return content.replace(/(<div class="cs-hero__actions">[\s\S]*?<\/div>)/, `$1\n        ${q}`);
+  return content.replace(/(<p class="cs-hero__lead">[\s\S]*?<\/p>)/, `$1\n        ${q}`);
+};
+// À côté du questionnaire : quelques clients (logos de assets/img/logos/) et deux repères vérifiables
+const TRUST = ["loro-piana", "byredo", "hotel-panache", "le-grand-pigalle", "hotel-paradis", "tartine-et-chocolat-harrods"];
+const funnelTrust = () => `<div class="funnel__trust">
+            <p class="funnel__trust-t">Depuis 2007 · 40 artisans coordonnés · Ils nous ont confié leurs lieux</p>
+            <ul class="funnel__logos">${TRUST.map((id) => {
+              const p = PROJECTS.find((x) => x.id === id);
+              const file = p && ["svg", "png", "webp"].map((x) => `${id}.${x}`).find((n) => fs.existsSync(path.join(ROOT, "assets/img/logos", n)));
+              return file ? `<li><img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" /></li>` : "";
+            }).join("")}</ul>
+          </div>`;
 const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && cat !== "particulier" ? ` data-preset="${cat}"` : ""}>
       <div class="funnel__wrap">
         <div class="funnel__intro">
@@ -329,6 +351,7 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
             <li><b>3</b><span>Étude de faisabilité et devis gratuit et détaillé</span></li>
           </ol>
           <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
+          ${funnelTrust()}
         </div>
         <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
           <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
@@ -742,7 +765,7 @@ const BLOCKS = {
         <div class="cta-band cta-band--dark reveal">
           <p class="cta-band__title">Votre lieu, <em>notre prochaine réalisation&nbsp;?</em></p>
           <div class="cta-band__actions">
-            <a href="/contact/" class="btn btn--accent" data-magnetic>Demander un devis gratuit <span aria-hidden="true">→</span></a>
+            <a href="/contact/" class="btn btn--accent" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></a>
             <a href="/contact/#projet" class="btn btn--outline-light">Estimer mon projet en 3 questions</a>
           </div>
         </div>
@@ -864,7 +887,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
     bodyAttrs: ` data-cta-type="${s.category}"`,
     heroSlides: heroSlidesOf(list),
     content: fill(SECTOR_TPL, {
-      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
+      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
       phare: sectorPhare(s, list),
       prestations: sectorPrest(s),
@@ -946,6 +969,11 @@ PROJECTS.forEach((p, i) => {
         : `<p class="pj-result">Découvrez le résultat en images ci-dessous.</p>`,
       count: photos.length > 1 ? `${photos.length} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir",
       singleClass: photos.length === 1 ? " is-single" : "",
+      // après la galerie : le visiteur vient de regarder le chantier, on lui propose le sien (lieu déjà coché)
+      nextStep: (() => {
+        const lieu = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: /maison/i.test(p.title) ? "Maison" : "Appartement" }[p.category];
+        return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
+      })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
@@ -1048,7 +1076,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
     description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
     crumbs,
     jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
-    content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
+    content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
     <section class="section" id="secteurs">
       <div class="container">
         <div class="section__head">
@@ -1087,7 +1115,7 @@ layout({
   title: "Rénovation intérieure et extérieure à Paris | EMBI",
   description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.",
   crumbs: [{ name: "Rénovation", path: "/renovation/" }],
-  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
+  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
     <section class="pn works" id="types">
       <div class="pn__wrap">
         <div class="works__head reveal">
@@ -1163,7 +1191,7 @@ SERVICES.forEach((sv) => {
     description: sv.description,
     crumbs,
     jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
-    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
+    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
 ${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
@@ -1294,7 +1322,7 @@ URGENCES.forEach((u) => {
     crumbs,
     faq: u.faq,
     jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
-    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander une intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
+    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander mon intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
 
 ${urgenceForm(URGENCES, u)}
 

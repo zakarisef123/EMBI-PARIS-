@@ -60,8 +60,20 @@
     const opt = cat && $(`input[name="lieu"][data-cat="${cat}"]`, quiz);
     if (opt && cat !== "particulier") { pick(opt); show(nextEmpty()); }
   };
+  // réponse « Quel lieu ? » donnée ailleurs (haut de page, fin de galerie, lien « ?lieu= ») : cochée, on passe à la suite
+  const presetLieu = (v) => {
+    const opt = v && $$('input[name="lieu"]', quiz).find((i) => i.value === v);
+    if (opt) { pick(opt); show(nextEmpty()); }
+    return !!opt;
+  };
+  const goQuiz = () => {
+    section.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    setTimeout(() => { const f = $(".quiz__set.is-current input, .quiz__set.is-current button", quiz); if (f) f.focus({ preventScroll: true }); }, reduce ? 0 : 700);
+  };
   show(0);
-  preset(section.dataset.preset || new URLSearchParams(location.search).get("type"));
+  const params = new URLSearchParams(location.search);
+  preset(section.dataset.preset || params.get("type"));
+  if (presetLieu(params.get("lieu")) && location.hash === "#projet") setTimeout(goQuiz, 200);
 
   // boutons « Devis gratuit » de la page → descente douce jusqu'au tunnel (le menu et le pied de page gardent leur lien)
   $$('main a[href^="/contact/"]').forEach((a) => {
@@ -71,9 +83,16 @@
     a.addEventListener("click", (e) => {
       e.preventDefault();
       if (type) preset(type);
-      section.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-      setTimeout(() => { const f = $(".quiz__set.is-current input, .quiz__set.is-current button", quiz); if (f) f.focus({ preventScroll: true }); }, reduce ? 0 : 700);
+      goQuiz();
     });
+  });
+  // premier pas : « Quel lieu voulez-vous transformer ? » en haut de page, « Un projet comme celui-ci ? » après la galerie
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-quiz-lieu]");
+    if (!a) return;
+    e.preventDefault();
+    presetLieu(a.dataset.quizLieu);
+    goQuiz();
   });
 
   // envoi
