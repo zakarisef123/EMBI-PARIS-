@@ -237,6 +237,8 @@ const withCta = (o) => {
 const layout = (o) => {
   o = withCta(o);
   o = { ...o, content: withHeroQuiz(o.content, o.path) };
+  // bandeau des logos clients juste sous le haut de page (accueil : {{block:brand-logos}} dans index.html)
+  if (LOGO_BANDS[o.path] && o.path !== "/") o = { ...o, content: o.content.replace(/(<section class="cs-hero page-hero[\s\S]*?\n    <\/section>)/, `$1\n    ${brandLogos(LOGO_BANDS[o.path])}`) };
   const list = o.heroSlides || heroList(o.path);
   const heroPh = o.heroPhoto || (list && list[0]);
   if (heroPh || list) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroPhoto && !o.heroSlides ? null : list) };
@@ -627,8 +629,11 @@ const CLIENT_SITES = {
   "petite-mendigote": "https://petitemendigote.com",
   "mojo-kitchen": "https://mojoforgood-opera.fr",
 };
-const brandLogos = () => {
-  const brands = PROJECTS.filter((p) => p.category !== "particulier" && p.category !== "savoir-faire");
+// Bandeau « Ils nous ont fait confiance », juste sous le haut de page : accueil (toutes les marques) et pages pros (celles du secteur).
+// Les marques mises en avant d'abord (Loro Piana, Byredo, Colette, Panache…).
+const LOGO_BANDS = { "/": ["hotel", "boutique", "restaurant"], "/professionnels/": ["hotel", "boutique", "restaurant"], "/hotels/": ["hotel"], "/boutiques/": ["boutique"], "/restaurants/": ["restaurant"] };
+const brandLogos = (cats = LOGO_BANDS["/"]) => {
+  const brands = PROJECTS.filter((p) => cats.includes(p.category)).sort((a, b) => (a.featured || 99) - (b.featured || 99));
   const item = (p) => {
     const file = ["svg", "png", "webp"].map((x) => `${p.id}.${x}`).find((f) => fs.existsSync(path.join(LOGO_DIR, f)));
     const name = p.title.split(" · ").pop();
@@ -638,7 +643,7 @@ const brandLogos = () => {
     return `<a class="logos__item logos__item--${p.id}${file ? "" : " logos__item--text"}" ${link}>${inner}</a>`;
   };
   const row = brands.map(item).join("");
-  return `<section class="logos" aria-labelledby="logos-t">
+  return `<section class="logos logos--top" aria-labelledby="logos-t">
       <div class="logos__head"><span class="logos__mark" aria-hidden="true"></span><h2 class="logos__t" id="logos-t">Ils nous ont fait confiance</h2><span class="logos__line" aria-hidden="true"></span></div>
       <div class="logos__viewport"><div class="logos__track">${row}<div class="logos__dup" aria-hidden="true">${row.replace(/<a /g, '<a tabindex="-1" ')}</div></div></div>
     </section>`;
@@ -705,11 +710,12 @@ const insta = () => {
 const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"], ["savoir-faire", "Savoir-faire"]];
 const BLOCKS = {
   devis: () => expand(devisForm()),
+  trust: () => funnelTrust(),
   intervention: () => expand(urgenceForm(require(path.join(ROOT, "src/data/urgences.js")), null)),
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
   insta,
-  "brand-logos": brandLogos,
+  "brand-logos": () => brandLogos(),
   "works-cards": worksCards,
   "hero-slides": heroSlides,
   "home-services": homeServices,

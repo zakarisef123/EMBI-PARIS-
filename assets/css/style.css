@@ -3171,3 +3171,24 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
 .nudge__note a { color: var(--accent); border-bottom: 1px solid currentColor; }
 @media (max-width: 760px) { .nudge { right: 16px; left: 16px; width: auto; bottom: calc(76px + env(safe-area-inset-bottom)); } }
 @media (prefers-reduced-motion: reduce) { .nudge { transition: none; } }
+
+/* ───────── Logos clients sous le haut de page (accueil, pages pros) : une seule ligne compacte ───────── */
+.logos.logos--top { flex-direction: row; align-items: center; gap: clamp(16px, 2.4vw, 32px); padding: clamp(16px, 2vw, 22px) 0; background: var(--bg); border-bottom: 1px solid var(--line); }
+.logos--top .logos__head { flex: none; padding: 0; gap: 14px; }
+.logos--top .logos__head .logos__mark { height: 46px; width: clamp(20px, 2vw, 32px); }
+.logos--top .logos__t { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); line-height: 1.5; white-space: normal; max-width: 12ch; }
+.logos--top .logos__line { display: none; }
+.logos--top .logos__item { height: 52px; }
+.logos--top .logos__item img, .logos--top .logos__item:hover img { height: 30px; max-width: 140px; }
+.logos--top .logos__item--hotel-bienvenue img { height: 46px; }
+.logos--top .logos__item--petite-mendigote img { height: 42px; max-width: 120px; }
+.logos--top .logos__item--mojo-kitchen img, .logos--top .logos__item--mojo-kitchen:hover img { height: 48px; }
+.logos--top .logos__item--text span, .logos--top .logos__item--text:nth-child(n) span { font-size: 21px; }
+/* accueil, ordinateur : la photo laisse dépasser le bandeau dès le premier écran */
+@media (min-width: 961px) { body[data-page="accueil"] .hero--full { min-height: calc(100svh - 92px); } }
+@media (max-width: 760px) {
+  .logos.logos--top { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px 0 10px; }
+  .logos--top .logos__head { padding: 0 16px; }
+  .logos--top .logos__head .logos__mark { display: none; }
+  .logos--top .logos__t { max-width: none; font-size: 11px; }
+}
