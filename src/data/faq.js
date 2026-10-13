@@ -116,7 +116,7 @@ const PAGES = {
   "/signature/": [
     ["Qu'est-ce qu'un chantier Signature ?", "Les projets où chaque détail compte : maisons de luxe, corners en grand magasin, hôtels rénovés de fond en comble, décors signés par de grands designers."],
     ["Travaillez-vous en grand magasin ?", "Oui : corner Byredo au Bon Marché, boutique Tartine et Chocolat chez Harrods. Ces chantiers se mènent au sein d'un magasin en activité, avec ses règles et ses horaires."],
-    ["Pouvez-vous réaliser le décor d'un designer ?", "Oui. Nous avons réalisé de A à Z des décorations signées Dorothée Meilichzon ou Richard Lafond, en donnant corps au dessin dans le respect de chaque intention."],
+    ["Pouvez-vous réaliser le décor d'un designer ?", "Oui. Nous avons entièrement réalisé des décorations signées Dorothée Meilichzon ou Richard Lafond, en donnant corps au dessin dans le respect de chaque intention."],
     ["Qui mène un chantier Signature ?", "La même équipe que pour tous nos chantiers : un interlocuteur dédié, un architecte, un architecte d'intérieur et 40 professionnels de tous corps de métier."],
     ["Pouvez-vous respecter les standards d'une marque de luxe ?", "C'est notre exigence : chez Loro Piana, Colette ou Byredo, la marque devait se lire dans chaque finition."],
   ],
@@ -143,7 +143,7 @@ const PAGES = {
 
   "/realisations/": [
     ["Quels types de chantiers avez-vous réalisés ?", "Des hôtels (Hôtel Panache, Le Grand Pigalle, Hôtel Paradis…), des boutiques (Loro Piana, Byredo, Colette…), des restaurants (Fish Club, Loustic, Café Pinson…) et des appartements de particuliers."],
-    ["Tous ces chantiers ont-ils été menés de A à Z par EMBI ?", "Oui, chacun a été mené par EMBI et son réseau de 40 professionnels, avec un seul interlocuteur de l'étude à la livraison."],
+    ["Tous ces chantiers ont-ils été entièrement réalisés par EMBI ?", "Oui, chacun a été mené par EMBI et son réseau de 40 professionnels, avec un seul interlocuteur de l'étude à la livraison."],
     ["Travaillez-vous avec des architectes et des décorateurs ?", "Oui : décorations signées Dorothée Meilichzon ou Richard Lafond, projet de l'architecte Diego Delgado Elias. Nous avons aussi notre propre architecte et notre architecte d'intérieur."],
     ["Mon projet ressemble à l'un de ces chantiers : que faire ?", "Citez-le dans votre demande de devis : cela nous aide à comprendre votre projet. Le devis est gratuit."],
   ],

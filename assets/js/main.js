@@ -86,7 +86,7 @@
   const named = projects.filter((p) => p.category !== "particulier");
   const chunk = named.map((p, i) => `<a href="${window.EMBI_PROJECT_URL(p.id)}"><span class="${i % 2 ? "is-outline" : ""}">${esc(p.title)}</span></a><i aria-hidden="true"></i>`).join("");
   $("#marquee").innerHTML = chunk + chunk;
-  const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "De A à Z"];
+  const words2 = ["Rénovation intérieure", "Gros œuvre", "Plomberie", "Électricité", "Isolation", "Carrelage", "Parquet", "Façades", "Tous corps de métier"];
   const chunk2 = words2.map((n) => `<span>${n}</span><i>·</i>`).join("");
   $("#marquee2").innerHTML = chunk2 + chunk2;
   }

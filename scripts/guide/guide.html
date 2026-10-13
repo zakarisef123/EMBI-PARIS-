@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>10 questions à se poser avant de rénover à Paris · EMBI</title>
+<!-- Source du guide PDF (documents/guide-renovation-paris.pdf). Après modification : cd scripts/videos && node ../guide/generer.js -->
+<style>
+  @font-face { font-family: "Cormorant Garamond"; font-weight: 500; src: url(../../assets/fonts/cormorant-garamond-500-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Cormorant Garamond"; font-weight: 500; font-style: italic; src: url(../../assets/fonts/cormorant-garamond-500-italic-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 400; src: url(../../assets/fonts/jost-400-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 500; src: url(../../assets/fonts/jost-500-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Jost"; font-weight: 600; src: url(../../assets/fonts/jost-600-latin.woff2) format("woff2"); }
+  @page { size: A4; margin: 0; }
+  :root { --navy: #14233f; --cream: #f7f4ee; --lin: #ece6da; --gold: #a68c6a; --ink: #16213a; --ink2: #4a5062; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--cream); color: var(--ink); font: 400 10.5pt/1.62 "Jost", sans-serif; }
+  .page { width: 210mm; height: 297mm; padding: 22mm 22mm 18mm; position: relative; overflow: hidden; page-break-after: always; background: var(--cream); }
+  .page:last-child { page-break-after: auto; }
+  h1, h2, h3 { font-family: "Cormorant Garamond", serif; font-weight: 500; color: var(--navy); margin: 0; }
+  em { font-style: italic; color: var(--gold); }
+  .cover { background: var(--navy); color: var(--cream); display: flex; flex-direction: column; justify-content: space-between; padding: 26mm 22mm; }
+  .cover img { width: 46mm; filter: none; }
+  .cover h1 { color: var(--cream); font-size: 40pt; line-height: 1.02; letter-spacing: -0.01em; }
+  .cover h1 em { color: #c8b48f; }
+  .cover p { max-width: 120mm; color: rgba(247, 244, 238, 0.82); font-size: 12pt; }
+  .kicker { font: 500 8.5pt "Jost", sans-serif; letter-spacing: 0.2em; text-transform: uppercase; color: #c8b48f; }
+  .cover .foot { display: flex; justify-content: space-between; font-size: 9pt; color: rgba(247, 244, 238, 0.7); border-top: 1px solid rgba(247, 244, 238, 0.2); padding-top: 6mm; }
+  .intro { font-size: 12pt; color: var(--ink2); max-width: 150mm; margin: 6mm 0 9mm; }
+  .q { display: grid; grid-template-columns: 16mm 1fr; gap: 0 4mm; padding: 5.2mm 0; border-top: 1px solid rgba(22, 33, 58, 0.14); break-inside: avoid; }
+  .q b { font: 500 22pt/1 "Cormorant Garamond", serif; color: var(--gold); }
+  .q h3 { font-size: 16pt; line-height: 1.15; margin-bottom: 1.6mm; }
+  .q p { margin: 0 0 1.6mm; color: var(--ink2); }
+  .q ul { margin: 0; padding-left: 4.5mm; color: var(--ink2); }
+  .q li { margin: 0.6mm 0; }
+  .tip { margin-top: 1.6mm; padding: 2.4mm 3.6mm; background: var(--lin); border-left: 2px solid var(--gold); font-size: 9.6pt; color: var(--ink); }
+  .pn { position: absolute; bottom: 10mm; left: 22mm; right: 22mm; display: flex; justify-content: space-between; font-size: 8pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink2); }
+  .end { background: var(--navy); color: var(--cream); }
+  .end h2 { color: var(--cream); font-size: 30pt; line-height: 1.05; margin: 8mm 0 6mm; }
+  .end h2 em { color: #c8b48f; }
+  .end p, .end li { color: rgba(247, 244, 238, 0.85); font-size: 11.5pt; }
+  .end ol { padding-left: 6mm; }
+  .end .box { margin-top: 10mm; padding: 7mm 8mm; border: 1px solid rgba(200, 180, 143, 0.6); }
+  .end .box strong { color: #fff; font-weight: 500; }
+  .end .pn { color: rgba(247, 244, 238, 0.6); }
+  .small { font-size: 8.5pt; color: rgba(247, 244, 238, 0.6); margin-top: 8mm; }
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <img src="../../assets/img/logo-embi-blanc.svg" alt="EMBI" />
+  <div>
+    <p class="kicker">Guide gratuit · Rénovation à Paris</p>
+    <h1>10 questions à se poser <em>avant de rénover</em> à Paris</h1>
+    <p>Une rénovation réussie se joue souvent avant le premier coup de marteau. Voici les questions que nous abordons à chaque première visite, et celles que vous pouvez déjà vous poser chez vous.</p>
+  </div>
+  <div class="foot"><span>EMBI · Le plaisir de rénover</span><span>5, rue Villebois-Mareuil · 75017 Paris</span></div>
+</section>
+
+<section class="page">
+  <p class="kicker" style="color: var(--gold)">Avant de commencer</p>
+  <h2 style="font-size: 26pt; margin-top: 3mm">Le projet, <em>avant les travaux.</em></h2>
+  <p class="intro">Ces premières questions fixent le cadre : ce que vous voulez changer, avec quel budget, et ce que votre immeuble et la mairie vous autorisent.</p>
+
+  <div class="q"><b>01</b><div>
+    <h3>Qu'est-ce que je veux vraiment changer&nbsp;?</h3>
+    <p>Partez de vos usages plutôt que des matériaux : une cuisine ouverte, une chambre de plus, des rangements, une salle d'eau pour les enfants…</p>
+    <ul><li>Listez pièce par pièce ce qui ne fonctionne pas aujourd'hui.</li><li>Séparez l'indispensable du souhaitable : c'est ce qui permettra d'arbitrer.</li><li>Rassemblez photos et références : elles valent mieux qu'une longue description.</li></ul>
+  </div></div>
+
+  <div class="q"><b>02</b><div>
+    <h3>Quel budget, et avec quelle marge&nbsp;?</h3>
+    <p>Fixez une enveloppe globale dès le départ et gardez une réserve pour les imprévus : dans l'ancien, on découvre souvent des réseaux ou des supports à reprendre une fois les revêtements déposés.</p>
+    <div class="tip">Priorité aux postes que l'on ne voit plus ensuite (électricité, plomberie, évacuations) : les finitions peuvent évoluer, eux ne se refont pas deux fois.</div>
+  </div></div>
+
+  <div class="q"><b>03</b><div>
+    <h3>Mon immeuble impose-t-il des règles&nbsp;?</h3>
+    <p>En copropriété, lisez le règlement avant de dessiner le projet. Les travaux qui touchent les parties communes ou l'aspect extérieur (mur porteur, fenêtres, colonnes, conduits) demandent en général l'accord de l'assemblée générale.</p>
+    <ul><li>Prévenez le syndic et les voisins, et respectez les horaires de travaux.</li><li>Prévoyez la protection des parties communes (ascenseur, escalier).</li></ul>
+  </div></div>
+
+  <div class="q"><b>04</b><div>
+    <h3>Faut-il une autorisation de la mairie&nbsp;?</h3>
+    <p>Les travaux qui modifient l'aspect extérieur (fenêtres, façade, toiture, devanture) demandent en général une déclaration préalable. À Paris s'appliquent les règles du plan local d'urbanisme et, dans les secteurs protégés, l'avis de l'Architecte des Bâtiments de France.</p>
+    <div class="tip">Comptez le délai d'instruction dans votre calendrier : généralement un mois, davantage en secteur protégé.</div>
+  </div></div>
+  <div class="pn"><span>EMBI · 10 questions avant de rénover</span><span>2</span></div>
+</section>
+
+<section class="page">
+  <p class="kicker" style="color: var(--gold)">Pendant la préparation</p>
+  <h2 style="font-size: 26pt; margin-top: 3mm">Le chantier, <em>dans le bon ordre.</em></h2>
+  <p class="intro">Organisation, priorités techniques, conception : ce qui se décide avant de signer évite la plupart des mauvaises surprises.</p>
+
+  <div class="q"><b>05</b><div>
+    <h3>Le logement reste-t-il habité pendant les travaux&nbsp;?</h3>
+    <p>Habiter sur place est possible, mais le chantier s'organise alors par zones, avec des coupures d'eau et d'électricité à planifier et davantage de protections contre la poussière. Libérer les lieux raccourcit souvent les délais.</p>
+  </div></div>
+
+  <div class="q"><b>06</b><div>
+    <h3>Quelles sont les priorités techniques&nbsp;?</h3>
+    <ul><li>L'électricité : une installation ancienne se met en sécurité avant toute finition.</li><li>La plomberie et les évacuations : état des canalisations, pentes, accès aux colonnes.</li><li>L'isolation et la ventilation : un logement mieux isolé doit être bien ventilé.</li></ul>
+  </div></div>
+
+  <div class="q"><b>07</b><div>
+    <h3>Faut-il un architecte ou un architecte d'intérieur&nbsp;?</h3>
+    <p>Dès que l'on redistribue les pièces, que l'on ouvre un mur ou que l'on dessine du mobilier sur mesure, un plan précis évite les mauvaises surprises. Toucher à un mur porteur demande en plus une étude de structure.</p>
+    <div class="tip">Chez EMBI, un architecte et un architecte d'intérieur dessinent le projet avant le chiffrage.</div>
+  </div></div>
+
+  <div class="q"><b>08</b><div>
+    <h3>Comment comparer les devis&nbsp;?</h3>
+    <ul><li>Un devis sérieux détaille chaque poste : quantités, fournitures, main-d'œuvre.</li><li>Vérifiez ce qui est inclus : dépose, évacuation des gravats, protections, nettoyage de fin de chantier.</li><li>Regardez la TVA appliquée : dans un logement de plus de deux ans, les travaux d'amélioration relèvent en principe du taux de 10 %, certains travaux de rénovation énergétique du taux de 5,5 %, sous conditions.</li><li>Comparez aussi les délais et l'échéancier de paiement, pas seulement le prix.</li></ul>
+  </div></div>
+  <div class="pn"><span>EMBI · 10 questions avant de rénover</span><span>3</span></div>
+</section>
+
+<section class="page">
+  <p class="kicker" style="color: var(--gold)">Avant de signer</p>
+  <h2 style="font-size: 26pt; margin-top: 3mm">Les garanties, <em>et le bon interlocuteur.</em></h2>
+  <p class="intro">Deux dernières questions, souvent oubliées, qui font la différence le jour de la réception des travaux.</p>
+
+  <div class="q"><b>09</b><div>
+    <h3>Qui est assuré, et pour quoi&nbsp;?</h3>
+    <p>Demandez l'attestation d'assurance de responsabilité civile décennale de l'entreprise, et vérifiez qu'elle couvre bien les travaux prévus et la période du chantier.</p>
+    <ul><li>Garantie de parfait achèvement : un an après la réception.</li><li>Garantie de bon fonctionnement des équipements : deux ans.</li><li>Garantie décennale : dix ans pour les dommages qui compromettent la solidité de l'ouvrage.</li></ul>
+  </div></div>
+
+  <div class="q"><b>10</b><div>
+    <h3>Qui coordonne le chantier&nbsp;?</h3>
+    <p>Démolition, maçonnerie, plomberie, électricité, menuiserie, sols, peinture : une rénovation fait intervenir de nombreux corps de métier, dans un ordre précis. Sans coordination, ce sont les retards et les reprises qui s'accumulent.</p>
+    <div class="tip">À la fin, la réception des travaux se fait avec un procès-verbal : notez-y les réserves éventuelles, elles devront être levées.</div>
+  </div></div>
+
+  <div class="q"><b>+</b><div>
+    <h3>Et les aides à la rénovation énergétique&nbsp;?</h3>
+    <p>Isolation, fenêtres, chauffage : certains travaux ouvrent droit à des aides publiques, souvent réservées aux entreprises qualifiées RGE. Leurs conditions évoluent régulièrement : vérifiez celles en vigueur sur france-renov.gouv.fr avant de signer.</p>
+  </div></div>
+  <div class="pn"><span>EMBI · 10 questions avant de rénover</span><span>4</span></div>
+</section>
+
+<section class="page end">
+  <img src="../../assets/img/logo-embi-blanc.svg" alt="EMBI" style="width: 34mm" />
+  <h2>Et maintenant, <em>parlons de votre projet.</em></h2>
+  <p>Depuis 2007, EMBI rénove à Paris hôtels, boutiques, restaurants, appartements et maisons, avec un architecte, un architecte d'intérieur et un réseau de 40 professionnels coordonnés par un seul interlocuteur.</p>
+  <ol>
+    <li>Vous nous décrivez votre projet, par téléphone ou en ligne.</li>
+    <li>Votre interlocuteur dédié organise une visite.</li>
+    <li>Vous recevez une étude de faisabilité et un devis gratuit et détaillé.</li>
+  </ol>
+  <div class="box">
+    <p><strong>01 45 72 65 24</strong> · sec@embi.fr</p>
+    <p>Bureau et showroom carrelages et parquets : 5, rue Villebois-Mareuil, 75017 Paris, du lundi au vendredi de 10 h à 18 h.</p>
+  </div>
+  <p class="small">Ce guide donne des repères généraux. Les règles (urbanisme, copropriété, TVA, aides) évoluent : elles sont à vérifier au moment de votre projet.</p>
+  <div class="pn"><span>EMBI · Entreprise de Maintenance de Bâtiment et Industrie</span><span>5</span></div>
+</section>
+
+</body>
+</html>

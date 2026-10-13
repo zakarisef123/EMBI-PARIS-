@@ -88,6 +88,8 @@ const doc = (k) => {
 
 /* ───── Données communes ───── */
 const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+// les maisons de particuliers (titre « Maison … ») : « Maison rénovée » plutôt qu'« Appartement rénové »
+const leadOf = (p) => (p.category === "particulier" && /^maison/i.test(p.title) ? "Maison rénovée" : LEAD[p.category]);
 const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
 // les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire
 const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/savoir-faire/" };
@@ -109,7 +111,7 @@ const BUSINESS = {
   legalName: "Entreprise de Maintenance de Bâtiment et Industrie (E.M.B.I)",
   vatID: "FR61494788060",
   foundingDate: "2007-03-12",
-  description: "Rénovation de A à Z à Paris : hôtels, boutiques, restaurants et appartements.",
+  description: "Rénovation à Paris, de l'étude à la livraison : hôtels, boutiques, restaurants et appartements.",
   url: `${SITE}/`,
   logo: `${SITE}/assets/img/apple-touch-icon.png`,
   image: abs(sitePhoto("hero").src),
@@ -223,7 +225,7 @@ const ctaBand = (c, content, title = "", inline = false) => {
 // Un bandeau par page, après la 2e section (au milieu de la page), sauf si la page en a déjà un.
 const withCta = (o) => {
   const proj = /^\/realisations\/[\w-]+\/$/.test(o.path) && PROJECTS.find((p) => projectUrl(p) === o.path);
-  const c = CTAS.pages[o.path] || (proj && CTAS.projects[proj.category]);
+  const c = CTAS.pages[o.path] || (proj && ((/^maison/i.test(proj.title) && CTAS.projects.maison) || CTAS.projects[proj.category]));
   if (!c || o.content.includes("cta-band")) return o;
   const ends = [...o.content.matchAll(/\n {4}<\/section>/g)];
   if (ends.length < 3) { warn(`${o.path} : pas assez de sections pour placer le bandeau d'appel à l'action.`); return o; }
@@ -234,6 +236,7 @@ const withCta = (o) => {
 
 const layout = (o) => {
   o = withCta(o);
+  o = { ...o, content: withHeroQuiz(o.content, o.path) };
   const list = o.heroSlides || heroList(o.path);
   const heroPh = o.heroPhoto || (list && list[0]);
   if (heroPh || list) o = { ...o, content: withHeroPhoto(o.content, heroPh, o.heroPhoto && !o.heroSlides ? null : list) };
@@ -304,7 +307,7 @@ const pageHero = (crumbs, h1, lead, actions = "", readme = false) => `    <secti
       </div>
     </section>`;
 const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" data-cat="${p.category}">
-            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</span>
+            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
 // Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
@@ -317,6 +320,27 @@ const QUIZ_Q = [
   ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
   ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
 ];
+// Premier pas, en haut des pages : la 1re question du questionnaire. Un clic coche la réponse et descend au questionnaire
+// (assets/js/funnel.js) ; sur l'accueil, qui n'a pas de questionnaire, le lien ouvre celui de la page Contact, déjà rempli.
+const HERO_QUIZ = new Set(["/", "/professionnels/", "/renovation/", "/renovation/interieur/", "/renovation/exterieur/", "/savoir-faire/", "/realisations/", "/conception-sur-mesure/", "/projets-specifiques/", "/methode/", "/signature/", "/equipe/", "/qualifications/", "/showroom/"]);
+const heroQuiz = (onPage) => `<div class="hq" role="group" aria-labelledby="hq-t"><p class="hq__q" id="hq-t">Quel lieu voulez-vous transformer&nbsp;?</p><div class="hq__opts">${QUIZ_Q[0][2].map(([v]) => (onPage ? `<a class="hq__opt" href="#projet" data-quiz-lieu="${v}">${v}</a>` : `<a class="hq__opt" href="/contact/?lieu=${encodeURIComponent(v)}#projet">${v}</a>`)).join("")}</div></div>`;
+const withHeroQuiz = (content, path_) => {
+  if (!HERO_QUIZ.has(path_)) return content;
+  const q = heroQuiz(content.includes('id="projet"'));
+  if (path_ === "/") return content.replace(/(<h1 class="hero__claim">[\s\S]*?<\/h1>)/, `<div class="hero__first">$1\n      ${q}</div>`);
+  if (/<div class="cs-hero__actions">[\s\S]*?<\/div>/.test(content)) return content.replace(/(<div class="cs-hero__actions">[\s\S]*?<\/div>)/, `$1\n        ${q}`);
+  return content.replace(/(<p class="cs-hero__lead">[\s\S]*?<\/p>)/, `$1\n        ${q}`);
+};
+// À côté du questionnaire : quelques clients (logos de assets/img/logos/) et deux repères vérifiables
+const TRUST = ["loro-piana", "byredo", "hotel-panache", "le-grand-pigalle", "hotel-paradis", "tartine-et-chocolat-harrods"];
+const funnelTrust = () => `<div class="funnel__trust">
+            <p class="funnel__trust-t">Depuis 2007 · 40 artisans coordonnés · Ils nous ont confié leurs lieux</p>
+            <ul class="funnel__logos">${TRUST.map((id) => {
+              const p = PROJECTS.find((x) => x.id === id);
+              const file = p && ["svg", "png", "webp"].map((x) => `${id}.${x}`).find((n) => fs.existsSync(path.join(ROOT, "assets/img/logos", n)));
+              return file ? `<li><img src="/assets/img/logos/${file}" alt="${esc(p.title)}" loading="lazy" /></li>` : "";
+            }).join("")}</ul>
+          </div>`;
 const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && cat !== "particulier" ? ` data-preset="${cat}"` : ""}>
       <div class="funnel__wrap">
         <div class="funnel__intro">
@@ -328,7 +352,9 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
             <li><b>2</b><span>Votre interlocuteur dédié vous recontacte</span></li>
             <li><b>3</b><span>Étude de faisabilité et devis gratuit et détaillé</span></li>
           </ol>
-          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a></p>
+          <p class="funnel__tel">Vous préférez en parler&nbsp;? <a href="tel:+33145726524">01 45 72 65 24</a> · <a href="#rappel" data-rappel>être rappelé</a></p>
+          <p class="funnel__tel">Pas encore prêt&nbsp;? <a href="#guide" data-guide>Recevoir notre guide : 10 questions avant de rénover à Paris</a></p>
+          ${funnelTrust()}
         </div>
         <form class="quiz__card" id="quiz" name="questionnaire" method="POST" action="{{form:action}}">
           <input type="hidden" name="_subject" value="Votre projet en 3 questions (site EMBI)" />
@@ -529,7 +555,7 @@ const heroSlides = () => {
   const slides = [
     { ph: sitePhoto("hero"), alt: "Salle du restaurant Fish Club à Paris, rénové par EMBI", label: "Fish Club · Restaurant" },
     ...HERO_SLIDES.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean).map((p) => ({
-      ph: PHOTOS[p.id][0], alt: `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
+      ph: PHOTOS[p.id][0], alt: `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
     })),
   ];
   return `<div class="hero__photo" id="heroSlides">
@@ -570,7 +596,7 @@ const sectorMosaic = () => `<div class="mosaic container">
             const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
             const n = list.length;
             return `<a class="mosaic__item mosaic__item--${i + 1} reveal" href="${s.path}">
-            <figure class="mosaic__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}<figcaption>${esc(cover.title)}</figcaption></figure>
+            <figure class="mosaic__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${leadOf(cover).toLowerCase()} par EMBI`, 'loading="lazy"')}<figcaption>${esc(cover.title)}</figcaption></figure>
             <span class="mosaic__n">${String(i + 1).padStart(2, "0")} · ${n} chantier${n > 1 ? "s" : ""}</span>
             <h3 class="mosaic__t">${s.nav}</h3>
             <p>${s.card}</p>
@@ -615,7 +641,7 @@ const worksCards = () => {
   const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 6);
   return `<div class="works__grid">
             ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category]}</span>
             </a>`).join("\n            ")}
@@ -627,7 +653,7 @@ const showcase = () => {
   const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 7);
   return `<div class="show" id="showcase">
           <div class="show__main">
-            ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
+            ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
             <div class="show__dots">${list.map((p, i) => `<button type="button"${i ? "" : ' class="is-on"'} aria-label="${esc(p.title)}"></button>`).join("")}</div>
           </div>
           <button class="show__peek" type="button" aria-label="Chantier suivant">
@@ -638,12 +664,14 @@ const showcase = () => {
 };
 
 // Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
+// photo de chaque secteur : le chantier choisi ici, sinon le mieux placé (mis en avant, puis photos hébergées sur le site)
+const SECTOR_COVER = { particulier: "maison-en-pierre" };
 const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
             ${SECTORS.map((s) => {
               const list = PROJECTS.filter((p) => p.category === s.category);
-              const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+              const cover = list.find((p) => p.id === SECTOR_COVER[s.category]) || localFirst([...list].sort((a, b) => (a.featured || 99) - (b.featured || 99)))[0];
               return `<a class="works__card reveal" href="${s.path}">
-              <figure class="works__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="works__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${leadOf(cover).toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
               <h3 class="works__t">${s.nav}</h3>
             </a>`;
             }).join("\n            ")}
@@ -659,7 +687,7 @@ const insta = () => {
       <div class="pn__wrap">
         <div class="insta__head">${ig ? `<a class="insta__icon" href="${esc(ig)}" target="_blank" rel="noopener" aria-label="Instagram EMBI">${icon}</a>` : `<span class="insta__icon">${icon}</span>`}<span class="insta__handle">${esc(handle)}</span><span class="insta__line" aria-hidden="true"></span>${ig ? `<a class="insta__follow" href="${esc(ig)}" target="_blank" rel="noopener">Suivez-nous</a>` : `<a class="insta__follow" href="/realisations/">Voir les réalisations</a>`}</div>
         <div class="insta__grid">
-          ${pics.map((p) => `<a href="${ig ? esc(ig) : projectUrl(p)}"${ig ? ' target="_blank" rel="noopener"' : ""} class="insta__pic">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</a>`).join("\n          ")}
+          ${pics.map((p) => `<a href="${ig ? esc(ig) : projectUrl(p)}"${ig ? ' target="_blank" rel="noopener"' : ""} class="insta__pic">${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, 'loading="lazy"')}</a>`).join("\n          ")}
         </div>
       </div>
     </section>`;
@@ -689,14 +717,15 @@ const BLOCKS = {
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
     const order = ["hotel", "boutique", "restaurant", "particulier", "savoir-faire"];
-    const list = [...featured, ...PROJECTS.filter((p) => !p.featured).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
+    const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
     return `<div class="filters realisations-all" role="group" aria-label="Filtrer les réalisations">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
           </div>
           <div class="works__grid works__grid--4 works__grid--all" id="grid">
             ${list.map((p) => `<a class="works__card" href="${projectUrl(p)}" data-cat="${p.category}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category] || ""}</span>
             </a>`).join("\n            ")}
@@ -731,7 +760,7 @@ const BLOCKS = {
           <ul class="ref-grid">
           ${list.map(({ p }, k) => `<li class="ref-tile" data-cat="${p.category}">
             <a href="${projectUrl(p)}">
-              <figure class="ref-tile__img">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="ref-tile__img">${img(cover(p), `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
               <span class="ref-tile__cap"><span class="ref-tile__n">${String(k + 1).padStart(2, "0")}</span><strong class="ref-tile__t">${esc(p.title)}</strong>${p.lieu ? `<em class="ref-tile__c">${esc(p.lieu)}</em>` : ""}</span>
             </a>
           </li>`).join("\n          ")}
@@ -742,7 +771,7 @@ const BLOCKS = {
         <div class="cta-band cta-band--dark reveal">
           <p class="cta-band__title">Votre lieu, <em>notre prochaine réalisation&nbsp;?</em></p>
           <div class="cta-band__actions">
-            <a href="/contact/" class="btn btn--accent" data-magnetic>Demander un devis gratuit <span aria-hidden="true">→</span></a>
+            <a href="/contact/" class="btn btn--accent" data-magnetic>Recevoir mon devis gratuit <span aria-hidden="true">→</span></a>
             <a href="/contact/#projet" class="btn btn--outline-light">Estimer mon projet en 3 questions</a>
           </div>
         </div>
@@ -819,11 +848,11 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   if (!all.length) return "";
   const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
   const slide = (p, k) => {
-    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "De A à Z"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
+    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Tous corps de métier"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
-            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
-              <p class="phare__k">${k ? otherKicker : firstKicker}</p>
+              <p class="phare__k">${((x) => (x === "Appartement rénové" ? leadOf(p) : x))(k ? otherKicker : firstKicker)}</p>
               <h3 class="phare__t">${esc(p.title)}</h3>
               <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
               <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
@@ -864,7 +893,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
     bodyAttrs: ` data-cta-type="${s.category}"`,
     heroSlides: heroSlidesOf(list),
     content: fill(SECTOR_TPL, {
-      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
+      hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
       phare: sectorPhare(s, list),
       prestations: sectorPrest(s),
@@ -885,10 +914,10 @@ PROJECTS.forEach((p, i) => {
   const cat = CATEGORIES[p.category] || "";
   const sec = sectorOf(p.category);
   const photos = PHOTOS[p.id];
-  const lead = p.text || `${LEAD[p.category] || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
+  const lead = p.text || `${leadOf(p) || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
   const description = p.text
-    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation menée de A à Z par EMBI, photos et détails du chantier.`
-    : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} de A à Z par EMBI à Paris. Photos et détails du chantier.`;
+    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation conduite par EMBI, de l'étude à la livraison : photos et détails du chantier.`
+    : `${p.title} : ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI à Paris, de l'étude à la livraison. Photos et détails du chantier.`;
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -912,7 +941,7 @@ PROJECTS.forEach((p, i) => {
     lightbox: true,
     crumbs: [{ name: "Réalisations", path: "/realisations/" }, { name: p.title, path: path_ }],
     faq: FAQ.project(p, sec.path),
-    jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(LEAD[p.category] || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
+    jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(leadOf(p) || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
       category: p.category,
@@ -920,7 +949,7 @@ PROJECTS.forEach((p, i) => {
       // sinon les photos du chantier qui défilent (assets/js/hero.js)
       // (un format absent : photos trop petites ou pas assez horizontales pour ce cadre, la photo reste à cet endroit)
       cover: (() => {
-        const alt = `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`;
+        const alt = `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`;
         const wide = hasVideo(p.id, "paysage"), tall = hasVideo(p.id, "portrait");
         const video = wide || tall ? `<video class="pj-hero__video"${wide ? ` data-video-wide="${VIDEOS[p.id].paysage}"` : ""}${tall ? ` data-video-tall="${VIDEOS[p.id].portrait}"` : ""} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "";
         if ((wide && tall) || photos.length < 2) return img(photos[0], alt, 'id="pjCover" fetchpriority="high" data-hero') + video;
@@ -938,14 +967,19 @@ PROJECTS.forEach((p, i) => {
           </div>
           ${p.credit ? `<p class="pj-show__credit">Photos : ${esc(p.credit)}</p>` : ""}
         </div>` : "",
-      storyTitle: esc(`${LEAD[p.category] || "Lieu rénové"} de A à Z à Paris`),
+      storyTitle: esc(`${leadOf(p) || "Lieu rénové"}${/^maison/i.test(p.title) && !/paris/i.test(p.lieu || "") ? "" : " à Paris"}, du projet à la livraison`),
       story: story.map((t) => `<p>${esc(t)}</p>`).join(""),
       works: p.travaux && p.travaux.length ? `<p class="pj-works-line"><strong>Travaux réalisés&nbsp;:</strong> ${esc(p.travaux.map((t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", "))}.</p>` : "",
       result: p.deco || p.archi
-        ? `<p class="pj-result">${p.deco ? `Une réalisation menée de A à Z sur une décoration signée ${esc(p.deco)}.` : `Une réalisation menée de A à Z sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
+        ? `<p class="pj-result">${p.deco ? `Un chantier conduit de la première visite à la livraison, sur une décoration signée ${esc(p.deco)}.` : `Un chantier conduit de la première visite à la livraison, sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
         : `<p class="pj-result">Découvrez le résultat en images ci-dessous.</p>`,
       count: photos.length > 1 ? `${photos.length} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir",
       singleClass: photos.length === 1 ? " is-single" : "",
+      // après la galerie : le visiteur vient de regarder le chantier, on lui propose le sien (lieu déjà coché)
+      nextStep: (() => {
+        const lieu = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: /maison/i.test(p.title) ? "Maison" : "Appartement" }[p.category];
+        return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
+      })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
@@ -1048,7 +1082,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
     description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
     crumbs,
     jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
-    content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
+    content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
     <section class="section" id="secteurs">
       <div class="container">
         <div class="section__head">
@@ -1087,7 +1121,7 @@ layout({
   title: "Rénovation intérieure et extérieure à Paris | EMBI",
   description: "Rénovation intérieure, rénovation énergétique et travaux extérieurs à Paris : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.",
   crumbs: [{ name: "Rénovation", path: "/renovation/" }],
-  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
+  content: expand(`${pageHero([{ name: "Rénovation", path: "/renovation/" }], "Rénovation, <em>de l'intérieur jusqu'au toit.</em>", "Rénovation intérieure, performance énergétique, façades et toitures : EMBI coordonne 40 professionnels de tous corps de métier, avec un seul interlocuteur, de l'étude à la livraison.", `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Nos rénovations</a>`)}
     <section class="pn works" id="types">
       <div class="pn__wrap">
         <div class="works__head reveal">
@@ -1163,11 +1197,11 @@ SERVICES.forEach((sv) => {
     description: sv.description,
     crumbs,
     jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
-    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Demander un devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
+    content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
 ${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
-          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>de A à Z.</em></h2></div>
+          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>tous corps de métier.</em></h2></div>
           <p class="section__aside reveal">Un interlocuteur dédié coordonne chaque corps de métier, de l'étude de faisabilité à la livraison.</p>
         </div>
         <ol class="svc__grid">
@@ -1294,7 +1328,7 @@ URGENCES.forEach((u) => {
     crumbs,
     faq: u.faq,
     jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
-    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander une intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
+    content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander mon intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
 
 ${urgenceForm(URGENCES, u)}
 
