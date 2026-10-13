@@ -41,7 +41,7 @@ La génération vérifie : un seul H1 par page, un texte alt sur chaque image, t
 Les formulaires sont envoyés par [FormSubmit](https://formsubmit.co) à l'adresse de `site.config.js` (`formsubmit`, par défaut sec@embi.fr) :
 - le formulaire de devis de la page Contact, avec un onglet particulier et un onglet professionnel ;
 - la demande d'intervention des pages Urgence : le visiteur choisit le problème parmi ceux du métier (plomberie, électricité, assainissement ; sur téléphone, la liste défile) ;
-- le questionnaire « Votre projet en 3 questions » en bas des autres pages.
+- le questionnaire « Votre projet, en quelques clics » en bas des autres pages (6 questions : lieu, travaux, surface, occupation, budget, délai, puis les coordonnées).
 
 L'objet de l'e-mail résume la demande (par exemple « URGENT · Plomberie : Fuite d'eau · 75017 »), et chaque réponse arrive avec son intitulé. Envoi et contrôles : `assets/js/forms.js`. Une photo ou un plan peut être joint (5 Mo au plus) : la demande part alors par l'envoi classique de FormSubmit, à vérifier une fois avec une vraie pièce jointe après l'activation.
 1. **Activation (une seule fois)** : une fois le site en ligne, envoyez une demande test depuis `/contact/`. FormSubmit envoie un e-mail « Confirm your email » à sec@embi.fr : cliquez sur le lien d'activation. Les demandes suivantes arrivent directement dans la boîte mail.
@@ -61,7 +61,7 @@ npm run convertir       # crée assets/img/projets/<chantier>/… et assets/img/
 Pour des photos haute définition, déposez-les dans `photos-originales/projets/<id-du-chantier>/` (01.jpg = couverture) et relancez `npm run convertir` : le chantier passe aussitôt sur ses photos locales, les chantiers déjà convertis sont conservés. Un chantier sans photos locales garde celles de l'ancien site. `photos: "local"` dans `site.config.js` signale seulement les chantiers qui n'ont pas encore leurs photos.
 
 ## Vidéos des chantiers
-Chaque chantier dont les photos sont hébergées sur le site a sa vidéo, faite uniquement de ses photos, sans son, qui boucle sans à-coup :
+Chaque chantier dont les photos sont hébergées sur le site a sa vidéo, faite uniquement de ses photos (une seule photo à la fois, en plein cadre), sans son, qui boucle sans à-coup :
 `assets/video/projets/<chantier>-paysage.mp4` (en-tête sur ordinateur), `-portrait.mp4` (en-tête sur téléphone) et `-carre.mp4` (miniature dans les listes, recadrée par le site). Elles ne se chargent que lorsqu'elles sont visibles (`assets/js/videos.js`) et ne s'affichent pas si le visiteur demande moins d'animations ou économise ses données : la photo reste alors en place. Pour les refaire après un changement de photos (il faut ffmpeg) :
 ```
 cd scripts/videos && npm install

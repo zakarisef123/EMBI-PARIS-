@@ -7,9 +7,9 @@
  *   assets/video/projets/<chantier>-carre.mp4    miniature du chantier dans les listes (1:1, recadrée par le site)
  *   assets/video/projets/videos.json             liste lue par scripts/build.js
  *
- * Un format n'est fait que si les photos du chantier s'y prêtent : assez de plans nets (photos assez grandes
- * pour le cadre) et, pour l'en-tête ordinateur, au moins deux plans d'une seule photo horizontale. Sinon le
- * site garde la photo à cet endroit ; dès que de meilleures photos arrivent, relancer l'outil suffit.
+ * Une seule photo à la fois, en plein cadre (jamais deux photos réunies dans l'image). Un format n'est fait que si
+ * les photos du chantier s'y prêtent : au moins deux photos assez grandes pour le cadre. Sinon le site garde la
+ * photo à cet endroit ; dès que de meilleures photos arrivent, relancer l'outil suffit.
  *
  * Usage (outil local, Netlify ne l'exécute pas) :
  *   cd scripts/videos && npm install && node generer.js            # tous les chantiers dont les photos sont sur le site
@@ -56,32 +56,20 @@ async function photosOf(p) {
   return out;
 }
 
-// découpage en plans selon le format : photo seule quand son sens convient au cadre et qu'elle est assez grande,
-// sinon deux photos réunies (côte à côte ou l'une sous l'autre) ; les photos trop petites pour le cadre sont écartées
+// découpage en plans selon le format (voir planOf)
 const MAXUP = 1.4; // agrandissement maximal accepté (mouvement de caméra compris)
 const paneOf = (F, n, split) => (n === 1 ? [F.W, F.H] : split === "h" ? [(F.W - F.gap) / 2, F.H] : [F.W, (F.H - F.gap) / 2]);
 const sharpIn = (ph, [pw, ph_]) => Math.max(pw / ph.w, ph_ / ph.h) * ZOOM <= MAXUP;
 function planOf(fmt, photos) {
   const F = FORMATS[fmt];
-  const frameR = F.W / F.H, split = frameR > 1 ? "h" : "v";
+  const frameR = F.W / F.H;
   const shots = [];
-  if (fmt === "carre") {
-    photos.filter((ph) => sharpIn(ph, paneOf(F, 1))).slice(0, F.max).forEach((ph) => shots.push({ photos: [ph] }));
-  } else {
-    const fits = (ph) => (frameR > 1 ? ph.r >= 1.15 : ph.r <= 0.9);
-    const alone = (ph) => fits(ph) && Math.max(ph.w, ph.h) >= F.seule && sharpIn(ph, paneOf(F, 1));
-    const rest = photos.filter((ph) => alone(ph) || sharpIn(ph, paneOf(F, 2, split)));
-    while (rest.length && shots.length < F.max) {
-      const ph = rest.shift();
-      if (alone(ph)) { shots.push({ photos: [ph] }); continue; }
-      // à réunir avec la suivante du même sens (ou la suivante tout court)
-      let j = rest.findIndex((x) => !fits(x) && !alone(x));
-      if (j < 0) j = rest.findIndex((x) => !alone(x));
-      if (j < 0) j = 0;
-      const mate = rest.splice(j, 1)[0];
-      if (mate) shots.push({ photos: [ph, mate], split });
-    }
-  }
+  // une seule photo à la fois, en plein cadre (jamais deux photos réunies dans l'image) : la photo principale d'abord,
+  // puis celles dont le sens convient au cadre, puis les autres, recadrées ; les photos trop petites pour le cadre sont écartées
+  const fits = (ph) => fmt === "carre" || (frameR > 1 ? ph.r >= 1.15 : ph.r <= 0.9);
+  const ok = photos.filter((ph) => sharpIn(ph, paneOf(F, 1)));
+  const [first, ...others] = ok;
+  [first, ...others.filter(fits), ...others.filter((ph) => !fits(ph))].filter(Boolean).slice(0, F.max).forEach((ph) => shots.push({ photos: [ph] }));
   return { W: F.W, H: F.H, D: F.D, C: F.C, fps: F.fps, gap: F.gap, shots };
 }
 
@@ -90,7 +78,7 @@ function qualityOf(fmt, plan) {
   const F = FORMATS[fmt];
   const net = plan.shots.filter((sh) => sh.photos.every((ph) => sharpIn(ph, paneOf(F, sh.photos.length, sh.split)))).length;
   const seules = plan.shots.filter((sh) => sh.photos.length === 1).length;
-  const ok = plan.shots.length >= 2 && net >= 2 && net >= plan.shots.length - 1 && seules >= F.seules;
+  const ok = plan.shots.length >= 2 && net >= 2 && net >= plan.shots.length - 1;
   return { ok, net, seules, plans: plan.shots.length };
 }
 const forPage = (plan) => ({ ...plan, shots: plan.shots.map((sh) => ({ photos: sh.photos.map((ph) => ph.url), split: sh.split })) });

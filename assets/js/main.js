@@ -414,7 +414,7 @@
       text: "Construction de maison ou rénovation totale de locaux professionnels : notre expérience du terrain nous permet de prendre en charge les projets d'envergure.",
       tags: ["Structure métallique", "Structure bois", "Ouvertures de baies", "Normes coupe-feu"] },
     interieur: { n: "02", label: "Intérieur", title: "Rénovations intérieures",
-      text: "Aménagement et rénovation d'intérieur, pour votre habitation (maison, appartement…) comme pour votre local professionnel (hôtel, restaurant, bureau, boutique…).",
+      text: "Aménagement et rénovation d'intérieur, pour votre habitation (maison, appartement…) comme pour votre local professionnel (hôtel, restaurant, boutique…).",
       tags: ["Plomberie", "Électricité", "Revêtements muraux", "Isolation", "Décoration"] },
     exterieur: { n: "03", label: "Façades", title: "Façades & extérieurs",
       text: "Ravalement, menuiserie extérieure, portes et fenêtres, changement de revêtement, mais aussi balcons, galeries, patios, terrasses et vérandas.",

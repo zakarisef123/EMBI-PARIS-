@@ -28,7 +28,7 @@ module.exports = {
 
   pro: {
     profil: ["Exploitant ou propriétaire", "Architecte, décorateur", "Syndic, gestionnaire", "Enseigne, réseau", "Autre"],
-    etablissement: ["Hôtel", "Restaurant, café", "Boutique, corner", "Bureaux", "Immeuble, copropriété", "Autre"],
+    etablissement: ["Hôtel", "Restaurant, café", "Boutique, corner", "Immeuble, copropriété", "Autre"],
     nature: ["Création ou transformation complète", "Rénovation, embellissement", "Mise aux normes (PMR, incendie, électricité)", "Chambres et salles de bains", "Plomberie, électricité", "Agencement, mobilier sur mesure", "Façade, ravalement", "Conception par notre architecte", "Dépannage, urgence"],
     exploitation: ["Reste ouvert (site occupé)", "Sera fermé", "À définir"],
     budget: ["Moins de 50 000 €", "50 000 à 150 000 €", "150 000 à 500 000 €", "Plus de 500 000 €", "À définir"],

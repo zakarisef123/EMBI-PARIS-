@@ -41,7 +41,7 @@ module.exports = [
     },
     faq: [
       ["Pouvez-vous rénover un appartement entier ?", "Oui. EMBI prend en charge la rénovation complète d'un appartement, de l'étude de faisabilité à la livraison, en coordonnant tous les corps de métier."],
-      ["Intervenez-vous sur les locaux professionnels ?", "Oui : hôtels, boutiques, restaurants et bureaux. Les travaux peuvent inclure la remise aux normes en parallèle de la décoration."],
+      ["Intervenez-vous sur les locaux professionnels ?", "Oui : hôtels, boutiques et restaurants. Les travaux peuvent inclure la remise aux normes en parallèle de la décoration."],
       ["Puis-je choisir mes matériaux sur place ?", "Notre showroom carrelages et parquets du 17e vous permet de voir et toucher les matières avant de décider."],
       ["Qu'est-ce que le DPE ?", "Le diagnostic de performance énergétique classe un logement de A (très performant) à G (très énergivore), selon sa consommation d'énergie et ses émissions de gaz à effet de serre. Il est obligatoire pour vendre ou louer et reste valable 10 ans. Nos travaux de rénovation énergétique sont pensés pour respecter ses exigences et faire progresser la classe de votre logement."],
       ["Qu'est-ce que la qualification RGE ?", "RGE signifie « Reconnu Garant de l'Environnement ». Faire réaliser ses travaux par une entreprise RGE est une condition pour prétendre à la plupart des aides publiques à la rénovation énergétique."],

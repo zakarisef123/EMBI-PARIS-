@@ -8,17 +8,20 @@
   "appartement-lumineux": {
     "carre": "/assets/video/projets/appartement-lumineux-carre.mp4",
     "portrait": "/assets/video/projets/appartement-lumineux-portrait.mp4",
-    "carte": "/assets/video/projets/appartement-lumineux-carte.mp4"
+    "carte": "/assets/video/projets/appartement-lumineux-carte.mp4",
+    "paysage": "/assets/video/projets/appartement-lumineux-paysage.mp4"
   },
   "appartement-paris-5e": {
     "carre": "/assets/video/projets/appartement-paris-5e-carre.mp4",
     "portrait": "/assets/video/projets/appartement-paris-5e-portrait.mp4",
-    "carte": "/assets/video/projets/appartement-paris-5e-carte.mp4"
+    "carte": "/assets/video/projets/appartement-paris-5e-carte.mp4",
+    "paysage": "/assets/video/projets/appartement-paris-5e-paysage.mp4"
   },
   "appartement-renovation-complete": {
     "carre": "/assets/video/projets/appartement-renovation-complete-carre.mp4",
     "portrait": "/assets/video/projets/appartement-renovation-complete-portrait.mp4",
-    "carte": "/assets/video/projets/appartement-renovation-complete-carte.mp4"
+    "carte": "/assets/video/projets/appartement-renovation-complete-carte.mp4",
+    "paysage": "/assets/video/projets/appartement-renovation-complete-paysage.mp4"
   },
   "appartement-rue-saint-dominique": {
     "carre": "/assets/video/projets/appartement-rue-saint-dominique-carre.mp4",
@@ -41,7 +44,8 @@
   "cafe-pinson": {
     "paysage": "/assets/video/projets/cafe-pinson-paysage.mp4",
     "carre": "/assets/video/projets/cafe-pinson-carre.mp4",
-    "carte": "/assets/video/projets/cafe-pinson-carte.mp4"
+    "carte": "/assets/video/projets/cafe-pinson-carte.mp4",
+    "portrait": "/assets/video/projets/cafe-pinson-portrait.mp4"
   },
   "charpente-bois": {
     "carre": "/assets/video/projets/charpente-bois-carre.mp4",
@@ -52,7 +56,8 @@
   "etancheite-toiture-terrasse": {
     "carre": "/assets/video/projets/etancheite-toiture-terrasse-carre.mp4",
     "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4",
-    "carte": "/assets/video/projets/etancheite-toiture-terrasse-carte.mp4"
+    "carte": "/assets/video/projets/etancheite-toiture-terrasse-carte.mp4",
+    "paysage": "/assets/video/projets/etancheite-toiture-terrasse-paysage.mp4"
   },
   "fish-club": {
     "carre": "/assets/video/projets/fish-club-carre.mp4",
@@ -80,25 +85,32 @@
   },
   "loro-piana": {
     "carre": "/assets/video/projets/loro-piana-carre.mp4",
-    "carte": "/assets/video/projets/loro-piana-carte.mp4"
+    "carte": "/assets/video/projets/loro-piana-carte.mp4",
+    "portrait": "/assets/video/projets/loro-piana-portrait.mp4",
+    "paysage": "/assets/video/projets/loro-piana-paysage.mp4"
   },
   "maison-a-colombages": {
     "carre": "/assets/video/projets/maison-a-colombages-carre.mp4",
     "portrait": "/assets/video/projets/maison-a-colombages-portrait.mp4",
-    "carte": "/assets/video/projets/maison-a-colombages-carte.mp4"
+    "carte": "/assets/video/projets/maison-a-colombages-carte.mp4",
+    "paysage": "/assets/video/projets/maison-a-colombages-paysage.mp4"
   },
   "maison-en-pierre": {
     "carre": "/assets/video/projets/maison-en-pierre-carre.mp4",
     "portrait": "/assets/video/projets/maison-en-pierre-portrait.mp4",
-    "carte": "/assets/video/projets/maison-en-pierre-carte.mp4"
+    "carte": "/assets/video/projets/maison-en-pierre-carte.mp4",
+    "paysage": "/assets/video/projets/maison-en-pierre-paysage.mp4"
   },
   "mosaique": {
-    "carte": "/assets/video/projets/mosaique-carte.mp4"
+    "carte": "/assets/video/projets/mosaique-carte.mp4",
+    "paysage": "/assets/video/projets/mosaique-paysage.mp4",
+    "portrait": "/assets/video/projets/mosaique-portrait.mp4"
   },
   "ravalement-rue-nollet": {
     "carre": "/assets/video/projets/ravalement-rue-nollet-carre.mp4",
     "portrait": "/assets/video/projets/ravalement-rue-nollet-portrait.mp4",
-    "carte": "/assets/video/projets/ravalement-rue-nollet-carte.mp4"
+    "carte": "/assets/video/projets/ravalement-rue-nollet-carte.mp4",
+    "paysage": "/assets/video/projets/ravalement-rue-nollet-paysage.mp4"
   },
   "renovation-appartement": {
     "carre": "/assets/video/projets/renovation-appartement-carre.mp4",

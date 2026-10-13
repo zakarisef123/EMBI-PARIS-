@@ -1,4 +1,4 @@
-/* Tunnel de conversion « Votre projet en 3 questions » (bas de chaque page).
+/* Tunnel de conversion « Votre projet, en quelques clics » (bas de chaque page) : 6 questions, puis les coordonnées.
    Une réponse choisie → question suivante ; à la fin, les coordonnées puis l'envoi direct (FormSubmit, sans quitter la page).
    Les boutons « Devis gratuit » de la page descendent jusqu'au tunnel au lieu d'ouvrir la page Contact. */
 (() => {
