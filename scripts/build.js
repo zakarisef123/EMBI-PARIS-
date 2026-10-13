@@ -111,7 +111,7 @@ const BUSINESS = {
   legalName: "Entreprise de Maintenance de Bâtiment et Industrie (E.M.B.I)",
   vatID: "FR61494788060",
   foundingDate: "2007-03-12",
-  description: "Rénovation de A à Z à Paris : hôtels, boutiques, restaurants et appartements.",
+  description: "Rénovation à Paris, de l'étude à la livraison : hôtels, boutiques, restaurants et appartements.",
   url: `${SITE}/`,
   logo: `${SITE}/assets/img/apple-touch-icon.png`,
   image: abs(sitePhoto("hero").src),
@@ -848,7 +848,7 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   if (!all.length) return "";
   const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
   const slide = (p, k) => {
-    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "De A à Z"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
+    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Tous corps de métier"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
             <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
@@ -916,8 +916,8 @@ PROJECTS.forEach((p, i) => {
   const photos = PHOTOS[p.id];
   const lead = p.text || `${leadOf(p) || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
   const description = p.text
-    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation menée de A à Z par EMBI, photos et détails du chantier.`
-    : `${p.title} : ${(leadOf(p) || "lieu rénové").toLowerCase()} de A à Z par EMBI à Paris. Photos et détails du chantier.`;
+    ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation conduite par EMBI, de l'étude à la livraison : photos et détails du chantier.`
+    : `${p.title} : ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI à Paris, de l'étude à la livraison. Photos et détails du chantier.`;
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -967,11 +967,11 @@ PROJECTS.forEach((p, i) => {
           </div>
           ${p.credit ? `<p class="pj-show__credit">Photos : ${esc(p.credit)}</p>` : ""}
         </div>` : "",
-      storyTitle: esc(`${leadOf(p) || "Lieu rénové"} de A à Z${/^maison/i.test(p.title) && !/paris/i.test(p.lieu || "") ? "" : " à Paris"}`),
+      storyTitle: esc(`${leadOf(p) || "Lieu rénové"}${/^maison/i.test(p.title) && !/paris/i.test(p.lieu || "") ? "" : " à Paris"}, du projet à la livraison`),
       story: story.map((t) => `<p>${esc(t)}</p>`).join(""),
       works: p.travaux && p.travaux.length ? `<p class="pj-works-line"><strong>Travaux réalisés&nbsp;:</strong> ${esc(p.travaux.map((t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", "))}.</p>` : "",
       result: p.deco || p.archi
-        ? `<p class="pj-result">${p.deco ? `Une réalisation menée de A à Z sur une décoration signée ${esc(p.deco)}.` : `Une réalisation menée de A à Z sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
+        ? `<p class="pj-result">${p.deco ? `Un chantier conduit de la première visite à la livraison, sur une décoration signée ${esc(p.deco)}.` : `Un chantier conduit de la première visite à la livraison, sur un projet de l'architecte ${esc(p.archi)}.`} Découvrez le résultat en images ci-dessous.</p>`
         : `<p class="pj-result">Découvrez le résultat en images ci-dessous.</p>`,
       count: photos.length > 1 ? `${photos.length} photos · cliquez pour agrandir` : "Cliquez sur la photo pour l'agrandir",
       singleClass: photos.length === 1 ? " is-single" : "",
@@ -1201,7 +1201,7 @@ SERVICES.forEach((sv) => {
 ${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
         <div class="section__head">
-          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>de A à Z.</em></h2></div>
+          <div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(sv.nav)}, <em>tous corps de métier.</em></h2></div>
           <p class="section__aside reveal">Un interlocuteur dédié coordonne chaque corps de métier, de l'étude de faisabilité à la livraison.</p>
         </div>
         <ol class="svc__grid">
