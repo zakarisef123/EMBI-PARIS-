@@ -1678,6 +1678,17 @@
         "w": 960,
         "h": 1203
       }
+    ],
+    "hotel-panache": [
+      {
+        "base": "/assets/img/projets/hotel-panache/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1205
+      }
     ]
   },
   "site": {

@@ -39,7 +39,7 @@ const gal = (cover, list) => [cover, ...list.filter((u) => u !== cover)];
 const MISE_AUX_NORMES = "Mise aux normes : sanitaires, circulations (PMR), sécurité incendie, électricité";
 
 const PROJECTS = [
-  { id: "hotel-panache", oldId: "panache", title: "Hôtel Panache", category: "hotel", featured: 4,
+  { id: "hotel-panache", oldId: "panache", ancienSite: true /* la façade en tête, puis les photos de l'ancien site */, title: "Hôtel Panache", category: "hotel", featured: 4,
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Panache.", MISE_AUX_NORMES + " : l'établissement a été remis aux normes hôtelières en parallèle des travaux de décoration."],
