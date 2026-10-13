@@ -104,6 +104,9 @@ const BUSINESS = {
   "@type": "GeneralContractor",
   "@id": `${SITE}/#entreprise`,
   name: "EMBI",
+  legalName: "Entreprise de Maintenance de Bâtiment et Industrie (E.M.B.I)",
+  vatID: "FR61494788060",
+  foundingDate: "2007-03-12",
   description: "Rénovation de A à Z à Paris : hôtels, boutiques, restaurants et appartements.",
   url: `${SITE}/`,
   logo: `${SITE}/assets/img/apple-touch-icon.png`,
@@ -260,9 +263,9 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <meta name="theme-color" content="#14233f" />
   <script>document.documentElement.classList.add("js");${o.loader ? ` try { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("embi-intro")) { document.documentElement.classList.add("intro"); sessionStorage.setItem("embi-intro", "1"); } } catch (e) {}` : ""}</script>
   <script src="/assets/js/consent.js"></script>
-  <link rel="icon" href="/assets/img/favicon.svg?v=2" type="image/svg+xml" />
-  <link rel="icon" href="/assets/img/favicon-32.png?v=2" sizes="32x32" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=2" />
+  <link rel="icon" href="/assets/img/favicon.svg?v=3" type="image/svg+xml" />
+  <link rel="icon" href="/assets/img/favicon-32.png?v=3" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=3" />
   <link rel="preload" href="/assets/fonts/cormorant-garamond-500-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/jost-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
@@ -353,7 +356,7 @@ const funnel = (cat = "") => `    <section class="funnel" id="projet"${cat && ca
                 <label class="field field--light"><span>Votre téléphone</span><input name="telephone" type="tel" autocomplete="tel" /></label>
               </div>
               <label class="field field--light"><span>Votre e-mail</span><input name="email" type="email" required autocomplete="email" /></label>
-              <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>
+              <label class="consent" for="consentQuiz"><input type="checkbox" id="consentQuiz" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>. Opposition au démarchage téléphonique : <a href="https://www.bloctel.gouv.fr" target="_blank" rel="noopener">bloctel.gouv.fr</a>.</span></label>
               <div class="quiz__end">
                 <button type="submit" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></button>
                 <button type="button" class="quiz__restart" id="quizRestart" hidden>Recommencer</button>
@@ -390,7 +393,7 @@ const fDuo = (...f) => `<div class="form__row form__row--duo">${f.join("")}</div
 const fBlock = (n, title, ...content) => `<div class="cform__block"><h3 class="cform__h"><span>${n}</span>${title}</h3>${content.join("")}</div>`;
 const CLIP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.3 12.1 19.2a5 5 0 0 1-7.1-7.1l8.1-8.1a3.3 3.3 0 0 1 4.7 4.7l-8 8a1.7 1.7 0 0 1-2.4-2.4l7.3-7.3"/></svg>';
 const fFile = (title, hint) => `<label class="cform__file" data-label="Pièce jointe">${CLIP}<input type="file" name="attachment" accept="image/jpeg,image/png,application/pdf" /><b>${title}</b><small data-file-hint>${hint}</small></label>`;
-const fConsent = (id) => `<label class="consent" for="${id}"><input type="checkbox" id="${id}" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>.</span></label>`;
+const fConsent = (id) => `<label class="consent" for="${id}"><input type="checkbox" id="${id}" name="consentement" value="Accepté" required /><span>J'accepte qu'EMBI utilise ces informations pour répondre à ma demande, conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a>. Opposition au démarchage téléphonique : <a href="https://www.bloctel.gouv.fr" target="_blank" rel="noopener">bloctel.gouv.fr</a>.</span></label>`;
 const fEnd = (label, after, tel = "01 45 72 65 24") => `<div class="cform__end"><button class="btn btn--accent" type="submit">${label} <span aria-hidden="true">→</span></button><p class="cform__req"><em>*</em> champs obligatoires</p></div>
           <p class="form__note" role="status" data-note></p>
           ${after ? `<p class="cform__after">${after}</p>` : ""}
