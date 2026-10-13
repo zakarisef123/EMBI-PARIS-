@@ -69,7 +69,7 @@ node generer.js                    # tous les chantiers, ou : node generer.js ho
 ```
 
 ## Pages légales
-Les champs `[À COMPLÉTER]` des mentions légales (raison sociale, forme juridique, capital, SIRET, RCS, siège, directeur de la publication, TVA, assurance décennale, médiateur) sont surlignés en jaune. Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur, politique de confidentialité).
+Les mentions légales reprennent l'extrait Kbis (E.M.B.I, SARL au capital de 245 700 €, RCS Paris 494 788 060, gérant : Philippe Orlando). Reste à compléter, surligné en jaune : le médiateur de la consommation (obligatoire pour les clients particuliers). Les passages `<!-- À RELIRE -->` sont à relire avant mise en ligne (pages secteur).
 
 ## Carte du quartier (page Showroom)
 Sous les infos pratiques du showroom, la carte « Autour du showroom » (`assets/js/quartier.js`) : catégories (métro, parkings, restaurants, cafés), recherche de lieux dans un rayon de 1,5 km, fiche du lieu (adresse, site, téléphone, horaires, photos, avis Google), temps de marche et itinéraire à pied depuis le showroom. Elle ne se charge qu'après l'accord « Contenus externes » du bandeau cookies. Sans clé, ou si Google refuse la clé, le plan d'accès simple s'affiche à la place.
