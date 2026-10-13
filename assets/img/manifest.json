@@ -1562,6 +1562,15 @@
         ],
         "w": 960,
         "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-beauregard/11",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1439
       }
     ],
     "maison-a-colombages": [
@@ -1780,6 +1789,140 @@
         ],
         "w": 960,
         "h": 1205
+      }
+    ],
+    "maison-en-pierre": [
+      {
+        "base": "/assets/img/projets/maison-en-pierre/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-en-pierre/12",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      }
+    ],
+    "hotel-paradis": [
+      {
+        "base": "/assets/img/projets/hotel-paradis/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 960
       }
     ]
   },

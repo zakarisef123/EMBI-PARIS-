@@ -88,6 +88,8 @@ const doc = (k) => {
 
 /* ───── Données communes ───── */
 const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+// les maisons de particuliers (titre « Maison … ») : « Maison rénovée » plutôt qu'« Appartement rénové »
+const leadOf = (p) => (p.category === "particulier" && /^maison/i.test(p.title) ? "Maison rénovée" : LEAD[p.category]);
 const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
 // les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire
 const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/savoir-faire/" };
@@ -223,7 +225,7 @@ const ctaBand = (c, content, title = "", inline = false) => {
 // Un bandeau par page, après la 2e section (au milieu de la page), sauf si la page en a déjà un.
 const withCta = (o) => {
   const proj = /^\/realisations\/[\w-]+\/$/.test(o.path) && PROJECTS.find((p) => projectUrl(p) === o.path);
-  const c = CTAS.pages[o.path] || (proj && CTAS.projects[proj.category]);
+  const c = CTAS.pages[o.path] || (proj && ((/^maison/i.test(proj.title) && CTAS.projects.maison) || CTAS.projects[proj.category]));
   if (!c || o.content.includes("cta-band")) return o;
   const ends = [...o.content.matchAll(/\n {4}<\/section>/g)];
   if (ends.length < 3) { warn(`${o.path} : pas assez de sections pour placer le bandeau d'appel à l'action.`); return o; }
@@ -305,7 +307,7 @@ const pageHero = (crumbs, h1, lead, actions = "", readme = false) => `    <secti
       </div>
     </section>`;
 const card = (p, level = "h3") => `<a class="pj-card" href="${projectUrl(p)}" data-cat="${p.category}">
-            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</span>
+            <span class="pj-card__media">${img(cover(p), `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</span>
             <span class="pj-card__info"><${level} class="pj-card__t">${esc(p.title)}</${level}><em>${esc(CATEGORIES[p.category] || "")}</em></span>
           </a>`;
 // Carrousel de chantiers (pages Rénovation, Professionnels) : titre, flèches ← → et cartes qui défilent (assets/js/main.js)
@@ -553,7 +555,7 @@ const heroSlides = () => {
   const slides = [
     { ph: sitePhoto("hero"), alt: "Salle du restaurant Fish Club à Paris, rénové par EMBI", label: "Fish Club · Restaurant" },
     ...HERO_SLIDES.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean).map((p) => ({
-      ph: PHOTOS[p.id][0], alt: `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
+      ph: PHOTOS[p.id][0], alt: `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
     })),
   ];
   return `<div class="hero__photo" id="heroSlides">
@@ -594,7 +596,7 @@ const sectorMosaic = () => `<div class="mosaic container">
             const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
             const n = list.length;
             return `<a class="mosaic__item mosaic__item--${i + 1} reveal" href="${s.path}">
-            <figure class="mosaic__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}<figcaption>${esc(cover.title)}</figcaption></figure>
+            <figure class="mosaic__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${leadOf(cover).toLowerCase()} par EMBI`, 'loading="lazy"')}<figcaption>${esc(cover.title)}</figcaption></figure>
             <span class="mosaic__n">${String(i + 1).padStart(2, "0")} · ${n} chantier${n > 1 ? "s" : ""}</span>
             <h3 class="mosaic__t">${s.nav}</h3>
             <p>${s.card}</p>
@@ -639,7 +641,7 @@ const worksCards = () => {
   const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 6);
   return `<div class="works__grid">
             ${list.map((p) => `<a class="works__card reveal" href="${projectUrl(p)}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category]}</span>
             </a>`).join("\n            ")}
@@ -651,7 +653,7 @@ const showcase = () => {
   const list = [...featured, ...PROJECTS.filter((p) => !p.featured && p.category !== "particulier" && p.category !== "savoir-faire")].slice(0, 7);
   return `<div class="show" id="showcase">
           <div class="show__main">
-            ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
+            ${list.map((p, i) => `<a class="show__slide${i ? "" : " is-active"}" href="${projectUrl(p)}"${i ? ' tabindex="-1"' : ""}>${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, i ? 'loading="lazy"' : "")}<span class="show__cap">${esc(p.title)}</span></a>`).join("\n            ")}
             <div class="show__dots">${list.map((p, i) => `<button type="button"${i ? "" : ' class="is-on"'} aria-label="${esc(p.title)}"></button>`).join("")}</div>
           </div>
           <button class="show__peek" type="button" aria-label="Chantier suivant">
@@ -662,12 +664,14 @@ const showcase = () => {
 };
 
 // Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
+// photo de chaque secteur : le chantier choisi ici, sinon le mieux placé (mis en avant, puis photos hébergées sur le site)
+const SECTOR_COVER = { particulier: "maison-en-pierre" };
 const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
             ${SECTORS.map((s) => {
               const list = PROJECTS.filter((p) => p.category === s.category);
-              const cover = [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
+              const cover = list.find((p) => p.id === SECTOR_COVER[s.category]) || localFirst([...list].sort((a, b) => (a.featured || 99) - (b.featured || 99)))[0];
               return `<a class="works__card reveal" href="${s.path}">
-              <figure class="works__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${LEAD[cover.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="works__img">${img(PHOTOS[cover.id][0], `${cover.title}, ${leadOf(cover).toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
               <h3 class="works__t">${s.nav}</h3>
             </a>`;
             }).join("\n            ")}
@@ -683,7 +687,7 @@ const insta = () => {
       <div class="pn__wrap">
         <div class="insta__head">${ig ? `<a class="insta__icon" href="${esc(ig)}" target="_blank" rel="noopener" aria-label="Instagram EMBI">${icon}</a>` : `<span class="insta__icon">${icon}</span>`}<span class="insta__handle">${esc(handle)}</span><span class="insta__line" aria-hidden="true"></span>${ig ? `<a class="insta__follow" href="${esc(ig)}" target="_blank" rel="noopener">Suivez-nous</a>` : `<a class="insta__follow" href="/realisations/">Voir les réalisations</a>`}</div>
         <div class="insta__grid">
-          ${pics.map((p) => `<a href="${ig ? esc(ig) : projectUrl(p)}"${ig ? ' target="_blank" rel="noopener"' : ""} class="insta__pic">${img(PHOTOS[p.id][0], `${p.title}, ${LEAD[p.category].toLowerCase()} par EMBI`, 'loading="lazy"')}</a>`).join("\n          ")}
+          ${pics.map((p) => `<a href="${ig ? esc(ig) : projectUrl(p)}"${ig ? ' target="_blank" rel="noopener"' : ""} class="insta__pic">${img(PHOTOS[p.id][0], `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, 'loading="lazy"')}</a>`).join("\n          ")}
         </div>
       </div>
     </section>`;
@@ -713,14 +717,15 @@ const BLOCKS = {
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
     const order = ["hotel", "boutique", "restaurant", "particulier", "savoir-faire"];
-    const list = [...featured, ...PROJECTS.filter((p) => !p.featured).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
+    const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
     return `<div class="filters realisations-all" role="group" aria-label="Filtrer les réalisations">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Tout <sup>${PROJECTS.length}</sup></button>
             ${FILTERS.map(([c, l]) => `<button type="button" class="filter" data-filter="${c}" aria-pressed="false">${l} <sup>${PROJECTS.filter((p) => p.category === c).length}</sup></button>`).join("\n            ")}
           </div>
           <div class="works__grid works__grid--4 works__grid--all" id="grid">
             ${list.map((p) => `<a class="works__card" href="${projectUrl(p)}" data-cat="${p.category}">
-              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
+              <figure class="works__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${cardVideo(p.id)}</figure>
               <h3 class="works__t">${esc(p.title)}</h3>
               <span class="works__cat">${CATEGORIES_LABEL[p.category] || ""}</span>
             </a>`).join("\n            ")}
@@ -755,7 +760,7 @@ const BLOCKS = {
           <ul class="ref-grid">
           ${list.map(({ p }, k) => `<li class="ref-tile" data-cat="${p.category}">
             <a href="${projectUrl(p)}">
-              <figure class="ref-tile__img">${img(cover(p), `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
+              <figure class="ref-tile__img">${img(cover(p), `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}</figure>
               <span class="ref-tile__cap"><span class="ref-tile__n">${String(k + 1).padStart(2, "0")}</span><strong class="ref-tile__t">${esc(p.title)}</strong>${p.lieu ? `<em class="ref-tile__c">${esc(p.lieu)}</em>` : ""}</span>
             </a>
           </li>`).join("\n          ")}
@@ -845,9 +850,9 @@ const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicke
   const slide = (p, k) => {
     const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "De A à Z"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
     return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
-            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
             <div class="phare__body">
-              <p class="phare__k">${k ? otherKicker : firstKicker}</p>
+              <p class="phare__k">${((x) => (x === "Appartement rénové" ? leadOf(p) : x))(k ? otherKicker : firstKicker)}</p>
               <h3 class="phare__t">${esc(p.title)}</h3>
               <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
               <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
@@ -909,10 +914,10 @@ PROJECTS.forEach((p, i) => {
   const cat = CATEGORIES[p.category] || "";
   const sec = sectorOf(p.category);
   const photos = PHOTOS[p.id];
-  const lead = p.text || `${LEAD[p.category] || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
+  const lead = p.text || `${leadOf(p) || "Lieu rénové"} par EMBI, de l'étude de faisabilité à la livraison.`;
   const description = p.text
     ? `${p.title} (${cat.toLowerCase()}, Paris) : ${p.text} Rénovation menée de A à Z par EMBI, photos et détails du chantier.`
-    : `${p.title} : ${(LEAD[p.category] || "lieu rénové").toLowerCase()} de A à Z par EMBI à Paris. Photos et détails du chantier.`;
+    : `${p.title} : ${(leadOf(p) || "lieu rénové").toLowerCase()} de A à Z par EMBI à Paris. Photos et détails du chantier.`;
   const story = p.histoire && p.histoire.length ? p.histoire : [
     "Comme pour chaque chantier EMBI, ce projet a été mené de bout en bout : étude de faisabilité, devis détaillé et transparent, puis coordination de tous les corps de métier jusqu'à la livraison.",
     "Un interlocuteur unique a suivi le chantier du premier rendez-vous à la remise des clés, avec le souci du détail et le respect des délais qui font la réputation d'EMBI.",
@@ -936,7 +941,7 @@ PROJECTS.forEach((p, i) => {
     lightbox: true,
     crumbs: [{ name: "Réalisations", path: "/realisations/" }, { name: p.title, path: path_ }],
     faq: FAQ.project(p, sec.path),
-    jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(LEAD[p.category] || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
+    jsonld: [{ "@type": "CreativeWork", name: `${p.title} : ${(leadOf(p) || "rénovation").toLowerCase()} par EMBI`, url: SITE + path_, image: photos.slice(0, 6).map((ph) => abs(ph.src)), about: cat, creator: { "@id": `${SITE}/#entreprise` } }],
     content: fill(PROJECT_TPL, {
       title: esc(p.title),
       category: p.category,
@@ -944,7 +949,7 @@ PROJECTS.forEach((p, i) => {
       // sinon les photos du chantier qui défilent (assets/js/hero.js)
       // (un format absent : photos trop petites ou pas assez horizontales pour ce cadre, la photo reste à cet endroit)
       cover: (() => {
-        const alt = `${p.title}, ${(LEAD[p.category] || "lieu rénové").toLowerCase()} par EMBI`;
+        const alt = `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`;
         const wide = hasVideo(p.id, "paysage"), tall = hasVideo(p.id, "portrait");
         const video = wide || tall ? `<video class="pj-hero__video"${wide ? ` data-video-wide="${VIDEOS[p.id].paysage}"` : ""}${tall ? ` data-video-tall="${VIDEOS[p.id].portrait}"` : ""} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "";
         if ((wide && tall) || photos.length < 2) return img(photos[0], alt, 'id="pjCover" fetchpriority="high" data-hero') + video;
@@ -962,7 +967,7 @@ PROJECTS.forEach((p, i) => {
           </div>
           ${p.credit ? `<p class="pj-show__credit">Photos : ${esc(p.credit)}</p>` : ""}
         </div>` : "",
-      storyTitle: esc(`${LEAD[p.category] || "Lieu rénové"} de A à Z à Paris`),
+      storyTitle: esc(`${leadOf(p) || "Lieu rénové"} de A à Z${/^maison/i.test(p.title) && !/paris/i.test(p.lieu || "") ? "" : " à Paris"}`),
       story: story.map((t) => `<p>${esc(t)}</p>`).join(""),
       works: p.travaux && p.travaux.length ? `<p class="pj-works-line"><strong>Travaux réalisés&nbsp;:</strong> ${esc(p.travaux.map((t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t)).join(", "))}.</p>` : "",
       result: p.deco || p.archi
