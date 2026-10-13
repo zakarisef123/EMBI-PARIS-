@@ -8,7 +8,8 @@
   "appartement-lumineux": {
     "carre": "/assets/video/projets/appartement-lumineux-carre.mp4",
     "portrait": "/assets/video/projets/appartement-lumineux-portrait.mp4",
-    "carte": "/assets/video/projets/appartement-lumineux-carte.mp4"
+    "carte": "/assets/video/projets/appartement-lumineux-carte.mp4",
+    "paysage": "/assets/video/projets/appartement-lumineux-paysage.mp4"
   },
   "appartement-paris-5e": {
     "carre": "/assets/video/projets/appartement-paris-5e-carre.mp4",
@@ -18,7 +19,8 @@
   "appartement-renovation-complete": {
     "carre": "/assets/video/projets/appartement-renovation-complete-carre.mp4",
     "portrait": "/assets/video/projets/appartement-renovation-complete-portrait.mp4",
-    "carte": "/assets/video/projets/appartement-renovation-complete-carte.mp4"
+    "carte": "/assets/video/projets/appartement-renovation-complete-carte.mp4",
+    "paysage": "/assets/video/projets/appartement-renovation-complete-paysage.mp4"
   },
   "appartement-rue-saint-dominique": {
     "carre": "/assets/video/projets/appartement-rue-saint-dominique-carre.mp4",
@@ -41,7 +43,8 @@
   "cafe-pinson": {
     "paysage": "/assets/video/projets/cafe-pinson-paysage.mp4",
     "carre": "/assets/video/projets/cafe-pinson-carre.mp4",
-    "carte": "/assets/video/projets/cafe-pinson-carte.mp4"
+    "carte": "/assets/video/projets/cafe-pinson-carte.mp4",
+    "portrait": "/assets/video/projets/cafe-pinson-portrait.mp4"
   },
   "charpente-bois": {
     "carre": "/assets/video/projets/charpente-bois-carre.mp4",
@@ -80,7 +83,9 @@
   },
   "loro-piana": {
     "carre": "/assets/video/projets/loro-piana-carre.mp4",
-    "carte": "/assets/video/projets/loro-piana-carte.mp4"
+    "carte": "/assets/video/projets/loro-piana-carte.mp4",
+    "portrait": "/assets/video/projets/loro-piana-portrait.mp4",
+    "paysage": "/assets/video/projets/loro-piana-paysage.mp4"
   },
   "maison-a-colombages": {
     "carre": "/assets/video/projets/maison-a-colombages-carre.mp4",
