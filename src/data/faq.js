@@ -17,7 +17,7 @@ const PAGES = {
   "/": [
     ["Quels types de lieux rénovez-vous ?", "Hôtels, boutiques, restaurants, appartements et maisons de particuliers. Professionnel ou particulier, petits ou grands projets : vous trouverez la prestation qu'il vous faut. Voir nos [réalisations](/realisations/)."],
     ["Que comprend une rénovation menée par EMBI ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis détaillé, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
-    ["Où intervenez-vous ?", "À Paris et en Île-de-France. Notre bureau et notre showroom se trouvent au 5, rue Villebois-Mareuil, dans le 17e arrondissement."],
+    ["Où intervenez-vous ?", "Dans les vingt arrondissements de Paris, dans toute l'Île-de-France et partout en France pour les projets de nos clients. Notre bureau et notre showroom se trouvent au 5, rue Villebois-Mareuil, dans le 17e arrondissement. Voir [nos zones d'intervention](/zones/) et [tous nos métiers](/metiers/)."],
     ["Le devis est-il gratuit ?", `Oui. Décrivez votre projet en quelques clics ou appelez le ${TEL} : après l'étude de faisabilité, nous établissons avec vous un devis gratuit, détaillé et transparent.`],
     ["Avez-vous un architecte dans l'équipe ?", "Oui, un architecte et un architecte d'intérieur dessinent les projets que nos équipes réalisent ensuite. Voir la [conception sur mesure](/conception-sur-mesure/)."],
     ["Que faire en cas d'urgence ?", `En dehors des heures d'ouverture du bureau, une ligne dédiée répond pour la plomberie, l'électricité et l'assainissement : ${URG}. Voir la page [Urgence](/urgence/).`],
@@ -171,8 +171,8 @@ const project = (p, sectorPath) => [
   ...(p.deco ? [["Qui a signé la décoration ?", `La décoration est signée ${p.deco}. EMBI a réalisé l'ensemble des travaux, dans le respect de son dessin.`]] : []),
   ...(p.archi ? [["Qui a conçu le projet ?", `Le projet est signé par l'architecte ${p.archi}. EMBI en a réalisé les travaux et la mise aux normes.`]] : []),
   p.category === "savoir-faire"
-    ? ["Pouvez-vous réaliser un ouvrage similaire chez moi ?", `Oui. EMBI intervient à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [tous nos savoir-faire](${sectorPath}) ou décrivez votre projet en quelques clics ci-dessous : le devis est gratuit.`]
-    : [`Pouvez-vous réaliser un projet similaire pour ${SIMILAR[p.category]} ?`, `Oui. EMBI rénove ${PLURAL[p.category]} à Paris et en Île-de-France, avec un seul interlocuteur de l'étude à la livraison. Voir [nos chantiers du même secteur](${sectorPath}) ou décrivez votre projet en quelques clics ci-dessous : le devis est gratuit.`],
+    ? ["Pouvez-vous réaliser un ouvrage similaire chez moi ?", `Oui. EMBI intervient à Paris, en Île-de-France et partout en France, avec un seul interlocuteur de l'étude à la livraison. Voir [tous nos savoir-faire](${sectorPath}) ou décrivez votre projet en quelques clics ci-dessous : le devis est gratuit.`]
+    : [`Pouvez-vous réaliser un projet similaire pour ${SIMILAR[p.category]} ?`, `Oui. EMBI rénove ${PLURAL[p.category]} à Paris, en Île-de-France et partout en France, avec un seul interlocuteur de l'étude à la livraison. Voir [nos chantiers du même secteur](${sectorPath}) ou décrivez votre projet en quelques clics ci-dessous : le devis est gratuit.`],
   BY_CAT[p.category],
 ].filter(Boolean);
 

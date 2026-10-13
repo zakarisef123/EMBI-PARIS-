@@ -104,6 +104,14 @@ const cardVideo = (id) => (hasVideo(id, "carre") ? `<video class="pj-video" data
 const cover = (p) => PHOTOS[p.id][0];
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
 
+// Métiers et zones d'intervention (pages de référencement, pied de page, données structurées)
+const METIERS = require(path.join(ROOT, "src/data/metiers.js"));
+const ZONES = require(path.join(ROOT, "src/data/zones.js"));
+const metierUrl = (m) => `/metiers/${m.slug}/`;
+const zoneUrl = (z) => `/zones/${z.slug}/`;
+// « Plombier Paris 17e », « Plombier en Île-de-France », « Plombier partout en France »
+const zoneLabel = (z) => (z.type === "arrondissement" ? z.nom : z.dans);
+
 const BUSINESS = {
   "@type": "GeneralContractor",
   "@id": `${SITE}/#entreprise`,
@@ -119,7 +127,9 @@ const BUSINESS = {
   telephone: "+33145726524",
   address: { "@type": "PostalAddress", streetAddress: "5 rue Villebois-Mareuil", postalCode: "75017", addressLocality: "Paris", addressCountry: "FR" },
   openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:00", closes: "18:00" }],
-  areaServed: "Paris et Île-de-France",
+  areaServed: [{ "@type": "City", name: "Paris" }, { "@type": "AdministrativeArea", name: "Île-de-France" }, { "@type": "Country", name: "France" }],
+  knowsAbout: METIERS.map((m) => m.nom),
+  hasOfferCatalog: { "@type": "OfferCatalog", name: "Métiers de la rénovation", itemListElement: METIERS.map((m) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: m.qui, url: `${SITE}/metiers/${m.slug}/` } })) },
   contactPoint: [
     { "@type": "ContactPoint", telephone: "+33145726524", contactType: "customer service", availableLanguage: "French" },
     { "@type": "ContactPoint", telephone: "+33631600135", contactType: "emergency", availableLanguage: "French" },
@@ -133,7 +143,7 @@ const BUSINESS = {
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"]] },
+  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"], ["/zones/", "Zones d'intervention"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
@@ -159,6 +169,8 @@ const footer = () =>
   fill(FOOTER, {
     year: new Date().getFullYear(),
     social: social.length ? `          <p class="footer__social">${social.map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${SOCIAL_LABELS[k]}</a>`).join(" · ")}</p>` : "",
+    metiers: METIERS.map((m) => `<a href="${metierUrl(m)}">${m.qui}</a>`).join(""),
+    zones: ZONES.map((z) => `<a href="${zoneUrl(z)}">${z.nom}</a>`).join(""),
   }).trim();
 
 const LIGHTBOX = `
@@ -273,7 +285,8 @@ ${o.noindex ? '  <meta name="robots" content="noindex" />\n' : `  <link rel="can
   <link rel="icon" href="/assets/img/favicon.svg?v=3" type="image/svg+xml" />
   <link rel="icon" href="/assets/img/favicon-32.png?v=3" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png?v=3" />
-  <link rel="preload" href="/assets/fonts/cormorant-garamond-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/cormorant-garamond-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/cormorant-garamond-400-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/jost-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/jost-500-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/fonts.css" />
@@ -712,6 +725,8 @@ const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restau
 const BLOCKS = {
   devis: () => expand(devisForm()),
   trust: () => funnelTrust(),
+  // liens vers chaque page métier (page Savoir-faire)
+  "metiers-links": () => `<p class="seo-group reveal">Chaque métier en détail</p><ul class="seo-links reveal">${METIERS.map((m) => `<li><a href="${metierUrl(m)}">${m.qui}</a></li>`).join("")}<li><a href="/zones/">Nos zones d'intervention</a></li></ul>`,
   intervention: () => expand(urgenceForm(require(path.join(ROOT, "src/data/urgences.js")), null)),
   showcase,
   "sector-cards-photo": sectorCardsPhoto,
@@ -1106,7 +1121,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
     title: "Rénovation pour les professionnels à Paris : hôtels, boutiques, restaurants | EMBI",
     description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
     crumbs,
-    jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
+    jsonld: [{ "@type": "Service", name: "Rénovation de locaux professionnels", areaServed: BUSINESS.areaServed, provider: { "@id": `${SITE}/#entreprise` }, url: SITE + "/professionnels/" }],
     content: expand(`${pageHero(crumbs, "Rénovation pour les professionnels, <em>hôtels, boutiques, restaurants.</em>", "Hôtel Panache, Loro Piana, Byredo au Bon Marché, Fish Club : EMBI rénove les lieux qui reçoivent du public, de l'embellissement à la remise aux normes, avec un seul interlocuteur.", `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true)}
     <section class="section" id="secteurs">
       <div class="container">
@@ -1221,7 +1236,7 @@ SERVICES.forEach((sv) => {
     title: sv.title,
     description: sv.description,
     crumbs,
-    jsonld: [{ "@type": "Service", name: sv.nav, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
+    jsonld: [{ "@type": "Service", name: sv.nav, areaServed: BUSINESS.areaServed, provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }, ...faqLd(svFaq)],
     content: expand(`${pageHero(crumbs, sv.h1, esc(sv.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#prestations" class="btn btn--outline-light">Nos prestations</a>${sv.energy ? `<a href="#energetique" class="btn btn--outline-light">Rénovation énergétique</a>` : ""}`, true)}
 ${svcIntro(sv)}    <section class="section svc" id="prestations">
       <div class="container">
@@ -1352,7 +1367,7 @@ URGENCES.forEach((u) => {
     description: u.description,
     crumbs,
     faq: u.faq,
-    jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: "Paris et Île-de-France", provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
+    jsonld: [{ "@type": "Service", name: `Urgence ${u.nav.toLowerCase()}`, areaServed: BUSINESS.areaServed, provider: { "@id": `${SITE}/#entreprise` }, url: SITE + path_ }],
     content: expand(`${pageHero(crumbs, u.h1, esc(u.lead), `<a href="tel:+33631600135" class="btn btn--accent">Appeler le 06 31 60 01 35 <span aria-hidden="true">→</span></a><a href="#intervention" class="btn btn--outline-light">Demander mon intervention</a>`, true).replace('<h1', '<p class="cs-kicker"><span class="pulse"></span>Urgences &amp; dépannage</p>\n        <h1')}
 
 ${urgenceForm(URGENCES, u)}
@@ -1424,6 +1439,174 @@ ${urgenceForm(URGENCES, u)}
     {{funnel}}`),
   });
 }
+
+/* ───── 3f · Métiers et zones d'intervention (référencement) : src/data/metiers.js et src/data/zones.js ───── */
+// Une page par métier et une page par zone ; chaque page métier relie toutes les zones, chaque page zone tous les métiers :
+// les combinaisons « métier + quartier » sont couvertes par le maillage, sans pages en double.
+const localProj = (ids) => (ids || []).map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && PHOTOS[p.id] && PHOTOS[p.id][0] && PHOTOS[p.id][0].src.startsWith("/assets/"));
+const AREA = BUSINESS.areaServed;
+const HUB_PHOTOS = ["ravalement-rue-nollet", "appartement-haussmannien", "maison-en-pierre", "hotel-bienvenue", "toitures-zinguerie", "appartement-rue-saint-dominique", "cafe-joyeux-klesia", "charpente-bois", "le-grand-pigalle", "appartement-lumineux"];
+const devisBtn = `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="tel:+33145726524" class="btn btn--outline-light">01 45 72 65 24</a>`;
+const chips = (items) => `<ul class="seo-links">${items.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}</ul>`;
+
+// pages métier
+METIERS.forEach((m, i) => {
+  const path_ = metierUrl(m);
+  const crumbs = [{ name: "Nos métiers", path: "/metiers/" }, { name: m.nom, path: path_ }];
+  const projs = localProj(m.projets);
+  const voir = (m.voir || []).map((s) => METIERS.find((x) => x.slug === s)).filter(Boolean);
+  const faq = [...m.faq, [`Où intervenez-vous pour ${m.nom.toLowerCase()} ?`, `Dans tout Paris, du 1er au 20e arrondissement, dans toute l'Île-de-France et partout en France pour les projets de nos clients. Voir [nos zones d'intervention](/zones/).`]];
+  layout({
+    path: path_, key: "savoir-faire", title: m.title, description: m.description, crumbs, faq,
+    heroSlides: uniqPhotos([...projs.map((p) => PHOTOS[p.id][0])]).slice(0, 4),
+    jsonld: [{ "@type": "Service", name: m.qui, serviceType: m.nom, description: m.description, url: SITE + path_, areaServed: AREA, provider: { "@id": `${SITE}/#entreprise` } }],
+    content: expand(`${pageHero(crumbs, m.h1, esc(m.lead), devisBtn)}
+    <section class="section sector">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">${esc(m.qui)} à Paris</p>
+          <h2 class="h2 reveal">${esc(m.nom)}, <em>avec un seul interlocuteur.</em></h2>
+          ${m.intro.map((p) => `<p class="reveal">${esc(p)}</p>`).join("\n          ")}
+          ${m.urgence ? `<p class="reveal">Une urgence&nbsp;? <a href="${m.urgence}">Notre ligne d'urgence</a> répond en dehors des heures de bureau au <a href="tel:+33631600135">06 31 60 01 35</a>.</p>` : ""}
+        </div>
+        ${projs.length ? phareCarousel(projs, `Chantiers : ${m.nom.toLowerCase()}`, "Un chantier", "Un chantier") : ""}
+      </div>
+    </section>
+    <section class="section svc">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Nos prestations</p><h2 class="h2 reveal">${esc(m.nom)} : <em>ce que nous réalisons.</em></h2></div></div>
+        <ol class="svc__grid">
+          ${m.prestations.map(([t, d], k) => `<li class="svc__item reveal"><span class="svc__n">${String(k + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+    <section class="section seo-duo">
+      <div class="container seo-duo__grid">
+        <div class="reveal"><p class="eyebrow">Particuliers</p><h2 class="h3">Appartements et maisons</h2><p>${esc(m.particuliers)}</p><a class="btn btn--ghost" href="/renovation/interieur/">Rénovation intérieure <span aria-hidden="true">→</span></a></div>
+        <div class="reveal"><p class="eyebrow">Professionnels</p><h2 class="h3">Hôtels, boutiques, restaurants</h2><p>${esc(m.pros)}</p><a class="btn btn--ghost" href="/professionnels/">Les professionnels <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+    <section class="section seo-zones">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">${esc(m.qui)} <em>dans tout Paris, en Île-de-France et en France.</em></h2></div></div>
+        ${chips(ZONES.map((z) => [zoneUrl(z), `${esc(m.qui)} ${esc(zoneLabel(z))}`]))}
+        ${voir.length ? `<p class="seo-more">Métiers associés&nbsp;: ${voir.map((v) => `<a href="${metierUrl(v)}">${esc(v.nom)}</a>`).join(" · ")} · <a href="/metiers/">tous nos métiers</a></p>` : ""}
+      </div>
+    </section>
+    {{funnel}}`),
+  });
+});
+
+// pages zone
+ZONES.forEach((z, i) => {
+  const path_ = zoneUrl(z);
+  const crumbs = [{ name: "Zones d'intervention", path: "/zones/" }, { name: z.nom, path: path_ }];
+  const own = localProj(z.projets);
+  const fallback = localProj(HUB_PHOTOS.slice(i % 5).concat(HUB_PHOTOS.slice(0, i % 5))).filter((p) => !own.includes(p));
+  const shown = [...own, ...fallback].slice(0, 4);
+  const arr = z.type === "arrondissement";
+  const cp = z.cp && z.cp.length ? ` (${z.cp.join(", ")})` : "";
+  const title = arr ? `Entreprise de rénovation ${z.nom}${cp} | EMBI` : z.slug === "france" ? "Rénovation partout en France : hôtels, boutiques | EMBI" : "Rénovation en Île-de-France : 92, 93, 94, 78, 91, 95 | EMBI";
+  // description ≤ 158 signes : on retire des quartiers tant que ça dépasse
+  const descOf = (q) => `Entreprise de rénovation ${z.nom}${cp}${q.length ? `, ${q.join(", ")}` : ""} : plomberie, électricité, salle de bain, cuisine, peinture, parquet. Devis gratuit.`;
+  let nq = 3; while (nq > 0 && descOf(z.quartiers.slice(0, nq)).length > 158) nq--;
+  const description = arr ? descOf(z.quartiers.slice(0, nq))
+    : z.slug === "france" ? "EMBI rénove hôtels, boutiques, restaurants et maisons partout en France : tous corps de métier, un seul interlocuteur, du projet à la livraison. Devis gratuit."
+    : "Rénovation dans toute l'Île-de-France (92, 93, 94, 78, 91, 95, 77) : plomberie, électricité, salle de bain, cuisine, façade, toiture. Devis gratuit.";
+  const faq = [
+    [`Intervenez-vous ${z.dans} ?`, `Oui. EMBI intervient ${z.dans}${arr ? ` (${z.quartiers.join(", ")})` : ""}, pour les particuliers comme pour les hôtels, boutiques et restaurants, avec un seul interlocuteur de l'étude à la livraison.`],
+    [`Quels travaux réalisez-vous ${z.dans} ?`, `Tous corps de métier : ${METIERS.map((m) => m.nom.toLowerCase()).join(", ")}. Voir [nos métiers](/metiers/).`],
+    ["Le devis est-il gratuit ?", "Oui. Après une visite, nous établissons une étude de faisabilité et un devis gratuit et détaillé."],
+    ...(arr ? [["Où voir les matériaux ?", "Dans notre showroom carrelages et parquets, 5 rue Villebois-Mareuil, Paris 17e, du lundi au vendredi de 10h à 18h."]] : []),
+  ];
+  layout({
+    path: path_, key: "savoir-faire", title, description, crumbs, faq,
+    heroSlides: uniqPhotos(shown.map((p) => PHOTOS[p.id][0])).slice(0, 4),
+    jsonld: [{ "@type": "Service", name: `Rénovation et travaux ${z.dans}`, serviceType: "Rénovation tous corps de métier", url: SITE + path_, provider: { "@id": `${SITE}/#entreprise` },
+      areaServed: arr ? { "@type": "AdministrativeArea", name: z.nom, containedInPlace: { "@type": "City", name: "Paris" }, ...(z.cp[0] ? { address: { "@type": "PostalAddress", postalCode: z.cp[0], addressLocality: "Paris", addressCountry: "FR" } } : {}) } : { "@type": z.slug === "france" ? "Country" : "AdministrativeArea", name: z.slug === "france" ? "France" : "Île-de-France" } }],
+    content: expand(`${pageHero(crumbs, arr ? `Rénovation à ${esc(z.nom)}, <em>${esc(z.quartiers.slice(0, 2).join(", "))}.</em>` : `Rénovation ${esc(z.dans)}, <em>tous corps de métier.</em>`, `${esc(z.texte[1] || z.texte[0])}`, devisBtn)}
+    <section class="section sector">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">${arr ? `${esc(z.nom)}${cp}` : esc(z.nom)}</p>
+          <h2 class="h2 reveal">Vos travaux ${esc(z.dans)}, <em>avec un seul interlocuteur.</em></h2>
+          ${z.texte.map((p) => `<p class="reveal">${esc(p)}</p>`).join("\n          ")}
+          <p class="reveal"><strong>${arr ? "Quartiers" : "Secteurs"}&nbsp;:</strong> ${esc(z.quartiers.join(", "))}.</p>
+        </div>
+        ${shown.length ? phareCarousel(shown, `Chantiers EMBI`, own.length ? "Un chantier dans le secteur" : "Un chantier", own.length ? "Nos chantiers" : "Un chantier") : ""}
+      </div>
+    </section>
+    <section class="section svc">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Nos métiers</p><h2 class="h2 reveal">Tous les corps de métier <em>${esc(z.dans)}.</em></h2></div></div>
+        <ol class="svc__grid">
+          ${METIERS.map((m, k) => `<li class="svc__item reveal"><span class="svc__n">${String(k + 1).padStart(2, "0")}</span><h3 class="svc__t"><a href="${metierUrl(m)}">${esc(m.qui)} ${esc(zoneLabel(z))}</a></h3><p>${esc(m.prestations.slice(0, 3).map(([t]) => t).join(", "))}.</p></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+    <section class="section seo-zones">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">Nous intervenons aussi <em>ailleurs.</em></h2></div></div>
+        ${chips(ZONES.filter((x) => x !== z).map((x) => [zoneUrl(x), `Rénovation ${esc(zoneLabel(x))}`]))}
+      </div>
+    </section>
+    {{funnel}}`),
+  });
+});
+
+// pages d'ensemble
+layout({
+  path: "/metiers/", key: "savoir-faire",
+  title: "Nos métiers : plombier, électricien, carreleur à Paris | EMBI",
+  description: "Tous les corps de métier de la rénovation à Paris, en Île-de-France et en France : plomberie, électricité, salle de bain, cuisine, carrelage, parquet, peinture, menuiserie, façade, toiture.",
+  crumbs: [{ name: "Nos métiers", path: "/metiers/" }],
+  heroSlides: uniqPhotos(localProj(HUB_PHOTOS).map((p) => PHOTOS[p.id][0])).slice(0, 5),
+  jsonld: [{ "@type": "ItemList", name: "Métiers EMBI", itemListElement: METIERS.map((m, k) => ({ "@type": "ListItem", position: k + 1, name: m.qui, url: SITE + metierUrl(m) })) }],
+  content: expand(`${pageHero([{ name: "Nos métiers", path: "/metiers/" }], "Tous les corps de métier, <em>un seul interlocuteur.</em>", "Plomberie, électricité, maçonnerie, menuiserie, carrelage, parquet, peinture, façade, toiture : 40 professionnels coordonnés par EMBI, à Paris, en Île-de-France et partout en France.", devisBtn)}
+    <section class="section svc">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Nos métiers</p><h2 class="h2 reveal">Choisissez <em>un métier.</em></h2></div><p class="section__aside reveal">Chaque page présente nos prestations, nos chantiers et les questions les plus fréquentes.</p></div>
+        <ol class="svc__grid">
+          ${METIERS.map((m, k) => `<li class="svc__item reveal"><span class="svc__n">${String(k + 1).padStart(2, "0")}</span><h3 class="svc__t"><a href="${metierUrl(m)}">${esc(m.qui)}</a></h3><p>${esc(m.lead)}</p><a class="svc__call" href="${metierUrl(m)}">Voir le métier →</a></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+    <section class="section seo-zones">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Zones d'intervention</p><h2 class="h2 reveal">Partout à Paris, <em>en Île-de-France et en France.</em></h2></div></div>
+        ${chips(ZONES.map((z) => [zoneUrl(z), esc(z.nom)]))}
+      </div>
+    </section>
+    {{funnel}}`),
+});
+layout({
+  path: "/zones/", key: "savoir-faire",
+  title: "Zones d'intervention : Paris, Île-de-France, France | EMBI",
+  description: "EMBI intervient dans tout Paris, du 1er au 20e arrondissement, dans toute l'Île-de-France et partout en France : rénovation tous corps de métier, devis gratuit.",
+  crumbs: [{ name: "Zones d'intervention", path: "/zones/" }],
+  heroSlides: uniqPhotos(localProj(HUB_PHOTOS.slice(3).concat(HUB_PHOTOS.slice(0, 3))).map((p) => PHOTOS[p.id][0])).slice(0, 5),
+  jsonld: [{ "@type": "ItemList", name: "Zones d'intervention EMBI", itemListElement: ZONES.map((z, k) => ({ "@type": "ListItem", position: k + 1, name: z.nom, url: SITE + zoneUrl(z) })) }],
+  content: expand(`${pageHero([{ name: "Zones d'intervention", path: "/zones/" }], "Paris, l'Île-de-France <em>et toute la France.</em>", "Notre bureau et notre showroom sont dans le 17e. Nos équipes interviennent dans les vingt arrondissements de Paris, dans toute l'Île-de-France et partout en France pour les projets de nos clients.", devisBtn)}
+    <section class="section svc">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Paris</p><h2 class="h2 reveal">Les vingt <em>arrondissements.</em></h2></div></div>
+        <ol class="svc__grid">
+          ${ZONES.filter((z) => z.type === "arrondissement").map((z) => `<li class="svc__item reveal"><span class="svc__n">${z.cp[0]}</span><h3 class="svc__t"><a href="${zoneUrl(z)}">${esc(z.nom)}</a></h3><p>${esc(z.quartiers.join(", "))}</p></li>`).join("\n          ")}
+        </ol>
+        <p class="seo-group">Au-delà de Paris</p>
+        <ol class="svc__grid">
+          ${ZONES.filter((z) => z.type !== "arrondissement").map((z) => `<li class="svc__item reveal"><span class="svc__n">${z.slug === "france" ? "FR" : "IDF"}</span><h3 class="svc__t"><a href="${zoneUrl(z)}">${esc(z.nom)}</a></h3><p>${esc(z.quartiers.join(", "))}</p></li>`).join("\n          ")}
+        </ol>
+      </div>
+    </section>
+    <section class="section seo-zones">
+      <div class="container">
+        <div class="section__head"><div><p class="eyebrow reveal">Nos métiers</p><h2 class="h2 reveal">Tous corps <em>de métier.</em></h2></div></div>
+        ${chips(METIERS.map((m) => [metierUrl(m), esc(m.qui)]))}
+      </div>
+    </section>
+    {{funnel}}`),
+});
 
 /* ───── 4 · Contrôles qualité ───── */
 const titles = new Map(), descs = new Map();
@@ -1521,6 +1704,51 @@ fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *
 Allow: /
 
 Sitemap: ${SITE}/sitemap.xml
+`);
+
+// llms.txt : fiche de présentation lue par les assistants (ChatGPT, Perplexity, Claude, Gemini…), générée depuis les mêmes données
+const mdLink = (title, u, note) => `- [${strip(title)}](${SITE}${u})${note ? `: ${strip(note)}` : ""}`;
+fs.writeFileSync(path.join(OUT, "llms.txt"), `# EMBI, entreprise de rénovation à Paris
+
+> EMBI (Entreprise de Maintenance de Bâtiment et Industrie, SIREN 494 788 060, fondée en 2007) est une entreprise générale de rénovation tous corps de métier basée au 5, rue Villebois-Mareuil, 75017 Paris. Elle rénove hôtels, boutiques, restaurants, appartements et maisons, avec un seul interlocuteur de l'étude à la livraison, dans les vingt arrondissements de Paris, dans toute l'Île-de-France et partout en France.
+
+## Informations clés
+
+- Raison sociale : ${BUSINESS.legalName}
+- Adresse : 5, rue Villebois-Mareuil, 75017 Paris (bureau et showroom carrelages et parquets, du lundi au vendredi de 10h à 18h)
+- Téléphone : 01 45 72 65 24 · urgences : 06 31 60 01 35 · e-mail : sec@embi.fr
+- Zones d'intervention : Paris (1er au 20e), Île-de-France (92, 93, 94, 78, 91, 95, 77), France entière
+- Clientèle : particuliers (appartements, maisons) et professionnels (hôtels, boutiques et corners, restaurants, cafés)
+- Équipe : architecte, architecte d'intérieur et une quarantaine de professionnels du bâtiment coordonnés par EMBI
+- Devis gratuit après visite : ${SITE}/contact/
+
+## Métiers
+
+${METIERS.map((m) => mdLink(m.qui, metierUrl(m), m.description)).join("\n")}
+
+## Secteurs
+
+${SECTORS.map((sc) => mdLink(sc.title.replace(/ \| EMBI$/, ""), sc.path, sc.description)).join("\n")}
+${mdLink("Rénovation intérieure et énergétique", "/renovation/interieur/")}
+${mdLink("Rénovation extérieure : façades, toitures, terrasses", "/renovation/exterieur/")}
+${mdLink("Urgences plomberie, électricité, assainissement", "/urgence/")}
+
+## Zones d'intervention
+
+${ZONES.map((z) => mdLink(`Rénovation ${z.dans === "partout en France" ? "partout en France" : z.nom}`, zoneUrl(z), z.quartiers.join(", "))).join("\n")}
+
+## Réalisations
+
+${PROJECTS.map((p) => mdLink(p.title, projectUrl(p), CATEGORIES_LABEL[p.category])).join("\n")}
+
+## Pages utiles
+
+${mdLink("Nos réalisations", "/realisations/")}
+${mdLink("Le showroom carrelages et parquets", "/showroom/")}
+${mdLink("Qualifications et assurances", "/qualifications/")}
+${mdLink("Questions fréquentes", "/faq/")}
+${mdLink("Le Mag : conseils de rénovation", "/mag/")}
+${mdLink("Contact et devis gratuit", "/contact/")}
 `);
 
 console.log(`✓ ${pages.length} pages générées dans dist/ (${indexable.length} dans le sitemap) · adresse : ${SITE} · photos : ${manifest ? `${Object.keys(manifest.projets || {}).length} chantier(s) en local` : "ancien site"} · PDF : ${cfg.documents === "local" ? "locaux" : "ancien site"}`);
