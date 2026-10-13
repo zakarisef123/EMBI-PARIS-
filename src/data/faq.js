@@ -15,7 +15,7 @@ const URG = "06 31 60 01 35";
 
 const PAGES = {
   "/": [
-    ["Quels types de lieux rénovez-vous ?", "Hôtels, boutiques, restaurants, bureaux, appartements et maisons de particuliers. Professionnel ou particulier, petits ou grands projets : vous trouverez la prestation qu'il vous faut. Voir nos [réalisations](/realisations/)."],
+    ["Quels types de lieux rénovez-vous ?", "Hôtels, boutiques, restaurants, appartements et maisons de particuliers. Professionnel ou particulier, petits ou grands projets : vous trouverez la prestation qu'il vous faut. Voir nos [réalisations](/realisations/)."],
     ["Que comprend une rénovation menée par EMBI ?", "EMBI prend en charge tout le projet, de l'étude de faisabilité à la livraison : conception, devis détaillé, coordination des 40 professionnels de tous corps de métier, suivi du chantier. Vous n'avez qu'un seul interlocuteur dédié."],
     ["Où intervenez-vous ?", "À Paris et en Île-de-France. Notre bureau et notre showroom se trouvent au 5, rue Villebois-Mareuil, dans le 17e arrondissement."],
     ["Le devis est-il gratuit ?", `Oui. Décrivez votre projet en 3 questions ou appelez le ${TEL} : après l'étude de faisabilité, nous établissons avec vous un devis gratuit, détaillé et transparent.`],
@@ -110,7 +110,7 @@ const PAGES = {
     ["Quelles urgences prenez-vous en charge ?", "Fuite d'eau et dégât des eaux, chauffe-eau en panne, panne de courant ou disjoncteur qui saute, canalisation bouchée ou évacuation qui refoule."],
     ["Que faire en attendant l'intervention ?", "Au téléphone, nous vous disons tout de suite comment sécuriser les lieux. Les bons réflexes sont rappelés plus haut sur cette page et dans notre article [fuite d'eau, panne, canalisation bouchée](/mag/fuite-eau-urgence-paris-que-faire/)."],
     ["Après l'urgence, pouvez-vous réparer durablement ?", "Oui : mise aux normes, rénovation complète de l'installation électrique, remise en état des évacuations. Le devis est gratuit."],
-    ["Intervenez-vous pour les professionnels ?", "Oui, chez les particuliers comme dans les locaux professionnels : hôtels, restaurants, boutiques et bureaux."],
+    ["Intervenez-vous pour les professionnels ?", "Oui, chez les particuliers comme dans les locaux professionnels : hôtels, restaurants et boutiques."],
   ],
 
   "/signature/": [

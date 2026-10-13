@@ -316,7 +316,7 @@ const projRail = (id, projs, h2 = "Ils nous ont <em>confié leurs lieux.</em>", 
 // Tunnel de conversion, en bas de chaque page : 3 questions, puis les coordonnées, envoi direct (sans changer de page).
 // cat : le lieu déjà connu (page secteur ou chantier) est pré-coché, le visiteur commence à la question 2.
 const QUIZ_Q = [
-  ["lieu", "Quel lieu voulez-vous transformer&nbsp;?", [["Appartement", "particulier"], ["Maison", "particulier"], ["Hôtel", "hotel"], ["Boutique", "boutique"], ["Restaurant", "restaurant"], ["Bureaux", ""]]],
+  ["lieu", "Quel lieu voulez-vous transformer&nbsp;?", [["Appartement", "particulier"], ["Maison", "particulier"], ["Hôtel", "hotel"], ["Boutique", "boutique"], ["Restaurant", "restaurant"]]],
   ["surface", "Quelle surface environ&nbsp;?", [["Moins de 30 m²"], ["30 à 80 m²"], ["80 à 150 m²"], ["Plus de 150 m²"]]],
   ["delai", "Pour quand&nbsp;?", [["Dès que possible"], ["D'ici 3 mois"], ["D'ici 6 mois ou plus"], ["Je me renseigne"]]],
 ];
@@ -483,7 +483,7 @@ const devisForm = () => {
   return `<div class="cform reveal" id="form" data-forms>
         <div class="cform__tabs" role="tablist" aria-label="Vous êtes">
           <button class="cform__tab is-on" id="formPartTab" role="tab" type="button" aria-selected="true" aria-controls="formPart">${ICON_HOME}<b>Je suis un particulier</b><small>Appartement, maison</small></button>
-          <button class="cform__tab" id="formProTab" role="tab" type="button" aria-selected="false" aria-controls="formPro" tabindex="-1">${ICON_PRO}<b>Je suis un professionnel</b><small>Hôtel, boutique, restaurant, bureaux</small></button>
+          <button class="cform__tab" id="formProTab" role="tab" type="button" aria-selected="false" aria-controls="formPro" tabindex="-1">${ICON_PRO}<b>Je suis un professionnel</b><small>Hôtel, boutique, restaurant</small></button>
         </div>
         ${part}
         ${pro}

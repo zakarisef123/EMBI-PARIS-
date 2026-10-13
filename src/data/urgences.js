@@ -102,11 +102,11 @@ module.exports = [
     ],
     precisions: "Évacuation concernée, étage, refoulement, odeurs…",
     tip: ["Canalisation bouchée", "Cessez d'utiliser l'évacuation concernée et évitez les produits chimiques agressifs, qui abîment les canalisations."],
-    after: "Chez les particuliers comme dans les locaux professionnels : hôtels, restaurants, boutiques et bureaux.",
+    after: "Chez les particuliers comme dans les locaux professionnels : hôtels, restaurants et boutiques.",
     faq: [
       ["Quand appeler la ligne d'urgence assainissement ?", `En dehors des heures d'ouverture du bureau, pour une canalisation bouchée ou une évacuation qui refoule : ${URG}. Pendant les heures de bureau, appelez le ${TEL}.`],
       ["Faut-il utiliser un déboucheur chimique ?", "Mieux vaut l'éviter : les produits agressifs abîment les canalisations. Cessez d'utiliser l'évacuation concernée et appelez-nous."],
-      ["Intervenez-vous dans les restaurants et les hôtels ?", "Oui, chez les particuliers comme dans les locaux professionnels : hôtels, restaurants, boutiques et bureaux."],
+      ["Intervenez-vous dans les restaurants et les hôtels ?", "Oui, chez les particuliers comme dans les locaux professionnels : hôtels, restaurants et boutiques."],
     ],
   },
 ];
