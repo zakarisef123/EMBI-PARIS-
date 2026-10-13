@@ -67,7 +67,7 @@ const PROJECTS = [
     travaux: ["Mise en place d'un corner en grand magasin"],
     histoire: ["EMBI a réalisé la mise en place du corner Byredo au Bon Marché."],
     images: gal("2017/11/BYREDO-01.jpg", seq("2017/11", "BYREDO", 1, 8, 2, "-")) },
-  { id: "le-grand-pigalle", title: "Le Grand Pigalle", category: "hotel",
+  { id: "le-grand-pigalle", cover: 10 /* photo principale : la façade */, title: "Le Grand Pigalle", category: "hotel",
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment du Grand Pigalle."],
@@ -164,6 +164,8 @@ const PROJECTS = [
     text: "Rénovation de l'Hôtel Beauregard : chambres, salles de bains, salons du rez-de-chaussée et patio.",
     travaux: ["Chambres", "Salles de bains", "Salons et salle du petit-déjeuner", "Patio"],
     histoire: ["À l'Hôtel Beauregard, EMBI a réalisé les travaux des chambres et de leurs salles de bains, des salons du rez-de-chaussée, de la salle du petit-déjeuner et du patio."],
+    images: [] },
+  { id: "hotel-du-temps", title: "Hôtel du Temps", category: "hotel", lieu: "Paris",
     images: [] },
 
   { id: "maison-a-colombages", title: "Maison à colombages", category: "particulier",

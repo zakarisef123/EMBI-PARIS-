@@ -235,6 +235,16 @@
         ],
         "w": 960,
         "h": 540
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1440
       }
     ],
     "loro-piana": [
@@ -1655,6 +1665,18 @@
         ],
         "w": 960,
         "h": 1284
+      }
+    ],
+    "hotel-du-temps": [
+      {
+        "base": "/assets/img/projets/hotel-du-temps/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1203
       }
     ]
   },
