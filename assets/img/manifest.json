@@ -1700,6 +1700,16 @@
       ],
       "w": 960,
       "h": 641
+    },
+    "plomberie-colonnes": {
+      "base": "/assets/img/site/plomberie-colonnes",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1776
     }
   }
 }
