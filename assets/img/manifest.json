@@ -734,6 +734,16 @@
         ],
         "w": 960,
         "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
       }
     ],
     "appartement-renovation-complete": [

@@ -196,7 +196,7 @@ const PROJECTS = [
     travaux: ["Étanchéité de toiture-terrasse", "Membranes bitumineuses soudées", "Relevés d'étanchéité", "Évacuations des eaux pluviales", "Filets de sécurité et échafaudage"],
     histoire: ["Sur ce toit-terrasse d'un immeuble parisien, avec vue sur le Sacré-Cœur, EMBI a refait toute l'étanchéité : membranes bitumineuses posées en lés soudés, relevés le long des murs et sous les souches de cheminée, raccord des évacuations des eaux pluviales.", "Le chantier a été mené en sécurité, avec des filets de protection tout autour de la terrasse et un échafaudage en bord de toiture."],
     images: [] },
-  { id: "ravalement-rue-nollet", title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
+  { id: "ravalement-rue-nollet", cover: 8 /* photo principale : l'immeuble d'angle après ravalement */, title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
     text: "Ravalement de la façade en pierre d'un immeuble d'angle haussmannien, rue Nollet à Paris 17e.",
     travaux: ["Ravalement de façade", "Échafaudage sur rue", "Balcons et modénatures"],
     histoire: ["Rue Nollet, à Paris 17e, EMBI a mené en 2019 et 2020 le ravalement de la façade en pierre d'un immeuble d'angle haussmannien, de l'échafaudage jusqu'aux balcons et aux modénatures."],

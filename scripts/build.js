@@ -188,9 +188,9 @@ const shot = (id, n) => (PHOTOS[id] || []).find((ph) => ph.src.includes(`/${id}/
 const HERO_PHOTOS = {
   // chaque page : les photos du haut de page, qui défilent (la 1re sert aussi de photo de partage)
   // [chantier, n°] = une photo de chantier ; "nom" seul = une photo du site (photos-originales/site/<nom>.jpg, voir README)
-  "/renovation/": [["ravalement-rue-nollet", 3], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
+  "/renovation/": [["ravalement-rue-nollet", 8], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
   "/renovation/interieur/": [["appartement-haussmannien", 1], ["appartement-lumineux", 1], ["renovation-appartement", 1], ["appartement-paris-5e", 2], ["appartement-rue-saint-dominique", 1]],
-  "/renovation/exterieur/": [["ravalement-rue-nollet", 4], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
+  "/renovation/exterieur/": [["ravalement-rue-nollet", 8], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
   "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
   "/realisations/": [["hotel-bienvenue", 10], ["loro-piana", 1], ["appartement-haussmannien", 1], ["cafe-pinson", 6], ["le-grand-pigalle", 8]],
   "/hotels/": [["hotel-beauregard", 3]],
@@ -209,9 +209,9 @@ const HERO_PHOTOS = {
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["appartement-haussmannien", 2], ["loro-piana", 1]],
   "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-paris-5e", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
-  "/cgv/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
-  "/mentions-legales/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
-  "/politique-de-confidentialite/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 1], ["appartement-lumineux", 2]],
+  "/cgv/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
+  "/mentions-legales/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
+  "/politique-de-confidentialite/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
   "/merci/": [["hotel-bienvenue", 10], ["appartement-haussmannien", 1], ["loro-piana", 1]],
   "/404.html": [["charpente-bois", 1], ["toitures-zinguerie", 1], ["appartement-lumineux", 1]],
 };
@@ -1057,7 +1057,7 @@ const articleCover = (a) => a.cover ? shot(...a.cover) : a.project && PHOTOS[a.p
 // haut de page d'un article : les photos du chantier dont il parle, sinon des photos liées à son sujet
 const MAG_SLIDES = {
   "renovation-energetique-appartement-paris": [["appartement-renovation-complete", 1], ["appartement-lumineux", 1], ["appartement-paris-5e", 9], ["maison-a-colombages", 9]],
-  "ravalement-facade-paris-etapes": [["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 1], ["ravalement-rue-nollet", 7], ["ravalement-rue-nollet", 3]],
+  "ravalement-facade-paris-etapes": [["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 8], ["ravalement-rue-nollet", 7], ["ravalement-rue-nollet", 3]],
   "travaux-site-occupe-hotel-boutique": [["hotel-bienvenue", 10], ["le-grand-pigalle", 8], ["loro-piana", 2], ["hotel-beauregard", 3]],
   "fuite-eau-urgence-paris-que-faire": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 7], ["appartement-haussmannien", 6]],
   "renovation-appartement-haussmannien-paris": [["appartement-paris-5e", 1], ["appartement-haussmannien", 1], ["appartement-paris-5e", 4], ["renovation-appartement", 1], ["appartement-haussmannien", 5]],
@@ -1120,7 +1120,7 @@ const houseBlock = (start) => `    <section class="section svc-house">
       </div>
     </section>
 `;
-const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], exterieur: ["ravalement-rue-nollet", 1] }[sv.slug]);
+const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], exterieur: ["ravalement-rue-nollet", 8] }[sv.slug]);
 
 /* ───── Page Professionnels : hôtels, boutiques, restaurants et projets spécifiques ───── */
 // <!-- À RELIRE --> : textes composés à partir des pages secteur
