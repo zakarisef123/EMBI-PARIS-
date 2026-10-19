@@ -193,7 +193,7 @@ const HERO_PHOTOS = {
   "/renovation/exterieur/": [["ravalement-rue-nollet", 8], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
   "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
   "/realisations/": [["hotel-bienvenue", 1], ["renovation-appartement", 2], ["loro-piana", 3], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
-  "/hotels/": [["hotel-bienvenue", 1], ["hotel-beauregard", 3], ["hotel-beauregard", 2], ["hotel-bienvenue", 10], ["hotel-bienvenue", 8]],
+  "/hotels/": [["hotel-bienvenue", 1], ["hotel-beauregard", 3], ["hotel-bienvenue", 11], ["hotel-beauregard", 2], ["hotel-bienvenue", 10], ["hotel-bienvenue", 8]],
   "/boutiques/": [["loro-piana", 3], ["loro-piana", 1], ["atelier-joaillerie-ploermel", 1], ["loro-piana", 4]],
   "/restaurants/": [["cafe-joyeux-klesia", 1], ["fish-club", 2], ["cafe-pinson", 1], ["fish-club", 3], ["cafe-pinson", 3]],
   "/professionnels/": [["hotel-bienvenue", 1], ["loro-piana", 3], ["fish-club", 2], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
