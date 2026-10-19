@@ -162,6 +162,15 @@
         ],
         "w": 960,
         "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/11",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 640
       }
     ],
     "le-grand-pigalle": [
@@ -431,6 +440,16 @@
       },
       {
         "base": "/assets/img/projets/charpente-bois/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/charpente-bois/09",
         "widths": [
           480,
           960,
@@ -734,6 +753,16 @@
         ],
         "w": 960,
         "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/ravalement-rue-nollet/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
       }
     ],
     "appartement-renovation-complete": [
@@ -990,6 +1019,15 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/07",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1440
       }
     ],
     "appartement-lumineux": [
@@ -1085,6 +1123,26 @@
       },
       {
         "base": "/assets/img/projets/appartement-lumineux/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/12",
         "widths": [
           480,
           960,
@@ -1460,6 +1518,16 @@
         ],
         "w": 960,
         "h": 720
+      },
+      {
+        "base": "/assets/img/projets/atelier-joaillerie-ploermel/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
       }
     ],
     "hotel-beauregard": [
@@ -1666,6 +1734,26 @@
       },
       {
         "base": "/assets/img/projets/maison-a-colombages/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1707
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/12",
         "widths": [
           480,
           960,

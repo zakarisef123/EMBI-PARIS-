@@ -174,7 +174,7 @@ const PROJECTS = [
     histoire: ["Dans cette maison aux murs de pierre, EMBI a mené une rénovation complète en gardant les moulures, les rosaces, la cheminée et l'escalier en bois : salon sur parquet en bâtons rompus, bibliothèque bleue et verrière en chêne sur mesure, bureau-bibliothèque sur sol en carreaux de ciment, salle à manger sous papier peint panoramique.", "À l'étage, les chambres s'installent sous la charpente apparente, et les salles de bains associent carreaux terracotta à motifs, sol en terrazzo, douches à l'italienne et plans de vasque en bois massif."],
     images: [] },
 
-  { id: "maison-a-colombages", title: "Maison à colombages", category: "particulier",
+  { id: "maison-a-colombages", cover: 11 /* photo principale : la façade à colombages */, title: "Maison à colombages", category: "particulier",
     text: "Rénovation d'une maison de campagne à colombages : cuisine en granit, séjour sous poutres, cheminée en pierre et terrasse en tomettes.",
     travaux: ["Rénovation intérieure", "Cuisine et plan en granit", "Bibliothèques en bois", "Terrasse en tomettes", "Murets extérieurs", "Verrière"],
     histoire: ["Pour cette maison de campagne à colombages, EMBI a rénové l'intérieur en gardant les poutres et la cheminée en pierre : cuisine sur mesure avec plan de travail en granit, bibliothèques en bois, salle à manger, verrière. Dehors, la terrasse a été refaite en tomettes et entourée de murets."],
@@ -196,7 +196,7 @@ const PROJECTS = [
     travaux: ["Étanchéité de toiture-terrasse", "Membranes bitumineuses soudées", "Relevés d'étanchéité", "Évacuations des eaux pluviales", "Filets de sécurité et échafaudage"],
     histoire: ["Sur ce toit-terrasse d'un immeuble parisien, avec vue sur le Sacré-Cœur, EMBI a refait toute l'étanchéité : membranes bitumineuses posées en lés soudés, relevés le long des murs et sous les souches de cheminée, raccord des évacuations des eaux pluviales.", "Le chantier a été mené en sécurité, avec des filets de protection tout autour de la terrasse et un échafaudage en bord de toiture."],
     images: [] },
-  { id: "ravalement-rue-nollet", title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
+  { id: "ravalement-rue-nollet", cover: 8 /* photo principale : l'immeuble d'angle après ravalement */, title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
     text: "Ravalement de la façade en pierre d'un immeuble d'angle haussmannien, rue Nollet à Paris 17e.",
     travaux: ["Ravalement de façade", "Échafaudage sur rue", "Balcons et modénatures"],
     histoire: ["Rue Nollet, à Paris 17e, EMBI a mené en 2019 et 2020 le ravalement de la façade en pierre d'un immeuble d'angle haussmannien, de l'échafaudage jusqu'aux balcons et aux modénatures."],
