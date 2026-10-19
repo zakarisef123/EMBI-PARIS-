@@ -188,17 +188,17 @@ const shot = (id, n) => (PHOTOS[id] || []).find((ph) => ph.src.includes(`/${id}/
 const HERO_PHOTOS = {
   // chaque page : les photos du haut de page, qui défilent (la 1re sert aussi de photo de partage)
   // [chantier, n°] = une photo de chantier ; "nom" seul = une photo du site (photos-originales/site/<nom>.jpg, voir README)
-  "/renovation/": [["ravalement-rue-nollet", 8], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2], ["appartement-lumineux", 1], ["maison-a-colombages", 3]],
-  "/renovation/interieur/": [["appartement-haussmannien", 1], ["appartement-lumineux", 1], ["renovation-appartement", 1], ["appartement-paris-5e", 2], ["appartement-rue-saint-dominique", 1]],
+  "/renovation/": [["renovation-appartement", 1], ["ravalement-rue-nollet", 8], ["renovation-appartement", 2], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2]],
+  "/renovation/interieur/": [["renovation-appartement", 2], ["renovation-appartement", 1], ["appartement-haussmannien", 1], ["appartement-rue-saint-dominique", 5], ["renovation-appartement", 3]],
   "/renovation/exterieur/": [["ravalement-rue-nollet", 8], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
   "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
-  "/realisations/": [["hotel-bienvenue", 10], ["loro-piana", 1], ["appartement-haussmannien", 1], ["cafe-pinson", 6], ["le-grand-pigalle", 8]],
-  "/hotels/": [["hotel-beauregard", 3]],
-  "/boutiques/": [["loro-piana", 3]],
-  "/restaurants/": [["cafe-pinson", 1]],
-  "/professionnels/": [["hotel-bienvenue", 3]],
+  "/realisations/": [["hotel-bienvenue", 1], ["renovation-appartement", 2], ["loro-piana", 3], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
+  "/hotels/": [["hotel-bienvenue", 1], ["hotel-beauregard", 3], ["hotel-beauregard", 2], ["hotel-bienvenue", 10], ["hotel-bienvenue", 8]],
+  "/boutiques/": [["loro-piana", 3], ["loro-piana", 1], ["atelier-joaillerie-ploermel", 1], ["loro-piana", 4]],
+  "/restaurants/": [["cafe-joyeux-klesia", 1], ["fish-club", 2], ["cafe-pinson", 1], ["fish-club", 3], ["cafe-pinson", 3]],
+  "/professionnels/": [["hotel-bienvenue", 1], ["loro-piana", 3], ["fish-club", 2], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
   "/savoir-faire/": [["charpente-bois", 2], ["mosaique", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 6], ["mosaique", 9]],
-  "/signature/": [["le-grand-pigalle", 8], ["loro-piana", 1], ["hotel-bienvenue", 10], ["hotel-beauregard", 3]],
+  "/signature/": [["hotel-beauregard", 2], ["loro-piana", 3], ["hotel-bienvenue", 8], ["renovation-appartement", 2]],
   "/methode/": [["charpente-bois", 3], ["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 7], ["toitures-zinguerie", 9], ["appartement-renovation-complete", 9]],
   "/equipe/": [["ravalement-rue-nollet", 6], ["charpente-bois", 1], ["toitures-zinguerie", 2], ["appartement-haussmannien", 3]],
   "/qualifications/": [["toitures-zinguerie", 2], ["ravalement-rue-nollet", 6], ["charpente-bois", 5], ["appartement-renovation-complete", 9]],
@@ -206,13 +206,13 @@ const HERO_PHOTOS = {
   "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
   "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
-  "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["appartement-haussmannien", 2], ["loro-piana", 1]],
+  "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["hotel-beauregard", 4], ["renovation-appartement", 1]],
   "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-paris-5e", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
   "/cgv/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
   "/mentions-legales/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
   "/politique-de-confidentialite/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
-  "/merci/": [["hotel-bienvenue", 10], ["appartement-haussmannien", 1], ["loro-piana", 1]],
+  "/merci/": [["hotel-bienvenue", 10], ["renovation-appartement", 1], ["loro-piana", 3]],
   "/404.html": [["charpente-bois", 1], ["toitures-zinguerie", 1], ["appartement-lumineux", 1]],
 };
 // liste de photos sans doublon (une photo absente du chantier est remplacée par sa couverture : on ne la garde qu'une fois)
@@ -573,12 +573,13 @@ const sectorCards = () => `<div class="explore__grid">
         </div>`;
 
 // Accueil · diaporama du haut de page : la photo d'accueil puis les couvertures de ces chantiers
-const HERO_SLIDES = ["hotel-panache", "loro-piana", "appartement-prive", "byredo", "le-grand-pigalle", "colette", "cafe-pinson", "hotel-ambassadeur", "renovation-appartement", "petite-mendigote", "hotel-paradis", "mojo-kitchen"];
+// [chantier, n° de photo] : les plus belles vues, en alternant hôtels, appartements, boutiques et restaurants
+const HERO_SLIDES = [["hotel-bienvenue", 1], ["renovation-appartement", 2], ["hotel-beauregard", 3], ["loro-piana", 3], ["renovation-appartement", 1], ["hotel-beauregard", 2], ["cafe-pinson", 1], ["hotel-bienvenue", 10], ["appartement-haussmannien", 1], ["hotel-bienvenue", 8], ["ravalement-rue-nollet", 8]];
 const heroSlides = () => {
   const slides = [
     { ph: sitePhoto("hero"), alt: "Salle du restaurant Fish Club à Paris, rénové par EMBI", label: "Fish Club · Restaurant" },
-    ...HERO_SLIDES.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean).map((p) => ({
-      ph: PHOTOS[p.id][0], alt: `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
+    ...HERO_SLIDES.map(([id, n]) => [PROJECTS.find((p) => p.id === id), n]).filter(([p]) => p && PHOTOS[p.id] && PHOTOS[p.id].length).map(([p, n]) => ({
+      ph: shot(p.id, n), alt: `${p.title}, ${leadOf(p).toLowerCase()} par EMBI`, label: `${p.title} · ${CATEGORIES_LABEL[p.category]}`,
     })),
   ];
   return `<div class="hero__photo" id="heroSlides">
@@ -945,7 +946,7 @@ SECTORS.filter((s) => s.page !== false).forEach((s) => {
     crumbs: [{ name: s.nav, path: s.path }],
     ogImage: list[0] && cover(list[0]).src,
     bodyAttrs: ` data-cta-type="${s.category}"`,
-    heroSlides: heroSlidesOf(list),
+    heroSlides: heroList(s.path) || heroSlidesOf(list),
     content: fill(SECTOR_TPL, {
       hero: pageHero([{ name: s.nav, path: s.path }], s.h1, esc(s.lead), `<a href="#projet" class="btn btn--accent">Recevoir mon devis gratuit <span aria-hidden="true">→</span></a><a href="#chantiers" class="btn btn--outline-light">Voir nos chantiers</a>`, true),
       paragraphs: s.paragraphs.map((t) => `<!-- À RELIRE -->\n          <p class="reveal">${esc(t)}</p>`).join("\n          "),
@@ -1131,7 +1132,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
   layout({
     path: "/professionnels/",
     key: "professionnels",
-    heroSlides: heroSlidesOf(proProjs),
+    heroSlides: heroList("/professionnels/") || heroSlidesOf(proProjs),
     title: "Rénovation pour les professionnels à Paris : hôtels, boutiques, restaurants | EMBI",
     description: "Hôtels, boutiques, corners en grand magasin, restaurants : EMBI rénove les lieux des professionnels à Paris, de l'embellissement à la mise aux normes, avec un seul interlocuteur.",
     crumbs,
