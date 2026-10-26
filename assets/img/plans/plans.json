@@ -1,0 +1,198 @@
+{
+ "appartement-renovation-complete": [
+  {
+   "n": "01",
+   "w": 3034,
+   "h": 1998,
+   "titre": "Plan du projet"
+  },
+  {
+   "n": "02",
+   "w": 4552,
+   "h": 2937,
+   "titre": "Plan d'aménagement intérieur"
+  },
+  {
+   "n": "03",
+   "w": 4235,
+   "h": 2931,
+   "titre": "Plan électrique"
+  },
+  {
+   "n": "04",
+   "w": 4235,
+   "h": 3005,
+   "titre": "Plan des sols : parquet et carrelage"
+  }
+ ],
+ "maison-a-colombages": [
+  {
+   "n": "01",
+   "w": 4341,
+   "h": 2694,
+   "titre": "Plan du projet : véranda et chambres"
+  },
+  {
+   "n": "02",
+   "w": 3633,
+   "h": 2849,
+   "titre": "Véranda : plan et façades"
+  },
+  {
+   "n": "03",
+   "w": 3369,
+   "h": 2075,
+   "titre": "Suite parentale et salle de bains"
+  },
+  {
+   "n": "04",
+   "w": 3041,
+   "h": 1679,
+   "titre": "Plan des moquettes"
+  }
+ ],
+ "appartement-rue-saint-dominique": [
+  {
+   "n": "01",
+   "w": 2935,
+   "h": 2526,
+   "titre": "État existant"
+  },
+  {
+   "n": "02",
+   "w": 2935,
+   "h": 2526,
+   "titre": "Plan du projet"
+  },
+  {
+   "n": "03",
+   "w": 3003,
+   "h": 2604,
+   "titre": "Démolition et reconstruction"
+  },
+  {
+   "n": "04",
+   "w": 3111,
+   "h": 2687,
+   "titre": "Plan d'aménagement intérieur"
+  },
+  {
+   "n": "05",
+   "w": 2934,
+   "h": 2526,
+   "titre": "Plan électrique"
+  },
+  {
+   "n": "06",
+   "w": 2936,
+   "h": 2526,
+   "titre": "Plan des faux plafonds"
+  }
+ ],
+ "appartement-haussmannien": [
+  {
+   "n": "01",
+   "w": 3324,
+   "h": 2902,
+   "titre": "Plan du projet"
+  },
+  {
+   "n": "02",
+   "w": 3879,
+   "h": 2835,
+   "titre": "Démolition et reconstruction"
+  },
+  {
+   "n": "03",
+   "w": 3869,
+   "h": 3053,
+   "titre": "Plan d'aménagement intérieur"
+  },
+  {
+   "n": "04",
+   "w": 3326,
+   "h": 2805,
+   "titre": "Plan électrique"
+  },
+  {
+   "n": "05",
+   "w": 3692,
+   "h": 2805,
+   "titre": "Plan électrique : cuisine et chambres"
+  },
+  {
+   "n": "06",
+   "w": 1977,
+   "h": 2471,
+   "titre": "Placard du chauffe-eau"
+  },
+  {
+   "n": "07",
+   "w": 4815,
+   "h": 3090,
+   "titre": "Détails salle de bains et toilettes"
+  },
+  {
+   "n": "08",
+   "w": 4752,
+   "h": 3090,
+   "titre": "Carrelage salle de bains : coupes A et B"
+  },
+  {
+   "n": "09",
+   "w": 4815,
+   "h": 3090,
+   "titre": "Carrelage salle de bains : coupes C et D"
+  },
+  {
+   "n": "10",
+   "w": 4645,
+   "h": 2149,
+   "titre": "Carrelage toilettes : coupes A et B"
+  },
+  {
+   "n": "11",
+   "w": 4679,
+   "h": 2149,
+   "titre": "Carrelage toilettes : coupes C et D"
+  },
+  {
+   "n": "12",
+   "w": 4099,
+   "h": 3090,
+   "titre": "Calepinage entrée, toilettes et salle de bains"
+  }
+ ],
+ "appartement-lumineux": [
+  {
+   "n": "01",
+   "w": 3116,
+   "h": 3582,
+   "titre": "Plan du projet"
+  },
+  {
+   "n": "02",
+   "w": 3458,
+   "h": 3036,
+   "titre": "Bibliothèque du salon et verrière cintrée"
+  },
+  {
+   "n": "03",
+   "w": 4739,
+   "h": 2896,
+   "titre": "Placards des chambres 2 et 3"
+  },
+  {
+   "n": "04",
+   "w": 4815,
+   "h": 2896,
+   "titre": "Placards de la chambre 1"
+  },
+  {
+   "n": "05",
+   "w": 4659,
+   "h": 3090,
+   "titre": "Salle de bains : plan et élévations"
+  }
+ ]
+}

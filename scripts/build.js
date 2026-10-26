@@ -102,6 +102,9 @@ const VIDEOS = fs.existsSync(videosFile) ? JSON.parse(fs.readFileSync(videosFile
 const hasVideo = (id, fmt) => !!(VIDEOS[id] && VIDEOS[id][fmt] && fs.existsSync(path.join(ROOT, VIDEOS[id][fmt].replace(/^\//, ""))));
 const cardVideo = (id) => (hasVideo(id, "carre") ? `<video class="pj-video" data-video="${VIDEOS[id].carre}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "");
 const cover = (p) => PHOTOS[p.id][0];
+// plans de l'architecte par chantier (assets/img/plans/<chantier>/NN-1200|2400.webp, titres dans plans.json)
+const plansFile = path.join(ROOT, "assets/img/plans/plans.json");
+const PLANS = fs.existsSync(plansFile) ? JSON.parse(fs.readFileSync(plansFile, "utf8")) : {};
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
 
 // Métiers et zones d'intervention (pages de référencement, pied de page, données structurées)
@@ -1036,6 +1039,23 @@ PROJECTS.forEach((p, i) => {
         return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
       })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
+      // plans de l'architecte (cliquer pour agrandir, assets/js/projet.js)
+      plans: PLANS[p.id] && PLANS[p.id].length ? `
+    <section class="section pj-plans-sec" id="plans">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Conception</p>
+            <h2 class="h2">Les plans <em>du projet.</em></h2>
+          </div>
+          <p class="section__aside">${PLANS[p.id].length} plan${PLANS[p.id].length > 1 ? "s" : ""} dessiné${PLANS[p.id].length > 1 ? "s" : ""} par notre architecte avant les travaux · cliquez pour agrandir</p>
+        </div>
+        <div class="pj-plans" id="pjPlans">${PLANS[p.id].map((pl, k) => {
+          const base = `/assets/img/plans/${p.id}/${pl.n}`, h = Math.round((1200 * pl.h) / pl.w);
+          return `<figure class="pj-plan"><button type="button" class="pj-plan__btn" data-k="${k}" data-full="${base}-2400.webp" aria-label="Agrandir le plan : ${esc(pl.titre)}"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /></button><figcaption>${esc(pl.titre)}</figcaption></figure>`;
+        }).join("")}</div>
+      </div>
+    </section>` : "",
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
       sectorOfPlural: (/^[aeiouyhéèêàâîô]/i.test(PLURAL[p.category]) ? "d'" : "de ") + PLURAL[p.category],

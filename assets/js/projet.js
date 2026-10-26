@@ -48,7 +48,12 @@
   if (!gallery) return;
   const title = $("#pjTitle").textContent;
   const shots = () => $$(".pj-shot", gallery);
-  const srcs = () => shots().map((b) => b.dataset.full || $("img", b).currentSrc || $("img", b).getAttribute("src"));
+  const photoSrcs = () => shots().map((b) => b.dataset.full || $("img", b).currentSrc || $("img", b).getAttribute("src"));
+  // la visionneuse montre soit les photos, soit les plans (selon ce qu'on a cliqué)
+  const plans = $("#pjPlans");
+  const planBtns = () => (plans ? $$(".pj-plan__btn", plans) : []);
+  let lbMode = "photo";
+  const srcs = () => (lbMode === "plan" ? planBtns().map((b) => b.dataset.full) : photoSrcs());
   // photos de l'ancien site qui n'existent pas : retirées de la galerie
   const recount = () => {
     const n = shots().length;
@@ -133,16 +138,19 @@
     const list = srcs();
     cur = (k + list.length) % list.length;
     lbImg.src = list[cur];
-    lbImg.alt = `${title}, photo ${cur + 1}`;
+    lbImg.alt = lbMode === "plan" ? `${title}, ${planBtns()[cur].closest(".pj-plan").querySelector("figcaption").textContent}` : `${title}, photo ${cur + 1}`;
+    lb.classList.toggle("lb--plan", lbMode === "plan");
     $("#lbCount").textContent = `${cur + 1} / ${list.length}`;
     $("#lbPrev").hidden = $("#lbNext").hidden = list.length < 2;
   };
   const openLb = (k, from) => { lastFocus = from; showLb(k); lb.hidden = false; document.body.style.overflow = "hidden"; $("#lbClose").focus(); };
   const closeLb = () => { lb.hidden = true; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); };
-  gallery.addEventListener("click", (e) => { const b = e.target.closest(".pj-shot"); if (b) openLb(+b.dataset.k, b); });
+  gallery.addEventListener("click", (e) => { const b = e.target.closest(".pj-shot"); if (b) { lbMode = "photo"; openLb(+b.dataset.k, b); } });
+  if (plans) plans.addEventListener("click", (e) => { const b = e.target.closest(".pj-plan__btn"); if (b) { lbMode = "plan"; openLb(+b.dataset.k, b); } });
   if (show) show.addEventListener("click", (e) => {
     const b = e.target.closest(".pj-show__slide");
     if (!b) return;
+    lbMode = "photo";
     const k = srcs().indexOf(b.dataset.full);
     openLb(k < 0 ? 0 : k, b);
   });
