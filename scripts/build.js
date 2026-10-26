@@ -1039,8 +1039,29 @@ PROJECTS.forEach((p, i) => {
         return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
       })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
-      // plans de l'architecte (cliquer pour agrandir, assets/js/projet.js)
-      plans: PLANS[p.id] && PLANS[p.id].length ? `
+      // maquette 3D construite à partir des plans (assets/js/maquette.js), puis les plans de l'architecte
+      // (cliquer pour agrandir, assets/js/projet.js)
+      plans: (fs.existsSync(path.join(ROOT, "assets/maquettes", p.id, "scene.json")) ? `
+    <section class="section mq-sec" id="maquette">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Du plan à l'appartement</p>
+            <h2 class="h2">Tous les plans, <em>en un seul.</em></h2>
+          </div>
+          <p class="section__aside">Démolition, électricité, sols, murs et mobilier : la maquette est construite à partir des vrais plans de notre architecte.</p>
+        </div>
+        <div class="mq" data-maquette="${p.id}">
+          <div class="mq__stage">
+            <div class="mq__photos" aria-hidden="true">${photos.slice(0, 4).map((ph) => img(ph, "", 'loading="lazy" class="mq__photo"')).join("")}</div>
+            <p class="mq__caption" aria-live="polite"></p>
+            <button type="button" class="mq__replay" hidden>Revoir la maquette <span aria-hidden="true">↺</span></button>
+          </div>
+          <div class="mq__steps" role="group" aria-label="Étapes de la maquette"></div>
+        </div>
+      </div>
+      <script>(() => { const el = document.querySelector("[data-maquette]"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) return go(); const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); })();</script>
+    </section>` : "") + (PLANS[p.id] && PLANS[p.id].length ? `
     <section class="section pj-plans-sec" id="plans">
       <div class="container">
         <div class="section__head">
@@ -1055,7 +1076,7 @@ PROJECTS.forEach((p, i) => {
           return `<figure class="pj-plan"><button type="button" class="pj-plan__btn" data-k="${k}" data-full="${base}-2400.webp" aria-label="Agrandir le plan : ${esc(pl.titre)}"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /></button><figcaption>${esc(pl.titre)}</figcaption></figure>`;
         }).join("")}</div>
       </div>
-    </section>` : "",
+    </section>` : ""),
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
       sectorOfPlural: (/^[aeiouyhéèêàâîô]/i.test(PLURAL[p.category]) ? "d'" : "de ") + PLURAL[p.category],
