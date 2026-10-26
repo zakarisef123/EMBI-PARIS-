@@ -352,7 +352,8 @@ function start(root) {
     let s = 0; STEPS.forEach(([, a], i) => { if (t >= a) s = i; });
     if (caption.dataset.s !== String(s)) { caption.dataset.s = s; caption.innerHTML = `<b>${String(s + 1).padStart(2, "0")} · ${STEPS[s][2]}</b> ${STEPS[s][3]}`; chips.forEach((c, i) => c.classList.toggle("is-on", i === s)); }
     const P = photos.length, pa = 31.2, per = (DUR - pa) / Math.max(1, P);
-    photos.forEach((p, i) => { const a = pa + i * per; p.style.opacity = String(clamp((t - a) / 0.6) * (i === P - 1 ? 1 : 1 - clamp((t - a - per + 0.3) / 0.6))); });
+    // chaque photo se pose sur la précédente (la maquette ne transparaît pas entre deux photos)
+    photos.forEach((p, i) => { p.style.opacity = String(clamp((t - pa - i * per) / 0.7)); });
   }
 
   // ───── lecture ─────
