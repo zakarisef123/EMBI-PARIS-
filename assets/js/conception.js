@@ -54,7 +54,7 @@
   const skG = document.getElementById("skLines");
   lines.forEach((d, i) => el("path", { d, pathLength: 1, class: i > 15 ? "thin" : "", style: `--i:${i}` }, skG));
 
-  /* 2 · plan → volume : animation partagée avec la page Rénovation intérieure (volume.js) */
+  /* 2 · plan → volume : voir volume.js */
 
   /* 3 · calque : balayage automatique, puis au doigt / à la souris */
   const s3 = document.getElementById("s3"), range = document.getElementById("calqueRange");

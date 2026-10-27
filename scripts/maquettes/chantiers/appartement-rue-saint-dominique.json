@@ -1,0 +1,448 @@
+{
+ "titre": "Appartement rue Saint-Dominique",
+ "base": "v7-04.png",
+ "cadre": [
+  0,
+  30,
+  3111,
+  2687
+ ],
+ "contour_noir": true,
+ "ouverture": 9,
+ "plans": {
+  "papier": "v7-04.png",
+  "existant": "v7-01.png",
+  "demolition": "v7-03.png",
+  "elec": "v7-05.png",
+  "plafonds": "v7-06.png"
+ },
+ "hors_logement": [
+  [
+   0,
+   0,
+   3111,
+   330
+  ],
+  [
+   495,
+   300,
+   1650,
+   965
+  ],
+  [
+   495,
+   965,
+   845,
+   1310
+  ]
+ ],
+ "entree": [
+  1441,
+  950
+ ],
+ "bouchons": [
+  [
+   [
+    695,
+    2540
+   ],
+   [
+    950,
+    2484
+   ]
+  ],
+  [
+   [
+    1234,
+    2447
+   ],
+   [
+    1489,
+    2389
+   ]
+  ],
+  [
+   [
+    1767,
+    2333
+   ],
+   [
+    2022,
+    2281
+   ]
+  ],
+  [
+   [
+    2312,
+    2219
+   ],
+   [
+    2567,
+    2167
+   ]
+  ]
+ ],
+ "fenetres": [
+  [
+   695,
+   2540,
+   950,
+   2484,
+   106
+  ],
+  [
+   1234,
+   2447,
+   1489,
+   2389,
+   106
+  ],
+  [
+   1767,
+   2333,
+   2022,
+   2281,
+   106
+  ],
+  [
+   2312,
+   2219,
+   2567,
+   2167,
+   106
+  ]
+ ],
+ "sols": [],
+ "texte_sols": "Parquet en point de Hongrie dans tout l'appartement, petits carreaux vert sombre dans la salle de bains et les toilettes.",
+ "calques": [
+  {
+   "id": "existant",
+   "type": "existant",
+   "plan": "existant",
+   "titre": "L'existant",
+   "texte": "En gris, les cloisons de l'appartement avant les travaux."
+  },
+  {
+   "id": "demolition",
+   "type": "demolition",
+   "plan": "demolition",
+   "titre": "Démolition",
+   "texte": "En jaune, les cloisons démolies ; en rouge, les nouvelles cloisons."
+  },
+  {
+   "id": "electricite",
+   "type": "electricite",
+   "plan": "elec",
+   "titre": "Électricité",
+   "texte": "Points lumineux, prises et circuits, d'après le plan électrique."
+  },
+  {
+   "id": "plafonds",
+   "type": "plafonds",
+   "plan": "plafonds",
+   "titre": "Faux plafonds",
+   "texte": "Les faux plafonds de l'entrée, de la cuisine, des toilettes et de la salle de bains."
+  }
+ ],
+ "hauteur": 2.5,
+ "soleil": 2.2,
+ "mobilier": [
+  {
+   "t": "cuisine",
+   "r": [
+    2049,
+    342,
+    2623,
+    487
+   ],
+   "face": "s"
+  },
+  {
+   "t": "cuisine",
+   "r": [
+    2049,
+    487,
+    2188,
+    663
+   ],
+   "colonne": [
+    2049,
+    663,
+    2188,
+    767
+   ],
+   "face": "e"
+  },
+  {
+   "t": "table",
+   "r": [
+    2111,
+    917,
+    2401,
+    1207
+   ]
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2120,
+    930
+   ],
+   "face": 0.785
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2392,
+    930
+   ],
+   "face": -0.785
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2120,
+    1196
+   ],
+   "face": 2.356
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2392,
+    1196
+   ],
+   "face": -2.356
+  },
+  {
+   "t": "canape",
+   "a": [
+    2049,
+    1468,
+    2244,
+    1987
+   ],
+   "b": [
+    2049,
+    1788,
+    2410,
+    1987
+   ],
+   "dos": [
+    "w",
+    "s"
+   ]
+  },
+  {
+   "t": "plante",
+   "p": [
+    2572,
+    1452
+   ]
+  },
+  {
+   "t": "plante",
+   "p": [
+    2600,
+    2040
+   ]
+  },
+  {
+   "t": "lit",
+   "r": [
+    564,
+    1933,
+    1062,
+    2260
+   ],
+   "tete": "w"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    564,
+    1638,
+    1130,
+    1783
+   ],
+   "h": 2.4,
+   "m": "sauge"
+  },
+  {
+   "t": "lit",
+   "r": [
+    1535,
+    1783,
+    2022,
+    2115
+   ],
+   "tete": "e"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1586,
+    1472,
+    2032,
+    1617
+   ],
+   "h": 2.4,
+   "m": "sauge"
+  },
+  {
+   "t": "vasque",
+   "r": [
+    912,
+    975,
+    1151,
+    1078
+   ],
+   "face": "s"
+  },
+  {
+   "t": "douche",
+   "r": [
+    508,
+    1348,
+    746,
+    1617
+   ]
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1151,
+    1282,
+    1296,
+    1421
+   ],
+   "h": 1.8,
+   "m": "blanc"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1155,
+    975,
+    1307,
+    1255
+   ],
+   "h": 2.2,
+   "m": "blanc"
+  },
+  {
+   "t": "wc",
+   "p": [
+    1690,
+    425
+   ],
+   "face": "e"
+  },
+  {
+   "t": "lave_mains",
+   "r": [
+    1960,
+    363,
+    2012,
+    467
+   ]
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1929,
+    550,
+    2016,
+    767
+   ],
+   "h": 2.2,
+   "m": "blanc"
+  }
+ ],
+ "ouvertures_effacees": [
+  [
+   879,
+   1260,
+   1151,
+   1350
+  ],
+  [
+   490,
+   1410,
+   1151,
+   1470
+  ],
+  [
+   1151,
+   1270,
+   1300,
+   1420
+  ],
+  [
+   1545,
+   960,
+   1600,
+   1620
+  ],
+  [
+   1580,
+   1615,
+   2030,
+   1650
+  ],
+  [
+   1420,
+   2100,
+   2030,
+   2190
+  ],
+  [
+   1480,
+   2225,
+   2030,
+   2255
+  ],
+  [
+   2020,
+   750,
+   2740,
+   775
+  ],
+  [
+   1640,
+   330,
+   1880,
+   530
+  ],
+  [
+   1480,
+   2240,
+   1720,
+   2280
+  ]
+ ],
+ "sols_defaut": "hongrie",
+ "sols_zones": [
+  [
+   867,
+   964,
+   1153,
+   1638,
+   "carreau_vert"
+  ],
+  [
+   491,
+   1319,
+   871,
+   1638,
+   "carreau_vert"
+  ],
+  [
+   1607,
+   353,
+   1877,
+   481,
+   "carreau_vert"
+  ]
+ ]
+}

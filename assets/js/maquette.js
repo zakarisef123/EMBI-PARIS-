@@ -1,7 +1,7 @@
 /* « Du plan à l'appartement » : maquette 3D construite à partir des vrais plans de l'architecte
    (assets/maquettes/<chantier>/ : scene.json + calques du plan, préparés par scripts/maquettes/).
-   Le plan, puis la démolition, l'électricité et les sols se posent dessus ; les murs montent, les meubles
-   prennent place, la lumière entre par les fenêtres ; enfin tous les plans réunis, et les photos du chantier livré. */
+   Le plan, puis ses calques (démolition, électricité…) et les sols se posent dessus ; les murs montent, les meubles
+   prennent place, la lumière entre par les fenêtres ; enfin tous les plans réunis en un seul. */
 import * as THREE from "./vendor/three.module.min.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "./vendor/RoundedBoxGeometry.js";
@@ -17,24 +17,11 @@ function start(root) {
   const stage = root.querySelector(".mq__stage");
   const caption = root.querySelector(".mq__caption");
   const chipsBox = root.querySelector(".mq__steps");
-  const photos = [...root.querySelectorAll(".mq__photo")];
   const replay = root.querySelector(".mq__replay");
 
-  // ───── étapes (secondes) ─────
-  const STEPS = [
-    ["plan", 0, "Le plan", "Le plan d'aménagement dessiné par notre architecte, à l'échelle."],
-    ["demolition", 3, "Démolition", "En jaune, les cloisons démolies ; en rouge, les nouvelles cloisons."],
-    ["electricite", 6.5, "Électricité", "Points lumineux, prises et circuits, d'après le plan électrique."],
-    ["sols", 10, "Sols", "Parquet en point de Hongrie, parquet droit et travertin 60 × 120, d'après le calepinage."],
-    ["volume", 13, "Les murs", "Les murs montent à partir du plan : fenêtres, portes et balcon filant."],
-    ["mobilier", 17.5, "Mobilier", "Chaque meuble à sa place, d'après le plan d'aménagement."],
-    ["lumiere", 21.5, "Lumière", "Le soleil entre par les fenêtres, les luminaires du plan électrique s'allument."],
-    ["complet", 26, "Plan complet", "Tous les plans réunis en un seul : démolition, électricité, sols, murs et mobilier."],
-    ["resultat", 30.5, "Le résultat", "Et voici l'appartement, une fois livré par EMBI."],
-  ];
-  const DUR = 37.5;
-  chipsBox.innerHTML = STEPS.map(([k, , l], i) => `<button type="button" class="mq__step" data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${l}</button>`).join("");
-  const chips = [...chipsBox.querySelectorAll(".mq__step")];
+  // étapes : construites d'après les plans du chantier (scene.json), en secondes
+  let STEPS = [], DUR = 30, chips = [];
+  const step = (k) => STEPS.find((x) => x.k === k);
 
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const ease = (v) => (v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2);
@@ -59,13 +46,28 @@ function start(root) {
   const loader = new THREE.TextureLoader();
   const tex = (f, srgb = true) => new Promise((ok) => loader.load(BASE + f, (t) => { if (srgb) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; ok(t); }));
 
-  const ready = Promise.all([fetch(BASE + "scene.json").then((r) => r.json()), tex("papier.webp"), tex("sol.webp"), tex("demolition.webp"), tex("electricite.webp"), tex("ombre.webp")]).then(build);
-  window.__maquette = { ready, seek: (t) => ready.then(() => { T = t; frame(t); }) };
+  const ready = fetch(BASE + "scene.json").then((r) => r.json())
+    .then((S) => Promise.all([S, tex("papier.webp"), tex("sol.webp"), tex("ombre.webp"), ...S.calques.map((c) => tex(c.f))])).then(build);
+  window.__maquette = { ready, seek: (t) => ready.then(() => { T = t; frame(t); }), duree: () => DUR };
 
   let T = 0, playing = false, last = 0, M = null;
 
-  function build([S, papier, sol, demo, elec, ombre]) {
+  function build([S, papier, sol, ombre, ...cal]) {
     const W = S.w, H = S.h, HGT = S.hauteur || 2.4, cx = W / 2, cz = H / 2;
+    let t0 = 0;
+    const add = (k, titre, texte, d, o = {}) => { STEPS.push({ k, t: t0, d, titre, texte, ...o }); t0 += d; };
+    add("plan", "Le plan", "Le plan d'aménagement dessiné par notre architecte, à l'échelle.", 3);
+    S.calques.forEach((c, i) => add("calque", c.titre, c.texte, 3.5, { i }));
+    add("sols", "Sols", S.sols, 3);
+    add("murs", "Les murs", `Les murs montent à partir du plan : fenêtres et portes${S.balcon ? ", balcon filant" : ""}.`, 4.5);
+    add("mobilier", "Mobilier", "Chaque meuble à sa place, d'après le plan d'aménagement.", 4);
+    add("lumiere", "Lumière", S.lights.length ? "Le soleil entre par les fenêtres, les points lumineux du plan électrique s'allument." : "Le soleil entre par les fenêtres.", 4.5);
+    const dans = S.calques.filter((c) => c.complet !== false).map((c) => c.titre.toLowerCase());
+    add("complet", "Plan complet", `Tous les plans réunis en un seul : ${[...dans, "sols", "murs et mobilier"].join(", ")}.`, 5);
+    DUR = t0;
+    chipsBox.innerHTML = STEPS.map((x, i) => `<button type="button" class="mq__step" data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${x.titre}</button>`).join("");
+    chips = [...chipsBox.querySelectorAll(".mq__step")];
+    chips.forEach((c) => c.addEventListener("click", () => { T = STEPS[+c.dataset.i].t + 0.01; frame(T); if (!reduce) play(); }));
     const mat = (o) => new THREE.MeshStandardMaterial({ envMapIntensity: 0.55, ...o });
     const MAT = {
       platre: mat({ color: 0xf3f0ea, roughness: 0.93 }),
@@ -75,6 +77,9 @@ function start(root) {
       blanc: mat({ color: 0xf4f3ef, roughness: 0.38 }),
       greige: mat({ color: 0xd6cfc4, roughness: 0.55 }),
       bleu: mat({ color: 0x6f8ca3, roughness: 0.5 }),
+      sauge: mat({ color: 0x8c9c92, roughness: 0.55 }),
+      rose: mat({ color: 0xd8a993, roughness: 0.55 }),
+      olive: mat({ color: 0x7d7a52, roughness: 0.55 }),
       tissu: mat({ color: 0xcfc7bb, roughness: 1 }),
       tissu_fonce: mat({ color: 0x8b8378, roughness: 1 }),
       linge: mat({ color: 0xf6f5f2, roughness: 0.95 }),
@@ -113,9 +118,7 @@ function start(root) {
     const floor = plane(sol, 0.004, { alphaTest: 0.5, roughness: 0.55, clippingPlanes: [solCut] });
     const ao = plane(ombre, 0.008, { transparent: true, opacity: 0, depthWrite: false, roughness: 1 });
     ao.receiveShadow = false;
-    const demoL = plane(demo, 0.012, { transparent: true, opacity: 0, depthWrite: false });
-    const elecL = plane(elec, 0.014, { transparent: true, opacity: 0, depthWrite: false });
-    [demoL, elecL].forEach((m) => { m.receiveShadow = false; m.renderOrder = 2; });
+    const layers = cal.map((t, i) => { const m = plane(t, 0.012 + 0.002 * i, { transparent: true, opacity: 0, depthWrite: false }); m.receiveShadow = false; m.renderOrder = 2; m.userData.complet = S.calques[i].complet !== false; return m; });
 
     // murs extrudés depuis le plan (dessus coupé en bleu EMBI)
     const walls = new THREE.Group(); scene.add(walls);
@@ -188,16 +191,43 @@ function start(root) {
         return g;
       },
       cuisine(it) {
-        const r = R(it.r), g = piece(r.cx, r.cz); const [f0, f1] = FACE[it.face];
-        rb(g, r.sx, 0.86, r.sz, MAT.blanc, 0, 0.04, 0, 0.01); rb(g, r.sx * 0.98, 0.04, r.sz * 0.9, MAT.noir, 0, 0, 0, 0);
-        rb(g, r.sx + 0.02, 0.035, r.sz + 0.02, MAT.marbre, 0, 0.9, 0, 0.005);
-        rb(g, 0.6, 0.006, 0.52, MAT.noir, r.sx * 0.15, 0.935, 0, 0.002);
-        rb(g, 0.5, 0.02, 0.4, MAT.chrome, -r.sx * 0.22, 0.925, 0, 0.01);
-        const back = -f1 * (r.sz / 2 - 0.18);
-        rb(g, r.sx * 0.92, 0.72, 0.36, MAT.chene, 0, 1.45, back, 0.01);
-        if (it.colonne) { const c = R(it.colonne), cg = piece(c.cx, c.cz); rb(cg, c.sx, 2.2, c.sz, MAT.blanc, 0, 0, 0, 0.01); rb(cg, c.sx * 0.8, 0.58, 0.02, MAT.four, 0, 0.9, f1 * (c.sz / 2 + 0.005), 0.005); }
+        // le long d'un mur, façade tournée vers la pièce (it.face) : caissons, plan de travail, plaque, évier, meubles hauts
+        const r = R(it.r), g = piece(r.cx, r.cz); const [f0, f1] = FACE[it.face]; g.rotation.y = Math.atan2(f0, f1);
+        const [Lk, D] = along(r, it.face);
+        rb(g, Lk, 0.86, D, MAT.blanc, 0, 0.04, 0, 0.01); rb(g, Lk * 0.98, 0.04, D * 0.9, MAT.noir, 0, 0, 0, 0);
+        rb(g, Lk + 0.02, 0.035, D + 0.02, MAT.marbre, 0, 0.9, 0, 0.005);
+        rb(g, 0.6, 0.006, 0.52, MAT.noir, Lk * 0.15, 0.935, 0, 0.002);
+        rb(g, 0.5, 0.02, 0.4, MAT.chrome, -Lk * 0.22, 0.925, 0, 0.01);
+        rb(g, Lk * 0.92, 0.72, 0.36, MAT.chene, 0, 1.45, -(D / 2 - 0.18), 0.01);
+        if (it.colonne) {
+          const c = R(it.colonne), cg = piece(c.cx, c.cz); cg.rotation.y = g.rotation.y;
+          const [Lc, Dc] = along(c, it.face);
+          rb(cg, Lc, 2.2, Dc, MAT.blanc, 0, 0, 0, 0.01); rb(cg, Lc * 0.8, 0.58, 0.02, MAT.four, 0, 0.9, Dc / 2 + 0.005, 0.005);
+        }
         return g;
       },
+      canape_droit(it) {
+        // assise, dossier du côté it.dos, accoudoirs aux deux bouts
+        const r = R(it.r), g = piece(r.cx, r.cz); const [f0, f1] = FACE[it.dos]; g.rotation.y = Math.atan2(-f0, -f1);
+        const [Lc, D] = along(r, it.dos);
+        rb(g, Lc, 0.42, D, MAT.tissu, 0, 0.02, 0, 0.07);
+        rb(g, Lc, 0.42, 0.2, MAT.tissu, 0, 0.42, -D / 2 + 0.1, 0.08);
+        rb(g, 0.18, 0.2, D, MAT.tissu, -Lc / 2 + 0.09, 0.42, 0, 0.07); rb(g, 0.18, 0.2, D, MAT.tissu, Lc / 2 - 0.09, 0.42, 0, 0.07);
+        rb(g, 0.45, 0.32, 0.12, MAT.tissu_fonce, -Lc / 2 + 0.45, 0.44, -D / 2 + 0.27, 0.05);
+        rb(g, 0.45, 0.32, 0.12, MAT.linge, Lc / 2 - 0.5, 0.44, -D / 2 + 0.27, 0.05);
+        return g;
+      },
+      verriere(it) {
+        // allège, vitrage à petits bois blancs, puis plâtre jusqu'au plafond (plan de détail de la verrière)
+        const r = R(it.r), g = piece(r.cx, r.cz); const lng = r.sz > r.sx; if (lng) g.rotation.y = Math.PI / 2;
+        const Lv = Math.max(r.sx, r.sz), e = Math.min(r.sx, r.sz) + 0.02;
+        rb(g, Lv, 1.2, e, MAT.platre, 0, 0, 0, 0); rb(g, Lv, HGT - 2.6, e, MAT.platre, 0, 2.6, 0, 0);
+        rb(g, Lv * 0.98, 1.38, 0.012, MAT.verre, 0, 1.21, 0, 0);
+        for (const x of [-0.5, -1 / 6, 1 / 6, 0.5]) rb(g, 0.035, 1.4, e * 0.7, MAT.blanc, x * (Lv - 0.035), 1.2, 0, 0.004);
+        rb(g, Lv, 0.035, e * 0.7, MAT.blanc, 0, 1.2, 0, 0.004); rb(g, Lv, 0.035, e * 0.7, MAT.blanc, 0, 2.05, 0, 0.004); rb(g, Lv, 0.035, e * 0.7, MAT.blanc, 0, 2.57, 0, 0.004);
+        return g;
+      },
+      table_basse_r(it) { const r = R(it.r), g = piece(r.cx, r.cz); rb(g, r.sx, 0.04, r.sz, MAT.chene, 0, 0.36, 0, 0.03); rb(g, r.sx * 0.8, 0.36, r.sz * 0.8, MAT.chene_fonce, 0, 0, 0, 0.02); cyl(g, 0.06, 0.06, 0.12, MAT.vert2, r.sx * 0.15, 0.4, 0, 12); return g; },
       table(it) {
         const r = R(it.r), g = piece(r.cx, r.cz);
         const top = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.04, 48), MAT.chene); top.scale.set(r.sx, 1, r.sz); top.position.y = 0.74; g.add(top);
@@ -207,7 +237,8 @@ function start(root) {
         return g;
       },
       chaise(it) {
-        const g = piece(it.p[0], it.p[1]); const [f0, f1] = FACE[it.face]; g.rotation.y = Math.atan2(f0, f1);
+        // (face : n, s, e, w, ou un angle en radians pour une chaise placée en biais)
+        const g = piece(it.p[0], it.p[1]); g.rotation.y = typeof it.face === "number" ? it.face : Math.atan2(...FACE[it.face]);
         rb(g, 0.44, 0.05, 0.44, MAT.chene, 0, 0.43, 0, 0.015);
         rb(g, 0.42, 0.04, 0.4, MAT.tissu, 0, 0.475, 0.01, 0.015);
         rb(g, 0.44, 0.38, 0.04, MAT.chene, 0, 0.52, -0.2, 0.015);
@@ -271,6 +302,13 @@ function start(root) {
       baignoire(it) { const r = R(it.r), g = piece(r.cx, r.cz); rb(g, r.sx, 0.56, r.sz, MAT.travertin, 0, 0, 0, 0.01); rb(g, r.sx * 0.86, 0.04, r.sz * 0.92, MAT.ceramique, 0, 0.53, 0, 0.12); rb(g, r.sx * 0.7, 0.01, r.sz * 0.8, mat({ color: 0xcfe2e6, roughness: 0.05 }), 0, 0.565, 0, 0.1); return g; },
       douche(it) {
         const r = R(it.r), g = piece(r.cx, r.cz);
+        if (it.verre) {   // douche entre les murs de la pièce : receveur et paroi vitrée du côté indiqué
+          const [f0, f1] = FACE[it.verre];
+          rb(g, r.sx, 0.03, r.sz, MAT.carreau || MAT.travertin, 0, 0, 0, 0.005);
+          rb(g, f0 ? 0.012 : r.sx * 0.98, 2.0, f1 ? 0.012 : r.sz * 0.98, MAT.verre, f0 * (r.sx / 2 - 0.01), 0.03, f1 * (r.sz / 2 - 0.01), 0);
+          cyl(g, 0.11, 0.11, 0.015, MAT.chrome, 0, 2.0, 0, 24);
+          return g;
+        }
         rb(g, r.sx, 0.03, r.sz, MAT.travertin, 0, 0, 0, 0.005);
         rb(g, 0.012, 2.0, r.sz * 0.98, MAT.verre, -r.sx / 2 + 0.01, 0.03, 0, 0);
         rb(g, r.sx, 2.0, 0.03, MAT.travertin, 0, 0.03, r.sz / 2 - 0.015, 0); rb(g, 0.03, 2.0, r.sz, MAT.travertin, r.sx / 2 - 0.015, 0.03, 0, 0);
@@ -302,7 +340,7 @@ function start(root) {
     }
 
     const mats = new Set(); scene.traverse((o) => { if (o.isMesh && o.material && o.material.isMeshStandardMaterial) mats.add(o.material); });
-    M = { W, H, HGT, cx, cz, walls, furn, dmax, floor, solCut, ao, demoL, elecL, paper, sun, hemi, lamps, mats };
+    M = { W, H, HGT, cx, cz, walls, furn, dmax, floor, solCut, ao, layers, paper, sun, hemi, lamps, mats, az: S.soleil };
     resize();
     frame(T);
     if (!record) io.observe(root);
@@ -313,47 +351,51 @@ function start(root) {
   function frame(t) {
     if (!M) return;
     const { W, H, cx, cz } = M;
-    // calques sur le plan
-    // (pour le plan complet, les calques de démolition et d'électricité se posent par-dessus la maquette)
-    M.demoL.material.opacity = 0.95 * (span(t, 3, 3.8) - span(t, 6.3, 7.1)) + 0.9 * span(t, 26.6, 27.6) - 0.9 * span(t, 30.5, 31.2);
-    M.elecL.material.opacity = 0.95 * (span(t, 6.5, 7.4) - span(t, 9.8, 10.8)) + 0.75 * span(t, 27, 28) - 0.75 * span(t, 30.5, 31.2);
-    M.demoL.position.y = t > 20 ? M.HGT + 0.03 : 0.012; M.elecL.position.y = t > 20 ? M.HGT + 0.04 : 0.014;
-    M.solCut.constant = -0.5 + (W + 1) * span(t, 10, 12.6);
-    M.floor.visible = t > 10;
+    const so = step("sols").t, mu = step("murs").t, mo = step("mobilier").t, lu = step("lumiere").t, co = step("complet").t;
+    // calques sur le plan, un par un ; pour le plan complet, ils se posent par-dessus la maquette
+    let n = 0;
+    M.layers.forEach((m, i) => {
+      const c = STEPS.find((x) => x.k === "calque" && x.i === i);
+      let o = 0.95 * (span(t, c.t, c.t + 0.8) - span(t, c.t + c.d - 0.4, c.t + c.d + 0.4));
+      if (m.userData.complet) { o += 0.85 * span(t, co + 0.6 + 0.45 * n, co + 1.6 + 0.45 * n); n++; }
+      m.material.opacity = o;
+      m.position.y = t > mu ? M.HGT + 0.03 + 0.005 * i : 0.012 + 0.002 * i;
+      m.visible = o > 0.001;
+    });
+    M.solCut.constant = -0.5 + (W + 1) * span(t, so, so + 2.6);
+    M.floor.visible = t > so;
     // murs et fenêtres qui montent
-    const rise = span(t, 13.3, 15.8);
+    const rise = span(t, mu + 0.3, mu + 2.8);
     M.walls.scale.y = Math.max(0.0005, rise); M.walls.visible = rise > 0.001;
     M.ao.material.opacity = rise;
     // mobilier : du centre vers les bords
-    M.furn.forEach((g) => { const a = 17.6 + (g.userData.d / M.dmax) * 2.4; const k = span(t, a, a + 0.7); g.scale.y = Math.max(0.0005, k); g.visible = k > 0.001; });
-    // lumière
-    // le jour (soleil haut, lumière neutre), puis la fin d'après-midi : soleil bas et chaud qui entre par les fenêtres
-    const L = span(t, 21.5, 23.5);
-    const az = -1.95 + 0.2 * L + 0.12 * span(t, 23.5, 31), el = 1.1 - 0.52 * L;
+    M.furn.forEach((g) => { const a = mo + 0.1 + (g.userData.d / M.dmax) * 2.4; const k = span(t, a, a + 0.7); g.scale.y = Math.max(0.0005, k); g.visible = k > 0.001; });
+    // lumière : le jour (soleil haut, lumière neutre), puis la fin d'après-midi : soleil bas et chaud qui entre par les fenêtres
+    const L = span(t, lu, lu + 2);
+    const az = (M.az ?? -1.95) + 0.2 * L + 0.12 * span(t, lu + 2, co + 5), el = 1.1 - 0.52 * L;
     M.sun.position.set(cx + Math.cos(az) * 16 * Math.cos(el), 16 * Math.sin(el), cz + Math.sin(az) * 16 * Math.cos(el));
     M.sun.intensity = 2.4 + 1.6 * L;
     M.sun.color.setRGB(1, 0.95 - 0.1 * L, 0.88 - 0.26 * L);
     M.hemi.intensity = 0.42 - 0.2 * L;
     const env = 0.5 - 0.24 * L; M.mats.forEach((m) => (m.envMapIntensity = env));
     M.lamps.forEach(({ g, glow }) => { g.visible = L > 0; glow.material.opacity = 0.42 * L; });
-    // caméra : vue du dessus → perspective → tour lent → vue du dessus (plan complet) → perspective (résultat)
-    const persp = span(t, 13, 16.5) - span(t, 25.6, 28.2) + span(t, 30.5, 33);
-    const orbit = 0.55 * span(t, 16.5, 25.6) + 0.35 * span(t, 30.5, DUR);
+    // caméra : vue du dessus → perspective → tour lent → vue du dessus (plan complet)
+    const persp = span(t, mu, mu + 3.5) - span(t, co - 0.4, co + 2.2);
+    const orbit = 0.55 * span(t, mu + 3.5, co - 0.4);
     const fov = (camera.fov * Math.PI) / 180, asp = camera.aspect;
-    const rTop = Math.max(H / 2 / Math.tan(fov / 2), W / 2 / (Math.tan(fov / 2) * asp)) * 1.06;
-    const r = rTop + (Math.max(W, H) * (1.06 + 0.12 * span(t, 21.5, 24)) - rTop) * persp;
-    // (à l'étape de la lumière, la caméra monte un peu pour voir le soleil sur les parquets)
-    const phi = 0.0001 + (0.8 - 0.26 * span(t, 21.5, 24)) * persp, th = -0.42 + orbit;
+    // (vue du dessus : un peu plus haut quand les murs sont montés, pour que tout tienne dans le cadre)
+    const rTop = Math.max(H / 2 / Math.tan(fov / 2), W / 2 / (Math.tan(fov / 2) * asp)) * 1.06 + M.HGT * 1.1 * rise;
+    // (une petite pièce n'est pas regardée de trop près : les murs resteraient énormes à l'écran)
+    const r = rTop + (Math.max(W * 1.06, H * 1.35, 4.6 * M.HGT) * (1 + 0.12 * span(t, lu, lu + 2.5)) - rTop) * persp;
+    // (à l'étape de la lumière, la caméra monte un peu pour voir le soleil sur les sols)
+    const phi = 0.0001 + (0.8 - 0.26 * span(t, lu, lu + 2.5)) * persp, th = -0.42 + orbit;
     camera.up.set(0, 0, -1).lerp(new THREE.Vector3(0, 1, 0), persp).normalize();
     camera.position.set(cx + r * Math.sin(phi) * Math.sin(th), r * Math.cos(phi), cz + 0.35 * persp + r * Math.sin(phi) * Math.cos(th));
     camera.lookAt(cx, 0.6 * persp, cz + 0.35 * persp);
     renderer.render(scene, camera);
-    // légende et photos
-    let s = 0; STEPS.forEach(([, a], i) => { if (t >= a) s = i; });
-    if (caption.dataset.s !== String(s)) { caption.dataset.s = s; caption.innerHTML = `<b>${String(s + 1).padStart(2, "0")} · ${STEPS[s][2]}</b> ${STEPS[s][3]}`; chips.forEach((c, i) => c.classList.toggle("is-on", i === s)); }
-    const P = photos.length, pa = 31.2, per = (DUR - pa) / Math.max(1, P);
-    // chaque photo se pose sur la précédente (la maquette ne transparaît pas entre deux photos)
-    photos.forEach((p, i) => { p.style.opacity = String(clamp((t - pa - i * per) / 0.7)); });
+    // légende
+    let k = 0; STEPS.forEach((x, i) => { if (t >= x.t) k = i; });
+    if (caption.dataset.s !== String(k)) { caption.dataset.s = k; caption.innerHTML = `<b>${String(k + 1).padStart(2, "0")} · ${STEPS[k].titre}</b> ${STEPS[k].texte}`; chips.forEach((c, i) => c.classList.toggle("is-on", i === k)); }
   }
 
   // ───── lecture ─────
@@ -371,7 +413,6 @@ function start(root) {
   const play = () => { if (playing || record) return; playing = true; replay.hidden = true; last = performance.now(); requestAnimationFrame(tick); };
   const pause = () => { playing = false; };
   const io = new IntersectionObserver((e) => e.forEach((x) => (x.isIntersecting && !reduce ? play() : pause())), { threshold: 0.35 });
-  chips.forEach((c) => c.addEventListener("click", () => { T = STEPS[+c.dataset.i][1] + 0.01; frame(T); if (!reduce) play(); }));
   replay.addEventListener("click", () => { T = 0; frame(0); play(); });
-  if (reduce) ready.then(() => { T = 28.5; frame(T); });
+  if (reduce) ready.then(() => { T = step("complet").t + 3; frame(T); });
 }

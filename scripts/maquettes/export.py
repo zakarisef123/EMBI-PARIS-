@@ -45,5 +45,9 @@ F = [
 sc["mobilier"] = F
 sc["balcon"] = {"r": R(112, 58, 1720, 112)}
 sc["hauteur"] = 2.4
-json.dump(sc, open(f"{OUT}/scene.json", "w"), separators=(",", ":"))
+sc["calques"] = [{"f": "demolition.webp", "titre": "Démolition", "texte": "En jaune, les cloisons démolies ; en rouge, les nouvelles cloisons."},
+                 {"f": "electricite.webp", "titre": "Électricité", "texte": "Points lumineux, prises et circuits, d'après le plan électrique."}]
+sc["sols"] = "Parquet en point de Hongrie, parquet droit et travertin 60 × 120, d'après le calepinage."
+sc["titre"] = "Appartement haussmannien"
+json.dump(sc, open(f"{OUT}/scene.json", "w"), separators=(",", ":"), ensure_ascii=False)
 print("ok", len(F), "meubles", sc["w"], sc["h"])

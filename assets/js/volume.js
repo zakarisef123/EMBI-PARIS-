@@ -1,4 +1,4 @@
-/* « Du plan au volume » : les murs sortent du plan (même animation que la page Conception sur mesure) */
+/* « Du plan au volume » (page Conception sur mesure) : les murs sortent du plan */
 (() => {
   if (!document.getElementById("volSvg")) return;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
