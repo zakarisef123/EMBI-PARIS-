@@ -1,0 +1,453 @@
+{
+ "titre": "Rénovation complète",
+ "base": "arfi-2-amenagement.png",
+ "cadre": [
+  300,
+  560,
+  4552,
+  2937
+ ],
+ "plans": {
+  "papier": "arfi-2-amenagement.png",
+  "projet": "arfi-1-plan-projet.png",
+  "elec": "arfi-3-electrique.png",
+  "sols": "arfi-4-sols.png"
+ },
+ "entree": [
+  2447,
+  2170
+ ],
+ "bouchons": [
+  [
+   [
+    2268,
+    2140
+   ],
+   [
+    2540,
+    2012
+   ]
+  ],
+  [
+   [
+    700,
+    813
+   ],
+   [
+    510,
+    992
+   ]
+  ],
+  [
+   [
+    437,
+    1602
+   ],
+   [
+    510,
+    1865
+   ]
+  ]
+ ],
+ "fenetres": [
+  [
+   705,
+   818,
+   512,
+   990,
+   60
+  ]
+ ],
+ "sols": [],
+ "texte_sols": "Parquet en lames de chêne et carrelage dans les pièces d'eau, d'après le plan des sols.",
+ "calques": [
+  {
+   "id": "cotes",
+   "type": "cotes",
+   "plan": "projet",
+   "titre": "Le relevé",
+   "texte": "Les pièces, leurs surfaces et toutes les cotes relevées sur place."
+  },
+  {
+   "id": "electricite",
+   "type": "electricite",
+   "plan": "elec",
+   "titre": "Électricité",
+   "texte": "Points lumineux, prises et circuits, d'après le plan électrique."
+  },
+  {
+   "id": "plan-sols",
+   "type": "couleurs",
+   "plan": "sols",
+   "titre": "Plan des sols",
+   "texte": "En rose le parquet, en vert le carrelage, d'après le plan des sols."
+  }
+ ],
+ "balcon": [
+  820,
+  590,
+  4180,
+  655
+ ],
+ "hauteur": 2.5,
+ "mobilier": [
+  {
+   "t": "canape_droit",
+   "r": [
+    795,
+    939,
+    1247,
+    1181
+   ],
+   "dos": "n"
+  },
+  {
+   "t": "canape_droit",
+   "r": [
+    500,
+    1191,
+    774,
+    1655
+   ],
+   "dos": "w"
+  },
+  {
+   "t": "table_basse_r",
+   "r": [
+    868,
+    1297,
+    1226,
+    1592
+   ]
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1447,
+    1118,
+    1563,
+    1560
+   ],
+   "h": 0.6,
+   "m": "chene"
+  },
+  {
+   "t": "plante",
+   "p": [
+    1330,
+    800
+   ]
+  },
+  {
+   "t": "plante",
+   "p": [
+    640,
+    1820
+   ]
+  },
+  {
+   "t": "table",
+   "r": [
+    1879,
+    970,
+    2089,
+    1381
+   ]
+  },
+  {
+   "t": "chaise",
+   "p": [
+    1826,
+    1086
+   ],
+   "face": "e"
+  },
+  {
+   "t": "chaise",
+   "p": [
+    1826,
+    1255
+   ],
+   "face": "e"
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2132,
+    1086
+   ],
+   "face": "w"
+  },
+  {
+   "t": "chaise",
+   "p": [
+    2132,
+    1255
+   ],
+   "face": "w"
+  },
+  {
+   "t": "chaise",
+   "p": [
+    1984,
+    949
+   ],
+   "face": "s"
+  },
+  {
+   "t": "chaise",
+   "p": [
+    1984,
+    1413
+   ],
+   "face": "n"
+  },
+  {
+   "t": "cuisine",
+   "r": [
+    2317,
+    897,
+    2458,
+    1707
+   ],
+   "colonne": [
+    2317,
+    718,
+    2458,
+    897
+   ],
+   "face": "w"
+  },
+  {
+   "t": "lit",
+   "r": [
+    2584,
+    939,
+    3075,
+    1350
+   ],
+   "tete": "w"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    2578,
+    834,
+    2673,
+    929
+   ],
+   "h": 0.5,
+   "m": "chene"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    2578,
+    1356,
+    2673,
+    1448
+   ],
+   "h": 0.5,
+   "m": "chene"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    2584,
+    1571,
+    3005,
+    1707
+   ],
+   "h": 2.2,
+   "m": "blanc"
+  },
+  {
+   "t": "lit",
+   "r": [
+    3542,
+    1050,
+    4037,
+    1381
+   ],
+   "tete": "e"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    3942,
+    1381,
+    4037,
+    1486
+   ],
+   "h": 0.5,
+   "m": "chene"
+  },
+  {
+   "t": "bureau",
+   "r": [
+    3921,
+    760,
+    4037,
+    1013
+   ]
+  },
+  {
+   "t": "chaise",
+   "p": [
+    3858,
+    886
+   ],
+   "face": "e"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    3616,
+    1571,
+    4037,
+    1707
+   ],
+   "h": 2.2,
+   "m": "blanc"
+  },
+  {
+   "t": "wc",
+   "p": [
+    3879,
+    1882
+   ],
+   "face": "w"
+  },
+  {
+   "t": "lave_mains",
+   "r": [
+    3721,
+    1939,
+    3816,
+    1992
+   ]
+  },
+  {
+   "t": "bureau",
+   "r": [
+    3925,
+    2023,
+    4037,
+    2276
+   ]
+  },
+  {
+   "t": "chaise",
+   "p": [
+    3858,
+    2140
+   ],
+   "face": "e"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    3904,
+    2297,
+    4095,
+    2771
+   ],
+   "h": 2.2,
+   "m": "blanc"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    3258,
+    2044,
+    3395,
+    2177
+   ],
+   "h": 1.75,
+   "m": "blanc"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    3332,
+    2276,
+    3405,
+    2350
+   ],
+   "h": 1.8,
+   "m": "chene"
+  },
+  {
+   "t": "vasque",
+   "r": [
+    3332,
+    2370,
+    3447,
+    2549
+   ],
+   "face": "e"
+  },
+  {
+   "t": "douche",
+   "r": [
+    3311,
+    2560,
+    3616,
+    2781
+   ]
+  }
+ ],
+ "sols_couleurs": {
+  "plan": "sols",
+  "couleurs": [
+   [
+    [
+     255,
+     230,
+     223
+    ],
+    "droit_v"
+   ],
+   [
+    [
+     219,
+     245,
+     232
+    ],
+    "carrelage"
+   ]
+  ]
+ },
+ "ouvertures_effacees": [
+  [
+   491,
+   1899,
+   1320,
+   2059
+  ],
+  [
+   3181,
+   2218,
+   3266,
+   2537
+  ],
+  [
+   4084,
+   2261,
+   4127,
+   2813
+  ],
+  [
+   3616,
+   1942,
+   4046,
+   2006
+  ],
+  [
+   3587,
+   1761,
+   3638,
+   2250
+  ]
+ ]
+}

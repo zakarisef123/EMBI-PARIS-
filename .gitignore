@@ -3,3 +3,4 @@ photos-originales/
 scripts/photos/node_modules/
 .DS_Store
 scripts/videos/node_modules/
+__pycache__/

@@ -102,6 +102,38 @@ const VIDEOS = fs.existsSync(videosFile) ? JSON.parse(fs.readFileSync(videosFile
 const hasVideo = (id, fmt) => !!(VIDEOS[id] && VIDEOS[id][fmt] && fs.existsSync(path.join(ROOT, VIDEOS[id][fmt].replace(/^\//, ""))));
 const cardVideo = (id) => (hasVideo(id, "carre") ? `<video class="pj-video" data-video="${VIDEOS[id].carre}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : "");
 const cover = (p) => PHOTOS[p.id][0];
+// plans de l'architecte par chantier (assets/img/plans/<chantier>/NN-1200|2400.webp, titres dans plans.json)
+const plansFile = path.join(ROOT, "assets/img/plans/plans.json");
+const PLANS = fs.existsSync(plansFile) ? JSON.parse(fs.readFileSync(plansFile, "utf8")) : {};
+// Maquette 3D construite à partir des vrais plans d'un chantier (assets/maquettes/<id>/, assets/js/maquette.js) :
+// le module three.js n'est chargé qu'à l'approche de la section
+const hasMaquette = (id) => fs.existsSync(path.join(ROOT, "assets/maquettes", id, "scene.json"));
+const maquetteLayers = (id) => {
+  const sc = JSON.parse(fs.readFileSync(path.join(ROOT, "assets/maquettes", id, "scene.json"), "utf8"));
+  const l = [...sc.calques.filter((c) => c.complet !== false).map((c) => c.titre.toLowerCase()), "sols", "murs et mobilier"];
+  return l.join(", ").replace(/^./, (c) => c.toUpperCase());
+};
+const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
+    <section class="section mq-sec" id="maquette">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">${eyebrow}</p>
+            <h2 class="h2">${title}</h2>
+          </div>
+          <p class="section__aside">${aside}${more}</p>
+        </div>
+        <div class="mq" data-maquette="${id}">
+          <div class="mq__stage">
+            <p class="mq__caption" aria-live="polite"></p>
+            <button type="button" class="mq__replay" hidden>Revoir la maquette <span aria-hidden="true">↺</span></button>
+          </div>
+          <div class="mq__steps" role="group" aria-label="Étapes de la maquette"></div>
+        </div>
+      </div>
+      <script>(() => { const el = document.querySelector("[data-maquette]"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) return go(); const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); })();</script>
+    </section>
+`;
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
 
 // Métiers et zones d'intervention (pages de référencement, pied de page, données structurées)
@@ -1036,6 +1068,24 @@ PROJECTS.forEach((p, i) => {
         return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
       })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
+      // maquette 3D construite à partir des plans (assets/js/maquette.js), puis les plans de l'architecte
+      // (cliquer pour agrandir, assets/js/projet.js)
+      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
+    <section class="section pj-plans-sec" id="plans">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Conception</p>
+            <h2 class="h2">Les plans <em>du projet.</em></h2>
+          </div>
+          <p class="section__aside">${PLANS[p.id].length} plan${PLANS[p.id].length > 1 ? "s" : ""} dessiné${PLANS[p.id].length > 1 ? "s" : ""} par notre architecte avant les travaux · cliquez pour agrandir</p>
+        </div>
+        <div class="pj-plans" id="pjPlans">${PLANS[p.id].map((pl, k) => {
+          const base = `/assets/img/plans/${p.id}/${pl.n}`, h = Math.round((1200 * pl.h) / pl.w);
+          return `<figure class="pj-plan"><button type="button" class="pj-plan__btn" data-k="${k}" data-full="${base}-2400.webp" aria-label="Agrandir le plan : ${esc(pl.titre)}"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /></button><figcaption>${esc(pl.titre)}</figcaption></figure>`;
+        }).join("")}</div>
+      </div>
+    </section>` : ""),
       sectorPath: sec.path,
       sectorPlural: PLURAL[p.category],
       sectorOfPlural: (/^[aeiouyhéèêàâîô]/i.test(PLURAL[p.category]) ? "d'" : "de ") + PLURAL[p.category],
@@ -1072,23 +1122,6 @@ const articleCard = (a, level = "h3") => `<a class="mag-card reveal" href="${art
             <${level} class="mag-card__t">${esc(a.title)}</${level}>
             <span class="mag-card__lead">${esc(a.lead)}</span>
           </a>`;
-// « Du plan au volume » : les murs sortent du plan (même animation que la page Conception sur mesure)
-const volumeBlock = () => `    <section class="section svc-volume">
-      <div class="container">
-        <div class="cs-anim csa" data-anim="volume" style="margin-top:0">
-          <div class="cs-anim__text">
-            <span class="cs-anim__kicker">L'architecte</span>
-            <h2 class="h2">Du plan <em>au volume.</em></h2>
-            <p>Tout commence par un plan juste. L'architecte redessine les espaces, puis les murs prennent forme : l'appartement existe avant même le premier coup de pioche.</p>
-          </div>
-          <div class="stage" id="s2">
-            <span class="stage-label" id="volLabel">Plan · vue de dessus</span>
-            <svg viewBox="0 0 600 400" class="vol" id="volSvg" aria-hidden="true"></svg>
-          </div>
-        </div>
-      </div>
-    </section>
-`;
 // Maquette animée de la maison (même animation que la page Savoir-faire), ouverte sur la partie de la page
 const houseBlock = (start) => `    <section class="section svc-house">
       <div class="container">
@@ -1246,7 +1279,7 @@ SERVICES.forEach((sv) => {
   const arts = ARTICLES.filter((a) => ({ interieur: ["renovation-interieure", "renovation-energetique"], exterieur: ["exterieur"] })[sv.slug].includes(a.category)).slice(0, 3);
   layout({
     path: path_,
-    scripts: sv.slug === "interieur" ? ["main", "volume"] : ["main", "zone3d"],
+    scripts: sv.slug === "interieur" ? ["main"] : ["main", "zone3d"],
     key: "renovation",
     title: sv.title,
     description: sv.description,
@@ -1264,7 +1297,7 @@ ${svcIntro(sv)}    <section class="section svc" id="prestations">
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? volumeBlock() : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${sv.slug === "interieur" ? maquetteBlock("appartement-haussmannien", "L'architecte", "Du plan <em>au volume.</em>", "Tout commence par un plan juste. Ici, un appartement haussmannien rénové par EMBI, construit à partir des vrais plans de notre architecte : démolition, électricité, sols, murs et mobilier.", ` <a href="/realisations/appartement-haussmannien/">Voir le chantier →</a>`) : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>

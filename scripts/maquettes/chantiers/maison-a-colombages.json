@@ -1,0 +1,154 @@
+{
+ "titre": "Suite parentale",
+ "base": "normandie-3-suite-parentale.png",
+ "cadre": [
+  0,
+  0,
+  3369,
+  2075
+ ],
+ "pxm": 472.44,
+ "plans": {
+  "papier": "normandie-3-suite-parentale.png"
+ },
+ "bouchons": [
+  [
+   [
+    2021,
+    1562
+   ],
+   [
+    2021,
+    1897
+   ]
+  ]
+ ],
+ "ouvertures_effacees": [
+  [
+   1952,
+   1556,
+   2091,
+   1902
+  ],
+  [
+   2080,
+   160,
+   3015,
+   1560
+  ],
+  [
+   0,
+   700,
+   390,
+   1360
+  ]
+ ],
+ "fenetres": [
+  [
+   50,
+   773,
+   50,
+   1298,
+   90
+  ]
+ ],
+ "sols_defaut": "moquette",
+ "sols_zones": [
+  [
+   2081,
+   168,
+   3022,
+   1526,
+   "hongrie"
+  ],
+  [
+   2081,
+   1040,
+   2656,
+   1526,
+   "carrelage"
+  ]
+ ],
+ "texte_sols": "Moquette dans la chambre, parquet en point de Hongrie dans la salle de bains, d'après la légende du plan.",
+ "calques": [],
+ "hauteur": 2.5,
+ "soleil": -2.4,
+ "mobilier": [
+  {
+   "t": "lit",
+   "r": [
+    1207,
+    559,
+    1962,
+    1502
+   ],
+   "tete": "e"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1843,
+    426,
+    1958,
+    551
+   ],
+   "h": 0.5,
+   "m": "chene"
+  },
+  {
+   "t": "armoire",
+   "r": [
+    1843,
+    1510,
+    1958,
+    1635
+   ],
+   "h": 0.5,
+   "m": "chene"
+  },
+  {
+   "t": "tapis",
+   "r": [
+    654,
+    495,
+    1189,
+    1566
+   ]
+  },
+  {
+   "t": "plante",
+   "p": [
+    495,
+    297
+   ]
+  },
+  {
+   "t": "vasque",
+   "r": [
+    2774,
+    258,
+    3012,
+    684
+   ],
+   "face": "w"
+  },
+  {
+   "t": "douche",
+   "r": [
+    2085,
+    1044,
+    2656,
+    1516
+   ],
+   "verre": "e"
+  },
+  {
+   "t": "wc",
+   "p": [
+    2854,
+    1298
+   ],
+   "face": "w"
+  }
+ ]
+}
