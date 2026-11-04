@@ -134,6 +134,66 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
       <script>(() => { const el = document.querySelector("[data-maquette]"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) return go(); const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); })();</script>
     </section>
 `;
+// « Architecture intérieure » : les maquettes 3D construites à partir des vrais plans (assets/js/maquette.js), un chantier
+// à la fois, choisi par onglets, avec quelques-uns de ses plans. Page Conception sur mesure (tous les chantiers),
+// Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
+// dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
+const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale" };
+const archiList = (scope) => {
+  const ids = [...Object.keys(ARCHI_NOMS), ...PROJECTS.map((p) => p.id).filter((id) => !(id in ARCHI_NOMS))];
+  return ids.map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && hasMaquette(p.id))
+    .filter((p) => scope === "tous" || (scope === "particulier" ? p.category === "particulier" : !["particulier", "savoir-faire"].includes(p.category)))
+    .map((p) => [p.id, ARCHI_NOMS[p.id] || p.title]);
+};
+const archiBlock = (scope) => {
+    const list = archiList(scope);
+    if (!list.length) return "";
+    const noun = scope === "pro" ? "lieu" : scope === "particulier" ? "intérieur" : "projet";
+    const nPlans = (id) => (PLANS[id] || []).length;
+    const plural = (n, w) => `${n} ${w}${n > 1 ? "s" : ""}`;
+    const tabs = list.map(([id, name], i) => {
+      const p = PROJECTS.find((q) => q.id === id);
+      const meta = [id === "maison-a-colombages" ? "Maison à colombages" : p.lieu, nPlans(id) && plural(nPlans(id), "plan")].filter(Boolean).join(" · ");
+      return `<button type="button" class="ai-tab" data-ai-tab="${id}" aria-pressed="${i === 0}" aria-controls="aiMq"><span class="ai-tab__n">${String(i + 1).padStart(2, "0")}</span><span class="ai-tab__t">${esc(name)}</span><span class="ai-tab__m">${esc(meta)}</span></button>`;
+    }).join("");
+    const panels = list.map(([id], i) => {
+      const p = PROJECTS.find((q) => q.id === id), plans = PLANS[id] || [], shown = plans.slice(0, 3), rest = plans.length - shown.length;
+      return `<div class="ai-panel" data-ai-panel="${id}"${i ? " hidden" : ""}>
+          <div class="ai-panel__text">
+            <p class="ai-panel__k">Le projet</p>
+            <h3 class="ai-panel__t">${esc(p.title)}</h3>
+            <p>${esc(p.text)}</p>
+            <p class="ai-panel__layers">Construite à partir des plans&nbsp;: ${esc(maquetteLayers(id).toLowerCase())}.</p>
+            <a class="btn btn--ghost" href="${projectUrl(p)}">Voir le chantier <span aria-hidden="true">→</span></a>
+          </div>
+          ${shown.length ? `<ul class="ai-plans">${shown.map((pl) => {
+            const base = `/assets/img/plans/${id}/${pl.n}`, h = Math.round((1200 * pl.h) / pl.w);
+            return `<li><a class="ai-plan" href="${projectUrl(p)}#plans"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /><span>${esc(pl.titre)}</span></a></li>`;
+          }).join("")}${rest > 0 ? `<li><a class="ai-plan ai-plan--more" href="${projectUrl(p)}#plans"><b>+${rest}</b><span>${rest > 1 ? "autres plans" : "autre plan"} du projet</span></a></li>` : ""}</ul>` : ""}
+        </div>`;
+    }).join("\n        ");
+    return `<section class="section mq-sec ai-sec" id="architecture-interieure">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow reveal">Architecture intérieure</p>
+            <h2 class="h2 reveal">Nos plans, <em>en volume.</em></h2>
+          </div>
+          <p class="section__aside reveal">${list.length > 1 ? `${plural(list.length, noun)} rénové${list.length > 1 ? "s" : ""}` : `Un ${noun} rénové`} par EMBI, reconstruit${list.length > 1 ? "s" : ""} en 3D à partir des vrais plans de notre architecte et de notre architecte d'intérieur. Choisissez un projet&nbsp;: le plan se pose, les calques s'empilent, les murs montent et le mobilier prend sa place.</p>
+        </div>
+        <div class="ai-tabs" role="group" aria-label="Choisir un projet">${tabs}</div>
+        <div class="mq" id="aiMq" data-maquette="${list[0][0]}">
+          <div class="mq__stage">
+            <p class="mq__caption" aria-live="polite"></p>
+            <button type="button" class="mq__replay" hidden>Revoir la maquette <span aria-hidden="true">↺</span></button>
+          </div>
+          <div class="mq__steps" role="group" aria-label="Étapes de la maquette"></div>
+        </div>
+        ${panels}
+      </div>
+      <script>(() => { const el = document.getElementById("aiMq"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) go(); else { const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); } const tabs = [...document.querySelectorAll("[data-ai-tab]")], panels = [...document.querySelectorAll("[data-ai-panel]")]; tabs.forEach((b) => b.addEventListener("click", () => { const id = b.dataset.aiTab; if (el.dataset.maquette === id) return; el.dataset.maquette = id; tabs.forEach((t) => t.setAttribute("aria-pressed", t === b)); panels.forEach((p) => (p.hidden = p.dataset.aiPanel !== id)); b.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); el.dispatchEvent(new CustomEvent("maquette:change")); })); })();</script>
+    </section>`;
+};
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
 
 // Métiers et zones d'intervention (pages de référencement, pied de page, données structurées)
@@ -175,8 +235,8 @@ const BUSINESS = {
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
-  { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"]] },
+  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#architecture-interieure", "Architecture intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
+  { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"], ...(PROJECTS.some((p) => !["particulier", "savoir-faire"].includes(p.category) && hasMaquette(p.id)) ? [["/professionnels/#architecture-interieure", "Architecture intérieure"]] : [])] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
@@ -863,62 +923,7 @@ const BLOCKS = {
     </section>`,
   "signature-cards": () => `<div class="pj-cards">${["loro-piana", "byredo", "tartine-et-chocolat-harrods", "hotel-panache", "hotel-paradis", "le-grand-pigalle"].map((id) => card(PROJECTS.find((p) => p.id === id), "h3")).join("")}</div>`,
   "sector-links": () => SECTORS.map((s) => `<a href="${s.path}">${s.nav}</a>`).join(" · "),
-  // Page Conception sur mesure : « Architecture intérieure », les maquettes 3D construites à partir des vrais plans
-  // (même maquette que les fiches chantier, assets/js/maquette.js), un chantier à la fois, avec quelques-uns de ses plans
-  "architecture-interieure": () => {
-    const list = [
-      ["appartement-haussmannien", "Appartement haussmannien"],
-      ["appartement-rue-saint-dominique", "Rue Saint-Dominique"],
-      ["appartement-renovation-complete", "Rénovation complète"],
-      ["appartement-lumineux", "Appartement lumineux"],
-      ["maison-a-colombages", "Suite parentale"],
-    ].filter(([id]) => hasMaquette(id) && PROJECTS.some((p) => p.id === id));
-    if (!list.length) return "";
-    const nPlans = (id) => (PLANS[id] || []).length;
-    const plural = (n, w) => `${n} ${w}${n > 1 ? "s" : ""}`;
-    const tabs = list.map(([id, name], i) => {
-      const p = PROJECTS.find((q) => q.id === id);
-      const meta = [id === "maison-a-colombages" ? "Maison à colombages" : p.lieu, nPlans(id) && plural(nPlans(id), "plan")].filter(Boolean).join(" · ");
-      return `<button type="button" class="ai-tab" data-ai-tab="${id}" aria-pressed="${i === 0}" aria-controls="aiMq"><span class="ai-tab__n">${String(i + 1).padStart(2, "0")}</span><span class="ai-tab__t">${esc(name)}</span><span class="ai-tab__m">${esc(meta)}</span></button>`;
-    }).join("");
-    const panels = list.map(([id], i) => {
-      const p = PROJECTS.find((q) => q.id === id), plans = PLANS[id] || [], shown = plans.slice(0, 3), rest = plans.length - shown.length;
-      return `<div class="ai-panel" data-ai-panel="${id}"${i ? " hidden" : ""}>
-          <div class="ai-panel__text">
-            <p class="ai-panel__k">Le projet</p>
-            <h3 class="ai-panel__t">${esc(p.title)}</h3>
-            <p>${esc(p.text)}</p>
-            <p class="ai-panel__layers">Construite à partir des plans&nbsp;: ${esc(maquetteLayers(id).toLowerCase())}.</p>
-            <a class="btn btn--ghost" href="${projectUrl(p)}">Voir le chantier <span aria-hidden="true">→</span></a>
-          </div>
-          ${shown.length ? `<ul class="ai-plans">${shown.map((pl) => {
-            const base = `/assets/img/plans/${id}/${pl.n}`, h = Math.round((1200 * pl.h) / pl.w);
-            return `<li><a class="ai-plan" href="${projectUrl(p)}#plans"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /><span>${esc(pl.titre)}</span></a></li>`;
-          }).join("")}${rest > 0 ? `<li><a class="ai-plan ai-plan--more" href="${projectUrl(p)}#plans"><b>+${rest}</b><span>${rest > 1 ? "autres plans" : "autre plan"} du projet</span></a></li>` : ""}</ul>` : ""}
-        </div>`;
-    }).join("\n        ");
-    return `<section class="section mq-sec ai-sec" id="architecture-interieure">
-      <div class="container">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow reveal">Architecture intérieure</p>
-            <h2 class="h2 reveal">Nos plans, <em>en volume.</em></h2>
-          </div>
-          <p class="section__aside reveal">${plural(list.length, "intérieur")} rénové${list.length > 1 ? "s" : ""} par EMBI, reconstruit${list.length > 1 ? "s" : ""} en 3D à partir des vrais plans de notre architecte et de notre architecte d'intérieur. Choisissez un projet&nbsp;: le plan se pose, les calques s'empilent, les murs montent et le mobilier prend sa place.</p>
-        </div>
-        <div class="ai-tabs" role="group" aria-label="Choisir un projet">${tabs}</div>
-        <div class="mq" id="aiMq" data-maquette="${list[0][0]}">
-          <div class="mq__stage">
-            <p class="mq__caption" aria-live="polite"></p>
-            <button type="button" class="mq__replay" hidden>Revoir la maquette <span aria-hidden="true">↺</span></button>
-          </div>
-          <div class="mq__steps" role="group" aria-label="Étapes de la maquette"></div>
-        </div>
-        ${panels}
-      </div>
-      <script>(() => { const el = document.getElementById("aiMq"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) go(); else { const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); } const tabs = [...document.querySelectorAll("[data-ai-tab]")], panels = [...document.querySelectorAll("[data-ai-panel]")]; tabs.forEach((b) => b.addEventListener("click", () => { const id = b.dataset.aiTab; if (el.dataset.maquette === id) return; el.dataset.maquette = id; tabs.forEach((t) => t.setAttribute("aria-pressed", t === b)); panels.forEach((p) => (p.hidden = p.dataset.aiPanel !== id)); b.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); el.dispatchEvent(new CustomEvent("maquette:change")); })); })();</script>
-    </section>`;
-  },
+  "architecture-interieure": () => archiBlock("tous"),
 };
 const FORM_ID = cfg.formsubmit || "sec@embi.fr";
 const expand = (html) =>
@@ -1248,6 +1253,7 @@ const svcCover = (sv) => shot(...{ interieur: ["renovation-appartement", 1], ext
         ${projRail("pro", proProjs, "Nos chantiers <em>de professionnels.</em>")}
       </div>
     </section>
+${archiBlock("pro")}
     <section class="section">
       <div class="container">
         <div class="section__head"><div><p class="eyebrow reveal">Méthode</p><h2 class="h2 reveal">De l'étude <em>à la livraison.</em></h2></div><a href="/methode/" class="btn btn--ghost">Notre méthode en détail <span aria-hidden="true">→</span></a></div>
@@ -1353,7 +1359,7 @@ ${svcIntro(sv)}    <section class="section svc" id="prestations">
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? maquetteBlock("appartement-haussmannien", "L'architecte", "Du plan <em>au volume.</em>", "Tout commence par un plan juste. Ici, un appartement haussmannien rénové par EMBI, construit à partir des vrais plans de notre architecte : démolition, électricité, sols, murs et mobilier.", ` <a href="/realisations/appartement-haussmannien/">Voir le chantier →</a>`) : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${sv.slug === "interieur" ? archiBlock("particulier") : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
