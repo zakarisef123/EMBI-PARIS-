@@ -7,10 +7,17 @@ import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "./vendor/RoundedBoxGeometry.js";
 
 const root = document.querySelector("[data-maquette]");
-if (root) start(root);
+if (root) {
+  // plusieurs chantiers dans la même section (page Conception sur mesure) : changer de chantier
+  // libère la scène en cours (contexte WebGL compris) puis construit la suivante
+  let cur = start(root);
+  root.addEventListener("maquette:change", () => { cur.destroy(); cur = start(root); });
+}
 
 function start(root) {
   const id = root.dataset.maquette;
+  const ac = new AbortController(), on = { signal: ac.signal };
+  let dead = false;
   const BASE = `/assets/maquettes/${id}/`;
   const record = new URLSearchParams(location.search).has("enregistrement");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -18,6 +25,7 @@ function start(root) {
   const caption = root.querySelector(".mq__caption");
   const chipsBox = root.querySelector(".mq__steps");
   const replay = root.querySelector(".mq__replay");
+  caption.dataset.s = ""; caption.textContent = "Chargement de la maquette…"; chipsBox.innerHTML = ""; replay.hidden = true;
 
   // étapes : construites d'après les plans du chantier (scene.json), en secondes
   let STEPS = [], DUR = 30, chips = [];
@@ -47,7 +55,8 @@ function start(root) {
   const tex = (f, srgb = true) => new Promise((ok) => loader.load(BASE + f, (t) => { if (srgb) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; ok(t); }));
 
   const ready = fetch(BASE + "scene.json").then((r) => r.json())
-    .then((S) => Promise.all([S, tex("papier.webp"), tex("sol.webp"), tex("ombre.webp"), ...S.calques.map((c) => tex(c.f))])).then(build);
+    .then((S) => Promise.all([S, tex("papier.webp"), tex("sol.webp"), tex("ombre.webp"), ...S.calques.map((c) => tex(c.f))]))
+    .then((r) => { if (dead) { r.slice(1).forEach((t) => t.dispose()); return false; } return build(r); });
   window.__maquette = { ready, seek: (t) => ready.then(() => { T = t; frame(t); }), duree: () => DUR };
 
   let T = 0, playing = false, last = 0, M = null;
@@ -403,7 +412,7 @@ function start(root) {
     const w = stage.clientWidth, h = stage.clientHeight;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   }
-  addEventListener("resize", () => { resize(); frame(T); });
+  addEventListener("resize", () => { resize(); frame(T); }, on);
   const tick = (now) => {
     if (!playing) return;
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
@@ -413,6 +422,19 @@ function start(root) {
   const play = () => { if (playing || record) return; playing = true; replay.hidden = true; last = performance.now(); requestAnimationFrame(tick); };
   const pause = () => { playing = false; };
   const io = new IntersectionObserver((e) => e.forEach((x) => (x.isIntersecting && !reduce ? play() : pause())), { threshold: 0.35 });
-  replay.addEventListener("click", () => { T = 0; frame(0); play(); });
-  if (reduce) ready.then(() => { T = step("complet").t + 3; frame(T); });
+  replay.addEventListener("click", () => { T = 0; frame(0); play(); }, on);
+  if (reduce) ready.then((ok) => { if (ok) { T = step("complet").t + 3; frame(T); } });
+
+  // ───── fin : tout libérer (géométries, matières, textures, contexte WebGL) ─────
+  const destroy = () => {
+    dead = true; playing = false; M = null;
+    io.disconnect(); ac.abort();
+    scene.traverse((o) => {
+      if (o.geometry) o.geometry.dispose();
+      [].concat(o.material || []).forEach((m) => { Object.values(m).forEach((v) => v && v.isTexture && v.dispose()); m.dispose(); });
+    });
+    if (scene.environment) scene.environment.dispose();
+    pmrem.dispose(); renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove();
+  };
+  return { destroy };
 }
