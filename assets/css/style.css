@@ -3253,3 +3253,39 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
   .mq__stage { aspect-ratio: 4 / 5; }
   .mq__caption { font-size: 13px; }
 }
+
+/* ═════════ Conception sur mesure : « Architecture intérieure », les maquettes 3D de plusieurs chantiers (2026-11) ═════════ */
+.ai-sec .section__head > div { min-width: 0; max-width: 100%; }
+.ai-sec .h2 { font-size: clamp(30px, 5vw, 76px); overflow-wrap: anywhere; }
+.ai-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+.ai-tab { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; align-content: start; text-align: left; padding: 14px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.ai-tab:hover { border-color: var(--ink-2); }
+.ai-tab__n { grid-row: span 2; font: 500 11px/1.9 var(--sans); color: var(--muted); }
+.ai-tab__t { font: 500 clamp(17px, 1.4vw, 20px)/1.2 var(--display); }
+.ai-tab__m { margin-top: 4px; font: 400 12px/1.4 var(--sans); letter-spacing: 0.03em; color: var(--muted); }
+.ai-tab[aria-pressed="true"] { background: var(--dark); border-color: var(--dark); color: #fff; }
+.ai-tab[aria-pressed="true"] .ai-tab__n { color: var(--accent-2); }
+.ai-tab[aria-pressed="true"] .ai-tab__m { color: rgba(255, 255, 255, 0.65); }
+.ai-panel { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2.2fr); gap: clamp(24px, 4vw, 56px); align-items: start; margin-top: clamp(28px, 4vw, 48px); padding-top: clamp(24px, 3vw, 36px); border-top: 1px solid var(--line); }
+.ai-panel[hidden] { display: none; }
+.ai-panel__text { display: grid; gap: 12px; justify-items: start; }
+.ai-panel__text p { margin: 0; color: var(--ink-2); }
+.ai-panel__k { font: 500 12px var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted) !important; }
+.ai-panel__t { margin: 0; font: 500 clamp(22px, 2vw, 28px)/1.15 var(--display); }
+.ai-panel__layers { font-size: 14px; }
+.ai-plans { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.ai-plan { display: flex; flex-direction: column; gap: 8px; height: 100%; color: var(--ink-2); font: 400 13px/1.35 var(--sans); text-decoration: none; }
+.ai-plan img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 6px; transition: box-shadow 0.25s, transform 0.25s; }
+.ai-plan:hover img { transform: translateY(-2px); box-shadow: 0 16px 30px -18px rgba(20, 35, 63, 0.4); }
+.ai-plan--more { justify-content: center; align-items: center; text-align: center; aspect-ratio: 4 / 3; height: auto; border: 1px dashed var(--line); border-radius: 4px; }
+.ai-plan--more b { font: 500 clamp(26px, 2.4vw, 34px)/1 var(--display); color: var(--ink); }
+.ai-plan--more:hover { border-color: var(--ink-2); }
+@media (max-width: 960px) {
+  .ai-tabs { display: flex; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; margin-inline: -16px; padding-inline: 16px; }
+  .ai-tabs::-webkit-scrollbar { display: none; }
+  .ai-tab { flex: none; width: min(64vw, 240px); scroll-snap-align: start; }
+  .ai-panel { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .ai-plans { grid-template-columns: 1fr 1fr; }
+}
