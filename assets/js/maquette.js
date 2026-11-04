@@ -408,6 +408,8 @@ function start(root) {
   }
 
   // ───── lecture ─────
+  // vitesse de lecture : tout le film (calques, murs, mobilier, caméra) défile plus vite pour capter l'attention d'emblée
+  const SPEED = 1.6;
   function resize() {
     const w = stage.clientWidth, h = stage.clientHeight;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
@@ -416,12 +418,12 @@ function start(root) {
   const tick = (now) => {
     if (!playing) return;
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
-    T += dt; if (T >= DUR) { T = DUR; playing = false; replay.hidden = false; }
+    T += dt * SPEED; if (T >= DUR) { T = DUR; playing = false; replay.hidden = false; }
     frame(T); if (playing) requestAnimationFrame(tick);
   };
   const play = () => { if (playing || record) return; playing = true; replay.hidden = true; last = performance.now(); requestAnimationFrame(tick); };
   const pause = () => { playing = false; };
-  const io = new IntersectionObserver((e) => e.forEach((x) => (x.isIntersecting && !reduce ? play() : pause())), { threshold: 0.35 });
+  const io = new IntersectionObserver((e) => e.forEach((x) => (x.isIntersecting && !reduce ? play() : pause())), { threshold: 0.2 });
   replay.addEventListener("click", () => { T = 0; frame(0); play(); }, on);
   if (reduce) ready.then((ok) => { if (ok) { T = step("complet").t + 3; frame(T); } });
 
