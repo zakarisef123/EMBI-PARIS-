@@ -1299,7 +1299,7 @@ const svcIntro = (sv) => {
   if (sv.slug === "interieur") {
     const s = SECTORS.find((x) => x.category === "particulier");
     const list = localFirst(PROJECTS.filter((p) => p.category === "particulier").sort((a, b) => (a.featured || 99) - (b.featured || 99)));
-    return `    <section class="section sector" id="appartement">
+    return `    <section class="section sector sector--wide" id="appartement">
       <div class="container sector__grid">
         <div class="sector__text">
           <p class="eyebrow reveal">Particuliers</p>
