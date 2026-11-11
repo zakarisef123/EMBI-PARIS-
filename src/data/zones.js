@@ -31,8 +31,8 @@ module.exports = [
   ]),
   A("5e", "paris-5e", ["Quartier latin", "Panthéon", "Jardin des Plantes", "Mouffetard"], [
     "Le Quartier latin, la Montagne Sainte-Geneviève et le Jardin des Plantes : immeubles anciens et haussmanniens, parquets, moulures et cheminées à préserver dans des appartements souvent très recherchés.",
-    "Dans le 5e, EMBI a rénové un appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris, bibliothèques sur mesure, cuisine en zellige noir.",
-  ], { projets: ["appartement-paris-5e"] }),
+    "Nous y menons des rénovations qui gardent le caractère de l'ancien : parquets remis à neuf, moulures, lambris et cheminées, bibliothèques et rangements sur mesure.",
+  ]),
   A("6e", "paris-6e", ["Saint-Germain-des-Prés", "Odéon", "Luxembourg", "Saint-Sulpice"], [
     "Saint-Germain-des-Prés, Odéon, Luxembourg : le 6e associe appartements de prestige, galeries, maisons d'édition, hôtels et boutiques de luxe. Les copropriétés y sont exigeantes sur les horaires, le bruit et la protection des parties communes.",
     "Nous organisons ces chantiers avec le syndic et le gardien, pour des travaux soignés dans des immeubles anciens.",
@@ -44,7 +44,7 @@ module.exports = [
   A("8e", "paris-8e", ["Champs-Élysées", "Faubourg Saint-Honoré", "Monceau", "Madeleine", "Avenue Montaigne"], [
     "Avenue Montaigne, faubourg Saint-Honoré, Monceau, Madeleine : le 8e réunit maisons de luxe, hôtels, bureaux de prestige et grands appartements haussmanniens.",
     "Les boutiques y ouvrent à date fixe : EMBI cale le chantier sur votre calendrier d'ouverture, avec les finitions exigées par les marques.",
-  ]),
+  ], { projets: ["appartement-lumineux"] }),
   A("9e", "paris-9e", ["Opéra", "Grands Boulevards", "Pigalle", "Nouvelle Athènes", "Saint-Georges"], [
     "Opéra, Grands Boulevards, Nouvelle Athènes, Pigalle : le 9e mêle immeubles haussmanniens, hôtels particuliers et une forte concentration d'hôtels et de restaurants, dont beaucoup se sont réinventés ces dernières années.",
     "Hôtels de charme, restaurants et appartements : nous menons les rénovations en site occupé quand l'établissement doit rester ouvert.",
@@ -52,7 +52,7 @@ module.exports = [
   A("10e", "paris-10e", ["Canal Saint-Martin", "Gare du Nord", "Gare de l'Est", "Faubourg Saint-Denis"], [
     "Le long du canal Saint-Martin et autour des gares, le 10e associe immeubles faubouriens, cours, anciens ateliers et passages. Beaucoup de lieux s'y transforment en restaurants, hôtels ou lofts.",
     "Transformer un ancien atelier ou une boutique en restaurant demande de reprendre les réseaux, l'extraction et les normes : c'est le type de chantier que nous menons de bout en bout.",
-  ]),
+  ], { projets: ["renovation-appartement"] }),
   A("11e", "paris-11e", ["Bastille", "Oberkampf", "République", "Faidherbe"], [
     "Bastille, Oberkampf, Faidherbe : le 11e est l'un des arrondissements les plus denses de Paris, avec ses cours, ses passages et ses anciens ateliers d'artisans devenus logements, cafés ou boutiques.",
     "Ateliers transformés en lofts, cafés et restaurants, appartements d'immeubles faubouriens : nous adaptons les travaux à ces bâtis anciens et souvent atypiques.",
@@ -80,7 +80,7 @@ module.exports = [
   A("17e", "paris-17e", ["Batignolles", "Ternes", "Plaine-Monceau", "Épinettes"], [
     "Le 17e est notre arrondissement : notre bureau et notre showroom carrelages et parquets se trouvent au 5, rue Villebois-Mareuil, aux Ternes. Vous pouvez y voir les matériaux avant de décider.",
     "Des Batignolles à la Plaine-Monceau, l'arrondissement compte de nombreux immeubles haussmanniens. Rue Nollet, nous avons mené le ravalement de la façade en pierre d'un immeuble d'angle.",
-  ], { projets: ["ravalement-rue-nollet"] }),
+  ], { projets: ["ravalement-rue-nollet", "appartement-haussmannien", "appartement-renovation-complete"] }),
   A("18e", "paris-18e", ["Montmartre", "Abbesses", "Goutte-d'Or", "Clignancourt"], [
     "Montmartre et ses rues en pente, les Abbesses, la Goutte-d'Or : le 18e compte des immeubles anciens, des ateliers d'artistes et des maisons, souvent avec des accès difficiles pour les livraisons.",
     "Nous organisons ces chantiers en conséquence et intervenons aussi sur les toits-terrasses, comme sur une terrasse avec vue sur le Sacré-Cœur.",
@@ -101,6 +101,7 @@ module.exports = [
       "Au-delà de Paris, EMBI intervient dans toute l'Île-de-France : Neuilly-sur-Seine, Levallois-Perret et Boulogne-Billancourt à deux pas de notre showroom du 17e, mais aussi Saint-Germain-en-Laye, Versailles, Vincennes, Saint-Mandé et l'ensemble des départements franciliens.",
       "Maisons, appartements, hôtels, commerces et restaurants : les mêmes équipes, le même interlocuteur et la même exigence qu'à Paris.",
     ],
+    projets: ["appartement-neuilly-sur-seine", "hotel-ambassadeur"],
   },
   {
     slug: "france", nom: "France entière", dans: "partout en France", type: "region",
@@ -110,6 +111,6 @@ module.exports = [
       "EMBI suit ses clients partout en France : boutiques et corners de marques, hôtels, maisons de famille et projets spécifiques. À Ploërmel, dans le Morbihan, nous avons aménagé de bout en bout un atelier de haute joaillerie.",
       "Pour un chantier hors d'Île-de-France, l'organisation est la même : un interlocuteur dédié, une étude de faisabilité, un devis détaillé et la coordination de tous les corps de métier jusqu'à la livraison.",
     ],
-    projets: ["atelier-joaillerie-ploermel"],
+    projets: ["atelier-joaillerie-ploermel", "maison-en-pierre", "maison-a-colombages"],
   },
 ];
