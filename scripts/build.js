@@ -797,11 +797,12 @@ const showcase = () => {
         </div>`;
 };
 
-// Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
+// Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous), dans l'ordre de HOME_SECTOR_ORDER
 // photo de chaque secteur : le chantier choisi ici, sinon le mieux placé (mis en avant, puis photos hébergées sur le site)
 const SECTOR_COVER = { particulier: "maison-en-pierre", restaurant: "cafe-joyeux-klesia" };
+const HOME_SECTOR_ORDER = ["particulier", "hotel", "restaurant", "boutique"];
 const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
-            ${SECTORS.map((s) => {
+            ${HOME_SECTOR_ORDER.map((c) => SECTORS.find((s) => s.category === c)).filter(Boolean).map((s) => {
               const list = PROJECTS.filter((p) => p.category === s.category);
               const cover = list.find((p) => p.id === SECTOR_COVER[s.category]) || localFirst([...list].sort((a, b) => (a.featured || 99) - (b.featured || 99)))[0];
               return `<a class="works__card reveal" href="${s.path}">
