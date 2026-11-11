@@ -153,7 +153,7 @@ const archiBlock = (scope) => {
     const plural = (n, w) => `${n} ${w}${n > 1 ? "s" : ""}`;
     const tabs = list.map(([id, name], i) => {
       const p = PROJECTS.find((q) => q.id === id);
-      const meta = [id === "maison-a-colombages" ? "Maison à colombages" : p.lieu, nPlans(id) && plural(nPlans(id), "plan")].filter(Boolean).join(" · ");
+      const meta = [p.lieu, nPlans(id) && plural(nPlans(id), "plan")].filter(Boolean).join(" · ");
       return `<button type="button" class="ai-tab" data-ai-tab="${id}" aria-pressed="${i === 0}" aria-controls="aiMq"><span class="ai-tab__n">${String(i + 1).padStart(2, "0")}</span><span class="ai-tab__t">${esc(name)}</span><span class="ai-tab__m">${esc(meta)}</span></button>`;
     }).join("");
     const panels = list.map(([id], i) => {
@@ -295,11 +295,11 @@ const HERO_PHOTOS = {
   "/equipe/": [["ravalement-rue-nollet", 6], ["charpente-bois", 1], ["toitures-zinguerie", 2], ["appartement-haussmannien", 3]],
   "/qualifications/": [["toitures-zinguerie", 2], ["ravalement-rue-nollet", 6], ["charpente-bois", 5], ["appartement-renovation-complete", 9]],
   "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
-  "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-paris-5e", 8], ["appartement-renovation-complete", 6]],
+  "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-neuilly-sur-seine", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
-  "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-paris-5e", 7]],
+  "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-neuilly-sur-seine", 7]],
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["hotel-beauregard", 4], ["renovation-appartement", 1]],
-  "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-paris-5e", 2]],
+  "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-neuilly-sur-seine", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
   "/cgv/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
   "/mentions-legales/": [["toitures-zinguerie", 3], ["ravalement-rue-nollet", 8], ["appartement-lumineux", 2]],
@@ -797,11 +797,12 @@ const showcase = () => {
         </div>`;
 };
 
-// Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous)
+// Accueil · les 4 secteurs en cartes photo (fondu vers le fond, titre dessous), dans l'ordre de HOME_SECTOR_ORDER
 // photo de chaque secteur : le chantier choisi ici, sinon le mieux placé (mis en avant, puis photos hébergées sur le site)
 const SECTOR_COVER = { particulier: "maison-en-pierre", restaurant: "cafe-joyeux-klesia" };
+const HOME_SECTOR_ORDER = ["particulier", "hotel", "restaurant", "boutique"];
 const sectorCardsPhoto = () => `<div class="works__grid works__grid--4">
-            ${SECTORS.map((s) => {
+            ${HOME_SECTOR_ORDER.map((c) => SECTORS.find((s) => s.category === c)).filter(Boolean).map((s) => {
               const list = PROJECTS.filter((p) => p.category === s.category);
               const cover = list.find((p) => p.id === SECTOR_COVER[s.category]) || localFirst([...list].sort((a, b) => (a.featured || 99) - (b.featured || 99)))[0];
               return `<a class="works__card reveal" href="${s.path}">
@@ -1168,11 +1169,11 @@ const articleUrl = (a) => `/mag/${a.slug}/`;
 const articleCover = (a) => a.cover ? shot(...a.cover) : a.project && PHOTOS[a.project] ? PHOTOS[a.project][0] : shot(...(MAG_COVER[a.category] || ["hotel-panache", 1]));
 // haut de page d'un article : les photos du chantier dont il parle, sinon des photos liées à son sujet
 const MAG_SLIDES = {
-  "renovation-energetique-appartement-paris": [["appartement-renovation-complete", 1], ["appartement-lumineux", 1], ["appartement-paris-5e", 9], ["maison-a-colombages", 9]],
+  "renovation-energetique-appartement-paris": [["appartement-renovation-complete", 1], ["appartement-lumineux", 1], ["appartement-neuilly-sur-seine", 9], ["maison-a-colombages", 9]],
   "ravalement-facade-paris-etapes": [["ravalement-rue-nollet", 6], ["ravalement-rue-nollet", 8], ["ravalement-rue-nollet", 7], ["ravalement-rue-nollet", 3]],
   "travaux-site-occupe-hotel-boutique": [["hotel-bienvenue", 10], ["le-grand-pigalle", 8], ["loro-piana", 2], ["hotel-beauregard", 3]],
   "fuite-eau-urgence-paris-que-faire": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 7], ["appartement-haussmannien", 6]],
-  "renovation-appartement-haussmannien-paris": [["appartement-paris-5e", 1], ["appartement-haussmannien", 1], ["appartement-paris-5e", 4], ["renovation-appartement", 1], ["appartement-haussmannien", 5]],
+  "renovation-appartement-haussmannien-paris": [["appartement-neuilly-sur-seine", 1], ["appartement-haussmannien", 1], ["appartement-neuilly-sur-seine", 4], ["renovation-appartement", 1], ["appartement-haussmannien", 5]],
   "mise-aux-normes-electriques-quand-comment": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
 };
 const articleSlides = (a) => uniqPhotos([articleCover(a), ...(a.project && PHOTOS[a.project] ? PHOTOS[a.project].slice(0, 5) : (MAG_SLIDES[a.slug] || []).map((x) => shot(...x)))]);

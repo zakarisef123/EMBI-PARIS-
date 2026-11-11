@@ -119,7 +119,7 @@ module.exports = [
     ],
     particuliers: "Pour votre appartement ou votre maison : cuisine ouverte, cuisine fermée repensée, ou cuisine de maison de campagne en bois et en pierre. Vous choisissez les matériaux, nous coordonnons tout le reste.",
     pros: "Pour les restaurants et cafés : cuisines et comptoirs, en tenant compte des normes de la restauration, de l'extraction et de l'accessibilité.",
-    projets: ["appartement-haussmannien", "appartement-renovation-complete", "appartement-paris-5e", "maison-a-colombages"],
+    projets: ["appartement-haussmannien", "appartement-renovation-complete", "appartement-neuilly-sur-seine", "maison-a-colombages"],
     faq: [
       ["Peut-on ouvrir la cuisine sur le séjour ?", "Très souvent. Si la cloison est porteuse, une étude de structure est nécessaire ; nous la faisons réaliser avant les travaux."],
       ["Fournissez-vous les meubles ?", "Nous réalisons des cuisines sur mesure et pouvons aussi poser une cuisine choisie chez un cuisiniste, en prenant en charge tous les travaux autour."],
@@ -177,7 +177,7 @@ module.exports = [
     ],
     particuliers: "Pour votre appartement ou votre maison : parquet d'origine restauré, nouveau parquet en point de Hongrie, continuité entre les pièces. Les échantillons sont au showroom.",
     pros: "Pour les hôtels et boutiques : parquets résistants, finitions adaptées au passage, pose organisée par zones si le lieu reste ouvert.",
-    projets: ["appartement-haussmannien", "appartement-lumineux", "maison-en-pierre", "appartement-paris-5e"],
+    projets: ["appartement-haussmannien", "appartement-lumineux", "maison-en-pierre", "appartement-neuilly-sur-seine"],
     faq: [
       ["Peut-on rénover un parquet ancien plutôt que le remplacer ?", "Souvent, oui : remplacement des lames abîmées, ponçage puis vitrification ou huile. Nous le vérifions à la visite."],
       ["Point de Hongrie ou bâtons rompus ?", "Le point de Hongrie a des lames coupées en biais, les bâtons rompus des lames droites : nous vous montrons les deux au showroom."],
@@ -235,7 +235,7 @@ module.exports = [
     ],
     particuliers: "Pour votre appartement ou votre maison : bibliothèque bleue, dressing de chambre, verrière entre la cuisine et le séjour, fenêtres remplacées. Tout est dessiné pour votre intérieur.",
     pros: "Pour les boutiques, corners, hôtels et restaurants : agencements réalisés pour Loro Piana, Byredo au Bon Marché ou l'atelier de haute joaillerie de Ploërmel, dans le respect de l'identité de chaque marque.",
-    projets: ["appartement-rue-saint-dominique", "maison-en-pierre", "appartement-paris-5e", "loro-piana"],
+    projets: ["appartement-rue-saint-dominique", "maison-en-pierre", "appartement-neuilly-sur-seine", "loro-piana"],
     faq: [
       ["Dessinez-vous les meubles sur mesure ?", "Oui, notre architecte d'intérieur dessine chaque meuble avant fabrication, et vous le présente sur plan."],
       ["Remplacez-vous les fenêtres ?", "Oui, en respectant le style de l'immeuble ; une déclaration préalable en mairie est souvent nécessaire, nous vous aidons à la préparer."],
