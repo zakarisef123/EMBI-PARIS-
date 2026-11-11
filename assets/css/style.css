@@ -1481,6 +1481,9 @@ mark.todo { background: #fff1a8; color: #5a4600; padding: 1px 6px; border-radius
 .pj-works__h { margin: 0 0 14px; font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -0.005em; }
 .sector__more { display: inline-block; margin-top: 18px; font-weight: 600; border-bottom: 1px solid var(--accent); }
 @media (max-width: 900px) { .sector__grid { grid-template-columns: 1fr; } }
+/* Rénovation intérieure · #appartement : le texte ne bouge pas, le carrousel de chantiers s'élargit vers la droite jusqu'à 16px du bord de l'écran */
+@media (min-width: 901px) { .sector--wide .phare { margin-right: calc(-1 * var(--gutter) + 16px); } }
+@media (min-width: 1361px) { .sector--wide .phare { margin-right: calc((1360px - 100vw) / 2 - var(--gutter) + 16px); } }
 
 /* Savoir-faire : corps de métier */
 .trades__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
