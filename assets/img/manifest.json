@@ -2376,6 +2376,46 @@
       ],
       "w": 960,
       "h": 718
+    },
+    "assainissement-1": {
+      "base": "/assets/img/site/assainissement-1",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-2": {
+      "base": "/assets/img/site/assainissement-2",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-3": {
+      "base": "/assets/img/site/assainissement-3",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-4": {
+      "base": "/assets/img/site/assainissement-4",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 720
     }
   }
 }

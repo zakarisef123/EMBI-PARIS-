@@ -3292,3 +3292,11 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
 @media (max-width: 560px) {
   .ai-plans { grid-template-columns: 1fr 1fr; }
 }
+
+/* Urgences : photos d'interventions (src/data/urgences.js → photos) */
+.urg-photos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.urg-photos figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.urg-photos img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); background: var(--line); }
+.urg-photos figcaption { color: var(--ink-2); font-size: 13px; line-height: 1.4; }
+@media (max-width: 900px) { .urg-photos { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .urg-photos { gap: 12px; } .urg-photos figcaption { font-size: 12px; } }

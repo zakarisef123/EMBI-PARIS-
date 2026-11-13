@@ -298,7 +298,7 @@ const HERO_PHOTOS = {
   "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
   "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-neuilly-sur-seine", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
-  "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-neuilly-sur-seine", 7]],
+  "/urgence/assainissement/": ["assainissement-1", "camion-assainissement", "assainissement-4", "assainissement-3", "assainissement-2"],
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["hotel-beauregard", 4], ["renovation-appartement", 1]],
   "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-neuilly-sur-seine", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
@@ -1499,6 +1499,16 @@ ${urgenceForm(URGENCES, u)}
       </div>
     </section>
 
+${u.photos && u.photos.length ? `    <section class="section urg-photos-sec" id="interventions">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Sur le terrain</p><h2 class="h2 reveal">Nos interventions <em>${esc(u.nav.toLowerCase())}.</em></h2></div>
+          <p class="section__aside reveal">Camion de curage, inspection caméra des canalisations : nos équipes interviennent dans les immeubles, les parkings et les locaux professionnels.</p>
+        </div>
+        <ul class="urg-photos">${u.photos.map(([n, cap]) => `<li class="reveal"><figure>${img(sitePhoto(n), cap, 'loading="lazy"')}<figcaption>${esc(cap)}</figcaption></figure></li>`).join("")}</ul>
+      </div>
+    </section>
+` : ""}
     <section class="section urgence-more">
       <div class="container">
         <div class="section__head">
