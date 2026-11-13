@@ -240,5 +240,43 @@
    "h": 2140,
    "titre": "Plan de projet : cuisine et salle de bains"
   }
+ ],
+ "appartement-paris-17e": [
+  {
+   "n": "01",
+   "w": 3404,
+   "h": 4490,
+   "titre": "Plan actuel"
+  },
+  {
+   "n": "02",
+   "w": 3404,
+   "h": 4490,
+   "titre": "Plan projet"
+  },
+  {
+   "n": "03",
+   "w": 4812,
+   "h": 3053,
+   "titre": "Bibliothèque du salon et verrière entre les chambres"
+  },
+  {
+   "n": "04",
+   "w": 4812,
+   "h": 3053,
+   "titre": "Placards des chambres 2 et 3"
+  },
+  {
+   "n": "05",
+   "w": 4812,
+   "h": 3053,
+   "titre": "Placards de la chambre 1"
+  },
+  {
+   "n": "06",
+   "w": 4812,
+   "h": 3053,
+   "titre": "Salle d'eau : plan et élévations"
+  }
  ]
 }

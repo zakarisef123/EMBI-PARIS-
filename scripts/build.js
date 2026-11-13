@@ -139,7 +139,7 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
 // à la fois, choisi par onglets, avec quelques-uns de ses plans. Page Conception sur mesure (tous les chantiers),
 // Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
 // dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
-const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
+const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains", "appartement-paris-17e": "Appartement 100 m²" };
 const archiList = (scope) => {
   const ids = [...Object.keys(ARCHI_NOMS), ...PROJECTS.map((p) => p.id).filter((id) => !(id in ARCHI_NOMS))];
   return ids.map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && hasMaquette(p.id))
