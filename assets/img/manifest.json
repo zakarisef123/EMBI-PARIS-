@@ -2111,6 +2111,26 @@
         "w": 960,
         "h": 466
       }
+    ],
+    "cafe-joyeux-pwc": [
+      {
+        "base": "/assets/img/projets/cafe-joyeux-pwc/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 547
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-pwc/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      }
     ]
   },
   "site": {
