@@ -160,7 +160,7 @@ const PROJECTS = [
   { id: "cafe-joyeux-canal-plus", title: "Café Joyeux · Canal+", category: "restaurant", specifique: true, lieu: "Canal+", annee: "2023", archi: "Valeria Migliaccio",
     text: "Aménagement du Café Joyeux dans les locaux de Canal+ : comptoir et vitrine, meuble mural, salle de repas, rangements, électricité et plomberie.",
     travaux: ["Aménagement de café", "Comptoir et vitrine", "Meuble mural sur mesure", "Salle de repas", "Zone de stockage", "Électricité et plomberie"],
-    histoire: ["Chez Canal+, EMBI a aménagé le Café Joyeux sur le projet de l'architecte Valeria Migliaccio : le grand comptoir en faïence jaune et sa vitrine, le meuble mural aux couleurs de Joyeux, la salle de repas sous ses suspensions, la zone de stockage, l'électricité et la plomberie.", "Les images ci-dessous sont les vues 3D du projet, suivies des plans du dossier de consultation."],
+    histoire: ["Chez Canal+, EMBI a aménagé le Café Joyeux sur le projet de l'architecte Valeria Migliaccio : le grand comptoir en faïence jaune et sa vitrine, le meuble mural aux couleurs de Joyeux, la salle de repas sous ses suspensions, la zone de stockage, l'électricité et la plomberie.", "Les images ci-dessous sont les visuels du projet et ses vues 3D, suivis des plans du dossier de consultation."],
     images: [] },
   { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", specifique: true, lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
