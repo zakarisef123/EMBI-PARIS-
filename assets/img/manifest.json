@@ -1769,13 +1769,31 @@
         "widths": [
           480,
           960,
-          1600
+          1024
         ],
         "w": 960,
-        "h": 1280
+        "h": 720
       },
       {
         "base": "/assets/img/projets/etancheite-toiture-terrasse/02",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/03",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/04",
         "widths": [
           480,
           960,
@@ -1785,7 +1803,17 @@
         "h": 1280
       },
       {
-        "base": "/assets/img/projets/etancheite-toiture-terrasse/03",
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/06",
         "widths": [
           480,
           960,
@@ -1795,7 +1823,7 @@
         "h": 640
       },
       {
-        "base": "/assets/img/projets/etancheite-toiture-terrasse/04",
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/07",
         "widths": [
           480,
           960,
