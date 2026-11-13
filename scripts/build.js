@@ -1137,7 +1137,7 @@ PROJECTS.forEach((p, i) => {
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       // maquette 3D construite à partir des plans (assets/js/maquette.js), puis les plans de l'architecte
       // (cliquer pour agrandir, assets/js/projet.js)
-      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
+      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : p.id.startsWith("cafe") ? "Du plan au café" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
     <section class="section pj-plans-sec" id="plans">
       <div class="container">
         <div class="section__head">
