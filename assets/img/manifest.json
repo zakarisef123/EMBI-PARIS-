@@ -2012,6 +2012,78 @@
         "w": 960,
         "h": 960
       }
+    ],
+    "cafe-joyeux-canal-plus": [
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 371
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/02",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 491
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/03",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 535
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 428
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 562
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 532
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 466
+      }
     ]
   },
   "site": {

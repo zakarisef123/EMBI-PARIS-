@@ -13,7 +13,33 @@
         <h1 class="cs-hero__title">Projets spécifiques, <em>hors du cadre.</em></h1>
         <!-- À RELIRE -->
         <p class="cs-hero__lead">Un corner dans un grand magasin, une boutique de luxe, un atelier, un agencement dessiné sur mesure, un lieu qui ne ferme pas pendant les travaux : certains projets demandent une organisation à part. EMBI les mène avec la même équipe et un seul interlocuteur.</p>
-        <div class="cs-hero__actions"><a href="#projet" class="btn btn--accent">Parler de mon projet <span aria-hidden="true">→</span></a><a href="#types" class="btn btn--outline-light">Les projets</a></div>
+        <div class="cs-hero__actions"><a href="#projet" class="btn btn--accent">Parler de mon projet <span aria-hidden="true">→</span></a><a href="#haute-joaillerie" class="btn btn--outline-light">Haute joaillerie</a><a href="#types" class="btn btn--outline-light">Les projets</a></div>
+      </div>
+    </section>
+
+    <!-- ───────── NOS PROJETS SPÉCIFIQUES : chantiers marqués specifique: true dans src/data/projects.js ───────── -->
+    <section class="section pj-more" id="projets">
+      <div class="container">
+        <div class="section__head pj-more__head">
+          <div><p class="eyebrow reveal">Nos projets spécifiques</p><h2 class="h2 reveal">Des lieux <em>hors du cadre.</em></h2></div>
+          <a href="/realisations/" class="btn btn--ghost">Toutes nos réalisations <span aria-hidden="true">→</span></a>
+        </div>
+        {{block:specifique-cards}}
+      </div>
+    </section>
+
+    <!-- ───────── HAUTE JOAILLERIE ───────── -->
+    <section class="section sector" id="haute-joaillerie">
+      <div class="container sector__grid">
+        <div class="sector__text">
+          <p class="eyebrow reveal">Haute joaillerie</p>
+          <h2 class="h2 reveal">Des ateliers de haute joaillerie, <em>aménagés de bout en bout.</em></h2>
+          <!-- À RELIRE -->
+          <p class="reveal">À Ploërmel, dans le Morbihan, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi des bijoutiers, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse.</p>
+          <p class="reveal">Un lieu de travail de précision, où lumière, circulations et finitions sont pensées pour le métier : EMBI coordonne tous les corps de métier, avec un seul interlocuteur, de l'étude à la livraison.</p>
+          <a href="/realisations/atelier-joaillerie-ploermel/" class="btn btn--ghost reveal">Voir le chantier de Ploërmel <span aria-hidden="true">→</span></a>
+        </div>
+        {{block:joaillerie-phare}}
       </div>
     </section>
 
@@ -26,7 +52,7 @@
         <!-- À RELIRE -->
         <ol class="svc__grid">
           <li class="svc__item reveal"><span class="svc__n">01</span><h3 class="svc__t">Grands magasins</h3><p>Corner Byredo au Bon Marché, boutique Tartine et Chocolat chez Harrods : des chantiers menés au sein d'un magasin en activité, avec ses règles et ses horaires.</p></li>
-          <li class="svc__item reveal"><span class="svc__n">02</span><h3 class="svc__t">Boutiques, commerces et ateliers</h3><p>Création complète de la boutique Loro Piana, rénovation de Colette : des espaces où la marque se lit dans chaque finition, jusqu'aux ateliers de haute joaillerie.</p></li>
+          <li class="svc__item reveal"><span class="svc__n">02</span><h3 class="svc__t">Boutiques et commerces</h3><p>Création complète de la boutique Loro Piana, rénovation de Colette : des espaces où la marque se lit dans chaque finition.</p><a class="svc__call" href="/boutiques/">Nos boutiques →</a></li>
           <li class="svc__item reveal"><span class="svc__n">03</span><h3 class="svc__t">Agencement sur mesure</h3><p>Mobilier, dressings, bibliothèques, verrières, agencement de boutiques et d'hôtels : dessinés par notre architecte d'intérieur, réalisés par nos équipes.</p><a class="svc__call" href="/conception-sur-mesure/">La conception sur mesure →</a></li>
           <li class="svc__item reveal"><span class="svc__n">04</span><h3 class="svc__t">Travaux en site occupé</h3><p>Hôtels, boutiques et restaurants qui restent ouverts : phasage, protections et circulations sont pensés dès l'étude de faisabilité.</p><a class="svc__call" href="/mag/travaux-site-occupe-hotel-boutique/">Lire l'article →</a></li>
           <li class="svc__item reveal"><span class="svc__n">05</span><h3 class="svc__t">Décors de designers</h3><p>Des décorations signées Dorothée Meilichzon ou Richard Lafond, réalisées dans leur intégralité, dans le respect de chaque intention.</p><a class="svc__call" href="/signature/">Nos chantiers Signature →</a></li>

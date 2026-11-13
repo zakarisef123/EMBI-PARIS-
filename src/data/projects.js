@@ -7,7 +7,8 @@
  *  id       : adresse de la page → /realisations/<id>/ (sans espace ni accent)
  *  oldId    : ancienne adresse (redirigée automatiquement)
  *  title    : nom du chantier
- *  category : "hotel" | "boutique" | "restaurant" | "particulier" | "savoir-faire"
+ *  category : "hotel" | "boutique" | "joaillerie" | "restaurant" | "particulier" | "savoir-faire"
+ *             (joaillerie = ateliers de haute joaillerie, rubrique à part des boutiques)
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
@@ -17,6 +18,7 @@
  *             la 1re sert de couverture. Quand les photos sont converties en local
  *             (scripts/photos), site.config.js → photos: "local" les remplace.
  *
+ *  specifique : true → chantier montré aussi sur la page Projets spécifiques (/projets-specifiques/)
  *  Facultatif (affiché sur la page du chantier dès que c'est rempli) :
  *  lieu, annee, surface, duree, deco (décoration), archi (architecte), credit (photographe),
  *  travaux : ["…"], text : "une phrase", histoire : ["paragraphe", "…"]
@@ -25,6 +27,7 @@
 const CATEGORIES = {
   hotel: "Hôtel",
   boutique: "Boutique",
+  joaillerie: "Haute joaillerie",
   restaurant: "Restaurant",
   particulier: "Particulier",
   "savoir-faire": "Savoir-faire",
@@ -154,7 +157,12 @@ const PROJECTS = [
     travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
     histoire: ["À Neuilly-sur-Seine, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],
     images: [] },
-  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
+  { id: "cafe-joyeux-canal-plus", title: "Café Joyeux · Canal+", category: "restaurant", specifique: true, lieu: "Canal+", annee: "2023", archi: "Valeria Migliaccio",
+    text: "Aménagement du Café Joyeux dans les locaux de Canal+ : comptoir et vitrine, meuble mural, salle de repas, rangements, électricité et plomberie.",
+    travaux: ["Aménagement de café", "Comptoir et vitrine", "Meuble mural sur mesure", "Salle de repas", "Zone de stockage", "Électricité et plomberie"],
+    histoire: ["Chez Canal+, EMBI a aménagé le Café Joyeux sur le projet de l'architecte Valeria Migliaccio : le grand comptoir en faïence jaune et sa vitrine, le meuble mural aux couleurs de Joyeux, la salle de repas sous ses suspensions, la zone de stockage, l'électricité et la plomberie.", "Les images ci-dessous sont les vues 3D du projet, suivies des plans du dossier de consultation."],
+    images: [] },
+  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", specifique: true, lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
     travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
     histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],

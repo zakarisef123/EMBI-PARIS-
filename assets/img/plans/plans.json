@@ -194,5 +194,43 @@
    "h": 3090,
    "titre": "Salle de bains : plan et élévations"
   }
+ ],
+ "cafe-joyeux-canal-plus": [
+  {
+   "n": "01",
+   "w": 1734,
+   "h": 1528,
+   "titre": "Plan du projet"
+  },
+  {
+   "n": "02",
+   "w": 2443,
+   "h": 1135,
+   "titre": "Plan du bar"
+  },
+  {
+   "n": "03",
+   "w": 2472,
+   "h": 1492,
+   "titre": "Façade arrière du bar"
+  },
+  {
+   "n": "04",
+   "w": 2399,
+   "h": 1459,
+   "titre": "Meuble mural de la façade principale"
+  },
+  {
+   "n": "05",
+   "w": 2472,
+   "h": 1466,
+   "titre": "Façade principale et îlot comptoir"
+  },
+  {
+   "n": "06",
+   "w": 2472,
+   "h": 1499,
+   "titre": "Façade secondaire de l'îlot comptoir"
+  }
  ]
 }

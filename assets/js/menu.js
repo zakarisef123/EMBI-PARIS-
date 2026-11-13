@@ -40,7 +40,7 @@ addEventListener("resize", () => {
   const esc = (s = "") => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const url = window.EMBI_PROJECT_URL;
   const current = document.body.dataset.project;
-  const plural = { hotel: "Hôtels", boutique: "Boutiques", restaurant: "Restaurants", particulier: "Particuliers" };
+  const plural = { hotel: "Hôtels", boutique: "Boutiques", joaillerie: "Haute joaillerie", restaurant: "Restaurants", particulier: "Particuliers" };
 
   const cols = Object.keys(cats)
     .map((c) => {
