@@ -1,0 +1,46 @@
+{
+ "titre": "Cuisine et salle de bains",
+ "base": "p-1.png",
+ "cadre": [420, 600, 2420, 2700],
+ "pxm": 472.44,
+ "hauteur": 2.5,
+ "soleil": -1.9,
+ "murs": [
+  [705, 794, 741, 1740],
+  [705, 794, 744, 844],
+  [886, 794, 1435, 844],
+  [1400, 844, 1435, 2578],
+  [1435, 794, 1460, 844],
+  [1990, 794, 2210, 844],
+  [2175, 844, 2210, 2578],
+  [1400, 2542, 1490, 2578],
+  [1870, 2542, 2210, 2578],
+  [2034, 1990, 2175, 2200]
+ ],
+ "fenetres": [[744, 794, 886, 844], [1460, 794, 1990, 844]],
+ "sols_zones": [
+  [[741, 844, 1400, 2578], "travertin"],
+  [[1435, 844, 2175, 2542], "carrelage"]
+ ],
+ "texte_sols": "Grands carreaux beiges dans la cuisine, carrelage clair dans la salle de bains, d'après le plan de projet.",
+ "calques": [
+  {
+   "id": "cotes",
+   "titre": "Les cotes",
+   "texte": "Les dimensions du plan de notre architecte, en mètres : 1,40 m de cuisine, 1,57 m de salle de bains.",
+   "teinte": "rose",
+   "points": false,
+   "sources": [{"plan": "p-1.png", "zone": [380, 560, 2420, 2700], "echelle": 1.0, "de": [0, 0], "vers": [0, 0]}]
+  }
+ ],
+ "mobilier": [
+  {"t": "cuisine", "r": [1116, 846, 1400, 1980], "colonne": [1116, 1980, 1400, 2260], "face": "w"},
+  {"t": "cuisine", "r": [744, 846, 1116, 1126], "face": "s"},
+  {"t": "verriere", "r": [705, 1740, 741, 2164]},
+  {"t": "baignoire", "r": [1456, 846, 2160, 1150]},
+  {"t": "vasque", "r": [1956, 1260, 2174, 1500], "face": "w"},
+  {"t": "armoire", "r": [2034, 1574, 2174, 1760], "h": 2.0, "m": "chene"},
+  {"t": "armoire", "r": [2034, 1856, 2174, 1990], "h": 1.75, "m": "blanc"},
+  {"t": "plante", "p": [1290, 2470]}
+ ]
+}

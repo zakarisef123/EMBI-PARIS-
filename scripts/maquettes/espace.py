@@ -8,10 +8,12 @@
 #   base, cadre [x0, y0, x1, y1], pxm (pixels par mètre du plan de base), hauteur, soleil
 #   murs        : rectangles [x0, y0, x1, y1], polygones [[x, y], …] (murs, poteaux)
 #                 ou {"r": rectangle, "creux": épaisseur} (noyau, local fermé : seulement ses murs)
-#   sols_defaut : matière partout ; sols_zones : [rectangle ou polygone, matière]
+#   sols_defaut : matière partout (facultatif) ; sols_zones : [rectangle ou polygone, matière]
 #   calques     : traits rouges d'un plan (plan électrique…), recalés par morceaux :
 #                 sources = [{plan, zone [x0, y0, x1, y1] dans ce plan, echelle, de [x, y] dans ce plan, vers [x, y] du plan de base}]
 #                 les points lumineux (cercles barrés) de ces traits deviennent les lumières de la maquette
+#                 (teinte "rose" pour des cotes en rouge clair, points false pour ne pas y chercher de lumières)
+#   fenetres    : rectangles [x0, y0, x1, y1] dans l'épaisseur du mur (allège, vitrage, linteau)
 #   points_ajoutes, mobilier (comme chantier.py), texte_sols, texte_murs, texte_lumiere
 import sys, json, os, numpy as np, cv2
 from scipy import ndimage as nd
@@ -52,9 +54,9 @@ for s in CFG["murs"]:
 print(len(polys), "murs et poteaux")
 
 # sols
-mats = [CFG["sols_defaut"]] + [z[1] for z in CFG.get("sols_zones", []) if z[1] != CFG["sols_defaut"]]
-mats = list(dict.fromkeys(mats))
-room = np.zeros((H, W), np.int16)
+# (sans sols_defaut : seulement les zones, le reste du cadre garde le papier du plan)
+mats = list(dict.fromkeys(([CFG["sols_defaut"]] if CFG.get("sols_defaut") else []) + [z[1] for z in CFG.get("sols_zones", [])]))
+room = np.full((H, W), 0 if CFG.get("sols_defaut") else -1, np.int16)
 for s, mat in CFG.get("sols_zones", []): room[shape_mask(s)] = mats.index(mat)
 room[M] = -1
 print("sols (m²):", {m: round(float((room == k).sum()) / PXM ** 2, 1) for k, m in enumerate(mats)})
@@ -71,12 +73,16 @@ for c in CFG.get("calques", []):
     keep = np.zeros((H, W), bool)
     for src in c["sources"]:
         a = rgb(src["plan"]).astype(int); r, g, b = a[..., 0], a[..., 1], a[..., 2]
-        red = ((r > 170) & (g < 120) & (b < 120)).astype(np.uint8)
+        if c.get("teinte") == "rose":   # cotes en rouge clair
+            red = ((r > 200) & (r - g > 40) & (abs(g - b) < 25)).astype(np.uint8)
+        else:
+            red = ((r > 170) & (g < 120) & (b < 120)).astype(np.uint8)
         zx0, zy0, zx1, zy1 = src["zone"]; z = np.zeros_like(red); z[zy0:zy1, zx0:zx1] = 1; red &= z
         s = src.get("echelle", 1.0); (fx, fy), (tx, ty) = src["de"], src["vers"]
         A = np.array([[s, 0, tx - X0 - s * fx], [0, s, ty - Y0 - s * fy]], np.float32)
         keep |= cv2.warpAffine(red * 255, A, (W, H), flags=cv2.INTER_LINEAR) > 60
         # points lumineux : petits ensembles rouges à peu près carrés, en croix dans un cercle (coins vides)
+        if c.get("points") is False: continue
         lab, n = nd.label(red)
         for i, sl in enumerate(nd.find_objects(lab), 1):
             hh, ww = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
@@ -123,7 +129,12 @@ def conv(it):
     return o
 
 
-scene = {"w": round(W / PXM, 3), "h": round(H / PXM, 3), "walls": polys, "windows": [], "doors": [], "lights": lights,
+windows = []
+for x0, y0, x1, y1 in CFG.get("fenetres", []):
+    hz = (x1 - x0) >= (y1 - y0)
+    windows.append({"x": round((x0 + x1) / 2 - X0, 1) / PXM, "y": round((y0 + y1) / 2 - Y0, 1) / PXM, "w": round(max(x1 - x0, y1 - y0) / PXM, 3), "d": round(min(x1 - x0, y1 - y0) / PXM, 3), "a": 0 if hz else 1.5708})
+for w_ in windows: w_["x"], w_["y"] = round(w_["x"], 3), round(w_["y"], 3)
+scene = {"w": round(W / PXM, 3), "h": round(H / PXM, 3), "walls": polys, "windows": windows, "doors": [], "lights": lights,
          "mobilier": [conv(it) for it in CFG.get("mobilier", [])], "hauteur": CFG.get("hauteur", 2.5),
          "calques": calques, "sols": CFG.get("texte_sols", "Les sols posés zone par zone, d'après les plans."),
          "titre": CFG.get("titre", "")}

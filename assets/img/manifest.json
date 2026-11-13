@@ -2131,6 +2131,44 @@
         "w": 960,
         "h": 540
       }
+    ],
+    "appartement-cuisine-salle-de-bains": [
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 671
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 416
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 386
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      }
     ]
   },
   "site": {

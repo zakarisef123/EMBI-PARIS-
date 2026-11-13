@@ -232,5 +232,13 @@
    "h": 1499,
    "titre": "Façade secondaire de l'îlot comptoir"
   }
+ ],
+ "appartement-cuisine-salle-de-bains": [
+  {
+   "n": "01",
+   "w": 2040,
+   "h": 2140,
+   "titre": "Plan de projet : cuisine et salle de bains"
+  }
  ]
 }

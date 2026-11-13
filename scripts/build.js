@@ -139,7 +139,7 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
 // à la fois, choisi par onglets, avec quelques-uns de ses plans. Page Conception sur mesure (tous les chantiers),
 // Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
 // dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
-const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale" };
+const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
 const archiList = (scope) => {
   const ids = [...Object.keys(ARCHI_NOMS), ...PROJECTS.map((p) => p.id).filter((id) => !(id in ARCHI_NOMS))];
   return ids.map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && hasMaquette(p.id))
@@ -1137,7 +1137,7 @@ PROJECTS.forEach((p, i) => {
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       // maquette 3D construite à partir des plans (assets/js/maquette.js), puis les plans de l'architecte
       // (cliquer pour agrandir, assets/js/projet.js)
-      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : p.id.startsWith("cafe") ? "Du plan au café" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
+      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : p.id === "appartement-cuisine-salle-de-bains" ? "Du plan à la cuisine et la salle de bains" : p.id.startsWith("cafe") ? "Du plan au café" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
     <section class="section pj-plans-sec" id="plans">
       <div class="container">
         <div class="section__head">
