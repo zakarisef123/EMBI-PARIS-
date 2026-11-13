@@ -17,11 +17,6 @@
     "carte": "/assets/video/projets/appartement-neuilly-sur-seine-carte.mp4",
     "paysage": "/assets/video/projets/appartement-neuilly-sur-seine-paysage.mp4"
   },
-  "appartement-paris-17e": {
-    "carre": "/assets/video/projets/appartement-paris-17e-carre.mp4",
-    "carte": "/assets/video/projets/appartement-paris-17e-carte.mp4",
-    "paysage": "/assets/video/projets/appartement-paris-17e-paysage.mp4"
-  },
   "appartement-renovation-complete": {
     "carre": "/assets/video/projets/appartement-renovation-complete-carre.mp4",
     "portrait": "/assets/video/projets/appartement-renovation-complete-portrait.mp4",

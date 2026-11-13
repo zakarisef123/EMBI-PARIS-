@@ -2302,48 +2302,6 @@
         "w": 768,
         "h": 1024
       }
-    ],
-    "appartement-paris-17e": [
-      {
-        "base": "/assets/img/projets/appartement-paris-17e/01",
-        "widths": [
-          480,
-          960,
-          1248
-        ],
-        "w": 960,
-        "h": 541
-      },
-      {
-        "base": "/assets/img/projets/appartement-paris-17e/02",
-        "widths": [
-          480,
-          960,
-          1248
-        ],
-        "w": 960,
-        "h": 541
-      },
-      {
-        "base": "/assets/img/projets/appartement-paris-17e/03",
-        "widths": [
-          480,
-          960,
-          1248
-        ],
-        "w": 960,
-        "h": 541
-      },
-      {
-        "base": "/assets/img/projets/appartement-paris-17e/04",
-        "widths": [
-          480,
-          960,
-          1248
-        ],
-        "w": 960,
-        "h": 541
-      }
     ]
   },
   "site": {
