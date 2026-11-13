@@ -2198,6 +2198,53 @@
         "w": 960,
         "h": 720
       }
+    ],
+    "appartement-sejour-cuisine-chambre": [
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 536
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      }
     ]
   },
   "site": {
