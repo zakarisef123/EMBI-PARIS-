@@ -68,9 +68,9 @@ function start(root) {
     add("plan", "Le plan", "Le plan d'aménagement dessiné par notre architecte, à l'échelle.", 3);
     S.calques.forEach((c, i) => add("calque", c.titre, c.texte, 3.5, { i }));
     add("sols", "Sols", S.sols, 3);
-    add("murs", "Les murs", `Les murs montent à partir du plan : fenêtres et portes${S.balcon ? ", balcon filant" : ""}.`, 4.5);
+    add("murs", "Les murs", S.texte_murs || `Les murs montent à partir du plan : fenêtres et portes${S.balcon ? ", balcon filant" : ""}.`, 4.5);
     add("mobilier", "Mobilier", "Chaque meuble à sa place, d'après le plan d'aménagement.", 4);
-    add("lumiere", "Lumière", S.lights.length ? "Le soleil entre par les fenêtres, les points lumineux du plan électrique s'allument." : "Le soleil entre par les fenêtres.", 4.5);
+    add("lumiere", "Lumière", S.texte_lumiere || (S.lights.length ? "Le soleil entre par les fenêtres, les points lumineux du plan électrique s'allument." : "Le soleil entre par les fenêtres."), 4.5);
     const dans = S.calques.filter((c) => c.complet !== false).map((c) => c.titre.toLowerCase());
     add("complet", "Plan complet", `Tous les plans réunis en un seul : ${[...dans, "sols", "murs et mobilier"].join(", ")}.`, 5);
     DUR = t0;
@@ -107,7 +107,15 @@ function start(root) {
       verre: new THREE.MeshPhysicalMaterial({ color: 0xdbeaf0, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.22, depthWrite: false }),
       miroir: mat({ color: 0xdfe6ea, roughness: 0.05, metalness: 1 }),
       four: mat({ color: 0x18181a, roughness: 0.2, metalness: 0.3 }),
+      // café (Café Joyeux) : jaune Joyeux, tissus des chaises, abat-jour en lin, faïence noire
+      jaune: mat({ color: 0xf2c12e, roughness: 0.55 }),
+      jaune_tissu: mat({ color: 0xd6b23a, roughness: 1 }),
+      tissu_noir: mat({ color: 0x242426, roughness: 1 }),
+      lin: mat({ color: 0xd9ccb0, roughness: 1, side: THREE.DoubleSide }),
+      carreau_noir: mat({ color: 0x20262a, roughness: 0.25 }),
     };
+    // façade cannelée jaune des comptoirs (une cannelure tous les 4,5 cm)
+    const flute = (() => { const c = document.createElement("canvas"); c.width = 32; c.height = 4; const x = c.getContext("2d"); const gr = x.createLinearGradient(0, 0, 32, 0); gr.addColorStop(0, "#a87d10"); gr.addColorStop(0.18, "#e9b92a"); gr.addColorStop(0.5, "#ffd54a"); gr.addColorStop(0.82, "#e9b92a"); gr.addColorStop(1, "#a87d10"); x.fillStyle = gr; x.fillRect(0, 0, 32, 4); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; })();
     // tout porte ombre, sauf le verre (le soleil passe par les fenêtres)
     const shadows = (o) => o.traverse((m) => { if (m.isMesh) { m.castShadow = m.material !== MAT.verre; m.receiveShadow = true; } });
 
@@ -325,6 +333,67 @@ function start(root) {
         return g;
       },
       wc(it) { const g = piece(it.p[0], it.p[1]); const [f0, f1] = FACE[it.face]; g.rotation.y = Math.atan2(f0, f1); rb(g, 0.38, 0.34, 0.54, MAT.ceramique, 0, 0.28, 0.05, 0.14); rb(g, 0.5, 1.05, 0.12, MAT.blanc, 0, 0, -0.26, 0.01); rb(g, 0.16, 0.1, 0.012, MAT.chrome, 0, 0.95, -0.195, 0.004); return g; },
+      // ───── café ─────
+      comptoir(it) {
+        // socle en faïence blanche, filet noir, façade cannelée jaune, plateau blanc
+        const r = R(it.r), g = piece(r.cx, r.cz);
+        rb(g, r.sx, 0.14, r.sz, MAT.ceramique, 0, 0, 0, 0); rb(g, r.sx + 0.006, 0.05, r.sz + 0.006, MAT.noir, 0, 0.14, 0, 0);
+        const t = flute.clone(); t.needsUpdate = true; t.repeat.set(Math.max(r.sx, r.sz) / 0.045, 1);
+        const f = new THREE.Mesh(new THREE.BoxGeometry(r.sx, 0.8, r.sz), mat({ map: t, roughness: 0.45 })); f.position.y = 0.19 + 0.4; g.add(f);
+        rb(g, r.sx + 0.03, 0.04, r.sz + 0.03, MAT.marbre, 0, 0.99, 0, 0.01);
+        return g;
+      },
+      vitrine(it) {
+        // vitrine réfrigérée posée sur le comptoir : verre, montants noirs, pâtisseries
+        const r = R(it.r), g = piece(r.cx, r.cz); const lng = r.sx >= r.sz, Lv = Math.max(r.sx, r.sz), Dv = Math.min(r.sx, r.sz);
+        if (!lng) g.rotation.y = Math.PI / 2;
+        rb(g, Lv, 0.34, Dv, MAT.verre, 0, 1.03, 0, 0);
+        for (const z of [-1, 1]) rb(g, Lv, 0.02, 0.02, MAT.noir, 0, 1.36, z * (Dv / 2 - 0.01), 0);
+        const n = Math.max(2, Math.round(Lv / 0.9)); for (let i = 0; i <= n; i++) rb(g, 0.02, 0.34, Dv, MAT.noir, -Lv / 2 + 0.01 + i * ((Lv - 0.02) / n), 1.03, 0, 0);
+        for (let i = 0; i < Math.floor(Lv / 0.28); i++) rb(g, 0.16, 0.05, Dv * 0.45, i % 3 ? MAT.terre : MAT.chene, -Lv / 2 + 0.18 + i * 0.28, 1.04, 0, 0.02);
+        return g;
+      },
+      meuble_bar(it) {
+        // contre le mur du fond : caissons blancs, plan de travail, crédence en faïence noire, machine à café,
+        // étagères en chêne et casiers jaunes jusqu'au plafond
+        const r = R(it.r), g = piece(r.cx, r.cz); const [f0, f1] = FACE[it.face]; g.rotation.y = Math.atan2(f0, f1);
+        const [Lk, D] = along(r, it.face), back = -(D / 2);
+        rb(g, Lk, 0.86, D, MAT.blanc, 0, 0.04, 0, 0.01); rb(g, Lk * 0.98, 0.04, D * 0.9, MAT.noir, 0, 0, 0, 0);
+        rb(g, Lk + 0.02, 0.035, D + 0.02, MAT.marbre, 0, 0.9, 0, 0.005);
+        rb(g, Lk, 0.62, 0.02, MAT.carreau_noir, 0, 0.935, back + 0.01, 0);
+        rb(g, 0.75, 0.42, 0.5, MAT.chrome, -Lk / 2 + 0.6, 0.935, 0, 0.03); rb(g, 0.25, 0.4, 0.3, MAT.noir, -Lk / 2 + 1.15, 0.935, 0, 0.02);
+        const y0 = 1.6, y1 = 2.3, dd = 0.32, z = back + dd / 2;
+        rb(g, Lk, 0.03, dd, MAT.chene, 0, y0, z, 0.005); rb(g, Lk, 0.03, dd, MAT.chene, 0, (y0 + y1) / 2, z, 0.005); rb(g, Lk, 0.03, dd, MAT.chene, 0, y1, z, 0.005);
+        const n = Math.max(2, Math.round(Lk / 0.55));
+        for (let i = 0; i <= n; i++) rb(g, 0.03, y1 - y0, dd, MAT.chene, -Lk / 2 + 0.015 + i * ((Lk - 0.03) / n), y0, z, 0.005);
+        for (let i = 0; i < n; i++) for (const k of [0, 1]) if ((i * 3 + k * 5) % 4 === 0) rb(g, (Lk / n) - 0.05, (y1 - y0) / 2 - 0.05, 0.02, MAT.jaune, -Lk / 2 + (i + 0.5) * (Lk / n), y0 + 0.04 + k * (y1 - y0) / 2, back + 0.02, 0.005);
+        return g;
+      },
+      table_carree(it) {
+        // table de bistrot : plateau de chêne, pied central, bague jaune, embase noire
+        const r = R(it.r), g = piece(r.cx, r.cz);
+        rb(g, r.sx - 0.02, 0.04, r.sz - 0.02, MAT.chene, 0, 0.72, 0, 0.01);
+        cyl(g, 0.22, 0.22, 0.03, MAT.noir, 0, 0, 0, 32); cyl(g, 0.045, 0.045, 0.7, MAT.chene, 0, 0.02, 0, 16); cyl(g, 0.05, 0.05, 0.1, MAT.jaune, 0, 0.12, 0, 16);
+        return g;
+      },
+      chaise_bistrot(it) {
+        // pieds en métal noir, assise noire, dossier jaune
+        const g = piece(it.p[0], it.p[1]); g.rotation.y = typeof it.face === "number" ? it.face : Math.atan2(...FACE[it.face]);
+        rb(g, 0.44, 0.05, 0.42, MAT.tissu_noir, 0, 0.43, 0, 0.02);
+        rb(g, 0.44, 0.22, 0.04, MAT.jaune_tissu, 0, 0.62, -0.2, 0.02);
+        for (const [x, zz] of [[-0.19, -0.18], [0.19, -0.18], [-0.19, 0.18], [0.19, 0.18]]) cyl(g, 0.012, 0.012, 0.43, MAT.fer, x, 0, zz, 8);
+        for (const x of [-0.19, 0.19]) cyl(g, 0.012, 0.012, 0.42, MAT.fer, x, 0.45, -0.2, 8);
+        return g;
+      },
+      suspension(it) {
+        // suspension : grand abat-jour en lin bordé de noir au-dessus des tables, petite lampe au-dessus du comptoir
+        const g = piece(it.p[0], it.p[1]);
+        const yb = it.petite ? HGT - 0.8 : HGT - 1.0, h = it.petite ? 0.12 : 0.3;
+        cyl(g, 0.004, 0.004, HGT - yb - h, MAT.noir, 0, yb + h, 0, 6);
+        if (it.petite) { cyl(g, 0.03, 0.12, h, MAT.blanc, 0, yb, 0, 24); }
+        else { const o = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, h, 40, 1, true), MAT.lin); o.position.y = yb + 0.06 + h / 2; g.add(o); const b = new THREE.Mesh(new THREE.CylinderGeometry(0.305, 0.305, 0.07, 40, 1, true), MAT.noir); b.position.y = yb + 0.035; g.add(b); }
+        return g;
+      },
       lave_mains(it) { const r = R(it.r), g = piece(r.cx, r.cz); rb(g, r.sx, 0.32, r.sz, MAT.chene, 0, 0.55, 0, 0.01); rb(g, r.sx * 0.9, 0.05, r.sz * 0.9, MAT.ceramique, 0, 0.87, 0, 0.02); return g; },
     };
     for (const it of S.mobilier) if (B[it.t]) B[it.t](it);

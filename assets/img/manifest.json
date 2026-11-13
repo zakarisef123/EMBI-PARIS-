@@ -1769,13 +1769,31 @@
         "widths": [
           480,
           960,
-          1600
+          1024
         ],
         "w": 960,
-        "h": 1280
+        "h": 720
       },
       {
         "base": "/assets/img/projets/etancheite-toiture-terrasse/02",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/03",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/04",
         "widths": [
           480,
           960,
@@ -1785,7 +1803,17 @@
         "h": 1280
       },
       {
-        "base": "/assets/img/projets/etancheite-toiture-terrasse/03",
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/06",
         "widths": [
           480,
           960,
@@ -1795,7 +1823,7 @@
         "h": 640
       },
       {
-        "base": "/assets/img/projets/etancheite-toiture-terrasse/04",
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/07",
         "widths": [
           480,
           960,
@@ -2012,6 +2040,268 @@
         "w": 960,
         "h": 960
       }
+    ],
+    "cafe-joyeux-canal-plus": [
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 475
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 424
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 498
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/04",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 371
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/05",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 491
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 535
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 428
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 562
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 532
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 466
+      }
+    ],
+    "cafe-joyeux-pwc": [
+      {
+        "base": "/assets/img/projets/cafe-joyeux-pwc/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 547
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-pwc/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      }
+    ],
+    "appartement-cuisine-salle-de-bains": [
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 671
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 416
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 386
+      },
+      {
+        "base": "/assets/img/projets/appartement-cuisine-salle-de-bains/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      }
+    ],
+    "office-notarial": [
+      {
+        "base": "/assets/img/projets/office-notarial/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/office-notarial/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/office-notarial/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      }
+    ],
+    "appartement-sejour-cuisine-chambre": [
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 536
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      },
+      {
+        "base": "/assets/img/projets/appartement-sejour-cuisine-chambre/06",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 540
+      }
+    ],
+    "escalier-refait-a-neuf": [
+      {
+        "base": "/assets/img/projets/escalier-refait-a-neuf/01",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/escalier-refait-a-neuf/02",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      }
     ]
   },
   "site": {
@@ -2044,6 +2334,46 @@
       ],
       "w": 960,
       "h": 718
+    },
+    "assainissement-1": {
+      "base": "/assets/img/site/assainissement-1",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-2": {
+      "base": "/assets/img/site/assainissement-2",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-3": {
+      "base": "/assets/img/site/assainissement-3",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 1280
+    },
+    "assainissement-4": {
+      "base": "/assets/img/site/assainissement-4",
+      "widths": [
+        480,
+        960,
+        1600
+      ],
+      "w": 960,
+      "h": 720
     }
   }
 }

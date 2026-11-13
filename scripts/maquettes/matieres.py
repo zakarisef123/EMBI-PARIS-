@@ -1,5 +1,5 @@
 # Textures de sol réalistes (vue de dessus), en couleurs 0..1 : parquet point de Hongrie, parquet droit,
-# travertin 60x120, carrelage grand format, mosaïque ronde, moquette. cm = centimètres par pixel de texture.
+# travertin 60x120, carrelage grand format, mosaïque ronde, moquette, terrazzo. cm = centimètres par pixel de texture.
 import numpy as np, cv2
 
 
@@ -90,5 +90,13 @@ def textures(W, H, cm, noms):
         c[(fx < 0.04) | (fx > 0.96) | (fy < 0.04) | (fy > 0.96)] = np.array([0.78, 0.78, 0.74])
         return c
 
-    fn = {"hongrie": hongrie, "carreau_vert": carreau_vert, "droit": droit, "droit_v": droit_v, "travertin": travertin, "carrelage": carrelage, "mosaique": mosaique, "moquette": moquette}
+    def terrazzo():  # terrazzo clair : fond blanc cassé, éclats gris, beiges et noirs de 3 à 20 mm
+        base = np.array([226, 224, 219], np.float32) / 255
+        c = base[None, None, :] * (0.97 + 0.04 * noise(20, 51)[..., None]) * (0.985 + 0.02 * fine[..., None])
+        for k, (sc, thr, col) in enumerate([(1.6, 0.8, (0.62, 0.62, 0.62)), (1.0, 0.82, (0.80, 0.76, 0.70)), (0.7, 0.86, (0.25, 0.25, 0.26)), (2.4, 0.84, (0.70, 0.71, 0.72)), (0.5, 0.88, (0.88, 0.84, 0.78))]):
+            m = noise(sc, 61 + k) > thr
+            c[m] = np.array(col, np.float32) * (0.92 + 0.12 * fine[m][:, None])
+        return c
+
+    fn = {"terrazzo": terrazzo, "hongrie": hongrie, "carreau_vert": carreau_vert, "droit": droit, "droit_v": droit_v, "travertin": travertin, "carrelage": carrelage, "mosaique": mosaique, "moquette": moquette}
     return {n: fn[n]() for n in set(noms)}

@@ -7,7 +7,8 @@
  *  id       : adresse de la page → /realisations/<id>/ (sans espace ni accent)
  *  oldId    : ancienne adresse (redirigée automatiquement)
  *  title    : nom du chantier
- *  category : "hotel" | "boutique" | "restaurant" | "particulier" | "savoir-faire"
+ *  category : "hotel" | "boutique" | "joaillerie" | "bureau" | "restaurant" | "particulier" | "savoir-faire"
+ *             (joaillerie = ateliers de haute joaillerie, rubrique à part des boutiques)
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
  *  featured : 1 à 5 → chantiers mis en avant (accueil + haut de /realisations/), dans cet ordre
@@ -17,6 +18,7 @@
  *             la 1re sert de couverture. Quand les photos sont converties en local
  *             (scripts/photos), site.config.js → photos: "local" les remplace.
  *
+ *  specifique : true → chantier montré aussi sur la page Projets spécifiques (/projets-specifiques/)
  *  Facultatif (affiché sur la page du chantier dès que c'est rempli) :
  *  lieu, annee, surface, duree, deco (décoration), archi (architecte), credit (photographe),
  *  travaux : ["…"], text : "une phrase", histoire : ["paragraphe", "…"]
@@ -25,6 +27,8 @@
 const CATEGORIES = {
   hotel: "Hôtel",
   boutique: "Boutique",
+  joaillerie: "Haute joaillerie",
+  bureau: "Bureaux",
   restaurant: "Restaurant",
   particulier: "Particulier",
   "savoir-faire": "Savoir-faire",
@@ -127,7 +131,7 @@ const PROJECTS = [
     histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
     images: [] },
 
-  { id: "appartement-haussmannien", cover: 10 /* photo principale : le séjour, l'îlot et la vue sur Paris */, title: "Appartement haussmannien · Paris 17e", category: "particulier", lieu: "Paris 17e",
+  { id: "appartement-haussmannien", oldId: "appartement-paris-17e", cover: 10 /* photo principale : le séjour, l'îlot et la vue sur Paris */, title: "Appartement haussmannien · Paris 17e", category: "particulier", lieu: "Paris 17e",
     text: "Rénovation complète d'un appartement haussmannien : parquet en point de Hongrie, cuisine avec îlot, salles de bains et rangements sur mesure.",
     travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Cuisine avec îlot", "Salles de bains", "Rangements sur mesure"],
     histoire: ["EMBI a entièrement rénové cet appartement haussmannien en gardant ses moulures et ses cheminées : parquet en point de Hongrie, cuisine ouverte avec îlot central, salles de bains en faïence à chevrons et rangements sur mesure dans les chambres et l'entrée."],
@@ -143,6 +147,21 @@ const PROJECTS = [
     travaux: ["Rénovation complète", "Menuiseries sur mesure", "Cuisine", "Salle d'eau", "Parquet"],
     histoire: ["Rue Saint-Dominique, EMBI a entièrement rénové cet appartement : entrée et rangements en menuiserie sur mesure vert sauge, cuisine blanche ouverte par une verrière, salle d'eau en petits carreaux verts et chambres avec tête de lit en bois."],
     images: [] },
+  { id: "escalier-refait-a-neuf", title: "Escalier refait à neuf", category: "particulier",
+    text: "Escalier refait à neuf chez un particulier : marches en chêne clair, contremarches blanches, garde-corps en verre sur pinces noires et éclairage encastré.",
+    travaux: ["Rénovation d'escalier", "Marches en chêne", "Contremarches et limons", "Garde-corps en verre", "Éclairage encastré", "Peinture"],
+    histoire: ["Chez ce particulier, EMBI a refait l'escalier à neuf : les marches habillées de chêne clair, les contremarches et le limon repris en blanc, un garde-corps en verre fixé par des pinces noires, et de petits spots encastrés dans le mur qui éclairent la montée."],
+    images: [] },
+  { id: "appartement-sejour-cuisine-chambre", title: "Appartement rénové", category: "particulier",
+    text: "Rénovation d'un appartement : séjour et coin repas sur parquet en point de Hongrie, cuisine équipée, buanderie, chambre avec rangements sur mesure et salle d'eau.",
+    travaux: ["Rénovation d'appartement", "Parquet en point de Hongrie", "Cuisine équipée", "Buanderie et rangements", "Placards sur mesure", "Salle d'eau", "Peinture"],
+    histoire: ["EMBI a rénové cet appartement pièce par pièce : le séjour et son coin repas sur un parquet en point de Hongrie, la cuisine blanche au plan de travail en bois, le couloir aménagé en buanderie avec ses étagères, et la chambre avec son placard à miroir, ses étagères au-dessus du lit et son coin bureau près de la porte-fenêtre, et enfin la salle d'eau, avec son meuble vasque sous le grand miroir, son WC suspendu, son sèche-serviettes et son sol en marbre clair."],
+    images: [] },
+  { id: "appartement-cuisine-salle-de-bains", title: "Appartement · cuisine et salle de bains", category: "particulier", annee: "2020", archi: "Valeria Migliaccio",
+    text: "Rénovation de la cuisine et de la salle de bains d'un appartement : cuisine en longueur ouverte par une verrière, salle de bains avec baignoire, meuble colonne et coin buanderie.",
+    travaux: ["Cuisine sur mesure", "Verrière", "Salle de bains", "Baignoire", "Carrelage", "Plomberie"],
+    histoire: ["Sur le projet de l'architecte Valeria Migliaccio, EMBI a rénové la cuisine et la salle de bains de cet appartement : une cuisine en longueur ouverte sur le séjour par une verrière, avec l'évier sous la fenêtre, les plans de travail, la plaque et le réfrigérateur ; une salle de bains avec baignoire sous la fenêtre, lavabo, meuble colonne et coin buanderie.", "Les images ci-dessous sont les visuels du projet, suivis du plan de l'architecte."],
+    images: [] },
   { id: "cafe-joyeux-klesia", cover: 6 /* photo principale : entrée et enseigne */, title: "Café Joyeux · Klesia", category: "restaurant",
     text: "Aménagement du Café Joyeux dans les locaux de Klesia : salle de restaurant, comptoirs et boutique.",
     travaux: ["Aménagement de restaurant", "Comptoirs et boutique", "Peinture et décoration", "Luminaires"],
@@ -154,7 +173,22 @@ const PROJECTS = [
     travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
     histoire: ["À Neuilly-sur-Seine, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],
     images: [] },
-  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "boutique", lieu: "Ploërmel (Morbihan)",
+  { id: "cafe-joyeux-canal-plus", title: "Café Joyeux · Canal+", category: "restaurant", specifique: true, lieu: "Canal+", annee: "2023", archi: "Valeria Migliaccio",
+    text: "Aménagement du Café Joyeux dans les locaux de Canal+ : comptoir et vitrine, meuble mural, salle de repas, rangements, électricité et plomberie.",
+    travaux: ["Aménagement de café", "Comptoir et vitrine", "Meuble mural sur mesure", "Salle de repas", "Zone de stockage", "Électricité et plomberie"],
+    histoire: ["Chez Canal+, EMBI a aménagé le Café Joyeux sur le projet de l'architecte Valeria Migliaccio : le grand comptoir en faïence jaune et sa vitrine, le meuble mural aux couleurs de Joyeux, la salle de repas sous ses suspensions, la zone de stockage, l'électricité et la plomberie.", "Les images ci-dessous sont les visuels du projet et ses vues 3D, suivis des plans du dossier de consultation."],
+    images: [] },
+  { id: "cafe-joyeux-pwc", title: "Café Joyeux · PwC", category: "restaurant", specifique: true, lieu: "PwC",
+    text: "Aménagement du Café Joyeux dans le hall de PwC : comptoir en faïence jaune, meuble mural, mange-debout et espace de repas.",
+    travaux: ["Aménagement de café", "Comptoir en faïence", "Meuble mural sur mesure", "Mange-debout et espace de repas", "Peinture et décoration", "Luminaires"],
+    histoire: ["Dans le hall de PwC, EMBI a aménagé le Café Joyeux : le comptoir habillé de faïence jaune, le grand meuble mural aux couleurs de Joyeux, les mange-debout et l'espace de repas ouvert sur l'entrée."],
+    images: [] },
+  { id: "office-notarial", title: "Office notarial", category: "bureau", specifique: true,
+    text: "Aménagement d'un office notarial : accueil, couloir des bureaux, salles de réunion, cloisons vitrées, faux plafonds, éclairage et sols.",
+    travaux: ["Aménagement de bureaux", "Banque d'accueil", "Cloisons vitrées", "Faux plafonds et éclairage", "Sols", "Peinture"],
+    histoire: ["EMBI a aménagé cet office notarial : la banque d'accueil et son couloir de bureaux, les salles de réunion, les cloisons à impostes vitrées, les faux plafonds et leurs spots encastrés, les sols et les peintures."],
+    images: [] },
+  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", specifique: true, lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
     travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
     histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
@@ -194,7 +228,7 @@ const PROJECTS = [
   { id: "etancheite-toiture-terrasse", title: "Étanchéité de toiture-terrasse", category: "savoir-faire", lieu: "Paris",
     text: "Réfection de l'étanchéité d'un toit-terrasse parisien face au Sacré-Cœur, en membranes bitumineuses soudées.",
     travaux: ["Étanchéité de toiture-terrasse", "Membranes bitumineuses soudées", "Relevés d'étanchéité", "Évacuations des eaux pluviales", "Filets de sécurité et échafaudage"],
-    histoire: ["Sur ce toit-terrasse d'un immeuble parisien, avec vue sur le Sacré-Cœur, EMBI a refait toute l'étanchéité : membranes bitumineuses posées en lés soudés, relevés le long des murs et sous les souches de cheminée, raccord des évacuations des eaux pluviales.", "Le chantier a été mené en sécurité, avec des filets de protection tout autour de la terrasse et un échafaudage en bord de toiture."],
+    histoire: ["Sur ce toit-terrasse d'un immeuble parisien, avec vue sur le Sacré-Cœur, EMBI a refait toute l'étanchéité : membranes bitumineuses posées en lés soudés, relevés le long des murs et sous les souches de cheminée, raccord des évacuations des eaux pluviales.", "Le chantier a été mené en sécurité, avec des filets de protection tout autour de la terrasse et un échafaudage en bord de toiture.", "Les premières photos montrent la toiture terminée, face au Sacré-Cœur ; les suivantes, le chantier en cours."],
     images: [] },
   { id: "ravalement-rue-nollet", cover: 8 /* photo principale : l'immeuble d'angle après ravalement */, title: "Ravalement rue Nollet", category: "savoir-faire", lieu: "Paris 17e", annee: "2019-2020",
     text: "Ravalement de la façade en pierre d'un immeuble d'angle haussmannien, rue Nollet à Paris 17e.",

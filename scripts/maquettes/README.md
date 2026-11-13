@@ -20,6 +20,21 @@ les corrections (ouvertures à effacer, fenêtres en biais, bouchons, zones hors
 en pixels du plan de base. Le dossier de travail reçoit `_controle.jpg` (murs, ouvertures, sols, meubles
 sur un quadrillage) et `_recalage-*.jpg` pour vérifier.
 
+## Lieux ouverts (cafés, boutiques…) décrits à la main
+
+Quand le plan n'a pas de murs fermés que `chantier.py` saurait détecter (un café dans un hall, un plateau ouvert),
+les murs, poteaux, zones de sol et le mobilier sont décrits à la main, en pixels du plan de base, et les traits rouges
+d'un plan (plan électrique) sont recalés morceau par morceau (échelle et décalage) ; ses points lumineux deviennent
+les lumières de la maquette. Mobilier propre aux cafés : `comptoir`, `vitrine`, `meuble_bar`, `table_carree`,
+`chaise_bistrot`, `suspension` (voir `assets/js/maquette.js`).
+
+```sh
+python espace.py chantiers/cafe-joyeux-canal-plus.json <dossier des plans PNG> <dossier de travail> ../../assets/maquettes/cafe-joyeux-canal-plus
+```
+
+Plans PNG du Café Joyeux · Canal+ : pages 1 (plan projet, 1:75) et 11 (plan électrique) du DCE, rendues à 300 dpi
+(`pdftoppm -r 300 -png -f 1 -l 1 DCE.pdf p1`).
+
 ## Appartement haussmannien (premier prototype)
 
 ```sh

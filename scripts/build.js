@@ -87,12 +87,13 @@ const doc = (k) => {
 };
 
 /* ───── Données communes ───── */
-const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", joaillerie: "Atelier aménagé", bureau: "Bureaux aménagés", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
 // les maisons de particuliers (titre « Maison … ») : « Maison rénovée » plutôt qu'« Appartement rénové »
 const leadOf = (p) => (p.category === "particulier" && /^maison/i.test(p.title) ? "Maison rénovée" : LEAD[p.category]);
-const PLURAL = { hotel: "hôtels", boutique: "boutiques", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
-// les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire
-const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: "/savoir-faire/" };
+const PLURAL = { hotel: "hôtels", boutique: "boutiques", joaillerie: "ateliers de haute joaillerie", bureau: "bureaux", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
+// les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire ;
+// la haute joaillerie renvoie à sa partie de la page Projets spécifiques
+const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: cat === "joaillerie" ? "/projets-specifiques/#haute-joaillerie" : cat === "bureau" ? "/projets-specifiques/#projets" : "/savoir-faire/" };
 const projectUrl = (p) => `/realisations/${p.id}/`;
 const featured = PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
 const PHOTOS = Object.fromEntries(PROJECTS.map((p) => [p.id, projectPhotos(p)]));
@@ -138,7 +139,7 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
 // à la fois, choisi par onglets, avec quelques-uns de ses plans. Page Conception sur mesure (tous les chantiers),
 // Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
 // dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
-const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale" };
+const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
 const archiList = (scope) => {
   const ids = [...Object.keys(ARCHI_NOMS), ...PROJECTS.map((p) => p.id).filter((id) => !(id in ARCHI_NOMS))];
   return ids.map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && hasMaquette(p.id))
@@ -236,7 +237,7 @@ const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
   { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#architecture-interieure", "Architecture intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
-  { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"], ...(PROJECTS.some((p) => !["particulier", "savoir-faire"].includes(p.category) && hasMaquette(p.id)) ? [["/professionnels/#architecture-interieure", "Architecture intérieure"]] : [])] },
+  { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"], ["/projets-specifiques/#haute-joaillerie", "Haute joaillerie"], ...(PROJECTS.some((p) => !["particulier", "savoir-faire"].includes(p.category) && hasMaquette(p.id)) ? [["/professionnels/#architecture-interieure", "Architecture intérieure"]] : [])] },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
@@ -283,10 +284,10 @@ const HERO_PHOTOS = {
   "/renovation/": [["renovation-appartement", 1], ["ravalement-rue-nollet", 8], ["renovation-appartement", 2], ["appartement-haussmannien", 1], ["toitures-zinguerie", 2]],
   "/renovation/interieur/": [["renovation-appartement", 2], ["renovation-appartement", 1], ["appartement-haussmannien", 1], ["appartement-rue-saint-dominique", 5], ["renovation-appartement", 3]],
   "/renovation/exterieur/": [["ravalement-rue-nollet", 8], ["toitures-zinguerie", 1], ["etancheite-toiture-terrasse", 1], ["ravalement-rue-nollet", 2], ["toitures-zinguerie", 3]],
-  "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
+  "/projets-specifiques/": [["atelier-joaillerie-ploermel", 1], ["cafe-joyeux-canal-plus", 1], ["atelier-joaillerie-ploermel", 4], ["atelier-joaillerie-ploermel", 2], ["atelier-joaillerie-ploermel", 8], ["atelier-joaillerie-ploermel", 10]],
   "/realisations/": [["hotel-bienvenue", 1], ["renovation-appartement", 2], ["loro-piana", 3], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
   "/hotels/": [["hotel-bienvenue", 1], ["hotel-beauregard", 3], ["hotel-bienvenue", 11], ["hotel-beauregard", 2], ["hotel-bienvenue", 10], ["hotel-bienvenue", 8]],
-  "/boutiques/": [["loro-piana", 3], ["loro-piana", 1], ["atelier-joaillerie-ploermel", 1], ["loro-piana", 4]],
+  "/boutiques/": [["loro-piana", 3], ["loro-piana", 1], ["loro-piana", 2], ["loro-piana", 4]],
   "/restaurants/": [["cafe-joyeux-klesia", 1], ["fish-club", 2], ["cafe-pinson", 1], ["fish-club", 3], ["cafe-pinson", 3]],
   "/professionnels/": [["hotel-bienvenue", 1], ["loro-piana", 3], ["fish-club", 2], ["hotel-beauregard", 3], ["cafe-pinson", 1]],
   "/savoir-faire/": [["charpente-bois", 2], ["mosaique", 4], ["toitures-zinguerie", 1], ["ravalement-rue-nollet", 6], ["mosaique", 9]],
@@ -297,7 +298,7 @@ const HERO_PHOTOS = {
   "/urgence/": [["appartement-renovation-complete", 9], ["appartement-rue-saint-dominique", 5], ["appartement-rue-saint-dominique", 9], ["appartement-haussmannien", 6]],
   "/urgence/plomberie/": ["plomberie-colonnes", ["appartement-rue-saint-dominique", 5], ["appartement-renovation-complete", 9], ["appartement-haussmannien", 6], ["appartement-neuilly-sur-seine", 8], ["appartement-renovation-complete", 6]],
   "/urgence/electricite/": [["appartement-rue-saint-dominique", 9], ["appartement-rue-saint-dominique", 8], ["appartement-rue-saint-dominique", 10], ["appartement-lumineux", 6]],
-  "/urgence/assainissement/": ["camion-assainissement", ["appartement-renovation-complete", 7], ["appartement-haussmannien", 8], ["appartement-renovation-complete", 6], ["appartement-neuilly-sur-seine", 7]],
+  "/urgence/assainissement/": ["assainissement-1", "camion-assainissement", "assainissement-4", "assainissement-3", "assainissement-2"],
   "/contact/": [["renovation-appartement", 3], ["hotel-bienvenue", 10], ["hotel-beauregard", 4], ["renovation-appartement", 1]],
   "/faq/": [["appartement-lumineux", 1], ["appartement-haussmannien", 3], ["maison-a-colombages", 3], ["appartement-neuilly-sur-seine", 2]],
   "/mag/": [["maison-a-colombages", 2], ["appartement-lumineux", 2], ["hotel-beauregard", 3], ["toitures-zinguerie", 2]],
@@ -703,7 +704,7 @@ const homeServices = () => {
       </div>
     </section>`;
 };
-const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
+const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", joaillerie: "Haute joaillerie", bureau: "Bureaux", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
 
 // Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
 const sectorMosaic = () => `<div class="mosaic container">
@@ -829,7 +830,28 @@ const insta = () => {
 };
 
 // Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces / Atelier Haute Joaillerie"], ["savoir-faire", "Savoir-faire"]];
+const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["bureau", "Bureaux"], ["savoir-faire", "Savoir-faire"]];
+// carrousel de chantiers (pages secteur, Projets spécifiques…) à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
+const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
+  if (!all.length) return "";
+  const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
+  const slide = (p, k) => {
+    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Tous corps de métier"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
+    return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
+            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
+            <div class="phare__body">
+              <p class="phare__k">${((x) => (x === "Appartement rénové" ? leadOf(p) : x))(k ? otherKicker : firstKicker)}</p>
+              <h3 class="phare__t">${esc(p.title)}</h3>
+              <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+              <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
+            </div>
+          </a>`;
+  };
+  return `<div class="phare reveal" data-phare aria-roledescription="carrousel" aria-label="${esc(label)}">
+          <div class="phare__stack">${all.map(slide).join("")}</div>
+          ${all.length > 1 ? `<div class="phare__bar"><span class="phare__dots" aria-hidden="true">${all.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span><span class="phare__arrows"><button type="button" class="phare__prev" aria-label="Chantier précédent">←</button><button type="button" class="phare__next" aria-label="Chantier suivant">→</button></span></div>` : ""}
+        </div>`;
+};
 const BLOCKS = {
   devis: () => expand(devisForm()),
   trust: () => funnelTrust(),
@@ -854,7 +876,7 @@ const BLOCKS = {
         </div>`,
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
-    const order = ["hotel", "boutique", "restaurant", "particulier", "savoir-faire"];
+    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant", "particulier", "savoir-faire"];
     // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
     const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
     // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie
@@ -922,6 +944,10 @@ const BLOCKS = {
         </div>
       </div>
     </section>`,
+  // Projets spécifiques · la partie Haute joaillerie : ses chantiers (category "joaillerie") en carrousel, à droite du texte
+  // Projets spécifiques · les chantiers marqués specifique: true (src/data/projects.js), en cartes photo
+  "specifique-cards": () => `<div class="pj-cards">${PROJECTS.filter((p) => p.specifique).map((p) => card(p, "h3")).join("")}</div>`,
+  "joaillerie-phare": () => phareCarousel(PROJECTS.filter((p) => p.category === "joaillerie"), "Nos chantiers de haute joaillerie", "Haute joaillerie"),
   "signature-cards": () => `<div class="pj-cards">${["loro-piana", "byredo", "tartine-et-chocolat-harrods", "hotel-panache", "hotel-paradis", "le-grand-pigalle"].map((id) => card(PROJECTS.find((p) => p.id === id), "h3")).join("")}</div>`,
   "sector-links": () => SECTORS.map((s) => `<a href="${s.path}">${s.nav}</a>`).join(" · "),
   "architecture-interieure": () => archiBlock("tous"),
@@ -989,27 +1015,6 @@ fs.readdirSync(path.join(ROOT, "src/pages"))
 
 /* ───── 2 · Pages secteur ───── */
 // à droite du texte : le chantier phare du secteur (sectors.js → phare, sinon le plus mis en avant)
-// carrousel de chantiers à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
-const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
-  if (!all.length) return "";
-  const lower = (t, k) => (k ? t.charAt(0).toLowerCase() + t.slice(1) : t);
-  const slide = (p, k) => {
-    const facts = [["Secteur", CATEGORIES_LABEL[p.category]], ["Prestation", "Tous corps de métier"], p.lieu && ["Lieu", p.lieu], p.travaux && p.travaux.length && ["Travaux", p.travaux.slice(0, 2).map(lower).join(", ")]].filter(Boolean);
-    return `<a class="phare__slide${k ? "" : " is-on"}" href="${projectUrl(p)}"${k ? ' tabindex="-1" aria-hidden="true"' : ""}>
-            <figure class="phare__img">${img(PHOTOS[p.id][0], `${p.title}, ${(leadOf(p) || "lieu rénové").toLowerCase()} par EMBI`, 'loading="lazy"')}${hasVideo(p.id, "carte") ? `<video class="pj-video" data-video="${VIDEOS[p.id].carte}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}</figure>
-            <div class="phare__body">
-              <p class="phare__k">${((x) => (x === "Appartement rénové" ? leadOf(p) : x))(k ? otherKicker : firstKicker)}</p>
-              <h3 class="phare__t">${esc(p.title)}</h3>
-              <dl class="phare__facts">${facts.map(([t, v]) => `<div><dt>${t}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
-              <span class="phare__go">Voir le chantier <span aria-hidden="true">→</span></span>
-            </div>
-          </a>`;
-  };
-  return `<div class="phare reveal" data-phare aria-roledescription="carrousel" aria-label="${esc(label)}">
-          <div class="phare__stack">${all.map(slide).join("")}</div>
-          ${all.length > 1 ? `<div class="phare__bar"><span class="phare__dots" aria-hidden="true">${all.map((_, k) => `<i${k ? "" : ' class="is-on"'}></i>`).join("")}</span><span class="phare__arrows"><button type="button" class="phare__prev" aria-label="Chantier précédent">←</button><button type="button" class="phare__next" aria-label="Chantier suivant">→</button></span></div>` : ""}
-        </div>`;
-};
 // pages secteur : le chantier phare d'abord, puis les autres chantiers du secteur (photos hébergées sur le site en premier)
 const sectorPhare = (s, list) => {
   const first = PROJECTS.find((q) => q.id === s.phare) || [...list].sort((a, b) => (a.featured || 99) - (b.featured || 99))[0];
@@ -1126,13 +1131,13 @@ PROJECTS.forEach((p, i) => {
       singleClass: photos.length === 1 ? " is-single" : "",
       // après la galerie : le visiteur vient de regarder le chantier, on lui propose le sien (lieu déjà coché)
       nextStep: (() => {
-        const lieu = { hotel: "Hôtel", boutique: "Boutique", restaurant: "Restaurant", particulier: /maison/i.test(p.title) ? "Maison" : "Appartement" }[p.category];
+        const lieu = { hotel: "Hôtel", boutique: "Boutique", joaillerie: "Boutique", restaurant: "Restaurant", particulier: /maison/i.test(p.title) ? "Maison" : "Appartement" }[p.category];
         return `<div class="pj-next reveal"><p class="pj-next__t">Un projet comme celui-ci&nbsp;? <em>Recevez une première estimation.</em></p><a class="btn btn--accent" href="#projet"${lieu ? ` data-quiz-lieu="${lieu}"` : ""}>Recevoir ma première estimation <span aria-hidden="true">→</span></a></div>`;
       })(),
       gallery: photos.map((ph, k) => `<button type="button" class="pj-shot" data-k="${k}" data-full="${esc(ph.srcset ? ph.srcset.split(", ").pop().split(" ")[0] : ph.src)}" aria-label="Agrandir la photo ${k + 1}">${img(ph, `${p.title}, photo ${k + 1} du chantier`, `loading="${k < 4 ? "eager" : "lazy"}"`)}</button>`).join(""),
       // maquette 3D construite à partir des plans (assets/js/maquette.js), puis les plans de l'architecte
       // (cliquer pour agrandir, assets/js/projet.js)
-      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
+      plans: (hasMaquette(p.id) ? maquetteBlock(p.id, p.id.startsWith("maison") ? "Du plan à la suite parentale" : p.id === "appartement-cuisine-salle-de-bains" ? "Du plan à la cuisine et la salle de bains" : p.id.startsWith("cafe") ? "Du plan au café" : "Du plan à l'appartement", "Tous les plans, <em>en un seul.</em>", `${maquetteLayers(p.id)} : la maquette est construite à partir des vrais plans de notre architecte.`) : "") + (PLANS[p.id] && PLANS[p.id].length ? `
     <section class="section pj-plans-sec" id="plans">
       <div class="container">
         <div class="section__head">
@@ -1494,6 +1499,16 @@ ${urgenceForm(URGENCES, u)}
       </div>
     </section>
 
+${u.photos && u.photos.length ? `    <section class="section urg-photos-sec" id="interventions">
+      <div class="container">
+        <div class="section__head">
+          <div><p class="eyebrow reveal">Sur le terrain</p><h2 class="h2 reveal">Nos interventions <em>${esc(u.nav.toLowerCase())}.</em></h2></div>
+          <p class="section__aside reveal">Camion de curage, inspection caméra des canalisations : nos équipes interviennent dans les immeubles, les parkings et les locaux professionnels.</p>
+        </div>
+        <ul class="urg-photos">${u.photos.map(([n, cap]) => `<li class="reveal"><figure>${img(sitePhoto(n), cap, 'loading="lazy"')}<figcaption>${esc(cap)}</figcaption></figure></li>`).join("")}</ul>
+      </div>
+    </section>
+` : ""}
     <section class="section urgence-more">
       <div class="container">
         <div class="section__head">
