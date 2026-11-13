@@ -53,6 +53,11 @@
     "carte": "/assets/video/projets/charpente-bois-carte.mp4",
     "paysage": "/assets/video/projets/charpente-bois-paysage.mp4"
   },
+  "escalier-refait-a-neuf": {
+    "carre": "/assets/video/projets/escalier-refait-a-neuf-carre.mp4",
+    "carte": "/assets/video/projets/escalier-refait-a-neuf-carte.mp4",
+    "portrait": "/assets/video/projets/escalier-refait-a-neuf-portrait.mp4"
+  },
   "etancheite-toiture-terrasse": {
     "carre": "/assets/video/projets/etancheite-toiture-terrasse-carre.mp4",
     "portrait": "/assets/video/projets/etancheite-toiture-terrasse-portrait.mp4",

@@ -2282,6 +2282,26 @@
         "w": 960,
         "h": 540
       }
+    ],
+    "escalier-refait-a-neuf": [
+      {
+        "base": "/assets/img/projets/escalier-refait-a-neuf/01",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      },
+      {
+        "base": "/assets/img/projets/escalier-refait-a-neuf/02",
+        "widths": [
+          480,
+          768
+        ],
+        "w": 768,
+        "h": 1024
+      }
     ]
   },
   "site": {
