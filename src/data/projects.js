@@ -188,7 +188,7 @@ const PROJECTS = [
     travaux: ["Aménagement de bureaux", "Banque d'accueil", "Cloisons vitrées", "Faux plafonds et éclairage", "Sols", "Peinture"],
     histoire: ["EMBI a aménagé cet office notarial : la banque d'accueil et son couloir de bureaux, les salles de réunion, les cloisons à impostes vitrées, les faux plafonds et leurs spots encastrés, les sols et les peintures."],
     images: [] },
-  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", specifique: true, lieu: "Ploërmel (Morbihan)",
+  { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",
     travaux: ["Aménagement complet", "Établis de bijoutier", "Cloisons vitrées", "Escaliers métalliques", "Sanitaires", "Toit-terrasse"],
     histoire: ["À Ploërmel, EMBI a aménagé un atelier de haute joaillerie de bout en bout : les postes d'établi, les bureaux et circulations en cloisons vitrées, le patio et ses escaliers métalliques, les sanitaires et le toit-terrasse."],
