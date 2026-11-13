@@ -87,13 +87,13 @@ const doc = (k) => {
 };
 
 /* ───── Données communes ───── */
-const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", joaillerie: "Atelier aménagé", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
+const LEAD = { hotel: "Hôtel rénové", boutique: "Boutique rénovée", joaillerie: "Atelier aménagé", bureau: "Bureaux aménagés", restaurant: "Restaurant rénové", particulier: "Appartement rénové", "savoir-faire": "Ouvrage réalisé" };
 // les maisons de particuliers (titre « Maison … ») : « Maison rénovée » plutôt qu'« Appartement rénové »
 const leadOf = (p) => (p.category === "particulier" && /^maison/i.test(p.title) ? "Maison rénovée" : LEAD[p.category]);
-const PLURAL = { hotel: "hôtels", boutique: "boutiques", joaillerie: "ateliers de haute joaillerie", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
+const PLURAL = { hotel: "hôtels", boutique: "boutiques", joaillerie: "ateliers de haute joaillerie", bureau: "bureaux", restaurant: "restaurants", particulier: "appartements", "savoir-faire": "savoir-faire" };
 // les fiches savoir-faire (mosaïque, toitures…) n'ont pas de page secteur : elles renvoient à la page Savoir-faire ;
 // la haute joaillerie renvoie à sa partie de la page Projets spécifiques
-const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: cat === "joaillerie" ? "/projets-specifiques/#haute-joaillerie" : "/savoir-faire/" };
+const sectorOf = (cat) => SECTORS.find((s) => s.category === cat) || { path: cat === "joaillerie" ? "/projets-specifiques/#haute-joaillerie" : cat === "bureau" ? "/projets-specifiques/#projets" : "/savoir-faire/" };
 const projectUrl = (p) => `/realisations/${p.id}/`;
 const featured = PROJECTS.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
 const PHOTOS = Object.fromEntries(PROJECTS.map((p) => [p.id, projectPhotos(p)]));
@@ -704,7 +704,7 @@ const homeServices = () => {
       </div>
     </section>`;
 };
-const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", joaillerie: "Haute joaillerie", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
+const CATEGORIES_LABEL = { hotel: "Hôtel", boutique: "Boutique", joaillerie: "Haute joaillerie", bureau: "Bureaux", restaurant: "Restaurant", particulier: "Particulier", "savoir-faire": "Savoir-faire" };
 
 // Accueil · les 4 secteurs en mosaïque de photos (couverture du chantier le plus mis en avant de chaque secteur)
 const sectorMosaic = () => `<div class="mosaic container">
@@ -830,7 +830,7 @@ const insta = () => {
 };
 
 // Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["savoir-faire", "Savoir-faire"]];
+const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["bureau", "Bureaux"], ["savoir-faire", "Savoir-faire"]];
 // carrousel de chantiers (pages secteur, Projets spécifiques…) à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
 const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
   if (!all.length) return "";
@@ -876,7 +876,7 @@ const BLOCKS = {
         </div>`,
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
-    const order = ["hotel", "boutique", "joaillerie", "restaurant", "particulier", "savoir-faire"];
+    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant", "particulier", "savoir-faire"];
     // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
     const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
     // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie

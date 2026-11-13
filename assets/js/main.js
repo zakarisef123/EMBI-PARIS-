@@ -223,7 +223,7 @@
     .map(({ p }, k) => `<li><button type="button" data-k="${k}"><span class="n">${pad(k + 1)}</span><span class="t">${esc(p.title)}</span></button></li>`)
     .join("");
   fFrame.innerHTML = featured
-    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc(({ hotel: "hôtel rénové", boutique: "boutique rénovée", joaillerie: "atelier de haute joaillerie", restaurant: "restaurant rénové", particulier: "appartement rénové" })[p.category] || "lieu rénové")} par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
+    .map(({ p }, k) => `<figure class="feature__img" style="z-index:${k + 1}"><img src="${esc(p.images[0])}" alt="${esc(p.title)}, ${esc(({ hotel: "hôtel rénové", boutique: "boutique rénovée", joaillerie: "atelier de haute joaillerie", bureau: "bureaux aménagés", restaurant: "restaurant rénové", particulier: "appartement rénové" })[p.category] || "lieu rénové")} par EMBI" loading="lazy" /><figcaption>${esc(cats[p.category] || "")}</figcaption></figure>`)
     .join("");
   $("#featureTotal").textContent = pad(featured.length);
   const fItems = $$("li", fList), fImgs = $$(".feature__img", fFrame), fRail = $("#featureRail");

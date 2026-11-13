@@ -7,7 +7,7 @@
  *  id       : adresse de la page → /realisations/<id>/ (sans espace ni accent)
  *  oldId    : ancienne adresse (redirigée automatiquement)
  *  title    : nom du chantier
- *  category : "hotel" | "boutique" | "joaillerie" | "restaurant" | "particulier" | "savoir-faire"
+ *  category : "hotel" | "boutique" | "joaillerie" | "bureau" | "restaurant" | "particulier" | "savoir-faire"
  *             (joaillerie = ateliers de haute joaillerie, rubrique à part des boutiques)
  *             (savoir-faire = un métier montré sur plusieurs lieux : mosaïque, toitures…)
  *  cover    : n° de la photo à mettre en tête (devanture, bâtiment…), sinon la photo 01
@@ -28,6 +28,7 @@ const CATEGORIES = {
   hotel: "Hôtel",
   boutique: "Boutique",
   joaillerie: "Haute joaillerie",
+  bureau: "Bureaux",
   restaurant: "Restaurant",
   particulier: "Particulier",
   "savoir-faire": "Savoir-faire",
@@ -171,6 +172,11 @@ const PROJECTS = [
     text: "Aménagement du Café Joyeux dans le hall de PwC : comptoir en faïence jaune, meuble mural, mange-debout et espace de repas.",
     travaux: ["Aménagement de café", "Comptoir en faïence", "Meuble mural sur mesure", "Mange-debout et espace de repas", "Peinture et décoration", "Luminaires"],
     histoire: ["Dans le hall de PwC, EMBI a aménagé le Café Joyeux : le comptoir habillé de faïence jaune, le grand meuble mural aux couleurs de Joyeux, les mange-debout et l'espace de repas ouvert sur l'entrée."],
+    images: [] },
+  { id: "office-notarial", title: "Office notarial", category: "bureau", specifique: true,
+    text: "Aménagement d'un office notarial : accueil, couloir des bureaux, salles de réunion, cloisons vitrées, faux plafonds, éclairage et sols.",
+    travaux: ["Aménagement de bureaux", "Banque d'accueil", "Cloisons vitrées", "Faux plafonds et éclairage", "Sols", "Peinture"],
+    histoire: ["EMBI a aménagé cet office notarial : la banque d'accueil et son couloir de bureaux, les salles de réunion, les cloisons à impostes vitrées, les faux plafonds et leurs spots encastrés, les sols et les peintures."],
     images: [] },
   { id: "atelier-joaillerie-ploermel", cover: 4 /* photo principale : le bâtiment */, title: "Atelier de haute joaillerie · Ploërmel", category: "joaillerie", specifique: true, lieu: "Ploërmel (Morbihan)",
     text: "Aménagement complet d'un atelier de haute joaillerie : établis de bijoutier, bureaux vitrés, escaliers, sanitaires et toit-terrasse.",

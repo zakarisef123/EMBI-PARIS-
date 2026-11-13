@@ -2169,6 +2169,35 @@
         "w": 960,
         "h": 720
       }
+    ],
+    "office-notarial": [
+      {
+        "base": "/assets/img/projets/office-notarial/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/office-notarial/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/office-notarial/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 720
+      }
     ]
   },
   "site": {
