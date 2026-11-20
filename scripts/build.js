@@ -1388,6 +1388,14 @@ ${sv.slug === "interieur" ? archiBlock("particulier") : houseBlock(sv.slug)}${sv
         <ol class="svc__grid">
           ${sv.energy.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
         </ol>
+        ${sv.energy.chantier ? `<div class="svc__chantier">
+          <div class="svc__chantier-text reveal">
+            <p class="svc__dpe-k">Sur nos chantiers</p>
+            <h3 class="svc__dpe-t">${esc(sv.energy.chantier.titre)}</h3>
+            <p>${esc(sv.energy.chantier.texte)}</p>
+          </div>
+          <ul class="svc__chantier-photos">${sv.energy.chantier.photos.map(([n, cap], i) => `<li class="reveal"><figure>${img(sitePhoto(n), cap, 'loading="lazy"')}<figcaption><span>${String(i + 1).padStart(2, "0")}</span>${esc(cap)}</figcaption></figure></li>`).join("")}</ul>
+        </div>` : ""}
         ${sv.energy.dpe ? `<!-- À RELIRE : explication du DPE (règles en vigueur au moment de la rédaction) -->
         <div class="svc__dpe reveal">
           <div class="svc__dpe-text">
