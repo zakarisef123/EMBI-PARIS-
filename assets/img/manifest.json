@@ -2497,6 +2497,36 @@
         ],
         "w": 960,
         "h": 720
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/09",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/etancheite-toiture-terrasse/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
       }
     ],
     "fish-club": [
