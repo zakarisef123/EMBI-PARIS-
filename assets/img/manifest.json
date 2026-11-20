@@ -3016,6 +3016,33 @@
         ],
         "w": 960,
         "h": 960
+      },
+      {
+        "base": "/assets/img/projets/hotel-paradis/02",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 600
+      },
+      {
+        "base": "/assets/img/projets/hotel-paradis/03",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 600
+      },
+      {
+        "base": "/assets/img/projets/hotel-paradis/04",
+        "widths": [
+          480,
+          600
+        ],
+        "w": 600,
+        "h": 800
       }
     ],
     "cafe-joyeux-canal-plus": [
@@ -3459,6 +3486,35 @@
         ],
         "w": 960,
         "h": 720
+      }
+    ],
+    "loustic": [
+      {
+        "base": "/assets/img/projets/loustic/01",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 600
+      },
+      {
+        "base": "/assets/img/projets/loustic/02",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 600
+      },
+      {
+        "base": "/assets/img/projets/loustic/03",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 600
       }
     ]
   },
