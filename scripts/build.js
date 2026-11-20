@@ -245,10 +245,10 @@ const BUSINESS = {
 // La FAQ n'est plus dans le menu (toujours en ligne, liée depuis le pied de page).
 const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
+  { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
   { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#architecture-interieure", "Architecture intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"], ["/projets-specifiques/#haute-joaillerie", "Haute joaillerie"], ...(PROJECTS.some((p) => !["particulier", "savoir-faire"].includes(p.category) && hasMaquette(p.id)) ? [["/professionnels/#architecture-interieure", "Architecture intérieure"]] : [])] },
-  { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
   { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
   { keys: ["urgence"], href: "/urgence/", label: "Urgences", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },

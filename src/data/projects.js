@@ -214,6 +214,12 @@ const PROJECTS = [
     histoire: ["Pour cette maison de campagne à colombages, EMBI a rénové l'intérieur en gardant les poutres et la cheminée en pierre : cuisine sur mesure avec plan de travail en granit, bibliothèques en bois, salle à manger, verrière. Dehors, la terrasse a été refaite en tomettes et entourée de murets."],
     images: [] },
 
+  { id: "maison-deauville", title: "Maison normande · Deauville", category: "particulier", lieu: "Deauville (Normandie)",
+    text: "Rénovation d'une maison normande : sols en pierre, poutres et colombages conservés, cuisine sur mesure avec plans en quartzite et robinetterie en laiton.",
+    travaux: ["Rénovation intérieure", "Sols en dallage de pierre", "Cuisine sur mesure", "Plans de travail en quartzite", "Éclairage sur rail", "Peinture"],
+    histoire: ["Dans cette maison normande près de Deauville, EMBI a rénové les pièces de vie en gardant le caractère des lieux : poutres apparentes, colombages et grande cheminée en pierre. Le séjour et la salle à manger reçoivent un dallage en pierre posé en opus, sous des murs repeints en blanc qui font ressortir le bois.", "La cuisine a été faite sur mesure : façades à cadre, poignées et robinetterie en laiton, plans de travail et évier en quartzite veinée, éclairage sur rail."],
+    images: [] },
+
   // Savoir-faire : photos uniquement en local (assets/img/projets/<id>/), pas d'équivalent sur l'ancien site
   { id: "mosaique", title: "Mosaïque", category: "savoir-faire", lieu: "Paris",
     text: "Tapis d'entrée, sols et comptoirs en mosaïque, dessinés et posés sur mesure pour des cafés, des hôtels et des restaurants parisiens.",
