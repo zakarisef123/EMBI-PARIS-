@@ -43,7 +43,7 @@ const gal = (cover, list) => [cover, ...list.filter((u) => u !== cover)];
 const MISE_AUX_NORMES = "Mise aux normes : sanitaires, circulations (PMR), sécurité incendie, électricité";
 
 const PROJECTS = [
-  { id: "hotel-panache", oldId: "panache", ancienSite: true /* la façade en tête, puis les photos de l'ancien site */, title: "Hôtel Panache", category: "hotel", featured: 4,
+  { id: "hotel-panache", oldId: "panache", ancienSite: true /* les chambres et salles de bains hébergées sur le site en tête, puis les photos de l'ancien site */, title: "Hôtel Panache", category: "hotel", featured: 4,
     text: "Travaux d'embellissement et de rénovation de l'ensemble du bâtiment.",
     travaux: ["Embellissement", "Rénovation de l'ensemble du bâtiment", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["EMBI a mené les travaux d'embellissement et de rénovation de l'ensemble du bâtiment de l'Hôtel Panache.", MISE_AUX_NORMES + " : l'établissement a été remis aux normes hôtelières en parallèle des travaux de décoration."],
@@ -79,7 +79,7 @@ const PROJECTS = [
   { id: "appartement-prive", oldId: "particulier-3", title: "Appartement privé", category: "particulier",
     travaux: ["Rénovation d'appartement"],
     images: gal("2017/11/renovation-appartement-particulier-4.jpg", seq("2017/11", "renovation-appartement-particulier", 1, 8, 1, "-")) },
-  { id: "hotel-paradis", ancienSite: true /* la façade en tête, puis les photos de l'ancien site */, title: "Hôtel Paradis", category: "hotel", deco: "Dorothée Meilichzon",
+  { id: "hotel-paradis", ancienSite: true /* les chambres et salles de bains hébergées sur le site en tête, puis les photos de l'ancien site */, title: "Hôtel Paradis", category: "hotel", deco: "Dorothée Meilichzon",
     text: "Embellissement, rénovation et mise aux normes, décoration signée Dorothée Meilichzon.",
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Circulations"],
     histoire: ["À l'Hôtel Paradis, EMBI a réalisé les travaux d'embellissement et de rénovation sur une décoration imaginée par Dorothée Meilichzon.", "Les travaux ont compris la remise aux normes hôtelières des sanitaires et des circulations."],
