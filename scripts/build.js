@@ -152,6 +152,7 @@ const archiList = (scope) => {
 // ({{block:architecte-portrait}}, rubrique « Architecture intérieure » du menu).
 const archiPortrait = (onPage = false) => `<article class="ai-archi reveal" aria-labelledby="aiArchiName">
           <div class="ai-archi__id">
+            <figure class="ai-archi__photo">${img(sitePhoto("valeria-migliaccio"), "Valeria Migliaccio, architecte chez EMBI", 'loading="lazy"')}</figure>
             <p class="ai-archi__k">Votre architecte</p>
             <h3 class="ai-archi__name" id="aiArchiName">Valeria <em>Migliaccio</em></h3>
             <p class="ai-archi__role">Architecte · Ordre des architectes et paysagistes italiens, section&nbsp;A</p>
