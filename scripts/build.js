@@ -136,7 +136,7 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
     </section>
 `;
 // « Architecture intérieure » : les maquettes 3D construites à partir des vrais plans (assets/js/maquette.js), un chantier
-// à la fois, choisi par onglets, avec quelques-uns de ses plans. Page Conception sur mesure (tous les chantiers),
+// à la fois, choisi par onglets, avec tous ses plans (visionneuse : assets/js/archi.js). Page Conception sur mesure (tous les chantiers),
 // Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
 // dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
 const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
@@ -158,7 +158,7 @@ const archiBlock = (scope) => {
       return `<button type="button" class="ai-tab" data-ai-tab="${id}" aria-pressed="${i === 0}" aria-controls="aiMq"><span class="ai-tab__n">${String(i + 1).padStart(2, "0")}</span><span class="ai-tab__t">${esc(name)}</span><span class="ai-tab__m">${esc(meta)}</span></button>`;
     }).join("");
     const panels = list.map(([id], i) => {
-      const p = PROJECTS.find((q) => q.id === id), plans = PLANS[id] || [], shown = plans.slice(0, 3), rest = plans.length - shown.length;
+      const p = PROJECTS.find((q) => q.id === id), plans = PLANS[id] || [];
       return `<div class="ai-panel" data-ai-panel="${id}"${i ? " hidden" : ""}>
           <div class="ai-panel__text">
             <p class="ai-panel__k">Le projet</p>
@@ -167,10 +167,13 @@ const archiBlock = (scope) => {
             <p class="ai-panel__layers">Construite à partir des plans&nbsp;: ${esc(maquetteLayers(id).toLowerCase())}.</p>
             <a class="btn btn--ghost" href="${projectUrl(p)}">Voir le chantier <span aria-hidden="true">→</span></a>
           </div>
-          ${shown.length ? `<ul class="ai-plans">${shown.map((pl) => {
+          ${plans.length ? `<div class="ai-plans-wrap">
+            <p class="ai-plans__head"><b>${plural(plans.length, "plan")}</b> de notre architecte · cliquez pour agrandir</p>
+            <ul class="ai-plans">${plans.map((pl, k) => {
             const base = `/assets/img/plans/${id}/${pl.n}`, h = Math.round((1200 * pl.h) / pl.w);
-            return `<li><a class="ai-plan" href="${projectUrl(p)}#plans"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /><span>${esc(pl.titre)}</span></a></li>`;
-          }).join("")}${rest > 0 ? `<li><a class="ai-plan ai-plan--more" href="${projectUrl(p)}#plans"><b>+${rest}</b><span>${rest > 1 ? "autres plans" : "autre plan"} du projet</span></a></li>` : ""}</ul>` : ""}
+            return `<li><button type="button" class="ai-plan" data-k="${k}" data-full="${base}-2400.webp" aria-label="Agrandir le plan : ${esc(pl.titre)}"><img src="${base}-1200.webp" width="1200" height="${h}" alt="${esc(`${p.title}, ${pl.titre.charAt(0).toLowerCase() + pl.titre.slice(1)}`)}" loading="lazy" /><span><i>${pl.n}</i>${esc(pl.titre)}</span></button></li>`;
+          }).join("")}</ul>
+          </div>` : ""}
         </div>`;
     }).join("\n        ");
     return `<section class="section mq-sec ai-sec" id="architecture-interieure">
@@ -192,7 +195,14 @@ const archiBlock = (scope) => {
         </div>
         ${panels}
       </div>
-      <script>(() => { const el = document.getElementById("aiMq"), go = () => import("/assets/js/maquette.js"); if (!("IntersectionObserver" in window)) go(); else { const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: "900px 0px" }); io.observe(el); } const tabs = [...document.querySelectorAll("[data-ai-tab]")], panels = [...document.querySelectorAll("[data-ai-panel]")]; tabs.forEach((b) => b.addEventListener("click", () => { const id = b.dataset.aiTab; if (el.dataset.maquette === id) return; el.dataset.maquette = id; tabs.forEach((t) => t.setAttribute("aria-pressed", t === b)); panels.forEach((p) => (p.hidden = p.dataset.aiPanel !== id)); b.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); el.dispatchEvent(new CustomEvent("maquette:change")); })); })();</script>
+      <div class="lb lb--plan" id="aiLb" hidden role="dialog" aria-modal="true" aria-label="Plan agrandi">
+        <img id="aiLbImg" alt="" />
+        <button type="button" class="lb__close" id="aiLbClose" aria-label="Fermer">✕</button>
+        <button type="button" class="lb__nav lb__nav--prev" id="aiLbPrev" aria-label="Plan précédent">←</button>
+        <button type="button" class="lb__nav lb__nav--next" id="aiLbNext" aria-label="Plan suivant">→</button>
+        <p class="lb__count" id="aiLbCount"></p>
+      </div>
+      <script type="module" src="/assets/js/archi.js"></script>
     </section>`;
 };
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + u);
@@ -829,8 +839,8 @@ const insta = () => {
     </section>`;
 };
 
-// Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["bureau", "Bureaux"], ["savoir-faire", "Savoir-faire"]];
+// Filtres des réalisations, dans le même ordre que les chantiers de la page Réalisations (lien direct : /realisations/?type=hotel)
+const FILTERS = [["particulier", "Particuliers"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["restaurant", "Restaurants"], ["bureau", "Bureaux"], ["hotel", "Hôtels"], ["savoir-faire", "Savoir-faire"]];
 // carrousel de chantiers (pages secteur, Projets spécifiques…) à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
 const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
   if (!all.length) return "";
@@ -876,9 +886,13 @@ const BLOCKS = {
         </div>`,
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
-    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant", "particulier", "savoir-faire"];
-    // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
-    const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    // ordre : les appartements haussmanniens (projects.js → haussmannien: true), les autres appartements et chantiers de
+    // particuliers, puis les boutiques (et la haute joaillerie), les cafés et restaurants (et les bureaux), les hôtels,
+    // et le savoir-faire en dernier, la mosaïque tout à la fin. Dans chaque groupe : les chantiers mis en avant, puis
+    // ceux dont les photos sont hébergées sur le site (miniatures nettes).
+    const order = ["particulier", "boutique", "joaillerie", "restaurant", "bureau", "hotel", "savoir-faire"];
+    const rank = (p) => order.indexOf(p.category) * 10 + (p.category === "particulier" ? (p.haussmannien ? 0 : /appartement/i.test(p.title) ? 1 : 2) : p.id === "mosaique" ? 9 : 0);
+    const list = localFirst(PROJECTS).sort((x, y) => rank(x) - rank(y) || (x.featured || 99) - (y.featured || 99));
     // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie
     SECTORS.forEach((s) => {
       const ph = list.find((p) => p.id === s.phare);
@@ -1374,6 +1388,14 @@ ${sv.slug === "interieur" ? archiBlock("particulier") : houseBlock(sv.slug)}${sv
         <ol class="svc__grid">
           ${sv.energy.services.map(([t, d], i) => `<li class="svc__item reveal"><span class="svc__n">${String(i + 1).padStart(2, "0")}</span><h3 class="svc__t">${esc(t)}</h3><p>${esc(d)}</p></li>`).join("\n          ")}
         </ol>
+        ${sv.energy.chantier ? `<div class="svc__chantier">
+          <div class="svc__chantier-text reveal">
+            <p class="svc__dpe-k">Sur nos chantiers</p>
+            <h3 class="svc__dpe-t">${esc(sv.energy.chantier.titre)}</h3>
+            <p>${esc(sv.energy.chantier.texte)}</p>
+          </div>
+          <ul class="svc__chantier-photos">${sv.energy.chantier.photos.map(([n, cap], i) => `<li class="reveal"><figure>${img(sitePhoto(n), cap, 'loading="lazy"')}<figcaption><span>${String(i + 1).padStart(2, "0")}</span>${esc(cap)}</figcaption></figure></li>`).join("")}</ul>
+        </div>` : ""}
         ${sv.energy.dpe ? `<!-- À RELIRE : explication du DPE (règles en vigueur au moment de la rédaction) -->
         <div class="svc__dpe reveal">
           <div class="svc__dpe-text">

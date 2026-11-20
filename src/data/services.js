@@ -38,6 +38,16 @@ module.exports = [
         ["Chauffage & eau chaude", "Remplacement des équipements par des solutions plus performantes."],
         ["Accompagnement aux aides", "Nous vous orientons vers les dispositifs en vigueur, réservés aux travaux réalisés par des entreprises RGE."],
       ],
+      // photos de chantier (assets/img/site/<nom>) : [nom, légende], dans l'ordre du chantier
+      chantier: {
+        titre: "Plancher chauffant électrique",
+        texte: "Un chauffage invisible, posé sous le carrelage : les câbles chauffants sont tracés pièce par pièce dans une natte de désolidarisation, puis protégés jusqu'à la pose du revêtement. Une chaleur douce et homogène, dans toute la pièce.",
+        photos: [
+          ["plancher-chauffant-1", "La natte de désolidarisation posée, les câbles chauffants tracés boucle par boucle."],
+          ["plancher-chauffant-2", "Les câbles suivent la forme de chaque pièce, jusqu'au pas de porte."],
+          ["plancher-chauffant-3", "Toute la surface équipée, protégée avant la pose du carrelage."],
+        ],
+      },
     },
     faq: [
       ["Pouvez-vous rénover un appartement entier ?", "Oui. EMBI prend en charge la rénovation complète d'un appartement, de l'étude de faisabilité à la livraison, en coordonnant tous les corps de métier."],

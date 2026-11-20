@@ -131,7 +131,7 @@ const PROJECTS = [
     histoire: ["EMBI a entièrement rénové cet appartement : parquet en chêne dans toutes les pièces, cuisine équipée, salles d'eau en faïence verte et blanche, plomberie et électricité refaites à neuf."],
     images: [] },
 
-  { id: "appartement-haussmannien", oldId: "appartement-paris-17e", cover: 10 /* photo principale : le séjour, l'îlot et la vue sur Paris */, title: "Appartement haussmannien · Paris 17e", category: "particulier", lieu: "Paris 17e",
+  { id: "appartement-haussmannien", haussmannien: true /* en tête de la page Réalisations */, oldId: "appartement-paris-17e", cover: 10 /* photo principale : le séjour, l'îlot et la vue sur Paris */, title: "Appartement haussmannien · Paris 17e", category: "particulier", lieu: "Paris 17e",
     text: "Rénovation complète d'un appartement haussmannien : parquet en point de Hongrie, cuisine avec îlot, salles de bains et rangements sur mesure.",
     travaux: ["Rénovation complète", "Parquet en point de Hongrie", "Cuisine avec îlot", "Salles de bains", "Rangements sur mesure"],
     histoire: ["EMBI a entièrement rénové cet appartement haussmannien en gardant ses moulures et ses cheminées : parquet en point de Hongrie, cuisine ouverte avec îlot central, salles de bains en faïence à chevrons et rangements sur mesure dans les chambres et l'entrée."],
@@ -168,7 +168,7 @@ const PROJECTS = [
     histoire: ["Dans les locaux de Klesia, EMBI a aménagé le Café Joyeux : la grande salle aux murs jaunes, les comptoirs de service, la boutique et les espaces de repas."],
     images: [] },
 
-  { id: "appartement-neuilly-sur-seine", oldId: "appartement-paris-5e", cover: 4 /* photo principale : les bibliothèques sur mesure */, title: "Appartement · Neuilly-sur-Seine", category: "particulier", lieu: "Neuilly-sur-Seine",
+  { id: "appartement-neuilly-sur-seine", haussmannien: true /* en tête de la page Réalisations */, oldId: "appartement-paris-5e", cover: 4 /* photo principale : les bibliothèques sur mesure */, title: "Appartement · Neuilly-sur-Seine", category: "particulier", lieu: "Neuilly-sur-Seine",
     text: "Rénovation d'un appartement haussmannien : parquet, moulures et lambris, bibliothèques sur mesure, cuisine et salle d'eau.",
     travaux: ["Rénovation complète", "Parquet", "Moulures et lambris", "Bibliothèques sur mesure", "Cuisine", "Salle d'eau"],
     histoire: ["À Neuilly-sur-Seine, EMBI a rénové cet appartement haussmannien en gardant son caractère : parquet remis à neuf, moulures, lambris et cheminées, bibliothèques et placards sur mesure, cuisine en zellige noir et salle d'eau en carreaux sombres."],

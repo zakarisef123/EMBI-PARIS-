@@ -2374,6 +2374,31 @@
       ],
       "w": 960,
       "h": 720
+    },
+    "plancher-chauffant-1": {
+      "base": "/assets/img/site/plancher-chauffant-1",
+      "widths": [
+        480
+      ],
+      "w": 480,
+      "h": 640
+    },
+    "plancher-chauffant-2": {
+      "base": "/assets/img/site/plancher-chauffant-2",
+      "widths": [
+        480
+      ],
+      "w": 480,
+      "h": 640
+    },
+    "plancher-chauffant-3": {
+      "base": "/assets/img/site/plancher-chauffant-3",
+      "widths": [
+        480,
+        960
+      ],
+      "w": 960,
+      "h": 1280
     }
   }
 }
