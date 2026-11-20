@@ -1290,6 +1290,52 @@
         ],
         "w": 960,
         "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/13",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/14",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/15",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/16",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
+      },
+      {
+        "base": "/assets/img/projets/appartement-lumineux/17",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
       }
     ],
     "appartement-rue-saint-dominique": [
