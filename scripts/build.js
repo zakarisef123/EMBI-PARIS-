@@ -148,6 +148,31 @@ const archiList = (scope) => {
     .map((p, i) => [p, i]).sort(([a, i], [b, j]) => (scope === "tous" ? 0 : mine(b, scope) - mine(a, scope)) || i - j)
     .map(([p]) => [p.id, ARCHI_NOMS[p.id] || p.title]);
 };
+// « Votre architecte » : la présentation de Valeria Migliaccio (son texte, à la 1re personne), en tête de la partie
+// Architecture intérieure des pages Rénovation intérieure et Professionnels. Sur Conception sur mesure, la section
+// « Notre architecte » (src/pages/conception-sur-mesure.html) la présente déjà en entier, juste au-dessus.
+const ARCHI_PORTRAIT = `<article class="ai-archi reveal" aria-labelledby="aiArchiName">
+          <div class="ai-archi__id">
+            <p class="ai-archi__k">Votre architecte</p>
+            <h3 class="ai-archi__name" id="aiArchiName">Valeria <em>Migliaccio</em></h3>
+            <p class="ai-archi__role">Architecte · Ordre des architectes et paysagistes italiens, section&nbsp;A</p>
+            <dl class="ai-archi__facts">
+              <div><dt>2010</dt><dd>diplôme d'architecte</dd></div>
+              <div><dt>10&nbsp;<small>ans</small></dt><dd>aux côtés d'EMBI</dd></div>
+              <div><dt>360°</dt><dd>technique et architecture</dd></div>
+            </dl>
+            <p class="ai-archi__path">Pica Ciamarra Associati, Naples <i aria-hidden="true">→</i> A26 BLM, Paris <i aria-hidden="true">→</i> EMBI</p>
+          </div>
+          <div class="ai-archi__word">
+            <p class="ai-archi__lead">«&nbsp;Nous n'imposons aucun style. Notre plus belle réussite, <em>c'est le sourire de nos clients.</em>&nbsp;»</p>
+            <p>Titulaire d'un diplôme d'architecte depuis 2010 et membre de l'Ordre des architectes et paysagistes italiens (section&nbsp;A), je me consacre depuis à l'architecture sous toutes ses formes&nbsp;: l'aménagement intérieur, pour des projets publics comme privés, la conception de grands ensembles au sein d'agences parisiennes comme A26&nbsp;BLM, et l'urbanisme à grande échelle pour le cabinet napolitain Pica Ciamarra Associati.</p>
+            <p>Depuis dix ans, je travaille main dans la main avec EMBI. Ses vingt ans d'expérience du chantier, alliés à mon parcours d'architecte, nous permettent de proposer un travail de haut niveau, parfaitement maîtrisé, pour un résultat entièrement sur mesure.</p>
+            <p>Notre approche est minutieuse&nbsp;: rien n'est laissé au hasard, nos compétences techniques et architecturales sont mobilisées à 360°. Et aucun client n'est délaissé&nbsp;: nous vous accompagnons dans la durée, avec exigence et passion.</p>
+            <p class="ai-archi__sign">Valeria Migliaccio</p>
+            <div class="ai-archi__cta"><a class="btn btn--accent" href="/contact/?type=conception">Rencontrer notre architecte <span aria-hidden="true">→</span></a><a class="ai-archi__more" href="/conception-sur-mesure/#architecte">Son parcours en détail</a></div>
+          </div>
+        </article>
+`;
 const archiBlock = (scope) => {
     const list = archiList(scope);
     if (!list.length) return "";
@@ -187,6 +212,7 @@ const archiBlock = (scope) => {
           </div>
           <p class="section__aside reveal">${list.length > 1 ? `${plural(list.length, noun)} rénové${list.length > 1 ? "s" : ""}` : `Un ${noun} rénové`} par EMBI, reconstruit${list.length > 1 ? "s" : ""} en 3D à partir des vrais plans de notre architecte et de notre architecte d'intérieur. Choisissez un projet&nbsp;: le plan se pose, les calques s'empilent, les murs montent et le mobilier prend sa place.</p>
         </div>
+${scope === "tous" ? "" : ARCHI_PORTRAIT}
         <div class="ai-tabs" role="group" aria-label="Choisir un projet">${tabs}</div>
         <div class="mq" id="aiMq" data-maquette="${list[0][0]}">
           <div class="mq__stage">
