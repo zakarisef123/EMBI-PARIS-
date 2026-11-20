@@ -3396,3 +3396,11 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
   .ai-archi__facts { gap: 8px; }
   .ai-archi__word p { font-size: 15px; }
 }
+
+/* Menu sur une seule ligne juste au-dessus du burger (rubrique « Architecture intérieure » ajoutée) */
+@media (max-width: 1300px) and (min-width: 1181px) {
+  .header__inner { gap: 14px; }
+  .nav { gap: 9px; font-size: 11px; letter-spacing: 0.03em; }
+  .dd__btn { width: 16px; }
+  .header__cta { padding: 11px 12px; }
+}
