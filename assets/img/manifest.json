@@ -1595,6 +1595,24 @@
         ],
         "w": 960,
         "h": 540
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/11",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-klesia/12",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
       }
     ],
     "appartement-neuilly-sur-seine": [
