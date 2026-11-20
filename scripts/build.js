@@ -140,16 +140,18 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
 // Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
 // dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
 const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
+const mine = (p, scope) => (scope === "particulier" ? p.category === "particulier" : !["particulier", "savoir-faire"].includes(p.category)) ? 1 : 0;
 const archiList = (scope) => {
   const ids = [...Object.keys(ARCHI_NOMS), ...PROJECTS.map((p) => p.id).filter((id) => !(id in ARCHI_NOMS))];
   return ids.map((id) => PROJECTS.find((p) => p.id === id)).filter((p) => p && hasMaquette(p.id))
-    .filter((p) => scope === "tous" || (scope === "particulier" ? p.category === "particulier" : !["particulier", "savoir-faire"].includes(p.category)))
-    .map((p) => [p.id, ARCHI_NOMS[p.id] || p.title]);
+    // toutes les maquettes sur chaque page ; celles de la rubrique (particuliers ou pros) passent en tête
+    .map((p, i) => [p, i]).sort(([a, i], [b, j]) => (scope === "tous" ? 0 : mine(b, scope) - mine(a, scope)) || i - j)
+    .map(([p]) => [p.id, ARCHI_NOMS[p.id] || p.title]);
 };
 const archiBlock = (scope) => {
     const list = archiList(scope);
     if (!list.length) return "";
-    const noun = scope === "pro" ? "lieu" : scope === "particulier" ? "intérieur" : "projet";
+    const noun = "projet"; // particuliers et pros réunis sur chaque page
     const nPlans = (id) => (PLANS[id] || []).length;
     const plural = (n, w) => `${n} ${w}${n > 1 ? "s" : ""}`;
     const tabs = list.map(([id, name], i) => {
