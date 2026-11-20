@@ -2041,6 +2041,35 @@
         ],
         "w": 960,
         "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/17",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/18",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-a-colombages/19",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
       }
     ],
     "etancheite-toiture-terrasse": [
