@@ -148,9 +148,9 @@ const archiList = (scope) => {
     .map(([p]) => [p.id, ARCHI_NOMS[p.id] || p.title]);
 };
 // « Votre architecte » : la présentation de Valeria Migliaccio (son texte, à la 1re personne), en tête de la partie
-// Architecture intérieure de la page Professionnels. Sur Conception sur mesure, la section
-// « Notre architecte » (src/pages/conception-sur-mesure.html) la présente déjà en entier, juste au-dessus.
-const ARCHI_PORTRAIT = `<article class="ai-archi reveal" aria-labelledby="aiArchiName">
+// Architecture intérieure de la page Professionnels, et dans la section « Notre architecte » de Conception sur mesure
+// ({{block:architecte-portrait}}, rubrique « Architecture intérieure » du menu).
+const archiPortrait = (onPage = false) => `<article class="ai-archi reveal" aria-labelledby="aiArchiName">
           <div class="ai-archi__id">
             <p class="ai-archi__k">Votre architecte</p>
             <h3 class="ai-archi__name" id="aiArchiName">Valeria <em>Migliaccio</em></h3>
@@ -168,7 +168,7 @@ const ARCHI_PORTRAIT = `<article class="ai-archi reveal" aria-labelledby="aiArch
             <p>Depuis dix ans, je travaille main dans la main avec EMBI. Ses vingt ans d'expérience du chantier, alliés à mon parcours d'architecte, nous permettent de proposer un travail de haut niveau, parfaitement maîtrisé, pour un résultat entièrement sur mesure.</p>
             <p>Notre approche est minutieuse&nbsp;: rien n'est laissé au hasard, nos compétences techniques et architecturales sont mobilisées à 360°. Et aucun client n'est délaissé&nbsp;: nous vous accompagnons dans la durée, avec exigence et passion.</p>
             <p class="ai-archi__sign">Valeria Migliaccio</p>
-            <div class="ai-archi__cta"><a class="btn btn--accent" href="/contact/?type=conception">Rencontrer notre architecte <span aria-hidden="true">→</span></a><a class="ai-archi__more" href="/conception-sur-mesure/#architecte">Son parcours en détail</a></div>
+            <div class="ai-archi__cta"><a class="btn btn--accent" href="/contact/?type=conception">Rencontrer notre architecte <span aria-hidden="true">→</span></a>${onPage ? "" : `<a class="ai-archi__more" href="/conception-sur-mesure/#architecte">Son parcours en détail</a>`}</div>
           </div>
         </article>
 `;
@@ -211,7 +211,7 @@ const archiBlock = (scope) => {
           </div>
           <p class="section__aside reveal">${list.length > 1 ? `${plural(list.length, noun)} rénové${list.length > 1 ? "s" : ""}` : `Un ${noun} rénové`} par EMBI, reconstruit${list.length > 1 ? "s" : ""} en 3D à partir des vrais plans de notre architecte et de notre architecte d'intérieur. Choisissez un projet&nbsp;: le plan se pose, les calques s'empilent, les murs montent et le mobilier prend sa place.</p>
         </div>
-${scope === "tous" ? "" : ARCHI_PORTRAIT}
+${scope === "tous" ? "" : archiPortrait()}
         <div class="ai-tabs" role="group" aria-label="Choisir un projet">${tabs}</div>
         <div class="mq" id="aiMq" data-maquette="${list[0][0]}">
           <div class="mq__stage">
@@ -994,6 +994,7 @@ const BLOCKS = {
   "signature-cards": () => `<div class="pj-cards">${["loro-piana", "byredo", "tartine-et-chocolat-harrods", "hotel-panache", "hotel-paradis", "le-grand-pigalle"].map((id) => card(PROJECTS.find((p) => p.id === id), "h3")).join("")}</div>`,
   "sector-links": () => SECTORS.map((s) => `<a href="${s.path}">${s.nav}</a>`).join(" · "),
   "architecture-interieure": () => archiBlock("tous"),
+  "architecte-portrait": () => archiPortrait(true),
 };
 const FORM_ID = cfg.formsubmit || "sec@embi.fr";
 const expand = (html) =>
