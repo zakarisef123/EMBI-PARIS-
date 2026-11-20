@@ -136,9 +136,8 @@ const maquetteBlock = (id, eyebrow, title, aside, more = "") => `
     </section>
 `;
 // « Architecture intérieure » : les maquettes 3D construites à partir des vrais plans (assets/js/maquette.js), un chantier
-// à la fois, choisi par onglets, avec tous ses plans (visionneuse : assets/js/archi.js). Page Conception sur mesure (tous les chantiers),
-// Rénovation intérieure (particuliers) et Professionnels (hôtels, boutiques, restaurants : la section apparaît d'elle-même
-// dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
+// à la fois, choisi par onglets, avec tous ses plans (visionneuse : assets/js/archi.js). Page Conception sur mesure (rubrique
+// « Architecture intérieure » du menu) et Professionnels (la section apparaît dès qu'un chantier pro a sa maquette, voir scripts/maquettes/). Ordre et nom des onglets : ARCHI_NOMS, puis les autres.
 const ARCHI_NOMS = { "appartement-haussmannien": "Appartement haussmannien", "appartement-rue-saint-dominique": "Rue Saint-Dominique", "appartement-renovation-complete": "Rénovation complète", "appartement-lumineux": "Appartement lumineux", "maison-a-colombages": "Suite parentale", "appartement-cuisine-salle-de-bains": "Cuisine et salle de bains" };
 const mine = (p, scope) => (scope === "particulier" ? p.category === "particulier" : !["particulier", "savoir-faire"].includes(p.category)) ? 1 : 0;
 const archiList = (scope) => {
@@ -149,7 +148,7 @@ const archiList = (scope) => {
     .map(([p]) => [p.id, ARCHI_NOMS[p.id] || p.title]);
 };
 // « Votre architecte » : la présentation de Valeria Migliaccio (son texte, à la 1re personne), en tête de la partie
-// Architecture intérieure des pages Rénovation intérieure et Professionnels. Sur Conception sur mesure, la section
+// Architecture intérieure de la page Professionnels. Sur Conception sur mesure, la section
 // « Notre architecte » (src/pages/conception-sur-mesure.html) la présente déjà en entier, juste au-dessus.
 const ARCHI_PORTRAIT = `<article class="ai-archi reveal" aria-labelledby="aiArchiName">
           <div class="ai-archi__id">
@@ -275,10 +274,12 @@ const NAV = [
   { keys: ["accueil"], href: "/", label: "Accueil" },
   { keys: ["realisations", "signature"], href: "/realisations/", label: "Réalisations" },
   // Particuliers / Professionnels : les pages secteur partagent la clé « secteur », on les distingue par leur adresse (« paths »).
-  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/interieur/#architecture-interieure", "Architecture intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
+  { keys: ["renovation"], href: "/renovation/interieur/", label: "Particuliers", menu: [["/renovation/interieur/", "Rénovation intérieure"], ["/renovation/exterieur/", "Rénovation extérieure"], ["/metiers/", "Tous nos métiers"]] },
   { keys: ["projets-specifiques"], paths: ["/professionnels/", "/hotels/", "/boutiques/", "/restaurants/"], href: "/professionnels/", label: "Professionnels", menu: [["/professionnels/", "Tous les secteurs pro"], ["/hotels/", "Hôtels"], ["/boutiques/", "Boutiques &amp; corners"], ["/restaurants/", "Restaurants"], ["/projets-specifiques/", "Projets spécifiques"], ["/projets-specifiques/#haute-joaillerie", "Haute joaillerie"], ...(PROJECTS.some((p) => !["particulier", "savoir-faire"].includes(p.category) && hasMaquette(p.id)) ? [["/professionnels/#architecture-interieure", "Architecture intérieure"]] : [])] },
-  { keys: ["showroom"], href: "/showroom/", label: "Showroom" },
-  { keys: ["equipe", "qualifications"], href: "/equipe/", label: "À propos", menu: [["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
+  // Architecture intérieure : rubrique à part (page Conception sur mesure : les deux métiers, notre architecte, les maquettes 3D)
+  { keys: ["conception"], href: "/conception-sur-mesure/", label: "Architecture intérieure", menu: [["/conception-sur-mesure/", "Architecte &amp; architecte d'intérieur"], ["/conception-sur-mesure/#architecte", "Notre architecte"], ["/conception-sur-mesure/#architecture-interieure", "Nos plans en volume"]] },
+  // « À propos » regroupé sous Showroom
+  { keys: ["showroom", "equipe", "qualifications"], href: "/showroom/", label: "Showroom", menu: [["/showroom/", "Le showroom"], ["/equipe/", "Nous connaître"], ["/qualifications/", "Qualifications"]] },
   { keys: ["urgence"], href: "/urgence/", label: "Urgences", menu: [["/urgence/plomberie/", "Plomberie"], ["/urgence/electricite/", "Électricité"], ["/urgence/assainissement/", "Assainissement"]], call: true },
   { keys: ["mag"], href: "/mag/", label: "Le Mag" },
   { keys: ["contact"], href: "/contact/", label: "Contact" },
@@ -1407,7 +1408,7 @@ ${svcIntro(sv)}    <section class="section svc" id="prestations">
         </ol>
       </div>
     </section>
-${sv.slug === "interieur" ? archiBlock("particulier") : houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
+${houseBlock(sv.slug)}${sv.energy ? `    <section class="section svc svc--energy" id="energetique">
       <div class="container">
         <div class="section__head">
           <div><p class="eyebrow reveal">Performance énergétique</p><h2 class="h2 reveal">${esc(sv.energy.title)}, <em>dans le même chantier.</em></h2></div>
