@@ -581,6 +581,55 @@
         ],
         "w": 960,
         "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/10",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/11",
+        "widths": [
+          480,
+          960,
+          1200
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/12",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/13",
+        "widths": [
+          480,
+          960,
+          1200
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/loro-piana/14",
+        "widths": [
+          480,
+          900
+        ],
+        "w": 900,
+        "h": 1600
       }
     ],
     "charpente-bois": [
