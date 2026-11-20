@@ -3406,3 +3406,8 @@ body:not([data-page="accueil"]) .contact .cform .form { background: none; box-sh
 }
 .ai-archi__photo { margin: 0 0 6px; width: clamp(140px, 13vw, 190px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--dark-2); box-shadow: 0 0 0 1px rgba(200, 180, 143, 0.5), 0 0 0 8px rgba(200, 180, 143, 0.08); }
 .ai-archi__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Pied de page : crédit « Site réalisé par NextValueDigital » (sur sa propre ligne, centré sous les mentions) */
+.footer__credit { flex-basis: 100%; text-align: center; font-size: 12px; letter-spacing: 0.04em; }
+.footer__credit a { text-decoration: underline; text-underline-offset: 3px; }
+.footer__credit a:hover { color: var(--accent-2) !important; }
