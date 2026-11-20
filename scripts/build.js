@@ -81,8 +81,11 @@ const DOCS = {
 };
 const doc = (k) => {
   const d = DOCS[k];
+  // un PDF déposé dans documents/ est toujours servi par le site ; sinon, lien vers l'ancien site (tant que documents: "embi.fr")
+  const local = fs.existsSync(path.join(ROOT, "documents", d.file));
+  if (local) return `/documents/${d.file}`;
   if (cfg.documents !== "local") return OLD + d.old;
-  if (!fs.existsSync(path.join(ROOT, "documents", d.file))) warn(`documents: "local" mais documents/${d.file} est absent.`);
+  warn(`documents: "local" mais documents/${d.file} est absent.`);
   return `/documents/${d.file}`;
 };
 
