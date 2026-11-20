@@ -957,6 +957,51 @@
         ],
         "w": 960,
         "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/11",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/12",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/13",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/14",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-haussmannien/15",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
       }
     ],
     "renovation-appartement": [
