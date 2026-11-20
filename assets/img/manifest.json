@@ -2578,6 +2578,56 @@
         ],
         "w": 960,
         "h": 466
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/12",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/13",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/14",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/cafe-joyeux-canal-plus/15",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
       }
     ],
     "cafe-joyeux-pwc": [
