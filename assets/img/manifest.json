@@ -1474,6 +1474,25 @@
         ],
         "w": 960,
         "h": 1441
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/15",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/16",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
       }
     ],
     "cafe-joyeux-klesia": [
