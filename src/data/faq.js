@@ -91,7 +91,7 @@ const PAGES = {
 
   "/showroom/": [
     ["Quand et où se trouve le showroom ?", `Au 5, rue Villebois-Mareuil, 75017 Paris, du lundi au vendredi de 10h à 18h. Une question avant de venir ? Appelez le ${TEL}.`],
-    ["Quelles marques peut-on y voir ?", "Les carrelages Azulev, Cifre, Novaceram, Recer et Boxer, ainsi que nos parquets. Les catalogues sont aussi consultables en ligne sur cette page."],
+    ["Quelles marques peut-on y voir ?", "Les carrelages Azulev, Cifre, Novaceram, Recer et Boxer, ainsi que nos parquets. Venez les voir et les toucher sur place."],
     ["Que faut-il apporter ?", "Vos mesures, des photos de la pièce et une idée du style recherché : plus nous en savons, mieux nous vous conseillons."],
     ["Pouvez-vous poser le carrelage ou le parquet choisi ?", "Oui. Votre sélection est intégrée au devis de vos travaux, puis posée par nos équipes : un seul interlocuteur, du showroom au chantier."],
     ["Peut-on venir sans projet de travaux avec EMBI ?", "Le showroom est ouvert à tous ceux qui veulent voir et toucher les matières. Nos experts vous conseillent selon la pièce, l'usage et le style recherché."],

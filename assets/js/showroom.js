@@ -8,16 +8,6 @@
  */
 const SHOWROOM_PHOTOS = [];
 
-// Catalogues : PDF et couvertures fournis par projects.js (généré ; bascule dans site.config.js)
-const DOCS = window.EMBI_DOCS || {}, SIMG = window.EMBI_SITE_IMG || {};
-const SHOWROOM_CATALOGUES = [
-  { name: "Azulev", kind: "Carrelage", cover: SIMG["catalogue-azulev"], href: DOCS.azulev },
-  { name: "Cifre", kind: "Carrelage", cover: SIMG["catalogue-cifre"], href: DOCS.cifre },
-  { name: "Novaceram", kind: "Carrelage", cover: SIMG["catalogue-novaceram"], href: DOCS.novaceram },
-  { name: "Recer", kind: "Carrelage", cover: SIMG["catalogue-recer"], href: DOCS.recer },
-  { name: "Boxer", kind: "Site de la marque", cover: SIMG["catalogue-boxer"], href: "http://www.boxer.it", wide: true },
-];
-
 /* ───── En-tête, menu mobile, progression, apparitions ───── */
 (() => {
   const $ = (s) => document.querySelector(s);
@@ -56,22 +46,9 @@ const SHOWROOM_CATALOGUES = [
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 })();
 
-/* ───── Catalogues + photos ───── */
+/* ───── Photos du showroom ───── */
 (() => {
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-  const grid = document.getElementById("srCatalogues");
-  grid.innerHTML = SHOWROOM_CATALOGUES.map((c, k) => `
-    <a class="sr-book${c.wide ? " sr-book--wide" : ""} reveal" style="--i:${k}" href="${esc(c.href)}" target="_blank" rel="noopener">
-      <span class="sr-book__cover"><img src="${esc(c.cover)}" alt="Catalogue ${esc(c.name)}" loading="lazy" /><span class="sr-book__fallback" aria-hidden="true">${esc(c.name)}</span></span>
-      <span class="sr-book__meta"><strong>${esc(c.name)}</strong><span>${esc(c.kind)}</span><i aria-hidden="true">↗</i></span>
-    </a>`).join("");
-  grid.querySelectorAll("img").forEach((im) => {
-    const miss = () => im.closest(".sr-book").classList.add("no-img");
-    if (im.complete && !im.naturalWidth) miss(); else im.addEventListener("error", miss);
-  });
-  const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { threshold: 0.12 });
-  grid.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
   if (!SHOWROOM_PHOTOS.length) return;
   const sec = document.getElementById("srPhotosSec"), gal = document.getElementById("srPhotos");
   sec.hidden = false;

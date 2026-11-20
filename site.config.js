@@ -10,12 +10,12 @@ module.exports = {
 
   // PDF (CGV + catalogues) : "embi.fr" = liens vers l'ancien site,
   // "local" = fichiers déposés dans documents/ (voir documents/LISEZMOI.md).
-  documents: "embi.fr",
+  documents: "local",
 
   // Photos : les chantiers convertis par scripts/photos (assets/img/manifest.json) utilisent
   // toujours leurs WebP locaux ; les autres gardent les photos de l'ancien site.
   // "local" = signaler à la génération les chantiers qui n'ont pas encore leurs photos (voir README).
-  photos: "embi.fr",
+  photos: "local",
 
   // Formulaires (devis + questionnaire) envoyés par FormSubmit (formsubmit.co) vers cette adresse.
   // Après activation (voir README), vous pouvez remplacer l'e-mail par l'identifiant aléatoire

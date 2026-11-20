@@ -55,14 +55,9 @@ const projectPhotos = (p) => {
   if (cfg.photos === "local") warn(`photos locales absentes pour « ${p.id} » : photos de l'ancien site utilisées.`);
   return old();
 };
-// images du site hors chantiers (photo d'accueil, couvertures des catalogues)
+// images du site hors chantiers (photo d'accueil)
 const SITE_IMAGES = {
   hero: "2018/08/FishClub-paris.jpg",
-  "catalogue-azulev": "2017/09/azulev_pres-1.jpg",
-  "catalogue-cifre": "2017/09/ciifre_pres-1.jpg",
-  "catalogue-novaceram": "2017/09/Novaceram_pres.jpg",
-  "catalogue-recer": "2017/09/recer.jpg",
-  "catalogue-boxer": "2017/09/Boxer_pres.jpg",
 };
 const sitePhoto = (name) => {
   const e = manifest && manifest.site && manifest.site[name];
@@ -74,10 +69,6 @@ const img = (ph, alt, extra = "") =>
 /* ───── Documents PDF : ancien site ou dossier documents/ (site.config.js → documents) ───── */
 const DOCS = {
   cgv: { file: "EMBI-CGV.pdf", old: "2017/09/EMBI-CGV.pdf" },
-  azulev: { file: "catalogues/Azulev_catalogue_2015-2016.pdf", old: "2017/09/Azulev_catalogue_2015-2016.pdf" },
-  cifre: { file: "catalogues/CIFRE_catalogue.pdf", old: "2017/09/CIFRE_catalogue.pdf" },
-  novaceram: { file: "catalogues/Novaceram_catalogue_2015.pdf", old: "2017/09/Novaceram_catalogue_2015.pdf" },
-  recer: { file: "catalogues/RECER_catalogue.pdf", old: "2017/09/RECER_catalogue.pdf" },
 };
 const doc = (k) => {
   const d = DOCS[k];
