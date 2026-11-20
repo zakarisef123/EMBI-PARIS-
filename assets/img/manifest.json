@@ -354,6 +354,51 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/11",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/12",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/13",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/14",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 639
+      },
+      {
+        "base": "/assets/img/projets/le-grand-pigalle/15",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 719
       }
     ],
     "loro-piana": [
