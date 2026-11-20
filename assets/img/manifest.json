@@ -1806,6 +1806,43 @@
         ],
         "w": 960,
         "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/atelier-joaillerie-ploermel/16",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/atelier-joaillerie-ploermel/17",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/atelier-joaillerie-ploermel/18",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/atelier-joaillerie-ploermel/19",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
       }
     ],
     "hotel-beauregard": [
