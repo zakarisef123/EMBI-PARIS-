@@ -839,8 +839,8 @@ const insta = () => {
     </section>`;
 };
 
-// Filtres des réalisations, dans l'ordre du menu (lien direct : /realisations/?type=hotel)
-const FILTERS = [["particulier", "Particuliers"], ["hotel", "Hôtels"], ["restaurant", "Restaurants"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["bureau", "Bureaux"], ["savoir-faire", "Savoir-faire"]];
+// Filtres des réalisations, dans le même ordre que les chantiers de la page Réalisations (lien direct : /realisations/?type=hotel)
+const FILTERS = [["particulier", "Particuliers"], ["boutique", "Boutiques / Commerces"], ["joaillerie", "Haute joaillerie"], ["restaurant", "Restaurants"], ["bureau", "Bureaux"], ["hotel", "Hôtels"], ["savoir-faire", "Savoir-faire"]];
 // carrousel de chantiers (pages secteur, Projets spécifiques…) à droite du texte : photo, nom, secteur, travaux et lien changent ensemble (assets/js/main.js)
 const phareCarousel = (all, label, firstKicker = "Le chantier phare", otherKicker = "Nos chantiers") => {
   if (!all.length) return "";
@@ -886,13 +886,13 @@ const BLOCKS = {
         </div>`,
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
-    // ordre : les appartements haussmanniens (projects.js → haussmannien: true), puis les autres chantiers de particuliers
-    // (appartements, puis maisons…), le savoir-faire, et les chantiers professionnels en dernier (les chantiers mis en avant
-    // d'abord, puis par secteur). Dans chaque groupe, les chantiers dont les photos sont hébergées sur le site d'abord.
-    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant"];
-    const rank = (p) => (p.haussmannien ? 0 : p.category === "particulier" ? (/appartement/i.test(p.title) ? 1 : 2) : p.category === "savoir-faire" ? 3 : 4);
-    const sub = (p) => (rank(p) === 4 ? (p.featured ? p.featured - 100 : order.indexOf(p.category)) : p.featured ? -1 : 0);
-    const list = localFirst(PROJECTS).sort((x, y) => rank(x) - rank(y) || sub(x) - sub(y));
+    // ordre : les appartements haussmanniens (projects.js → haussmannien: true), les autres appartements et chantiers de
+    // particuliers, puis les boutiques (et la haute joaillerie), les cafés et restaurants (et les bureaux), les hôtels,
+    // et le savoir-faire en dernier, la mosaïque tout à la fin. Dans chaque groupe : les chantiers mis en avant, puis
+    // ceux dont les photos sont hébergées sur le site (miniatures nettes).
+    const order = ["particulier", "boutique", "joaillerie", "restaurant", "bureau", "hotel", "savoir-faire"];
+    const rank = (p) => order.indexOf(p.category) * 10 + (p.category === "particulier" ? (p.haussmannien ? 0 : /appartement/i.test(p.title) ? 1 : 2) : p.id === "mosaique" ? 9 : 0);
+    const list = localFirst(PROJECTS).sort((x, y) => rank(x) - rank(y) || (x.featured || 99) - (y.featured || 99));
     // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie
     SECTORS.forEach((s) => {
       const ph = list.find((p) => p.id === s.phare);
