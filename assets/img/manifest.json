@@ -2302,6 +2302,54 @@
         "w": 768,
         "h": 1024
       }
+    ],
+    "maison-deauville": [
+      {
+        "base": "/assets/img/projets/maison-deauville/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/02",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/03",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/04",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/05",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      }
     ]
   },
   "site": {
