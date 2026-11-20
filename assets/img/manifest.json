@@ -1304,11 +1304,10 @@
         "base": "/assets/img/projets/appartement-lumineux/14",
         "widths": [
           480,
-          960,
-          1600
+          960
         ],
         "w": 960,
-        "h": 640
+        "h": 1280
       },
       {
         "base": "/assets/img/projets/appartement-lumineux/15",
@@ -1317,7 +1316,7 @@
           960
         ],
         "w": 960,
-        "h": 1441
+        "h": 1280
       },
       {
         "base": "/assets/img/projets/appartement-lumineux/16",
@@ -1326,46 +1325,10 @@
           960
         ],
         "w": 960,
-        "h": 1441
+        "h": 1280
       },
       {
         "base": "/assets/img/projets/appartement-lumineux/17",
-        "widths": [
-          480,
-          960
-        ],
-        "w": 960,
-        "h": 1441
-      },
-      {
-        "base": "/assets/img/projets/appartement-lumineux/18",
-        "widths": [
-          480,
-          960
-        ],
-        "w": 960,
-        "h": 1280
-      },
-      {
-        "base": "/assets/img/projets/appartement-lumineux/19",
-        "widths": [
-          480,
-          960
-        ],
-        "w": 960,
-        "h": 1280
-      },
-      {
-        "base": "/assets/img/projets/appartement-lumineux/20",
-        "widths": [
-          480,
-          960
-        ],
-        "w": 960,
-        "h": 1280
-      },
-      {
-        "base": "/assets/img/projets/appartement-lumineux/21",
         "widths": [
           480,
           960
@@ -1474,6 +1437,43 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/12",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/13",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
+      },
+      {
+        "base": "/assets/img/projets/appartement-rue-saint-dominique/14",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1441
       }
     ],
     "cafe-joyeux-klesia": [
