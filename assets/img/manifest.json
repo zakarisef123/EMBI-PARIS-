@@ -184,34 +184,38 @@
       {
         "base": "/assets/img/projets/hotel-bienvenue/13",
         "widths": [
-          480
+          480,
+          850
         ],
-        "w": 480,
-        "h": 640
+        "w": 850,
+        "h": 1134
       },
       {
         "base": "/assets/img/projets/hotel-bienvenue/14",
         "widths": [
-          480
+          480,
+          850
         ],
-        "w": 480,
-        "h": 640
+        "w": 850,
+        "h": 1134
       },
       {
         "base": "/assets/img/projets/hotel-bienvenue/15",
         "widths": [
-          480
+          480,
+          850
         ],
-        "w": 480,
-        "h": 640
+        "w": 850,
+        "h": 1134
       },
       {
         "base": "/assets/img/projets/hotel-bienvenue/16",
         "widths": [
-          480
+          480,
+          850
         ],
-        "w": 480,
-        "h": 640
+        "w": 850,
+        "h": 1134
       }
     ],
     "le-grand-pigalle": [
