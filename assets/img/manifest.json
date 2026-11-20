@@ -2790,6 +2790,98 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/17",
+        "widths": [
+          480,
+          629
+        ],
+        "w": 629,
+        "h": 944
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/18",
+        "widths": [
+          480,
+          638
+        ],
+        "w": 638,
+        "h": 957
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/19",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/20",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/21",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/22",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/23",
+        "widths": [
+          480,
+          960,
+          1280
+        ],
+        "w": 960,
+        "h": 641
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/24",
+        "widths": [
+          480,
+          960,
+          1280
+        ],
+        "w": 960,
+        "h": 641
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/25",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/26",
+        "widths": [
+          480,
+          854
+        ],
+        "w": 854,
+        "h": 1280
       }
     ],
     "maison-en-pierre": [
@@ -3346,6 +3438,27 @@
         ],
         "w": 360,
         "h": 480
+      }
+    ],
+    "colette": [
+      {
+        "base": "/assets/img/projets/colette/01",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/colette/02",
+        "widths": [
+          480,
+          960,
+          1280
+        ],
+        "w": 960,
+        "h": 720
       }
     ]
   },
