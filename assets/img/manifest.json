@@ -1148,6 +1148,26 @@
         ],
         "w": 960,
         "h": 634
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/15",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/16",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
       }
     ],
     "appartement-lumineux": [
