@@ -886,9 +886,13 @@ const BLOCKS = {
         </div>`,
   // Réalisations · tous les chantiers en cartes photo, comme les secteurs de l'accueil : photo puis nom du client
   "works-all": () => {
-    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant", "particulier", "savoir-faire"];
-    // par catégorie ; dans chaque catégorie, les chantiers dont les photos sont hébergées sur le site d'abord (miniatures nettes)
-    const list = [...featured, ...localFirst(PROJECTS.filter((p) => !p.featured)).sort((x, y) => order.indexOf(x.category) - order.indexOf(y.category))];
+    // ordre : les appartements haussmanniens (projects.js → haussmannien: true), puis les autres chantiers de particuliers
+    // (appartements, puis maisons…), le savoir-faire, et les chantiers professionnels en dernier (les chantiers mis en avant
+    // d'abord, puis par secteur). Dans chaque groupe, les chantiers dont les photos sont hébergées sur le site d'abord.
+    const order = ["hotel", "boutique", "joaillerie", "bureau", "restaurant"];
+    const rank = (p) => (p.haussmannien ? 0 : p.category === "particulier" ? (/appartement/i.test(p.title) ? 1 : 2) : p.category === "savoir-faire" ? 3 : 4);
+    const sub = (p) => (rank(p) === 4 ? (p.featured ? p.featured - 100 : order.indexOf(p.category)) : p.featured ? -1 : 0);
+    const list = localFirst(PROJECTS).sort((x, y) => rank(x) - rank(y) || sub(x) - sub(y));
     // chaque filtre commence par le chantier phare de son secteur (sectors.js → phare) : placé juste avant le 1er chantier de sa catégorie
     SECTORS.forEach((s) => {
       const ph = list.find((p) => p.id === s.phare);
