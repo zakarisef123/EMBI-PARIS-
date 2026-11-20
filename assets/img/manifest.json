@@ -3798,6 +3798,66 @@
         "w": 530,
         "h": 270
       }
+    ],
+    "appartement-prive": [
+      {
+        "base": "/assets/img/projets/appartement-prive/01",
+        "widths": [
+          480,
+          960,
+          1080
+        ],
+        "w": 960,
+        "h": 763
+      },
+      {
+        "base": "/assets/img/projets/appartement-prive/02",
+        "widths": [
+          480,
+          960,
+          1080
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-prive/03",
+        "widths": [
+          480,
+          960,
+          1080
+        ],
+        "w": 960,
+        "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/appartement-prive/04",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 1067
+      },
+      {
+        "base": "/assets/img/projets/appartement-prive/05",
+        "widths": [
+          480,
+          960,
+          1080
+        ],
+        "w": 960,
+        "h": 720
+      },
+      {
+        "base": "/assets/img/projets/appartement-prive/06",
+        "widths": [
+          480,
+          800
+        ],
+        "w": 800,
+        "h": 1067
+      }
     ]
   },
   "site": {
