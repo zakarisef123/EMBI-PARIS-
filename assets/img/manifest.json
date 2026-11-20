@@ -1084,6 +1084,52 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/08",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 638
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/09",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 638
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/10",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 634
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/11",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 634
+      },
+      {
+        "base": "/assets/img/projets/renovation-appartement/12",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 638
       }
     ],
     "appartement-lumineux": [
