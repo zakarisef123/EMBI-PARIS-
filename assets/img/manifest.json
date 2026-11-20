@@ -2382,6 +2382,54 @@
         ],
         "w": 960,
         "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/06",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/07",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/08",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 640
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/09",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/10",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1440
       }
     ],
     "maison-en-pierre": [
