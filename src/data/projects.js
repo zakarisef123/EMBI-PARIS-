@@ -114,7 +114,7 @@ const PROJECTS = [
     travaux: ["Embellissement", "Rénovation", "Sanitaires", "Accessibilité PMR", "Sécurité incendie", "Électricité"],
     histoire: ["Pour Mojo Kitchen, EMBI a réalisé les travaux sur une décoration imaginée par Dorothée Meilichzon.", MISE_AUX_NORMES + "."],
     images: gal("2017/09/midi2.jpg", ["2017/09/midi1.jpg", "2017/09/midi3.jpg", "2017/09/midi4.jpg", "2017/09/midi5.jpg"]) },
-  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement · Paris 10e", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris 10e", credit: "Yannick Labrousse (en partie)",
+  { id: "renovation-appartement", oldId: "particulier-2", title: "Rénovation d'appartement · Paris 10e", category: "particulier", archi: "Diego Delgado Elias", lieu: "Rue de Maubeuge, Paris 10e", credit: "Yannick Labrousse, Agence Varenne",
     text: "Rénovation et mise aux normes d'un appartement, avec l'architecte Diego Delgado Elias.",
     travaux: ["Rénovation d'appartement", "Mise aux normes"],
     histoire: ["EMBI a réalisé la rénovation et la mise aux normes de cet appartement, sur un projet de l'architecte Diego Delgado Elias."],
