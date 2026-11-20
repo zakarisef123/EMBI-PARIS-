@@ -2476,6 +2476,15 @@
         ],
         "w": 960,
         "h": 1440
+      },
+      {
+        "base": "/assets/img/projets/hotel-panache/16",
+        "widths": [
+          480,
+          960
+        ],
+        "w": 960,
+        "h": 1440
       }
     ],
     "maison-en-pierre": [
