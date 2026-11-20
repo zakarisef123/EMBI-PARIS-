@@ -3775,6 +3775,29 @@
         "w": 960,
         "h": 720
       }
+    ],
+    "mojo-kitchen": [
+      {
+        "base": "/assets/img/projets/mojo-kitchen/01",
+        "widths": [
+          480,
+          960,
+          1600
+        ],
+        "w": 960,
+        "h": 439
+      }
+    ],
+    "triomphe": [
+      {
+        "base": "/assets/img/projets/triomphe/01",
+        "widths": [
+          480,
+          530
+        ],
+        "w": 530,
+        "h": 270
+      }
     ]
   },
   "site": {
