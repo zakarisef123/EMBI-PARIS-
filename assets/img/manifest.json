@@ -216,6 +216,24 @@
         ],
         "w": 850,
         "h": 1134
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/17",
+        "widths": [
+          480,
+          850
+        ],
+        "w": 850,
+        "h": 1134
+      },
+      {
+        "base": "/assets/img/projets/hotel-bienvenue/18",
+        "widths": [
+          480,
+          850
+        ],
+        "w": 850,
+        "h": 1134
       }
     ],
     "le-grand-pigalle": [
