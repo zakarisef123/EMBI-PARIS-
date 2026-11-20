@@ -2349,6 +2349,22 @@
         ],
         "w": 960,
         "h": 1280
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/06",
+        "widths": [
+          360
+        ],
+        "w": 360,
+        "h": 480
+      },
+      {
+        "base": "/assets/img/projets/maison-deauville/07",
+        "widths": [
+          360
+        ],
+        "w": 360,
+        "h": 480
       }
     ]
   },
